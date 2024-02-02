@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "297781393287",
+    "project_id": "snap-promise-4b4a1",
+    "storage_bucket": "snap-promise-4b4a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:297781393287:android:07dad1dd822137f04a0522",
+        "android_client_info": {
+          "package_name": "com.snappromise"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "297781393287-epkcnq08k16t8im6blu0g8tkgcp84be7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.snappromise",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "297781393287-082ioneo7rm34l59ia7qd027vspk82vd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpH4RummOnGbY17GMAhl0WhadBdnLU3QE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "297781393287-082ioneo7rm34l59ia7qd027vspk82vd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
