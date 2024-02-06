@@ -8,6 +8,7 @@ import {
   ToastAndroid,
   ScrollView,
 } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker'; // Import the library
 import React, { useState } from 'react';
 import {
   widthPercentageToDP as wp,
@@ -40,14 +41,23 @@ GoogleSignin.configure({
 const SignUpScreen = ({ navigation }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isCPasswordVisible, setIsCPasswordVisible] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: 'Free', value: 'Free' },
+    { label: 'Paid', value: 'Paid' },
+  ]);
 
+  const handleDropdownSelect = (item) => {
+    setValue(item.value);
+    setOpen(false);
+  };
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
   const toggleCPasswordVisibility = () => {
     setIsCPasswordVisible(!isCPasswordVisible);
   };
-
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
   const [emailID, setEmail] = useState('');
@@ -63,10 +73,14 @@ const SignUpScreen = ({ navigation }) => {
   const [email, setemail] = useRecoilState(uemail)
   const handleSignup = async () => {
     const isValidEmail = (email) => {
-      // Email validation using regular expression
       const emailRegex = /\S+@\S+\.\S+/;
       return emailRegex.test(email);
     };
+    const isValidPassword = (password) => {
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      return passwordRegex.test(password);
+    };
+
     if (fName == '') {
       ToastAndroid.show('Please Enter First Name', ToastAndroid.LONG);
     }
@@ -79,11 +93,12 @@ const SignUpScreen = ({ navigation }) => {
     } else if (!isValidEmail(emailID)) {
       ToastAndroid.show('Please Enter a Valid Email Address', ToastAndroid.LONG);
     }
-    else if (password == '') {
+    else if (password === '') {
       ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
-
     }
-    else if (password != Confirmpassword) {
+    else if (!isValidPassword(password)) {
+      ToastAndroid.show('Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and have a minimum length of 8 characters', ToastAndroid.LONG);
+    } else if (password != Confirmpassword) {
       ToastAndroid.show('Password is not Confirmed', ToastAndroid.LONG);
     }
     else {
@@ -213,7 +228,7 @@ const SignUpScreen = ({ navigation }) => {
               justifyContent: 'space-between',
             }}>
             <View>
-              <Text style={Headings.Input3}>Fist Name</Text>
+              {/* <Text style={Headings.Input3}>Fist Name</Text> */}
               <TextInput
                 style={TextInP.Fileds}
                 placeholder="First Name"
@@ -224,7 +239,7 @@ const SignUpScreen = ({ navigation }) => {
             </View>
 
             <View>
-              <Text style={Headings.Input3}>Last Name</Text>
+              {/* <Text style={Headings.Input3}>Last Name</Text> */}
               <TextInput
                 style={TextInP.Fileds}
                 placeholder="Last Name"
@@ -235,7 +250,7 @@ const SignUpScreen = ({ navigation }) => {
               />
             </View>
           </View>
-          <Text style={Headings.Input3}>Email</Text>
+          {/* <Text style={Headings.Input3}>Email</Text> */}
           <TextInput
             style={TextInP.Fileds}
             placeholder="Email"
@@ -244,7 +259,8 @@ const SignUpScreen = ({ navigation }) => {
             placeholderTextColor={'black'}
 
           />
-          <Text style={Headings.Input3}>Create Password</Text>
+
+          {/* <Text style={Headings.Input3}>Password</Text> */}
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <TextInput
               style={TextInP.Fileds}
@@ -261,7 +277,7 @@ const SignUpScreen = ({ navigation }) => {
               <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
             </TouchableOpacity>
           </View>
-          <Text style={Headings.Input3}>Confirm Password</Text>
+          {/* <Text style={Headings.Input3}>Confirm Password</Text> */}
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <TextInput
               style={TextInP.Fileds}
@@ -277,6 +293,44 @@ const SignUpScreen = ({ navigation }) => {
               onPress={toggleCPasswordVisibility}>
               <Icon name={isCPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
             </TouchableOpacity>
+
+          </View>
+          <View>
+          {/* <Text style={Headings.Input3}>Subscription</Text> */}
+
+            <DropDownPicker
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValue}
+              setItems={setItems}
+              style={[TextInP.Fileds,{borderRadius: open ? wp(6) : wp(50)}]}
+              placeholder="Subscription"
+              placeholderStyle={{ color: '#000' }}
+              dropDownContainerStyle={{ backgroundColor: '#F6E2FF', borderRadius: open ? wp(6) : wp(50),height: hp(12), borderColor:'transparent', paddingLeft:8,}}
+            />
+            <TouchableOpacity onPress={() => setOpen(!open)}>
+              <Text>
+                {value}
+                <Icon name={open ? 'chevron-up' : 'chevron-down'} size={20} />
+              </Text>
+            </TouchableOpacity>
+            {open && (
+              <View>
+                {items.map((item) => (
+                  <TouchableOpacity
+                    key={item.value}
+                    onPress={() => handleDropdownSelect(item)}
+                  >
+                    <Text>
+                      {item.label}
+                      {item.value === value && <Icon name="checkmark" size={20} />}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
           </View>
         </View>
         <View style={{ marginTop: hp(2), alignItems: 'center' }}>

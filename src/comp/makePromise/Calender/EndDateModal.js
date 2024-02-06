@@ -24,9 +24,19 @@ const EndDateModal = () => {
     
     <Calendar
   style={styles.keyB}
-  onDayPress={day => {
-    console.log('Clicked'); // Corrected the string closing quote
-    setDeadLinedate(day.dateString);
+  onDayPress={days => {
+    console.log('Clicked',days); // Corrected the string closing quote
+    const year = days.year;
+const month = days.month - 1; // Month is 0-indexed in JavaScript Date
+const day = days.day;
+// Create a Date object from the extracted date components
+const dateObj = new Date(Date.UTC(year, month, day));
+// Set the time to 10:25:57.880
+dateObj.setUTCHours(10, 25, 57, 880);
+// Convert the Date object to ISO 8601 format with UTC timezone
+const formattedDate = dateObj.toISOString();
+console.log(formattedDate,"dataaaa")
+    setDeadLinedate(formattedDate);
     setEndDateMV(false);
   }}
   markedDates={{

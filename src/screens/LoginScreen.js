@@ -41,6 +41,10 @@ import { uemail } from '../recoil/Users/GetUsers';
 import fetchUser from '../Network/Users/GetUser';
 import { signup, Socialsignup } from '../Network/SignUpApi';
 
+import fetchUserData from '../Network/Users/GetUserOnUserNo';
+import GetUserData from '../Network/Users/GetUserData';
+
+
 const LoginScreen = ({ navigation }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [Email, setEmail] = useState('');
@@ -167,8 +171,11 @@ const LoginScreen = ({ navigation }) => {
         setToken(response.token);
         setUserN(response.userNo);
         setemail(Email);
-        let resp = await fetchUser(Email);
-        console.log(resp.firstName + ' ' + resp.lastName, 'response');
+        // let resp = await fetchUserData(response.userNo);
+
+        console.log(resp, 'response in user');
+        let resp = await await GetUserData(response.userNo);
+        console.log(resp.firstName + ' ' + resp.lastName, 'response in GetuserdataLogin');
         await AsyncStorage.setItem('token', '');
         await AsyncStorage.setItem('userNo', '');
         await AsyncStorage.setItem('Email', '');
@@ -205,21 +212,21 @@ const LoginScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.mainC}>
       <LogoHeaderGlobel navigation={navigation} />
-      <View style={{ width: wp(90), marginTop: hp(8), marginLeft: hp(2) }}>
+      <View style={{ width: wp(90), marginTop: hp(1), marginLeft: hp(2) }}>
         <Text style={Headings.InputH}>Log In</Text>
         {/* <Text style={Headings.Input3}>Email</Text> */}
         <TextInput
           style={TextInP.Fileds}
           value={Email}
           onChangeText={text => onChangeEmail(text)}
-          placeholder="Enter your email here"
+          placeholder="Email"
           placeholderTextColor={'grey'}
         />
         {/* <Text style={Headings.Input3}>Password</Text> */}
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <TextInput
             style={TextInP.Fileds}
-            placeholder="Enter your password here"
+            placeholder="Password"
             value={Password}
             onChangeText={text => onChangePassword(text)}
             secureTextEntry={!isPasswordVisible}
@@ -232,27 +239,27 @@ const LoginScreen = ({ navigation }) => {
             <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={{ alignItems: 'flex-end', }}>
-          <Text style={{ fontWeight: 'bold', color: '#000' }}>Forget Password?</Text>
+        <TouchableOpacity>
+          <Text style={{ fontWeight: 'bold', color: '#000', textAlign:'right',marginTop:5 }}>Forget Password?</Text>
         </TouchableOpacity>
       </View>
       {/* <View></View> */}
-      <View style={{ marginTop: hp(3), alignItems: 'center' }}>
-        <View>
+      <View style={{ marginTop: hp(9), alignItems: 'center' }}>
+        <TouchableOpacity  onPress={() => LoginPress()}>
           <LinearGradient
             colors={['#E4A936', '#EE8347']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={commonStyles.lognBtn}
           >
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => LoginPress()}
-              >
+
               <Text style={TextInP.LogInButton}>Log In</Text>
-            </TouchableOpacity>
+            {/* </TouchableOpacity> */}
+
           </LinearGradient>
-        </View>
+        </TouchableOpacity>
         <View style={{ marginTop: hp(2) }}>
           <TouchableOpacity
             onPress={onGoogleButtonPress}

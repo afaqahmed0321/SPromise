@@ -24,14 +24,25 @@ export const commonStyles = StyleSheet.create({
     height: hp(7),
     paddingHorizontal: 5,
     borderRadius: 50,
-    paddingHorizontal: 5,
     paddingVertical: 8,
+    color: 'white',
+
   },
-  SignUpBtn: {
-    backgroundColor: '#2E888C',
-    width: wp(90),
+  launchlognBtn: {
+    width: wp(95),
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: wp(50),
+    height: hp(7),
+    paddingHorizontal: 5,
+    borderRadius: 50,
+    paddingVertical: 8,
+    color: 'white',
+
+  },
+  SignUpBtn: {
+    width: wp(95),
+    backgroundColor: '#2E888C',
     borderRadius: wp(50),
     paddingHorizontal: 5,
     height: hp(7),
@@ -70,9 +81,19 @@ export const commonStyles = StyleSheet.create({
   },
   ActionBtn: {
     // width: wp(35),
-    width: wp(20),
+    width: wp(35),
     height: hp(5),
-    backgroundColor: '#32C35B',
+    backgroundColor: '#EE8347',
+    borderRadius: wp(25),
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  },
+  ActionBtn1: {
+    // width: wp(35),
+    width: wp(35),
+    height: hp(5),
+    backgroundColor: '#EE8347',
     borderRadius: wp(25),
     justifyContent: 'center',
     alignItems: 'center',

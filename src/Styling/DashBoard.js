@@ -12,6 +12,14 @@ export const DashBoardStyling = StyleSheet.create({
     borderRadius: wp(2),
     alignItems: 'center',
   },
+  MainCardForOnGoingPromises: {
+    width: '95%',
+    height: hp(25),
+    marginTop: hp(1.4),
+    borderRadius: wp(2),
+    alignItems: 'center',
+  },
+
   MiniCard: {
     width: wp(90),
     // height: hp(12),

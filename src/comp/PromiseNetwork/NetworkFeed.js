@@ -16,6 +16,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
+import {RefreshControl} from 'react-native';
+
 import {useRecoilState} from 'recoil';
 import {
   IspromiseNetworkmodalVisible,
@@ -50,24 +52,47 @@ const NetworkFeed = ({navigation}) => {
   );
   const [isViewAll, setIsViewAll] = useState([]);
   const [refersh, setrefresh] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
 
   const focus = useIsFocused();
   const [userN, setUserN] = useRecoilState(UserNo);
   const [networkUser, setNetworkUser] = useState('');
+  
   const [comment, setComment] = useState('');
   const [isnetworkModalVi, setIsnetworkModVi] = useRecoilState(
     IspromiseNetworkmodalVisible,
   );
   const [like, setLike] = useState(false);
   const [isLike, setIsLike] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+
+  const [visibility, setVisibility] = useState('Private');
+  
 
   const handelNetworkFeedComp = async () => {
     const networkUserNo = userN;
     console.log('UserNo is ', networkUserNo);
-    const res = await NetWorkFeedApi(networkUserNo);
-    setSelectedNetworkUserFee(res);
-    console.log(res);
+     NetWorkFeedApi(networkUserNo, visibility)
+     .then(data => {
+      console.log('data', data);
+      setSelectedNetworkUserFee(data);
+      setIsLoading(false);
+    })
+    .catch(error => {
+      console.error('Error fetching promises:', error);
+      setIsLoading(false);
+    });
+  
+    // console.log(res);
+  };
+
+  const handleVisibilityChange = visibilityOption => {
+    setVisibility(visibilityOption);
+  };
+
+  const onRefresh = () => {
+    setrefresh(!refersh);
   };
 
   // const handleSearch = () => {
@@ -88,33 +113,30 @@ const NetworkFeed = ({navigation}) => {
 
   useEffect(() => {
     handelNetworkFeedComp();
-  }, [focus,refersh]);
+  }, [focus, refersh, visibility]);
 
   const onHandelReaction = async (PID, LikeA) => {
     const PIDd = PID;
     const userNN = userN;
-    console.log(userNN, "New UserNo")
+    console.log(userNN, 'New UserNo');
     // console.log(LikeA.find(item => item === userN))
     // let containsPromiseId=false;
     // const Reac = LikeA.find(item => item === userN);
     const containsPromiseId = LikeA.includes(userNN);
 
-    const Reac = containsPromiseId ? "UnLike" : "Like";
-    console.log(containsPromiseId, "Reac");
+    const Reac = containsPromiseId ? 'UnLike' : 'Like';
+    console.log(containsPromiseId, 'Reac');
     // console.log('UserNo is ', userNN);
     // console.log('Before APi Call', userNN, 'UserNO', PID, 'Promise ID');
 
     const res = await PromiseReaction(userNN, PIDd, Reac);
     // console.log(res.code);
-    setrefresh(!refersh)
+    setrefresh(!refersh);
     // setPromiseComments
   };
 
   const onHandelComment = async PID => {
     const userNN = userN;
-
-    // const commen = comment
-
     if (comment === '') {
       ToastAndroid.showWithGravityAndOffset(
         'Please enter comment',
@@ -129,8 +151,8 @@ const NetworkFeed = ({navigation}) => {
       const commen = comment;
       console.log('Api Calling');
       const res = await PromiseComment(userNN, PID, commen);
-      setrefresh(!refersh)
-      setComment('')
+      setrefresh(!refersh);
+      setComment('');
     }
   };
 
@@ -142,15 +164,12 @@ const NetworkFeed = ({navigation}) => {
   const renderItem = ({item}) => {
     const userNN = userN;
     const setLike = item.promiseReactions;
-    const handleViewAllComments = (promiseID) => {
-      if(isViewAll.includes(promiseID))
-      {
+    const handleViewAllComments = promiseID => {
+      if (isViewAll.includes(promiseID)) {
         const updatedArray = isViewAll.filter(item => item !== promiseID);
         setIsViewAll(updatedArray);
-      }
-      else{
-        setIsViewAll([...isViewAll,promiseID])
-
+      } else {
+        setIsViewAll([...isViewAll, promiseID]);
       }
       // setIsViewAll(promiseID);
     };
@@ -193,8 +212,43 @@ const NetworkFeed = ({navigation}) => {
             </Text>
           </View>
         </View>
-        <View style={{marginLeft: wp(2)}}>
-          {item.promiseType == 'Payment' ? (
+        <View style={{marginLeft: wp(4)}}>
+          <View style={{}}>
+            {item.paymentAmount ? (
+              item.PromiseType == 'GUARANTEE' ? (
+                <Text
+                  style={{
+                    color: '#652D90',
+                    fontWeight: 'bold',
+                    fontSize: hp(2.3),
+                  }}>
+                  Guarantee: ${item.paymentAmount}
+                </Text>
+              ) : (
+                <Text
+                  style={{
+                    color: '#652D90',
+                    fontWeight: 'bold',
+                    fontSize: hp(2.3),
+                  }}>
+                  Commitment: ${item.paymentAmount}
+                </Text>
+              )
+            ) : null}
+
+            {item.alotRewardPoints ? (
+              <Text style={{color: '#652D90', fontSize: hp(2.3)}}>
+                {item.rewardPoints} Reward points will be given
+              </Text>
+            ) : null}
+
+            {item.ratingImpact ? (
+              <Text style={{color: '#652D90', fontSize: hp(2.3)}}>
+                Rating will impact
+              </Text>
+            ) : null}
+
+            {/* {item.promiseType == 'GUARANTEE' ? (
             <Text
               style={[
                 {
@@ -216,27 +270,29 @@ const NetworkFeed = ({navigation}) => {
               ]}>
               Reward: +20XP
             </Text>
-          )}
-          {/* {item.promiseMediaURL ? (
-          <TouchableOpacity
-            onPress={() => handelAttachedMedia(item.promiseMediaURL)}>
-            <Text style={{color: 'blue'}}>Attached File</Text>
-          </TouchableOpacity>
-        ) : null} */}
+          )} */}
+            {item.promiseMediaURL ? (
+              <TouchableOpacity
+                onPress={() => handelAttachedMedia(item.promiseMediaURL)}>
+                <Ionicons name="attach" size={30} color="black" />
+              </TouchableOpacity>
+            ) : null}
+          </View>
+          <View style={{height: hp(10)}}>
+            <Text
+              style={[
+                {
+                  color: '#652D90',
+                  fontWeight: 'bold',
+                  fontSize: hp(1.9),
+                  // textAlign: 'center',
+                },
+              ]}>
+              {item.promiseGoal}
+            </Text>
+          </View>
         </View>
-        <View style={{height: hp(10)}}>
-          <Text
-            style={[
-              {
-                color: '#652D90',
-                fontWeight: 'bold',
-                fontSize: hp(1.6),
-                textAlign: 'center',
-              },
-            ]}>
-            {item.promiseGoal}
-          </Text>
-        </View>
+
         {/* //Like and Share Section  */}
         <View
           style={{
@@ -395,7 +451,7 @@ const NetworkFeed = ({navigation}) => {
   )
 } */}
 
-          <View
+          {/* <View
             style={{
               // borderWidth: 1,
               flexDirection: 'row',
@@ -416,13 +472,18 @@ const NetworkFeed = ({navigation}) => {
               ]}>
               Share
             </Text>
-          </View>
+          </View> */}
         </View>
         {/* /// Comments Section */}
         <View style={{marginLeft: wp(2)}}>
           {item.promiseComments && item.promiseComments.length > 0 ? (
             item.promiseComments
-              .slice(0, isViewAll.includes(item.promiseID) ? item.promiseComments.length : 2)
+              .slice(
+                0,
+                isViewAll.includes(item.promiseID)
+                  ? item.promiseComments.length
+                  : 2,
+              )
               .map(comment => (
                 <View
                   key={comment.serialNo}
@@ -468,10 +529,12 @@ const NetworkFeed = ({navigation}) => {
                 </View>
               ))
           ) : (
-            <Text>No comments for this promise</Text>
+            <Text style={{ marginLeft: wp(3),}}>No comments for this promise</Text>
           )}
           {item.promiseComments && item.promiseComments.length > 2 && (
-            <TouchableOpacity onPress={()=>handleViewAllComments(item.promiseID)}>
+            <TouchableOpacity
+            style={{ marginLeft: wp(3),}}
+              onPress={() => handleViewAllComments(item.promiseID)}>
               {isViewAll.includes(item.promiseID) ? (
                 <Text>View Less</Text>
               ) : (
@@ -481,43 +544,60 @@ const NetworkFeed = ({navigation}) => {
           )}
         </View>
         {/* Add Comment Section  */}
-        <View style={{}}>
-          <TextInput
-            onChangeText={text => {
-              setComment(text);
-              // console.log(text);
-            }}
-            placeholder="Add a comment"
-            style={{
-              borderWidth: wp(0.5),
-              borderColor: '#652D90',
-              backgroundColor: 'white',
-              paddingLeft: wp(2.2),
-            }}></TextInput>
-          <TouchableOpacity
-            style={{position: 'absolute', right: wp(3), top: hp(1.5)}}>
-            <Material name="insert-emoticon" size={30} color="#652D90" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              width: wp(30),
-              // borderw: 1,
-              height: hp(5),
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: 'green',
-              borderRadius: wp(10),
-              marginVertical: hp(1),
-              marginLeft: wp(30),
-            }}
+        <View
+          style={{
+            justifyContent: 'center',
+            width: '100%',
+            // borderWidth: 1,
+            alignContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View style={{width: '90%'}}>
+            <TextInput
+              value={comment}
+              onChangeText={text => {
+                setComment(text);
+                // console.log(text);
+              }}
+              placeholder="Add a comment"
+              style={{
+                borderWidth: wp(0.5),
+                borderColor: '#652D90',
+                backgroundColor: 'white',
+                paddingLeft: wp(2.2),
+              }}></TextInput>
+            <TouchableOpacity
             onPress={() => {
               const PID = item.promiseID;
               onHandelComment(PID);
-              setComment('')
-              console.log(comment,"comment")
-            }}>
-            <Text>Add Comment</Text>
-          </TouchableOpacity>
+              setComment('');
+              console.log(comment, 'comment');
+            }}
+              style={{position: 'absolute', right: wp(3), top: hp(1.5)}}>
+              <Material name="send" size={30} color="#652D90" />
+            </TouchableOpacity>
+            
+          </View>
+          {/* <TouchableOpacity
+              style={{
+                width: wp(30),
+                // borderw: 1,
+                height: hp(5),
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'green',
+                borderRadius: wp(10),
+                marginVertical: hp(1),
+                // marginLeft: wp(30),
+              }}
+              onPress={() => {
+                const PID = item.promiseID;
+                onHandelComment(PID);
+                setComment('');
+                console.log(comment, 'comment');
+              }}>
+              <Text>Add Comment</Text>
+            </TouchableOpacity> */}
         </View>
       </View>
     );
@@ -609,16 +689,64 @@ const NetworkFeed = ({navigation}) => {
        </Text> */}
         </TouchableOpacity>
       </View>
+      <View
+        style={{
+          marginTop: hp(1),
+          // borderWidth: wp(1),
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: wp(84),
+          backgroundColor: '#dbe5dd',
+          borderRadius: wp(10),
+        }}>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            visibility === 'Public' && styles.selectedButton,
+          ]}
+          onPress={() => handleVisibilityChange('Public')}>
+          <Text style={styles.BtnText}>Public</Text>
+        </TouchableOpacity>
 
+        <TouchableOpacity
+          style={[
+            styles.button,
+            visibility === 'Private' && styles.selectedButton,
+          ]}
+          onPress={() => handleVisibilityChange('Private')}>
+          <Text style={styles.BtnText}>Private</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.button,
+            visibility === 'Network' && styles.selectedButton,
+          ]}
+          onPress={() => handleVisibilityChange('Network')}>
+          <Text style={styles.BtnText}>Network Only</Text>
+        </TouchableOpacity>
+      </View>
       {isLoading ? (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-         <ActivityIndicator size="small" color="#0000ff" />
+          <ActivityIndicator size="small" color="#0000ff" />
         </View>
       ) : (
         <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading}
+            onRefresh={onRefresh}
+            colors={['#E4A936', '#EE8347']} // Android
+            tintColor="white" // iOS
+            title="Refreshing..." // iOS
+            titleColor="white" // iOS
+          />
+        }
           data={searchText.length > 0 ? filteredData : selectedNetworkUserFee}
           // data={selectedNetworkUserFee}
           // data={searchText.length > 0 ? filteredData : networkUser}
+          
           keyExtractor={item => item.promiseID.toString()}
           renderItem={renderItem}
         />
@@ -636,6 +764,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: wp(26),
   },
+
   CiBox: {
     backgroundColor: 'grey',
     width: wp(13),
@@ -652,6 +781,29 @@ const styles = StyleSheet.create({
     paddingLeft: wp(4),
     paddingTop: wp(0),
     paddingBottom: wp(0),
+  },
+  containerr: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 20,
+  },
+  button: {
+    padding: 10,
+    // borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    width: wp(28),
+    justifyContent: 'center',
+    textAlign: 'center',
+  },
+  selectedButton: {
+    backgroundColor: '#cebdff',
+    borderRadius: wp(14),
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
 
+  BtnText: {
+    textAlign: 'center',
   },
 });
