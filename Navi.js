@@ -1,13 +1,13 @@
-import React, {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AppLaunchScreen from './src/screens/AppLaunchScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import VerficationPage from './src/screens/VerficationPage';
 import HomeScreen from './src/screens/HomeScreen';
-import {View, KeyboardAvoidingView, TouchableOpacity} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { View, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Dashboard from './src/screens/Dashboard';
 import MakePromise from './src/screens/MakePromise';
 import Notifications from './src/screens/Notifications';
@@ -29,16 +29,20 @@ import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 
 
-import {useRecoilState} from 'recoil';
-import {UserNo, token} from './src/recoil/AddPromise';
+import { useRecoilState } from 'recoil';
+import { UserNo, token } from './src/recoil/AddPromise';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ReqDashboard from './src/screens/ReqDashboard';
 import Drawer from './src/comp/Drawer';
 import Player from './src/comp/makePromise/Player';
 import UserProfile from './src/screens/UserProfile';
+import TransactionsHistory from './src/screens/TransactionsHistory';
 import NetworkFeed from './src/comp/PromiseNetwork/NetworkFeed';
 import AdminPanel from './src/screens/AdminPanel';
 import BraintreeDropInUI from './src/screens/Payment';
+import EnterNewPasswordScreen from './src/screens/EnterNewPasswordScreen';
+import EnterOTPScreen from './src/screens/EnterOTPScreen';
+import ForgetPasswordEmailScreen from './src/screens/ForgetPasswordEmailScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -46,22 +50,22 @@ const Stack = createNativeStackNavigator();
 function HomeScreenn() {
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
+      screenOptions={({ route }) => ({
         tabBarHideOnKeyboard: true,
 
-        tabBarIcon: ({color, size}) => {
+        tabBarIcon: ({ color, size }) => {
           let iconName;
 
           if (route.name === 'HomeScreenB') {
             iconName = 'envelope';
-          } 
+          }
           else if (route.name === 'Dashboard') {
             iconName = 'dashboard';
           }
           else if (route.name === 'ReqDashboard') {
             iconName = 'git-pull-request';
           }
-           else if (route.name === 'Users') {
+          else if (route.name === 'Users') {
             iconName = 'user';
           } else if (route.name === 'MakePromise') {
             iconName = 'check';
@@ -87,8 +91,8 @@ function HomeScreenn() {
           marginBottom: hp(2),
           // bottom: hp(5),
           justifyContent: 'center',
-          alignContent:'center',
-          alignItems:'center'
+          alignContent: 'center',
+          alignItems: 'center'
         },
         // tabBarActiveTintColor:'red'
         tabBarActiveTintColor: '#652D90',
@@ -99,13 +103,13 @@ function HomeScreenn() {
         //   width: wp(1)
         // }
       })}>
-      
+
       <Tab.Screen
         name="HomeScreenB"
         component={HomeScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <View>
               <Feather name="home" color={color} size={size} />
             </View>
@@ -116,10 +120,10 @@ function HomeScreenn() {
         name="Dashboard"
         component={Dashboard}
         options={{
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <FontAw name="handshake-simple" color={color} size={size} light />
           ),
-          title:'Promises',
+          title: 'Promises',
         }}
       />
       <Tab.Screen
@@ -127,7 +131,7 @@ function HomeScreenn() {
         component={MakePromise}
         options={{
           headerShown: false,
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <Feather name="plus-circle" color={color} size={size} />
           ),
         }}
@@ -136,12 +140,12 @@ function HomeScreenn() {
         name="Promise Request Dashboard"
         component={ReqDashboard}
         options={{
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             // <MaterialIcons name="space-dashboard" color={color} size={size} />
             <FontAw name="handshake-angle" color={color} size={size} />
 
           ),
-          title:'Promise Request'
+          title: 'Promise Request'
         }}
       />
 
@@ -157,9 +161,9 @@ function HomeScreenn() {
       <Tab.Screen
         name="NetworkFeed"
         component={NetworkFeed}
-        options={({navigation}) => ({
+        options={({ navigation }) => ({
           title: '',
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <AntDesi name="addusergroup" color={color} size={size} />
           ),
           headerStyle: {
@@ -167,10 +171,10 @@ function HomeScreenn() {
           },
 
           headerLeft: () => (
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <TouchableOpacity
                 onPress={() => navigation.goBack()}
-                style={{marginRight: wp(10), position: 'absolute', left:wp(4)}}>
+                style={{ marginRight: wp(10), position: 'absolute', left: wp(4) }}>
                 {/* <EvilIcon name="arrow-left" size={40} color="black" /> */}
                 <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
 
@@ -244,25 +248,40 @@ const Auth = () => {
             <Stack.Screen
               name="AppLaunchScreen"
               component={AppLaunchScreen}
-              options={{headerShown: false}}
+              options={{ headerShown: false }}
             />
 
             <Stack.Screen
               name="LoginScreen"
               component={LoginScreen}
-              options={{headerShown: false}}
+              options={{ headerShown: false }}
             />
 
             <Stack.Screen
               name="SignUpScreen"
               component={SignUpScreen}
-              options={{headerShown: false}}
+              options={{ headerShown: false }}
             />
 
             <Stack.Screen
               name="VerficationPage"
               component={VerficationPage}
-              options={{headerShown: false}}
+              options={{ headerShown: false }}
+            />
+             <Stack.Screen
+              name="EnterNewPasswordScreen"
+              component={EnterNewPasswordScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="EnterOTPScreen"
+              component={EnterOTPScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ForgetPasswordEmailScreen"
+              component={ForgetPasswordEmailScreen}
+              options={{ headerShown: false }}
             />
           </>
         ) : (
@@ -270,25 +289,30 @@ const Auth = () => {
             <Stack.Screen
               name="HomeScreen"
               component={HomeScreenn}
-              options={{headerShown: false}}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="Review"
               component={Review}
               options={{
                 title: 'Make Promise',
-                headerStyle: {backgroundColor: '#E4EEE6'},
+                headerStyle: { backgroundColor: '#E4EEE6' },
               }}
             />
             <Stack.Screen
               name="SnapPromiseVerification"
               component={SnapPromiseVerification}
-              options={{headerShown: false}}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="UserProfile"
               component={UserProfile}
-              options={{headerShown: false}}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="TransactionsHistory"
+              component={TransactionsHistory}
+              options={{ headerShown: true, title: 'Transactions History', }}
             />
             {/* <Stack.Screen
               name="AdminPanel"
@@ -298,14 +322,15 @@ const Auth = () => {
             <Stack.Screen
               name="Player"
               component={Player}
-              options={{headerShown: false}}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
-                name="Notifications"
-                component={Notifications}
-              options={{headerShown: true}}
+              name="Notifications"
+              component={Notifications}
+              options={{ headerShown: true }}
             />
-            
+           
+
             {/* <Stack.Screen
               name="BraintreeDropInUI"
               component={BraintreeDropInUI}

@@ -80,12 +80,13 @@ const NetworkFeed = ({navigation}) => {
   // };
 
   const handleSearch = () => {
-    const filtered = selectedNetworkUserFee.filter(item =>
-      item.promisorName.toLowerCase().includes(searchText.toLowerCase()),
-    );
-    setFilteredData(filtered);
+    if (selectedNetworkUserFee) {
+      const filtered = selectedNetworkUserFee.filter(item =>
+        item.promisorName.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setFilteredData(filtered);
+    }
   };
-
   useEffect(() => {
     handelNetworkFeedComp();
   }, [focus,refersh]);
@@ -565,6 +566,7 @@ const NetworkFeed = ({navigation}) => {
 
           <TextInput
             placeholder="Search User"
+            placeholderTextColor={"grey"}
             style={styles.SearchInpF}
             value={searchText}
             onChangeText={text => {
@@ -580,7 +582,7 @@ const NetworkFeed = ({navigation}) => {
         <TouchableOpacity
           onPress={() => setIsnetworkModVi(true)}
           style={{
-            height: hp(4),
+            height: hp(5),
             flexDirection: 'row',
             alignItems: 'center',
             marginLeft: wp(2),
@@ -588,6 +590,8 @@ const NetworkFeed = ({navigation}) => {
             width: wp(30),
             backgroundColor: '#6650A4',
             justifyContent: 'center',
+            marginTop:30
+
           }}>
           <Material name="group" size={23} color="white" />
 
@@ -652,6 +656,9 @@ const styles = StyleSheet.create({
     paddingLeft: wp(4),
     paddingTop: wp(0),
     paddingBottom: wp(0),
+    height:hp(5),
+    marginTop:30
+
 
   },
 });

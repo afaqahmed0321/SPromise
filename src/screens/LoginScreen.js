@@ -30,7 +30,7 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
-
+import ForgetPasswordEmailScreen from './ForgetPasswordEmailScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { commonStyles } from '../Styling/buttons';
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
@@ -202,6 +202,9 @@ const LoginScreen = ({ navigation }) => {
   const onChangePassword = async text => {
     setPassword(text);
   };
+  const handleForgetPassword = () => {
+    navigation.navigate('ForgetPasswordEmailScreen'); 
+  };
   return (
     <SafeAreaView style={styles.mainC}>
       <LogoHeaderGlobel navigation={navigation} />
@@ -232,9 +235,8 @@ const LoginScreen = ({ navigation }) => {
             <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={{ alignItems: 'flex-end', }}>
-          <Text style={{ fontWeight: 'bold', color: '#000' }}>Forget Password?</Text>
+        <TouchableOpacity onPress={handleForgetPassword} style={{ alignItems: 'flex-end', }}>
+          <Text style={{ fontWeight: 'bold', color: '#000' }}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
       {/* <View></View> */}

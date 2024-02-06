@@ -196,7 +196,7 @@ const NotificationCard = () => {
         <BlurView
           style={{flex: 1}}
           blurType="light" // You can customize the blurType as needed
-          blurAmount={10} // You can adjust the blurAmount as needed
+          blurAmount={20} // You can adjust the blurAmount as needed
         ></BlurView>
       </View>
       <View>
