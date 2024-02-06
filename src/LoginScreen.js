@@ -117,7 +117,7 @@ const LoginScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View style={{marginTop: hp(6)}}>
-          {/* <TouchableOpacity       
+          {/* <TouchableOpacity
             onPress={onGoogleButtonPress}
             style={commonStyles.SocialBtn}>
             <Image

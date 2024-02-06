@@ -5,12 +5,11 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 export const Headings = StyleSheet.create({
 
   InputH:{
-    fontWeight:'700',
-    marginBottom:10,
+    fontWeight:'bold',
+    marginBottom:20,
     color: 'black',
-    fontSize:28,
-    marginHorizontal:10,
-    // textAlign:'center'
+    fontSize:25,
+    marginHorizontal:10
 
   },
   Input3:{
@@ -37,12 +36,8 @@ export const Headings = StyleSheet.create({
   Input6:{
     fontWeight:'bold',
     color: 'black',
-    fontSize:hp(1.6),
-  },
-  Input06:{
-    fontWeight:'bold',
-    color: 'black',
     fontSize:hp(1.2),
+    
   },
   Input5:{
     fontWeight:'bold',

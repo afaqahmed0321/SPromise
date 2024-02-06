@@ -3,7 +3,7 @@ import axios from 'axios';
 const GetAllowedVideoFormats = async () => {
   try {
     const response = await axios.get(
-      'https://snappromise.com:8080/api/Users/getAppSettings',
+      'http://138.197.52.199:8080/api/Users/getAppSettings',
       {
         params: {
           tag: 'AllowedVideoFormats',

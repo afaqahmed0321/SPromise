@@ -18,11 +18,11 @@ export async function login(email,password) {
     });
     const responseData = await response.text();
     const data = JSON.parse(responseData);
-    console.log(responseData,"responseData in Login APi")
-    // console.log(data.message,"data")
+    console.log(responseData,"responseData")
+    console.log(data.message,"data")
 
     if (data.message === 'Success') {
-      // console.log(data.message,"here")
+      console.log(data.message,"here")
       return data;
     } else {
       console.log("","returning")

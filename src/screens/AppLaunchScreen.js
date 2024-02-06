@@ -27,50 +27,35 @@ const AppLaunchScreen = ({ navigation }) => {
           Explore the app
         </Text>
         <Text style={{ textAlign: 'center', marginVertical: 10, color: '#000', fontSize: 17 }} numberOfLines={2}>
-          Turning words into actions
+        Turning words into actions
         </Text>
       </View>
 
       <View style={{ flex: 1 }}>
-      <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
         <LinearGradient
           colors={['#E4A936', '#EE8347']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          style={commonStyles.launchlognBtn}
+          style={commonStyles.lognBtn}
         >
-
           <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-            <Text style={{
-              color: 'white', fontSize: 16,
-              fontWeight: 'bold',
-              width: wp(95),
-              alignItems: 'center',
-              textAlign: 'center',
-              paddingVertical: 8,
-              paddingHorizontal: 5,
-
-            }}>Log In</Text>
+            <Text style={TextInP.LogInButton}>Log In</Text>
           </TouchableOpacity>
-
         </LinearGradient>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
         <LinearGradient
           colors={['#73B6BF', '#2E888C']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={commonStyles.SignUpBtn}
         >
+          <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
             <Text style={{
               color: 'white', fontSize: 16,
               fontWeight: 'bold',
-              width: wp(90),
-              alignItems: 'center',
-              textAlign: 'center',
+              color: 'white',
             }}>Create Account</Text>
-        </LinearGradient>
           </TouchableOpacity>
+        </LinearGradient>
       </View>
     </View>
 

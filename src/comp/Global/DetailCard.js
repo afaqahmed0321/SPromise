@@ -16,7 +16,6 @@ import {
 import {DashBoardStyling} from '../../Styling/DashBoard';
 import LinearGradient from 'react-native-linear-gradient';
 import Entypo from 'react-native-vector-icons/Entypo';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Headings} from '../../Styling/Headings';
 import EvilIcon from 'react-native-vector-icons/Feather';
 import {format} from 'date-fns';
@@ -25,20 +24,14 @@ import {
   handleCompletePromise,
   handleFailPromise,
   handleRejectPromise,
-  handleFulfilledPromise,
-  handleFailedPromise,
 } from '../Dashboard/Promise/PromiseAction';
 import {commonStyles} from '../../Styling/buttons';
-import { useNavigation } from '@react-navigation/native';
-
 import WebView from 'react-native-webview';
 import {
   handleAccept,
   handleReject,
 } from '../Dashboard/ReqPromiseDashBoard/Action';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
-import { selectedVideoR } from '../../recoil/AddPromise';
-import { useRecoilState } from 'recoil';
 
 const DetailCard = ({
   promiseeProfileImageUrl,
@@ -57,17 +50,8 @@ const DetailCard = ({
   alotRewardPoints,
   rewardPoints,
   refreshCallback,
-  onGoingPromises
 }) => {
   const [isPaymentWebViewVisible, setIsPaymentWebViewVisible] = useState(false);
-  const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
-  const navigation = useNavigation();
-
-  const handelAttachedMedia = urll => {
-    console.log(urll);
-    setSelectedVideo(urll);
-    navigation.navigate('Player');
-  };
   return (
     <>
       {tab == 'UserPromiseReq' || tab == 'ReqPromiseDashboard' ? (
@@ -77,8 +61,7 @@ const DetailCard = ({
               ? ['#E4A936', '#EE8347']
               : ['#73B6BF', '#2E888C']
           }
-          style={ onGoingPromises ? DashBoardStyling.MainCardForOnGoingPromises : DashBoardStyling.MainCard}>
-
+          style={DashBoardStyling.MainCard}>
           <View
             style={
               {
@@ -100,9 +83,7 @@ const DetailCard = ({
                   width: wp(12),
                   height: hp(6),
                   borderRadius: wp(6), // Half of the width
-                  // marginLeft: wp(2),
-                  marginLeft: onGoingPromises ? wp(3.5) : wp(2),
-
+                  marginLeft: wp(2),
                   marginTop: hp(1),
                 }}>
                 <Image
@@ -203,12 +184,12 @@ const DetailCard = ({
               </View>
             ) : null}
 
-            {/* {promiseMediaURL ? (
+            {promiseMediaURL ? (
               <TouchableOpacity
                 onPress={() => handelAttachedMedia(promiseMediaURL)}>
-                <AntDesign name="play" size={30} color="#6650A4" />
+                <Text style={{color: 'blue'}}>Attached File</Text>
               </TouchableOpacity>
-            ) : null} */}
+            ) : null}
             <View style={DashBoardStyling.PromiseGoal}>
               <View>
                 <Text
@@ -223,15 +204,6 @@ const DetailCard = ({
                 </Text>
               </View>
             </View>
-
-            {promiseMediaURL ? (
-              <TouchableOpacity
-              style={{marginLeft: wp(4)}}
-              onPress={() => handelAttachedMedia(promiseMediaURL)}>
-              {/* <Text style={{color: 'blue'}}>Attached File</Text> */}
-              <AntDesign name="play" size={25} color="black" />
-            </TouchableOpacity>
-            ) : null}
             {/* <View
                     style={DashBoardStyling.PromiseReward}>
                  
@@ -435,7 +407,7 @@ const DetailCard = ({
               ? ['#73B6BF', '#2E888C']
               : ['#E4A936', '#EE8347']
           }
-          style={ onGoingPromises ? DashBoardStyling.MainCardForOnGoingPromises : DashBoardStyling.MainCard}>
+          style={DashBoardStyling.MainCard}>
           <View
             style={
               {
@@ -457,8 +429,7 @@ const DetailCard = ({
                   width: wp(13),
                   height: hp(6),
                   borderRadius: wp(6.5), // Half of the width
-                  marginLeft: onGoingPromises ? wp(3.5) : wp(2),
-                  // marginLeft: wp(2),
+                  marginLeft: wp(2),
                   marginTop: hp(1),
                 }}>
                 <Image
@@ -562,7 +533,12 @@ const DetailCard = ({
               </View>
             ) : null}
 
-           
+            {promiseMediaURL ? (
+              <TouchableOpacity
+                onPress={() => handelAttachedMedia(promiseMediaURL)}>
+                <Text style={{color: 'blue'}}>Attached File</Text>
+              </TouchableOpacity>
+            ) : null}
             <View style={DashBoardStyling.PromiseGoal}>
               <View>
                 <Text
@@ -579,15 +555,6 @@ const DetailCard = ({
                 </Text>
               </View>
             </View>
-            {promiseMediaURL ? (
-              <TouchableOpacity
-                style={{marginLeft: wp(4)}}
-                onPress={() => handelAttachedMedia(promiseMediaURL)}>
-                {/* <Text style={{color: 'blue'}}>Attached File</Text> */}
-                <AntDesign name="play" size={25} color="black" />
-
-              </TouchableOpacity>
-            ) : null}
             {/* <View
      style={DashBoardStyling.PromiseReward}>
   
@@ -694,35 +661,7 @@ const DetailCard = ({
                       <Text>{action}</Text>
                     </TouchableOpacity>
                   );
-                } else if (action === 'Fulfilled') {
-                  return (
-                    <TouchableOpacity
-                      style={[commonStyles.ActionBtn]}
-                      key={index}
-                      onPress={() => {
-                        handleFulfilledPromise(promiseID, userN);
-                        // setrefresh(!refersh)
-                        refreshCallback();
-                      }}>
-                      <Text>{action}</Text>
-                    </TouchableOpacity>
-                  );
-                }
-                else if (action === 'Failed') {
-                  return (
-                    <TouchableOpacity
-                      style={[commonStyles.ActionBtn, {backgroundColor: 'red'}]}
-                      key={index}
-                      onPress={() => {
-                        handleFailedPromise(promiseID, userN);
-                        // setrefresh(!refersh)
-                        refreshCallback();
-                      }}>
-                      <Text>{action}</Text>
-                    </TouchableOpacity>
-                  );
-                }
-                else if (action === 'Fail') {
+                } else if (action === 'Fail') {
                   return (
                     <TouchableOpacity
                       style={[commonStyles.ActionBtn, {backgroundColor: 'red'}]}
@@ -735,9 +674,7 @@ const DetailCard = ({
                       <Text>{action}</Text>
                     </TouchableOpacity>
                   );
-                }
-                
-                else if (action === 'Pay') {
+                } else if (action === 'Pay') {
                   return (
                     <TouchableOpacity
                       style={commonStyles.ActionBtn}
@@ -813,7 +750,7 @@ const DetailCard = ({
         animationType="slide"
         // transparent={true}
         visible={isPaymentWebViewVisible}
-        onRequestClose={()=>isPaymentWebViewVisible}>
+        onRequestClose={isPaymentWebViewVisible}>
         <SafeAreaView style={{height: '100%', width: wp(100)}}>
           <TouchableOpacity
             onPress={() => setIsPaymentWebViewVisible(false)}
@@ -828,7 +765,7 @@ const DetailCard = ({
           </TouchableOpacity>
           <WebView
             source={{
-              uri: `https://snappromise.com/payment/${userN}/${promiseID}`,
+              uri: `http://138.197.52.199/payment/${userN}/${promiseID}`,
             }}
             style={{height: '100%', width: wp(100)}}
             // onError={syntheticEvent =>

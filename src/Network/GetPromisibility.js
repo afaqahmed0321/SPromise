@@ -3,7 +3,7 @@ import axios from 'axios';
 const getUserPromisbility = async (userN) => {
   try {
     const response = await axios.get(
-      'https://snappromise.com:8080/api/Users/getUserPromisbility',
+      'http://138.197.52.199:8080/api/Users/getUserPromisbility',
       {
         params: {
           userNo: userN,

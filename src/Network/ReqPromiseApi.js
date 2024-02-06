@@ -17,15 +17,12 @@ const ReqPromiseApi = async (expiryDate, IsTimeBound, promiseGoal, promiseMediaU
     "ratingImpact": RatingImapect,
     "shareonLinkedIn": LinkDin,
     "shareonTwitter": Twitter,
-    "startDate": startDate,
+    // "startDate": startDate,
     "status": status,
-    // "userPromisePayment": {
-    //     "PaymentStatus": paymentStatus,
-    //   "paymentAmount": paymentAmount
-    // },
-
-    userPromisePayment : paymentAmount !== null ? {"PaymentStatus": paymentStatus,
-    "paymentAmount": paymentAmount} : null,
+    "userPromisePayment": {
+        "PaymentStatus": paymentStatus,
+      "paymentAmount": paymentAmount
+    },
     userPromiseReward: PromiseReward !== null ? { rewardPoints: PromiseReward } : null,
     // "PaymentStatus": paymentStatus,
     // "userPromisePayment": paymentAmount,
@@ -53,7 +50,7 @@ const ReqPromiseApi = async (expiryDate, IsTimeBound, promiseGoal, promiseMediaU
 
     result = await result.json();
     console.log(result)
-    if (result.code === 100) {
+    if (result.code === 500) {
       return result.code
       ToastAndroid.showWithGravityAndOffset(
         'Your promise request has been successfully Sent',

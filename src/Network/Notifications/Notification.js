@@ -7,14 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const fetchNotification = async (userN) => {
   let user;
   while (!user) {
-    if(userN=='')
-    {
     user = await AsyncStorage.getItem("userNo");
-    }
-    else{
-      user=userN
-    }
-    console.log(user, "user in getonging", userN);
+    // console.log(user, "user in getonging", userN);
   }
   const apiUrl = 'https://snappromise.com:8080/getUserNotifications?userNo='+user;
   // console.log(userN)
