@@ -62,7 +62,7 @@ const Review = ({ navigation }) => {
     const RatingImapect = isRating;
     const LinkDin = Igtoggle;
     const Twitter = fbtoggle;
-    const startDate = isTimeB ? promidate : dateString;
+    const startDate = isTimeB ? dateString : dateString;
     const status = 'Pending';
     const paymentAmount = financial ? amount : '0';
     const paymentStatus = 'Pending';
@@ -136,7 +136,7 @@ const Review = ({ navigation }) => {
     const RatingImapect = isRating;
     const LinkDin = Igtoggle;
     const Twitter = fbtoggle;
-    const startDate = isTimeB ? promidate : dateString;
+    const startDate = isTimeB ? dateString : dateString;
     const status = 'Pending';
     const paymentAmount = financial ? amount : null;
     const paymentStatus = 'Pending';

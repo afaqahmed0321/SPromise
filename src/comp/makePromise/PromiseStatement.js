@@ -9,6 +9,8 @@ import {
   Modal,
   Image,
   TouchableWithoutFeedback,
+  ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -58,6 +60,7 @@ const PromiseStatement = ({onTextChange }) => {
 
   const [licked, setClicked] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState({ currentTime: 0 });
 
   // const [videoUri, setVideoUri] = useState(null);
@@ -96,57 +99,52 @@ const PromiseStatement = ({onTextChange }) => {
   const openCamera = async () => {
     const result = await launchCamera({ mediaType: 'video', quality: 1 });
 
+    
+      const allowedFormats = VideoFarmats;
+    
     if (result.assets && result.assets.length > 0) {
       const selectedFileSize = result.assets[0].fileSize; // Size in bytes
 
-      // Check if the file size is less than or equal to 5MB (5 * 1024 * 1024 bytes)
-      // const maxSizeInBytes = VideoSize * 1024 * 1024;
-      const maxSizeInBytes = 5 * 1024 * 1024;
-      const allowedFormats = [".mp4", ".mov", ".wmv", ".qt"];
-      // const allowedFormats = VideoFarmats;
+      const maxSizeInBytes = VideoSize * 1024 * 1024;
+      // const selectedFileType = result.assets[0].uri;
 
-      const selectedFileType = result.assets[0].type;
+      const fileExtension = result.assets[0].uri.split('.').pop().toLowerCase();
 
-      if (allowedFormats.includes(selectedFileType)) {
+      if (allowedFormats.includes(`.${fileExtension}`)) {
         if (selectedFileSize <= maxSizeInBytes) {
           setSelectedVideo(result.assets[0].uri);
         } else {
-          alert(`Selected file size exceeds. Please choose a smaller file.${VideoSize}`)
+          alert(`Selected file size exceeds. Please choose a smaller file.${VideoSize}`);
         }
       } else {
-        alert(
-          `Invalid file format. Please choose a valid video format${allowedFormats}`,
-        );
+        alert(`Invalid file format. Please choose a valid video format: ${allowedFormats.join(', ')}`);
       }
     }
   };
 
   const chooseVideo = async () => {
-    console.log('cho', VideoFarmats, VideoSize);
+     const maxSizeInBytes = VideoSize * 1024 * 1024;
+      const allowedFormats = VideoFarmats;
     const result = await launchImageLibrary({ mediaType: 'video', quality: 1 });
-
+  
     if (result.assets && result.assets.length > 0) {
       const selectedFileSize = result.assets[0].fileSize; // Size in bytes
+      console.log('Allowed formats:', result.assets[0].uri);
 
-      // 5MB (5 * 1024 * 1024 bytes)
-      const maxSizeInBytes = VideoSize * 1024 * 1024;
-      const allowedFormats = VideoFarmats;
-
-      const selectedFileType = result.assets[0].type;
-
-      if (allowedFormats.includes(selectedFileType)) {
+      const fileExtension = result.assets[0].uri.split('.').pop().toLowerCase();
+  
+      if (allowedFormats.includes(`.${fileExtension}`)) {
         if (selectedFileSize <= maxSizeInBytes) {
           setSelectedVideo(result.assets[0].uri);
         } else {
-          alert(`Selected file size exceeds. Please choose a smaller file.${VideoSize}`)
+          alert(`Selected file size exceeds. Please choose a smaller file.${VideoSize}`);
         }
       } else {
-        alert(
-          `Invalid file format. Please choose a valid video format${allowedFormats}`,
-        );
+        alert(`Invalid file format. Please choose a valid video format: ${allowedFormats.join(', ')}`);
       }
     }
   };
+  
 
   // const chooseVideo = async () => {
   //   const result = await launchImageLibrary({mediaType: 'video', quality: 1});
@@ -193,6 +191,7 @@ const PromiseStatement = ({onTextChange }) => {
   // };
 
   const handelUpload = async () => {
+    setIsLoading(true);
     let newfile = {
       uri: selectedVideo,
       type: 'test/mp4',
@@ -228,7 +227,18 @@ const PromiseStatement = ({onTextChange }) => {
         // Extract the 'version' field from the JSON response
         const url = result.secure_url;
         setAttachMedia(url);
+        setIsLoading(false);
+        
+        // ToastAndroid.showWithGravityAndOffset(
+        //   'Uploaded',
+        //   result.code,
+        //   ToastAndroid.LONG,
+        //   ToastAndroid.BOTTOM,
+        //   25,
+        //   50,
+        // );
         setIsModalV(false);
+        
       })
       .catch(error => console.log('error', error));
     // var myHeaders = new Headers();
@@ -301,6 +311,7 @@ const PromiseStatement = ({onTextChange }) => {
               value={generatedTexts}
             />
           </View>
+          
           <TouchableOpacity onPress={() => setIsModalV(true)} style={{ marginTop: 12, marginStart: 10 }}>
             {!attachMedia ? (
               <Ionicons color="#652D90" name="videocam" size={30} />
@@ -308,8 +319,14 @@ const PromiseStatement = ({onTextChange }) => {
               <Ionicons color="red" name="videocam" size={30} />
             )}
           </TouchableOpacity>
+          
         </View>
-
+        {!attachMedia ? (
+              // <Ionicons color="#652D90" name="videocam" size={30} />null
+              null
+            ) : (
+             <Text style={{width:wp(90), textAlign:'center', marginTop:wp(3)}}>File Uploaded</Text>
+            )}
         <Modal
           animationType="slide"
           transparent={true}
@@ -319,7 +336,10 @@ const PromiseStatement = ({onTextChange }) => {
             <View style={{ flex: 1 }}>
               <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}></BlurView>
 
-              <View
+             {isLoading ? (
+                      <ActivityIndicator size="small" color="#0000ff" />
+
+             ) : (  <View
                 style={{
                   borderWidth: 0.5,
                   width: wp(95),
@@ -333,7 +353,7 @@ const PromiseStatement = ({onTextChange }) => {
                 }}>
                 <View style={{ marginTop: hp(1), marginHorizontal: 30 }}>
                   <View style={{ width: wp(100) }}>
-                    {selectedVideo ? (
+                    {/* {selectedVideo ? (
                       <Video
                         ref={ref}
                         source={{ uri: selectedVideo }}
@@ -341,15 +361,18 @@ const PromiseStatement = ({onTextChange }) => {
                         resizeMode="contain"
                         muted={true}
                       />
-                    ) : null}
+                    ) : null} */}
                   </View>
+                  <View style={{justifyContent:'center', alignItems:'center', height:'100%'}}>
                   <View
                     style={{
                       justifyContent: 'space-between',
                       alignItems: 'center',
                       flexDirection: 'row',
-                      marginHorizontal: wp(8),
-                      marginVertical: hp(3.5),
+                      // height:'100%',
+                      width:'100%',
+                      marginHorizontal:wp(2)
+                      // width: wp(70)
                     }}>
                     <TouchableOpacity onPress={openCamera} style={{ color: '#000' }}>
                       <Mater color="#652D90" name="camera" size={40} />
@@ -369,13 +392,19 @@ const PromiseStatement = ({onTextChange }) => {
                       </TouchableOpacity>
                     )}
                     {selectedVideo && (
-                      <TouchableOpacity onPress={() => setSelectedVideo(null)} style={{}}>
+                      <TouchableOpacity onPress={() => {setSelectedVideo(null)
+                        setAttachMedia('')
+                      }} style={{}}>
                         <Mater color="#652D90" name="selection-remove" size={40} />
-                      </TouchableOpacity>
+                      </TouchableOpacity> 
                     )}
                   </View>
+                        {selectedVideo && (
+                          <Text>File Attached</Text>
+                        )}
                 </View>
               </View>
+              </View>)}
 
               <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}></BlurView>
             </View>

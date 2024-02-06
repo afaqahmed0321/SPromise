@@ -48,6 +48,9 @@ const DashboardTopTabs = () => {
       labelStyle: {
         fontSize: hp(1.3), // Font size of the tab label
         fontWeight: 'bold', // Font weight of the tab label
+        paddingHorizontal: 0,
+        marginHorizontal: 0,
+
       },
       tabStyle: {
         backgroundColor: 'white', // Background color of the tab

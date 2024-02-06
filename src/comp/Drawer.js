@@ -41,14 +41,14 @@ const Drawer = () => {
     let Name = await AsyncStorage.getItem('Name');
     let Email = await AsyncStorage.getItem('Email');
     setemail(Email);
-    setname(Name);
+    await setname(Name);
   };
 
   const logout = async () => {
+    setIsDrawerV(false);
     console.log('Logging Out');
     await AsyncStorage.setItem('token', '');
     setToken('');
-    setIsDrawerV(false);
   };
 
   const handleOverlayPress = () => {
@@ -120,7 +120,7 @@ const Drawer = () => {
           </View>
 
 
-          <View>
+          {/* <View>
             <TouchableOpacity
               style={styles.listContainer}
               onPress={() => navigation.navigate('BraintreeDropInUI')}
@@ -133,17 +133,21 @@ const Drawer = () => {
               />
               <Text style={[styles.TebText, { padding: 3 }]}>Payment Methods</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={[styles.listContainer, { marginLeft: wp(1) }]}
+            onPress={() => {
+              setIsDrawerV(false);
+              navigation.navigate('TransactionsHistory');
+            }}
           >
             <FontAw5 color="#652D90" name="file-invoice-dollar" size={23} style={{ marginTop: 8 }} />
             <Text style={styles.TebText}>  Transaction History</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
 
-          <View>
+          {/* <View>
             <TouchableOpacity
               style={styles.listContainer}
               onPress={() => navigation.navigate('')}
@@ -156,7 +160,7 @@ const Drawer = () => {
               />
               <Text style={[styles.TebText, { padding: 3 }]}>Favorites</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
 
           <View>
@@ -175,7 +179,7 @@ const Drawer = () => {
           </View>
 
 
-          <View>
+          {/* <View>
             <TouchableOpacity
               style={styles.listContainer}
               onPress={() => navigation.navigate('')}
@@ -188,9 +192,9 @@ const Drawer = () => {
               />
               <Text style={[styles.TebText, { padding: 3 }]}>Your Statistics</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
-          <View>
+          {/* <View>
             <TouchableOpacity
               style={styles.listContainer}
               onPress={() => navigation.navigate('')}
@@ -203,10 +207,10 @@ const Drawer = () => {
               />
               <Text style={[styles.TebText, { padding: 3 }]}>Help and FAQs</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
 
-          <View>
+          {/* <View>
             <TouchableOpacity
               style={styles.listContainer}
               onPress={() => navigation.navigate('')}
@@ -219,9 +223,9 @@ const Drawer = () => {
               />
               <Text style={[styles.TebText, { padding: 3 }]}>Tech Support</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
-          <View>
+          {/* <View>
             <TouchableOpacity
               style={styles.listContainer}
               onPress={() => navigation.navigate('')}
@@ -234,7 +238,7 @@ const Drawer = () => {
               />
               <Text style={[styles.TebText, { padding: 3 }]}>Settings</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
         </View>
 

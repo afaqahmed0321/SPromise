@@ -158,10 +158,10 @@ const MakePromise = ({ navigation }) => {
       console.log('Reward points', rewardPoints);
     }
   };
-
-  const handleBack = ()=>{
+  const handleBack = () => {
     navigation.goBack();
-  }
+  };
+
 
   return (
     <View
@@ -171,7 +171,7 @@ const MakePromise = ({ navigation }) => {
         alignItems: 'center',
       }}>
       {navigation.canGoBack() && (
-        <TouchableOpacity style={{ position: 'absolute', left: wp(3), top: hp(1.5) }} onPress={handleBack}>
+        <TouchableOpacity style={{ position: 'absolute', left: wp(3), top: hp(1.5) }} onPress={()=> navigation.goBack()}>
           {/* <EvilIcon
             name="arrow-left"
             size={40}
