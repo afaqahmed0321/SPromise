@@ -138,6 +138,9 @@ const Notifications = ({navigation}) => {
     fetchNoti();
   }, [focus,refersh]);
 
+  const handleCloseModal = () => {
+    setIsModalV(false);
+  };
   return (
     <View
       style={{
@@ -177,7 +180,7 @@ const Notifications = ({navigation}) => {
             animationType="none"
             transparent={true}
             visible={isModalV}
-            onRequestClose={isModalV}>
+            onRequestClose={handleCloseModal}>
             <NoticationCard />
           </Modal>
         </View>

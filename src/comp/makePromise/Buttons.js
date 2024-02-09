@@ -1,5 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   widthPercentageToDP as wp,
@@ -18,15 +18,18 @@ const PromiseButtons = () => {
   const [makePromise, setMakePromise] = useRecoilState(MakeaPromise);
   const [amount, setAmount] = useRecoilState(promiseAmounnt);
   const [rewardPoints, setRewardPoints] = useRecoilState(RewardPoints);
-  // const [makePromise, setMakePromise] = useRecoilState(MakeaPromise);
-
-  const makeprmsbg2 = ['#E4A936', '#EE8347'];
-  const makeprmsbg1 = ['#EB6F1F', '#AA8F3C'];
-  const rqstprmsbg2 = ['#73B6BF', '#2E888C'];
-  const rqstprmsbg1 = ['#305B61', '#779A9C'];
-
   const [deadlinedate, setDeadLinedate] = useRecoilState(deadline);
   const [promidate, setPromidate] = useRecoilState(startDate);
+
+  useEffect(() => {
+    // Reset data when makePromise state changes
+    if (!makePromise) {
+      setDeadLinedate('');
+      setPromidate('');
+      setRewardPoints(null);
+      setAmount(null);
+    }
+  }, [makePromise]);
 
   return (
     <View>
@@ -36,16 +39,15 @@ const PromiseButtons = () => {
           justifyContent: 'space-between',
           alignItems: 'center',
           height: hp(5),
-          // borderWidth:1
         }}>
         <TouchableOpacity
           onPress={() => {
-            setMakePromise(true), setDeadLinedate(''), setPromidate('');
-            setAmount(null), console.log('RewardPoints: ', rewardPoints, 'PromiseAmount: ', amount); 
+            setMakePromise(true);
+            // No need to reset data here
           }}
           style={{width: '50%'}}>
           <LinearGradient
-            colors={makePromise ? makeprmsbg1 : makeprmsbg2}
+            colors={makePromise ? ['#EB6F1F', '#AA8F3C'] : ['#E4A936', '#EE8347']}
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <Text style={{color: 'white', textAlign: 'center'}}>
               Make a Promise
@@ -54,11 +56,11 @@ const PromiseButtons = () => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            setMakePromise(false), setDeadLinedate(''), setPromidate(''); setRewardPoints(null); setAmount(null), console.log('RewardPoints: ', rewardPoints, 'PromiseAmount: ', amount); 
+            setMakePromise(false);
           }}
           style={{width: '50%'}}>
           <LinearGradient
-            colors={makePromise ? rqstprmsbg2 : rqstprmsbg1}
+            colors={makePromise ? ['#73B6BF', '#2E888C'] : ['#305B61', '#779A9C']}
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <Text style={{color: 'white', textAlign: 'center'}}>
               Request a Promise
