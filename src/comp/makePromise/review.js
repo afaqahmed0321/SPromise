@@ -91,8 +91,10 @@ const Review = ({ navigation }) => {
     );
 
     if (prom === 100) {
+      console.log("running in make promise at line 96");
       navigation.navigate('SnapPromiseVerification');
     } else {
+      console.log("error in make promise at line 96");
       ToastAndroid.showWithGravityAndOffset(
         'Unexpected Error',
         result.code,

@@ -32,6 +32,8 @@ import {
   handleReject,
 } from '../Dashboard/ReqPromiseDashBoard/Action';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
+import PaymentScreen from '../../screens/PaymentScreen';
+import PaymentScreens from '../../screens/PaymentScreens';
 
 const DetailCard = ({
   promiseeProfileImageUrl,
@@ -763,15 +765,16 @@ const DetailCard = ({
 
             {/* <EvilIcon name="arrow-left-circle" size={30} color="black" /> */}
           </TouchableOpacity>
-          <WebView
+          {/* <WebView
             source={{
               uri: `http://138.197.52.199/payment/${userN}/${promiseID}`,
             }}
             style={{height: '100%', width: wp(100)}}
-            // onError={syntheticEvent =>
-            //   console.log('WebView error: ', syntheticEvent.nativeEvent)
-            // }
-          />
+            onError={syntheticEvent =>
+              console.log('WebView error: ', syntheticEvent.nativeEvent)
+            } 
+          /> */}
+          <PaymentScreens promiseID={promiseID} userN={userN} amount={amount}/>
         </SafeAreaView>
       </Modal>
     </>
