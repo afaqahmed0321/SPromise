@@ -8,7 +8,7 @@ import {
   Modal,
   ScrollView,
   Switch,
-  Alert ,
+  Alert,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { Calendar, LocaleConfig } from 'react-native-calendars'; // for Date
@@ -49,7 +49,7 @@ import StartModal from '../comp/makePromise/Calender/StartModal';
 import EndDateModal from '../comp/makePromise/Calender/EndDateModal';
 import { useIsFocused } from '@react-navigation/native';
 import ToggleSwitch from 'toggle-switch-react-native';
-import {ToastAndroid} from 'react-native';
+import { ToastAndroid } from 'react-native';
 
 
 const MakePromise = ({ navigation }) => {
@@ -143,23 +143,32 @@ const MakePromise = ({ navigation }) => {
   };
 
   const handleNextButtonPress = () => {
-    const promiseText = promiseStatement
-      PromiseStatement.defaultProps && PromiseStatement.defaultProps.promiseText;
-    if (!promiseText || promiseText.trim() === '') {
+    if (!isTimeB) {
       ToastAndroid.showWithGravityAndOffset(
-        'Promise statement cannot be empty',
+        'Please select compilation date',
         ToastAndroid.LONG,
         ToastAndroid.BOTTOM,
         25,
         50,
       );
     } else {
-      navigation.navigate('Review');
-      console.log('Reward points', rewardPoints);
+      const promiseText = promiseStatement;
+      if (!promiseText || promiseText.trim() === '') {
+        ToastAndroid.showWithGravityAndOffset(
+          'Promise statement cannot be empty',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else {
+        navigation.navigate('Review');
+        console.log('Reward points', rewardPoints);
+      }
     }
   };
-
-  const handleBack = ()=>{
+  
+  const handleBack = () => {
     navigation.goBack();
   }
 
@@ -341,9 +350,13 @@ const MakePromise = ({ navigation }) => {
             }}></View>
 
           {isTimeB ? (
-            <View style={{ marginBottom: hp(2) }}>
+            <View style={{
+              marginBottom: hp(2), flex: 1, justifyContent: 'space-between',
+              alignItems: 'center',
+              flexDirection: 'row',
+            }}>
               <Text style={[{ marginVertical: hp(0.5) }, Headings.Input3]}>
-                Select Date
+                Compilation Date
               </Text>
               <View
                 style={{
@@ -356,35 +369,35 @@ const MakePromise = ({ navigation }) => {
                 <View
                   style={{
                     marginLeft: wp(3),
-                    width: wp(43),
+                    width: wp(30),
                     height: hp(5),
                     justifyContent: 'center',
                   }}>
                   <TouchableOpacity
-                  
+
                     onPress={() => setStartDateMV(true)}
                     style={styles.DateCB}>
                     {startDa == '' ? (
                       <Text style={{
-                        color:'#000'
-                      }}> Select Start Date</Text>
+                        color: '#000'
+                      }}> yyyy-mm-dd</Text>
                     ) : (
                       <Text style={{
-                        color:'#000'
+                        color: '#000'
                       }}>{startDa}</Text>
                     )}
-                    
+
                   </TouchableOpacity>
                   <Modal
                     animationType="slide"
                     transparent={true}
-                    style={{height: hp(40), backgroundColor: 'red'}}
+                    style={{ height: hp(40), backgroundColor: 'red' }}
                     visible={startDateMV}
                     onRequestClose={() => setStartDateMV(false)}>
                     <StartModal />
                   </Modal>
-                </View> 
-                <View
+                </View>
+                {/* <View
                   style={{
                     marginLeft: wp(3),
                     width: wp(43),
@@ -418,7 +431,7 @@ const MakePromise = ({ navigation }) => {
                     onRequestClose={() => setEndDateMV(false)}>
                     <EndDateModal />
                   </Modal>
-                </View>
+                </View> */}
 
                 {/* <View style={{marginRight: wp(6), width: wp(43), height: hp(5)}}>
             <TouchableOpacity
@@ -641,7 +654,7 @@ const MakePromise = ({ navigation }) => {
             {/* Promise Statement  */}
 
             <View>
-              <PromiseStatement onTextChange={handleTextChange}/>
+              <PromiseStatement onTextChange={handleTextChange} />
             </View>
           </View>
           {/* End  */}
@@ -656,7 +669,7 @@ const MakePromise = ({ navigation }) => {
                   flex: 1,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  width: '100%',
+                  width: '50%',
                   borderRadius: wp(50),
                 },
               ]}>

@@ -283,6 +283,11 @@ const Auth = () => {
               component={ForgetPasswordEmailScreen}
               options={{ headerShown: false }}
             />
+                        <Stack.Screen
+              name="HomeScreen"
+              component={HomeScreenn}
+              options={{ headerShown: false }}
+            />
           </>
         ) : (
           <>
