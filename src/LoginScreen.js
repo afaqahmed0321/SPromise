@@ -102,9 +102,8 @@ const LoginScreen = ({navigation}) => {
             <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={24} />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={{position: 'absolute', right: hp(0), top: hp(30)}}>
-          <Text style={{fontWeight: 'bold'}}>Forget Password?</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('ForgotPasswordScreen')}>
+          <Text style={styles.forgotPasswordText}>Forgot Passwordd?</Text>
         </TouchableOpacity>
       </View>
 

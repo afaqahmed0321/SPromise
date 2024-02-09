@@ -308,6 +308,8 @@ const styles = StyleSheet.create({
     color: '#652D90',
     fontWeight: 'bold',
     paddingLeft: wp(4),
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

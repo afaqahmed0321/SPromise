@@ -6,11 +6,12 @@ import {
 
 export const DashBoardStyling = StyleSheet.create({
   MainCard: {
-    width: wp(90),
-    height: hp(28),
-    marginTop: hp(1.4),
+    width: "auto",
+    height: "auto",
+    // marginTop: hp(5.4),
     borderRadius: wp(2),
     alignItems: 'center',
+    marginHorizontal:10
   },
   MiniCard: {
     width: wp(90),

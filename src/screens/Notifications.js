@@ -60,7 +60,7 @@ const Notifications = ({navigation}) => {
       style={{
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: hp(1.5),
+        marginVertical: hp(1),
         width: wp(90),
       }}>
       <LinearGradient
@@ -107,7 +107,7 @@ const Notifications = ({navigation}) => {
               borderColor: '#F99C68',
               // borderWidth: wp(.5),
               position: 'absolute',
-              left: wp(0),
+              left: wp(1.2),
             }}
           />
           {/* </View> */}
@@ -138,6 +138,9 @@ const Notifications = ({navigation}) => {
     fetchNoti();
   }, [focus,refersh]);
 
+  const handleCloseModal = () => {
+    setIsModalV(false);
+  };
   return (
     <View
       style={{
@@ -174,10 +177,10 @@ const Notifications = ({navigation}) => {
             renderItem={renderItem}
           />
           <Modal
-            animationType="slide"
+            animationType="none"
             transparent={true}
             visible={isModalV}
-            onRequestClose={isModalV}>
+            onRequestClose={handleCloseModal}>
             <NoticationCard />
           </Modal>
         </View>

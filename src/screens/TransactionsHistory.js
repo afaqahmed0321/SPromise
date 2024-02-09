@@ -2,6 +2,7 @@ import React from 'react';
 import TransactionItem from '../comp/Transactions/TransactionItem';
 import { Text, TouchableOpacity, View } from 'react-native';
 
+
 const TransactionsHistory = () => {
   const transactionsHistory = [
     { date: '01 Feb', user: 'John Doe', payment: '$100' },
@@ -13,6 +14,7 @@ const TransactionsHistory = () => {
 
   return (
     <TouchableOpacity>
+
       <View>
         {transactionsHistory.map((transaction) => (
           <TransactionItem

@@ -46,10 +46,15 @@ const Drawer = () => {
 
   const logout = async () => {
     console.log('Logging Out');
-    await AsyncStorage.setItem('token', '');
-    setToken('');
-    setIsDrawerV(false);
-  };
+    try {
+        await AsyncStorage.clear();
+        setToken('');
+        setIsDrawerV(false);
+        console.log('AsyncStorage cleared successfully');
+    } catch (error) {
+        console.error('Error clearing AsyncStorage:', error);
+    }
+};
 
   const handleOverlayPress = () => {
     setIsDrawerV(false);
@@ -102,8 +107,8 @@ const Drawer = () => {
               <Text style={{ color: '#6650A4' }}>{name}</Text>
               <Text style={{ color: '#6650A4', width: wp(65) }}>{email}</Text>
             </View>
-          </View> 
-          
+          </View>
+
         </TouchableOpacity>
 
         <View style={{ marginHorizontal: wp(5), marginTop: 10 }}>
@@ -137,7 +142,9 @@ const Drawer = () => {
 
           <TouchableOpacity
             style={[styles.listContainer, { marginLeft: wp(1) }]}
+            onPress={() => navigation.navigate('TransactionsHistory')}
           >
+
             <FontAw5 color="#652D90" name="file-invoice-dollar" size={23} style={{ marginTop: 8 }} />
             <Text style={styles.TebText}>  Transaction History</Text>
           </TouchableOpacity>

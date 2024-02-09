@@ -1,5 +1,5 @@
-import {format} from 'date-fns';
-import React, {useEffect, useState} from 'react';
+import { format } from 'date-fns';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -16,15 +17,15 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Feather from 'react-native-vector-icons/Feather';
-import {DashBoardStyling} from '../../Styling/DashBoard';
+import { DashBoardStyling } from '../../Styling/DashBoard';
 import {
   DetailsModalVi,
   NotificationData,
 } from '../../recoil/Notifications/NotificationsStates';
 import GetPromiseRequestById from '../../Network/Notifications/GetPromiseRequestbyID';
 import GetPromiseById from '../../Network/Notifications/GetPromiseID';
-import {useRecoilState} from 'recoil';
-import {useIsFocused} from '@react-navigation/native';
+import { useRecoilState } from 'recoil';
+import { useIsFocused } from '@react-navigation/native';
 import Font from 'react-native-vector-icons/Fontisto';
 import {
   EditPromiseReq,
@@ -48,20 +49,20 @@ import {
   startDate,
   upDatePromiseReq,
 } from '../../recoil/AddPromise';
-import {Headings} from '../../Styling/Headings';
-import {commonStyles} from '../../Styling/buttons';
+import { Headings } from '../../Styling/Headings';
+import { commonStyles } from '../../Styling/buttons';
 import {
   handleAccept,
   handleReject,
 } from '../Dashboard/ReqPromiseDashBoard/Action';
-import {useNavigation} from '@react-navigation/native';
-import {BlurView} from '@react-native-community/blur';
+import { useNavigation } from '@react-navigation/native';
+import { BlurView } from '@react-native-community/blur';
 import {
   handleAcceptPromise,
   handleCompletePromise,
   handleFailPromise,
 } from '../Dashboard/Promise/PromiseAction';
-import {ToastAndroid} from 'react-native';
+import { ToastAndroid } from 'react-native';
 
 const NotificationCard = () => {
   const navigation = useNavigation();
@@ -189,111 +190,112 @@ const NotificationCard = () => {
     fetchPromise();
     // }, [focus, selectitem]);
   }, [focus]);
+  const handleCloseModal = () => {
+    setIsModalV(false);
+  };
 
   return (
     <>
-      <View style={{height: hp(35)}}>
-        <BlurView
-          style={{flex: 1}}
-          blurType="light" // You can customize the blurType as needed
-          blurAmount={10} // You can adjust the blurAmount as needed
-        ></BlurView>
-      </View>
-      <View>
-        {isLoading ? (
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: hp(2),
-              // width:wp(2)
-            }}>
-            <ActivityIndicator size="small" color="#0000ff" />
+      <TouchableWithoutFeedback onPress={handleCloseModal}>
+        <View style={styles.overlay}>
+          <View style={{ height: hp(35) }}>
+            <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}></BlurView>
           </View>
-        ) : (
           <View>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: hp(38),
-                width: wp(90),
-                alignSelf: 'center',
-                backgroundColor: 'white',
-                // marginTop: hp(35),
-                backgroundColor: '#E4EEE6',
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 1,
-                },
-                shadowOpacity: 0.18,
-                shadowRadius: 1.0,
-
-                elevation: 1,
-              }}>
-              <TouchableOpacity
-                onPress={() => {
-                  setIsModalV(false), setSelectitem({});
-                }}
-                style={{position: 'absolute', right: wp(4), top: hp(1)}}>
-                <Font color="#652D90" name="close" size={30} />
-              </TouchableOpacity>
-              <LinearGradient
-                colors={
-                  noti.notificationMethodAction == 'MakePromiseRequest'
-                    ? bgBtnrqstprms
-                    : bgBtnmakeprms
-                }
-                style={DashBoardStyling.MainCard}>
+            {isLoading ? (
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: hp(2),
+                  // width:wp(2)
+                }}>
+                <ActivityIndicator size="small" color="#0000ff" />
+              </View>
+            ) : (
+              <View>
                 <View
-                  style={
-                    {
-                      // width: wp(90),
-                      // height: hp(23),
-                      // alignItems: 'center',
-                      // borderWidth:1
-                    }
-                  }>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <View
-                      style={{
-                        width: wp(13),
-                        height: hp(6),
-                        borderRadius: wp(6.5), // Half of the width
-                        marginLeft: wp(2),
-                        marginTop: hp(1),
-                      }}>
-                      <Image
-                        source={
-                          selectitem.promiseeProfileImageUrl === ''
-                            ? {
-                                uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                              }
-                            : {uri: selectitem.promiseeProfileImageUrl}
-                        }
-                        style={{
-                          width: wp(13),
-                          height: hp(6),
-                          borderRadius: wp(6.5), // Half of the width
-                        }}
-                      />
-                    </View>
-                    <View
-                      style={{
-                        marginLeft: wp(3),
-                        width: wp(45),
-                      }}>
-                      <Text style={{color: 'white', fontSize: hp(2)}}>
-                        {selectitem.promiseeName}
-                      </Text>
-                    </View>
-                    <View style={{width: wp(8)}}>
-                      <Entypo size={25} color="white" name="calendar" />
-                    </View>
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    // height: hp(38),
+                    // width: wp(90),
+                    alignSelf: 'center',
+                    backgroundColor: 'white',
+                    // marginTop: hp(35),
+                    // backgroundColor: '#E4EEE6',
+                    // shadowColor: '#000',
+                    // shadowOffset: {
+                    //   width: 0,
+                    //   height: 1,
+                    // },
+                    // shadowOpacity: 0.18,
+                    // shadowRadius: 1.0,
 
-                    <View style={{width: wp(15)}}>
-                      {/* <Text
+                    // elevation: 1,
+                  }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setIsModalV(false), setSelectitem({});
+                    }}
+                    style={{ position: 'absolute', right: wp(4), top: hp(1) }}>
+                    <Font color="#652D90" name="close" size={30} />
+                  </TouchableOpacity>
+                  <LinearGradient
+                    colors={
+                      noti.notificationMethodAction == 'MakePromiseRequest'
+                        ? bgBtnrqstprms
+                        : bgBtnmakeprms
+                    }
+                    style={DashBoardStyling.MainCard}>
+                    <View
+                      style={
+                        {
+                          // width: wp(90),
+                          // height: hp(23),
+                          // alignItems: 'center',
+                          // borderWidth:1
+                        }
+                      }>
+                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <View
+                          style={{
+                            width: wp(13),
+                            height: hp(6),
+                            borderRadius: wp(6.5), // Half of the width
+                            marginLeft: wp(2),
+                            marginTop: hp(1),
+                          }}>
+                          <Image
+                            source={
+                              selectitem.promiseeProfileImageUrl === ''
+                                ? {
+                                  uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
+                                }
+                                : { uri: selectitem.promiseeProfileImageUrl }
+                            }
+                            style={{
+                              width: wp(13),
+                              height: hp(6),
+                              borderRadius: wp(6.5), // Half of the width
+                            }}
+                          />
+                        </View>
+                        <View
+                          style={{
+                            marginLeft: wp(3),
+                            width: wp(45),
+                          }}>
+                          <Text style={{ color: 'white', fontSize: hp(2) }}>
+                            {selectitem.promiseeName}
+                          </Text>
+                        </View>
+                        <View style={{ width: wp(8) }}>
+                          <Entypo size={25} color="white" name="calendar" />
+                        </View>
+
+                        <View style={{ width: wp(15) }}>
+                          {/* <Text
                       style={[
                         Headings.Input5,
                         {
@@ -304,84 +306,84 @@ const NotificationCard = () => {
                       ]}>
                       DeadLine
                     </Text> */}
-                      <Text
-                        style={[
-                          Headings.Input6,
-                          {
-                            marginLeft: wp(0.1),
-                            color: 'white',
-                            marginTop: wp(0.3),
-                          },
-                        ]}>
-                        {format(new Date(selectitem.expiryDate), 'dd/MM/yyyy')}
-                      </Text>
-                    </View>
-                  </View>
+                          <Text
+                            style={[
+                              Headings.Input6,
+                              {
+                                marginLeft: wp(0.1),
+                                color: 'white',
+                                marginTop: wp(0.3),
+                              },
+                            ]}>
+                            {format(new Date(selectitem.expiryDate), 'dd/MM/yyyy')}
+                          </Text>
+                        </View>
+                      </View>
 
-                  <View style={DashBoardStyling.PromiseReward}>
-                    {selectitem.guaranteedWithMoney ? (
-                      <Text
-                        style={[
-                          {
-                            color: 'white',
-                            marginHorizontal: hp(2),
-                            //  fontWeight: 'bold',
-                            fontSize: hp(2),
-                          },
-                        ]}>
-                        {notiMethod === 'Promise' ? (
-                          <Text>Guarantee: </Text>
-                        ) : (
-                          <Text>Commitment: </Text>
-                        )}
-                        ${selectitem.paymentAmount}{' '}
-                        {selectitem.alotRewardPoints ? (
-                          <Text>
-                            {' '}
-                            & {selectitem.rewardPoints} Reward Points
+                      <View style={DashBoardStyling.PromiseReward}>
+                        {selectitem.guaranteedWithMoney ? (
+                          <Text
+                            style={[
+                              {
+                                color: 'white',
+                                marginHorizontal: hp(2),
+                                //  fontWeight: 'bold',
+                                fontSize: hp(2),
+                              },
+                            ]}>
+                            {notiMethod === 'Promise' ? (
+                              <Text>Guarantee: </Text>
+                            ) : (
+                              <Text>Commitment: </Text>
+                            )}
+                            ${selectitem.paymentAmount}{' '}
+                            {selectitem.alotRewardPoints ? (
+                              <Text>
+                                {' '}
+                                & {selectitem.rewardPoints} Reward Points
+                              </Text>
+                            ) : null}
                           </Text>
                         ) : null}
-                      </Text>
-                    ) : null}
-                  </View>
+                      </View>
 
-                  {selectitem.ratingImpact ? (
-                    <View>
-                      <Text
-                        style={[
-                          {
-                            color: 'white',
-                            marginHorizontal: hp(2),
-                            fontSize: hp(2),
-                          },
-                        ]}>
-                        Rating will impact
-                      </Text>
-                    </View>
-                  ) : null}
-                  {selectitem.promiseMediaURL ? (
-                    <TouchableOpacity
-                      onPress={() =>
-                        handelAttachedMedia(selectitem.promiseMediaURL)
-                      }>
-                      <Text style={{color: 'blue'}}>Attached File</Text>
-                    </TouchableOpacity>
-                  ) : null}
-                  <View style={DashBoardStyling.PromiseGoal}>
-                    <View>
-                      <Text
-                        style={[
-                          {
-                            color: 'white',
-                            marginHorizontal: hp(2),
-                            fontSize: hp(2),
-                          },
-                        ]}>
-                        {selectitem.promiseGoal}
-                      </Text>
-                    </View>
-                  </View>
-                  {/* <View style={DashBoardStyling.PromiseReward}>
+                      {selectitem.ratingImpact ? (
+                        <View>
+                          <Text
+                            style={[
+                              {
+                                color: 'white',
+                                marginHorizontal: hp(2),
+                                fontSize: hp(2),
+                              },
+                            ]}>
+                            Rating will impact
+                          </Text>
+                        </View>
+                      ) : null}
+                      {selectitem.promiseMediaURL ? (
+                        <TouchableOpacity
+                          onPress={() =>
+                            handelAttachedMedia(selectitem.promiseMediaURL)
+                          }>
+                          <Text style={{ color: 'blue' }}>Attached File</Text>
+                        </TouchableOpacity>
+                      ) : null}
+                      <View style={DashBoardStyling.PromiseGoal}>
+                        <View>
+                          <Text
+                            style={[
+                              {
+                                color: 'white',
+                                marginHorizontal: hp(2),
+                                fontSize: hp(2),
+                              },
+                            ]}>
+                            {selectitem.promiseGoal}
+                          </Text>
+                        </View>
+                      </View>
+                      {/* <View style={DashBoardStyling.PromiseReward}>
                   {selectitem.promiseType == 'Payment' ? (
                     <Text
                       style={[
@@ -414,24 +416,24 @@ const NotificationCard = () => {
                     </TouchableOpacity>
                   ) : null}
                 </View> */}
-                  {/* <View style={DashBoardStyling.PromiseGoal}>
+                      {/* <View style={DashBoardStyling.PromiseGoal}>
                     <View>
                       <Text style={[Headings.Input5, {color: 'white', }]}>
                         {selectitem.promiseGoal}
                       </Text>
                     </View>
                   </View> */}
-                  <View style={{flexDirection: 'row', alignItems: 'center', }}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-around',
-                        // marginTop: hp(1),
-                        width: wp(90),
-                        // borderWidth: 1,
-                        
-                      }}>
-                      {/* <TouchableOpacity style={styles.btn}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-around',
+                            // marginTop: hp(1),
+                            width: wp(90),
+                            // borderWidth: 1,
+
+                          }}>
+                          {/* <TouchableOpacity style={styles.btn}>
                          {selectitem.status=="Pending"?
                          <Text>Accept</Text>:
                          <Text>Mark Completed</Text> }
@@ -441,136 +443,135 @@ const NotificationCard = () => {
                          <Text>Reject</Text>:
                          <Text>Mark Failed</Text>}
                          </TouchableOpacity> */}
-                      {selectitem.actions.map((action, index) => {
-                        if (action === 'Accept') {
-                          return (
-                            <TouchableOpacity
-                              style={commonStyles.ActionBtn}
-                              key={index}
-                              onPress={() => {
-                                const promiseId = noti.docNo;
-                                const userNoo = noti.userNo;
-                                const notiMethod = noti.notificationMethod;
-                                // handleAccept(selectitem.promiseID, userN),
-                                // console.log(promiseId, userN, "Test")
-                                if (notiMethod == 'MakePromise') {
-                                  handleAcceptPromise(promiseId, userN);
-                                } else {
-                                  handleAccept(promiseId, userN);
-                                }
-                              }}>
-                              <Text>{action}</Text>
-                            </TouchableOpacity>
-                          );
-                        } else if (action === 'Reject') {
-                          return (
-                            <TouchableOpacity
-                              style={[
-                                commonStyles.ActionBtn,
-                                {backgroundColor: 'red'},
-                              ]}
-                              key={index}
-                              onPress={() =>
-                                handleReject(selectitem.promiseID, userN)
-                              }>
-                              <Text>{action}</Text>
-                            </TouchableOpacity>
-                          );
-                        } else if (action === 'Complete') {
-                          return (
-                            <TouchableOpacity
-                              style={[commonStyles.ActionBtn]}
-                              key={index}
-                              onPress={() =>
-                                handleCompletePromise(
-                                  selectitem.promiseID,
-                                  userN,
-                                )
-                              }>
-                              <Text>{action}</Text>
-                            </TouchableOpacity>
-                          );
-                        } else if (action === 'Fail') {
-                          return (
-                            <TouchableOpacity
-                              style={[
-                                commonStyles.ActionBtn,
-                                {backgroundColor: 'red'},
-                              ]}
-                              key={index}
-                              onPress={() =>
-                                handleFailPromise(selectitem.promiseID, userN)
-                              }>
-                              <Text>{action}</Text>
-                            </TouchableOpacity>
-                          );
-                        }
-                      })}
+                          {selectitem.actions.map((action, index) => {
+                            if (action === 'Accept') {
+                              return (
+                                <TouchableOpacity
+                                  style={commonStyles.ActionBtn}
+                                  key={index}
+                                  onPress={() => {
+                                    const promiseId = noti.docNo;
+                                    const userNoo = noti.userNo;
+                                    const notiMethod = noti.notificationMethod;
+                                    // handleAccept(selectitem.promiseID, userN),
+                                    // console.log(promiseId, userN, "Test")
+                                    if (notiMethod == 'MakePromise') {
+                                      handleAcceptPromise(promiseId, userN);
+                                    } else {
+                                      handleAccept(promiseId, userN);
+                                    }
+                                  }}>
+                                  <Text>{action}</Text>
+                                </TouchableOpacity>
+                              );
+                            } else if (action === 'Reject') {
+                              return (
+                                <TouchableOpacity
+                                  style={[
+                                    commonStyles.ActionBtn,
+                                    { backgroundColor: 'red' },
+                                  ]}
+                                  key={index}
+                                  onPress={() =>
+                                    handleReject(selectitem.promiseID, userN)
+                                  }>
+                                  <Text>{action}</Text>
+                                </TouchableOpacity>
+                              );
+                            } else if (action === 'Complete') {
+                              return (
+                                <TouchableOpacity
+                                  style={[commonStyles.ActionBtn]}
+                                  key={index}
+                                  onPress={() =>
+                                    handleCompletePromise(
+                                      selectitem.promiseID,
+                                      userN,
+                                    )
+                                  }>
+                                  <Text>{action}</Text>
+                                </TouchableOpacity>
+                              );
+                            } else if (action === 'Fail') {
+                              return (
+                                <TouchableOpacity
+                                  style={[
+                                    commonStyles.ActionBtn,
+                                    { backgroundColor: 'red' },
+                                  ]}
+                                  key={index}
+                                  onPress={() =>
+                                    handleFailPromise(selectitem.promiseID, userN)
+                                  }>
+                                  <Text>{action}</Text>
+                                </TouchableOpacity>
+                              );
+                            }
+                          })}
+                        </View>
+                        <TouchableOpacity
+                          onPress={() => {
+                            setEditPReq(selectitem);
+                            console.log('Hiiii', selectitem);
+                            {
+                              selectitem.promiseType == 'Payment'
+                                ? (setrewardCheck(false),
+                                  setpaymentCheck(true),
+                                  setAmount(selectitem.paymentAmount))
+                                : (setrewardCheck(true),
+                                  setpaymentCheck(false),
+                                  setPreward('+20XP'));
+                            }
+                            {
+                              selectitem.isTimeBound
+                                ? (setIsTimeB(true),
+                                  setIsChecked2(true),
+                                  setIsChecked1(false),
+                                  setDeadLinedate(
+                                    format(
+                                      new Date(selectitem.expiryDate),
+                                      'dd-MM-yyyy',
+                                    ),
+                                  ),
+                                  setStartDate(
+                                    format(
+                                      new Date(selectitem.startDate),
+                                      'dd-MM-yyyy',
+                                    ),
+                                  ))
+                                : (setIsTimeB(false),
+                                  setIsChecked2(false),
+                                  setIsChecked1(true));
+                            }
+                            setSelectedReqPromiseID(selectitem.promiseID);
+                            setGeneratedTexts(selectitem.promiseGoal);
+                            setSelectedMedia(selectitem.promiseMediaURL);
+                            setEditPromiseReq(true);
+                            // setSelectedPromisee.networkUserNo(selectitem.promisee)
+                            // setSelectedPromisee.networkUserName(selectitem.promiseeName)
+                            setSelectedPromisee({
+                              networkUserName: selectitem.promiseeName,
+                              networkUserNo: selectitem.promisee,
+                              imageURL: selectitem.promiseeProfileImageUrl,
+                            });
+                            console.log(Promiseze);
+                            navigation.navigate('MakePromise');
+                            // setAmount(item.)
+                          }}
+                          style={{ marginLeft: wp(2) }}>
+                          {/* <Feather color="white" name="edit-2" size={17} /> */}
+                        </TouchableOpacity>
+                      </View>
                     </View>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setEditPReq(selectitem);
-                        console.log('Hiiii', selectitem);
-                        {
-                          selectitem.promiseType == 'Payment'
-                            ? (setrewardCheck(false),
-                              setpaymentCheck(true),
-                              setAmount(selectitem.paymentAmount))
-                            : (setrewardCheck(true),
-                              setpaymentCheck(false),
-                              setPreward('+20XP'));
-                        }
-                        {
-                          selectitem.isTimeBound
-                            ? (setIsTimeB(true),
-                              setIsChecked2(true),
-                              setIsChecked1(false),
-                              setDeadLinedate(
-                                format(
-                                  new Date(selectitem.expiryDate),
-                                  'dd-MM-yyyy',
-                                ),
-                              ),
-                              setStartDate(
-                                format(
-                                  new Date(selectitem.startDate),
-                                  'dd-MM-yyyy',
-                                ),
-                              ))
-                            : (setIsTimeB(false),
-                              setIsChecked2(false),
-                              setIsChecked1(true));
-                        }
-                        setSelectedReqPromiseID(selectitem.promiseID);
-                        setGeneratedTexts(selectitem.promiseGoal);
-                        setSelectedMedia(selectitem.promiseMediaURL);
-                        setEditPromiseReq(true);
-                        // setSelectedPromisee.networkUserNo(selectitem.promisee)
-                        // setSelectedPromisee.networkUserName(selectitem.promiseeName)
-                        setSelectedPromisee({
-                          networkUserName: selectitem.promiseeName,
-                          networkUserNo: selectitem.promisee,
-                          imageURL: selectitem.promiseeProfileImageUrl,
-                        });
-                        console.log(Promiseze);
-                        navigation.navigate('MakePromise');
-                        // setAmount(item.)
-                      }}
-                      style={{marginLeft: wp(2)}}>
-                      {/* <Feather color="white" name="edit-2" size={17} /> */}
-                    </TouchableOpacity>
-                  </View>
+                  </LinearGradient>
                 </View>
-              </LinearGradient>
-            </View>
+              </View>
+            )}
           </View>
-        )}
-      </View>
-      <BlurView
-        style={{flex: 1}}
-        blurType="light" // You can customize the blurType as needed
-        blurAmount={10} // You can adjust the blurAmount as needed
-      ></BlurView>
+          <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}>
+          </BlurView>
+        </View>
+      </TouchableWithoutFeedback>
     </>
   );
 };
@@ -635,5 +636,9 @@ const styles = StyleSheet.create({
     borderRadius: wp(25),
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(100, 200, 210, 1)', // Semi-transparent black
   },
 });

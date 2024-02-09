@@ -36,12 +36,17 @@ import ReqDashboard from './src/screens/ReqDashboard';
 import Drawer from './src/comp/Drawer';
 import Player from './src/comp/makePromise/Player';
 import UserProfile from './src/screens/UserProfile';
+import TransactionsHistory from './src/screens/TransactionsHistory';
 import NetworkFeed from './src/comp/PromiseNetwork/NetworkFeed';
 import AdminPanel from './src/screens/AdminPanel';
 import BraintreeDropInUI from './src/screens/Payment';
 import PaymentScreen from './src/screens/PaymentScreen';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { STRIPE_PUBLIC_KEY } from './src/comp/Payment/helper';
+
+import EnterNewPasswordScreen from './src/screens/EnterNewPasswordScreen';
+import EnterOTPScreen from './src/screens/EnterOTPScreen';
+import ForgetPasswordEmailScreen from './src/screens/ForgetPasswordEmailScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -300,6 +305,7 @@ const Auth = () => {
                 options={{ headerShown: false }}
               />
               {/* <Stack.Screen
+
               name="AdminPanel"
               component={AdminPanel}
               options={{headerShown: false}}
@@ -320,6 +326,7 @@ const Auth = () => {
                 options={{ headerShown: true }}
               />
               {/* <Stack.Screen
+
               name="BraintreeDropInUI"
               component={BraintreeDropInUI}
               options={{headerShown: false}}
