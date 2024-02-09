@@ -366,7 +366,7 @@ const MakePromise = ({ navigation }) => {
                   flexDirection: 'row',
                   justifyContent: 'center',
                 }}>
-                <View
+                {/* <View
                   style={{
                     marginLeft: wp(3),
                     width: wp(30),
@@ -396,8 +396,9 @@ const MakePromise = ({ navigation }) => {
                     onRequestClose={() => setStartDateMV(false)}>
                     <StartModal />
                   </Modal>
-                </View>
-                {/* <View
+                </View>  */}
+                <View
+
                   style={{
                     marginLeft: wp(3),
                     width: wp(43),
@@ -532,7 +533,7 @@ const MakePromise = ({ navigation }) => {
                   onChangeText={text => setAmount(text)}
                   keyboardType="phone-pad"
                 />
-                <TextInput
+                {/* <TextInput
                   placeholder="Reward Points"
                   value={rewardPoints}
                   style={{
@@ -551,7 +552,7 @@ const MakePromise = ({ navigation }) => {
                   placeholderTextColor="black"
                   onChangeText={text => setRewardPoints(text)}
                   keyboardType="phone-pad"
-                />
+                /> */}
               </View>
             </>
           ) : null}

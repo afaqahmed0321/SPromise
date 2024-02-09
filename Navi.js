@@ -40,6 +40,10 @@ import TransactionsHistory from './src/screens/TransactionsHistory';
 import NetworkFeed from './src/comp/PromiseNetwork/NetworkFeed';
 import AdminPanel from './src/screens/AdminPanel';
 import BraintreeDropInUI from './src/screens/Payment';
+import PaymentScreen from './src/screens/PaymentScreen';
+import { StripeProvider } from '@stripe/stripe-react-native';
+import { STRIPE_PUBLIC_KEY } from './src/comp/Payment/helper';
+
 import EnterNewPasswordScreen from './src/screens/EnterNewPasswordScreen';
 import EnterOTPScreen from './src/screens/EnterOTPScreen';
 import ForgetPasswordEmailScreen from './src/screens/ForgetPasswordEmailScreen';
@@ -241,120 +245,108 @@ const Auth = () => {
     }
   };
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {Token == '' ? (
-          <>
-            <Stack.Screen
-              name="AppLaunchScreen"
-              component={AppLaunchScreen}
-              options={{ headerShown: false }}
-            />
+    <StripeProvider publishableKey={STRIPE_PUBLIC_KEY}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          {Token == '' ? (
+            <>
+              <Stack.Screen
+                name="AppLaunchScreen"
+                component={AppLaunchScreen}
+                options={{ headerShown: false }}
+              />
 
-            <Stack.Screen
-              name="LoginScreen"
-              component={LoginScreen}
-              options={{ headerShown: false }}
-            />
+              <Stack.Screen
+                name="LoginScreen"
+                component={LoginScreen}
+                options={{ headerShown: false }}
+              />
 
-            <Stack.Screen
-              name="SignUpScreen"
-              component={SignUpScreen}
-              options={{ headerShown: false }}
-            />
+              <Stack.Screen
+                name="SignUpScreen"
+                component={SignUpScreen}
+                options={{ headerShown: false }}
+              />
 
-            <Stack.Screen
-              name="VerficationPage"
-              component={VerficationPage}
-              options={{ headerShown: false }}
-            />
-             <Stack.Screen
-              name="EnterNewPasswordScreen"
-              component={EnterNewPasswordScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="EnterOTPScreen"
-              component={EnterOTPScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="ForgetPasswordEmailScreen"
-              component={ForgetPasswordEmailScreen}
-              options={{ headerShown: false }}
-            />
-                        <Stack.Screen
-              name="HomeScreen"
-              component={HomeScreenn}
-              options={{ headerShown: false }}
-            />
-          </>
-        ) : (
-          <>
-            <Stack.Screen
-              name="HomeScreen"
-              component={HomeScreenn}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Review"
-              component={Review}
-              options={{
-                title: 'Make Promise',
-                headerStyle: { backgroundColor: '#E4EEE6' },
-              }}
-            />
-            <Stack.Screen
-              name="SnapPromiseVerification"
-              component={SnapPromiseVerification}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="UserProfile"
-              component={UserProfile}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="TransactionsHistory"
-              component={TransactionsHistory}
-              options={{ headerShown: true, title: 'Transactions History', }}
-            />
-            {/* <Stack.Screen
+              <Stack.Screen
+                name="VerficationPage"
+                component={VerficationPage}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="PaymentScreen"
+                component={PaymentScreen}
+                options={{ headerShown: true }}
+              />
+            </>
+          ) : (
+            <>
+              <Stack.Screen
+                name="HomeScreen"
+                component={HomeScreenn}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Review"
+                component={Review}
+                options={{
+                  title: 'Make Promise',
+                  headerStyle: { backgroundColor: '#E4EEE6' },
+                }}
+              />
+              <Stack.Screen
+                name="SnapPromiseVerification"
+                component={SnapPromiseVerification}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="UserProfile"
+                component={UserProfile}
+                options={{ headerShown: false }}
+              />
+              {/* <Stack.Screen
+
               name="AdminPanel"
               component={AdminPanel}
               options={{headerShown: false}}
             /> */}
-            <Stack.Screen
-              name="Player"
-              component={Player}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Notifications"
-              component={Notifications}
-              options={{ headerShown: true }}
-            />
-           
+              <Stack.Screen
+                name="Player"
+                component={Player}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Notifications"
+                component={Notifications}
+                options={{ headerShown: true }}
+              />
+              <Stack.Screen
+                name="PaymentScreen"
+                component={PaymentScreen}
+                options={{ headerShown: true }}
+              />
+              {/* <Stack.Screen
 
-            {/* <Stack.Screen
               name="BraintreeDropInUI"
               component={BraintreeDropInUI}
               options={{headerShown: false}}
             /> */}
-            {/* <Stack.Screen
+              {/* <Stack.Screen
               name="NetworkFeed"
               component={NetworkFeed}
               options={{headerShown: false}}
             /> */}
-            {/* <Stack.Screen
+              {/* <Stack.Screen
               name="Drawer"
               component={Drawer}
               options={{headerShown: false}}
             /> */}
-          </>
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+            </>
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </StripeProvider>
+
   );
 };
 
