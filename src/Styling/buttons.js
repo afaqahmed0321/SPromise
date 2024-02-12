@@ -70,7 +70,7 @@ export const commonStyles = StyleSheet.create({
   },
   ActionBtn: {
     // width: wp(35),
-    width: wp(20),
+    width: wp(25),
     height: hp(5),
     backgroundColor: '#32C35B',
     borderRadius: wp(25),

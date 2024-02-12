@@ -503,7 +503,7 @@ const NotificationCard = () => {
                                   onPress={() =>
                                     handleFailPromise(selectitem.promiseID, userN)
                                   }>
-                                  <Text>{action}</Text>
+                                  <Text  style={{color:'white', fontWeight:'700'}}>{action}</Text>
                                 </TouchableOpacity>
                               );
                             }
