@@ -366,7 +366,7 @@ const MakePromise = ({ navigation }) => {
                   flexDirection: 'row',
                   justifyContent: 'center',
                 }}>
-                {/* <View
+               <View
                   style={{
                     marginLeft: wp(3),
                     width: wp(30),
@@ -396,8 +396,8 @@ const MakePromise = ({ navigation }) => {
                     onRequestClose={() => setStartDateMV(false)}>
                     <StartModal />
                   </Modal>
-                </View>  */}
-                <View
+                </View> 
+                {/* <View
 
                   style={{
                     marginLeft: wp(3),
@@ -432,7 +432,7 @@ const MakePromise = ({ navigation }) => {
                     onRequestClose={() => setEndDateMV(false)}>
                     <EndDateModal />
                   </Modal>
-                </View> */}
+                </View>  */}
 
                 {/* <View style={{marginRight: wp(6), width: wp(43), height: hp(5)}}>
             <TouchableOpacity

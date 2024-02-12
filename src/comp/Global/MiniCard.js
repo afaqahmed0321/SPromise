@@ -5,6 +5,9 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Modal,
+  TouchableWithoutFeedback,
+  ActivityIndicator,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import {
@@ -18,6 +21,10 @@ import { Headings } from '../../Styling/Headings';
 import { format } from 'date-fns';
 import { showMyPromises } from '../../recoil/Dashboard/dashBoard'
 import { useRecoilState } from 'recoil';
+import FontAw5 from 'react-native-vector-icons/FontAwesome5';
+import { selectedVideoR } from '../../recoil/AddPromise';
+import { BlurView } from '@react-native-community/blur';
+import Video from 'react-native-video';
 
 const MiniCard = ({
   promiseeProfileImageUrl,
@@ -33,8 +40,65 @@ const MiniCard = ({
 
   const [markCompleted, setMarkCompleted] = useState(false);
   const [markFailed, setMarkFailed] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
+  const [isVideoModalVisible, setIsVideoModalVisible] = useState(false);
 
+  const handelAttachedMedia = (urll) => {
+    console.log(urll, "video playing");
+    setSelectedVideo(urll);
+    toggleVideoModal(); // Open the video modal
+  };
 
+  const toggleVideoModal = () => {
+    setIsVideoModalVisible(!isVideoModalVisible);
+  };
+
+  const VideoModal = ({ isVisible, toggleModal, videoUrl }) => {
+    const [isLoading, setIsLoading] = useState(true);
+
+    const handleLoadStart = () => {
+      setIsLoading(true);
+    };
+  
+    const handleLoad = () => {
+      setIsLoading(false);
+    };
+  
+    return (
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={isVideoModalVisible}
+        onRequestClose={toggleVideoModal}
+      >
+        <TouchableWithoutFeedback>
+          <View style={styles.overlay}>
+            <View style={{ height: hp(35) }}>
+              <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}></BlurView>
+            </View>
+            <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', justifyContent: 'center', alignItems: 'center' }}>
+            {isLoading && <ActivityIndicator size="large" color="white" />}
+              <Video
+                source={{ uri: selectedVideo }}
+                style={{ width: '100%', height: 300, display: isLoading ? 'none' : 'flex' }}
+                controls={false}
+                resizeMode="contain"
+                onLoadStart={handleLoadStart}
+                onLoad={handleLoad}
+              />
+              <TouchableOpacity style={{ position: 'absolute', top: 20, right: 20 }} onPress={toggleVideoModal}>
+                {/* Close button */}
+                <Text style={{ color: 'white', fontSize: 18 }}>X</Text>
+              </TouchableOpacity>
+            </View>
+            <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}>
+            </BlurView>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+
+    );
+  };
 
   return (
     <>
@@ -188,21 +252,21 @@ const MiniCard = ({
                   marginLeft: wp(3),
                   width: wp(45),
                 }}>
-                <Text style={{ color: 'white', fontSize: hp(2),fontWeight: 'bold', }}>{name}</Text>
+                <Text style={{ color: 'white', fontSize: hp(2), fontWeight: 'bold', }}>{name}</Text>
               </View>
               <View style={{ width: wp(8) }}>
                 <Entypo size={25} color="white" name="calendar" />
               </View>
 
               <View>
-              <Text
+                <Text
                   style={[
                     Headings.Input6,
                     {
                       marginLeft: wp(0),
                       color: 'white',
                       marginTop: wp(0.3),
-                      fontSize:12,
+                      fontSize: 12,
                     },
                   ]}>
                   Deadline
@@ -234,14 +298,15 @@ const MiniCard = ({
             <View style={{ paddingHorizontal: 15 }}>
               <View >
                 <Text style={{
-                  textAlign: 'justify', fontWeight: 'bold', fontSize: 14, color:"white"
+                  textAlign: 'justify', fontWeight: 'bold', fontSize: 14, color: "white"
                 }}>
                   Harry promised you to meet you on Sed ut perspiciatis unde omnis iste natus error sit
                   voluptatem accusantium doloremque laudantium, totam rem aperiam, ut perspiciatis unde omnis
                   iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam,
                 </Text>
               </View>
-              <View style={[DashBoardStyling.PromiseReward, {textAlign: 'center', justifyContent: 'center', alignItems: 'center',
+              <View style={[DashBoardStyling.PromiseReward, {
+                textAlign: 'center', justifyContent: 'center', alignItems: 'center',
               }]}>
                 {promisetype == 'GUARANTEE' ? (
                   <Text
@@ -249,8 +314,8 @@ const MiniCard = ({
                       {
                         color: 'white',
                         marginHorizontal: hp(2),
-                        fontWeight: 'bold', 
-                        fontSize: 18, 
+                        fontWeight: 'bold',
+                        fontSize: 18,
                         fontSize: hp(2),
                       },
                     ]}>
@@ -262,19 +327,22 @@ const MiniCard = ({
                       {
                         color: 'white',
                         marginHorizontal: hp(2),
-                        fontWeight: 'bold', 
-                        fontSize: 18, 
+                        fontWeight: 'bold',
+                        fontSize: 18,
                         //  fontWeight: 'bold',
                         fontSize: hp(2),
                       },
                     ]}>
-                    Commitment: ${amount} {rewardPoints ? <Text style={{ }}>Reward: ${rewardPoints}</Text> : null}
+                    Commitment: ${amount} {rewardPoints ? <Text style={{}}>Reward: ${rewardPoints}</Text> : null}
                   </Text>
                 ) : null}
                 {promiseMediaURL ? (
                   <TouchableOpacity
                     onPress={() => handelAttachedMedia(promiseMediaURL)}>
-                    <Text style={{ color: 'blue' }}>Attached File</Text>
+                    <FontAw5 color="#652D90" name="youtube" size={23} style={{ marginHorizontal: hp(2) }} />
+                    <VideoModal />
+
+                    {/* <Text style={{ color: 'blue' }}>Attacheddd File</Text> */}
                   </TouchableOpacity>
                 ) : null}
               </View>
@@ -288,7 +356,7 @@ const MiniCard = ({
                 alignItems: 'center',
                 height: hp(5),
                 marginTop: hp(.5),
-                paddingHorizontal: 55
+                paddingHorizontal: 25
               }}>
               <TouchableOpacity
                 onPress={() => {
@@ -311,7 +379,7 @@ const MiniCard = ({
                 style={styles.LinerC}>
                 <LinearGradient
                   // colors={['#E32E2E', '#E32E2E']}
-                  colors={markCompleted ? ['#E32E2E', '#E32E2E']:['#1D1B201F', '#1D1B201F']  }
+                  colors={markCompleted ? ['#E32E2E', '#E32E2E'] : ['#1D1B201F', '#1D1B201F']}
                   style={styles.right}>
                   <Text style={{ color: markCompleted ? 'white' : '#191C1A', textAlign: 'center' }}>
                     Mark Failed
@@ -342,8 +410,8 @@ const styles = StyleSheet.create({
     borderRadius: hp(5),
     height: hp(5),
     paddingHorizontal: 10,
-    fontWeight: 'bold', 
-    fontSize: 18, 
+    fontWeight: 'bold',
+    fontSize: 18,
   },
   right: {
     // flex: 1,
@@ -352,6 +420,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: hp(5),
     height: hp(5)
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(10, 0, 0, 0.5)', // Semi-transparent black
   },
 });
 

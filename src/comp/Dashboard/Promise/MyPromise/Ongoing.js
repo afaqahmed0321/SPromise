@@ -106,7 +106,10 @@ const Ongoing = ({navigation}) => {
                     rewardPoints={item.rewardPoints}
                     userN={userN}
                     tab={'Promise'}
+                    navigation={navigation}
+
                   />
+
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>

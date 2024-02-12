@@ -7,25 +7,27 @@ import {
   TouchableOpacity,
   Modal,
   SafeAreaView,
+  TouchableWithoutFeedback,
+  ActivityIndicator
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {DashBoardStyling} from '../../Styling/DashBoard';
+import { DashBoardStyling } from '../../Styling/DashBoard';
 import LinearGradient from 'react-native-linear-gradient';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {Headings} from '../../Styling/Headings';
+import { Headings } from '../../Styling/Headings';
 import EvilIcon from 'react-native-vector-icons/Feather';
-import {format} from 'date-fns';
+import { format } from 'date-fns';
 import {
   handleAcceptPromise,
   handleCompletePromise,
   handleFailPromise,
   handleRejectPromise,
 } from '../Dashboard/Promise/PromiseAction';
-import {commonStyles} from '../../Styling/buttons';
+import { commonStyles } from '../../Styling/buttons';
 import WebView from 'react-native-webview';
 import {
   handleAccept,
@@ -34,6 +36,10 @@ import {
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 import PaymentScreen from '../../screens/PaymentScreen';
 import PaymentScreens from '../../screens/PaymentScreens';
+import { selectedVideoR } from '../../recoil/AddPromise';
+import { useRecoilState } from 'recoil';
+import { BlurView } from '@react-native-community/blur';
+import Video from 'react-native-video';
 
 const DetailCard = ({
   promiseeProfileImageUrl,
@@ -52,8 +58,69 @@ const DetailCard = ({
   alotRewardPoints,
   rewardPoints,
   refreshCallback,
+  navigation
 }) => {
   const [isPaymentWebViewVisible, setIsPaymentWebViewVisible] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
+  const [isVideoModalVisible, setIsVideoModalVisible] = useState(false);
+
+  const handelAttachedMedia = (urll) => {
+    console.log(urll, "video playing");
+    setSelectedVideo(urll);
+    toggleVideoModal(); // Open the video modal
+  };
+
+  const toggleVideoModal = () => {
+    setIsVideoModalVisible(!isVideoModalVisible);
+  };
+
+  const VideoModal = ({ isVisible, toggleModal, videoUrl }) => {
+    const [isLoading, setIsLoading] = useState(true);
+
+    const handleLoadStart = () => {
+      setIsLoading(true);
+    };
+  
+    const handleLoad = () => {
+      setIsLoading(false);
+    };
+  
+    return (
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={isVideoModalVisible}
+        onRequestClose={toggleVideoModal}
+      >
+        <TouchableWithoutFeedback>
+          <View style={styles.overlay}>
+            <View style={{ height: hp(35) }}>
+              <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}></BlurView>
+            </View>
+            <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', justifyContent: 'center', alignItems: 'center' }}>
+            {isLoading && <ActivityIndicator size="large" color="white" />}
+              <Video
+                source={{ uri: selectedVideo }}
+                style={{ width: '100%', height: 300, display: isLoading ? 'none' : 'flex' }}
+                controls={false}
+                resizeMode="contain"
+                onLoadStart={handleLoadStart}
+                onLoad={handleLoad}
+              />
+              <TouchableOpacity style={{ position: 'absolute', top: 20, right: 20 }} onPress={toggleVideoModal}>
+                {/* Close button */}
+                <Text style={{ color: 'white', fontSize: 18 }}>X</Text>
+              </TouchableOpacity>
+            </View>
+            <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}>
+            </BlurView>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+
+    );
+  };
+
   return (
     <>
       {tab == 'UserPromiseReq' || tab == 'ReqPromiseDashboard' ? (
@@ -70,7 +137,7 @@ const DetailCard = ({
                 // alignItems: 'center',
               }
             }>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               {/* <View
                     style={{
                       width: wp(12),
@@ -84,7 +151,7 @@ const DetailCard = ({
                 style={{
                   width: wp(12),
                   height: hp(6),
-                  borderRadius: wp(6), // Half of the width
+                  borderRadius: wp(6),
                   marginLeft: wp(2),
                   marginTop: hp(1),
                 }}>
@@ -92,9 +159,9 @@ const DetailCard = ({
                   source={
                     promiseeProfileImageUrl === ''
                       ? {
-                          uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                        }
-                      : {uri: promiseeProfileImageUrl}
+                        uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
+                      }
+                      : { uri: promiseeProfileImageUrl }
                   }
                   style={{
                     width: wp(12),
@@ -108,9 +175,9 @@ const DetailCard = ({
                   marginLeft: wp(3),
                   width: wp(45),
                 }}>
-                <Text style={{color: 'white', fontSize: hp(2)}}>{name}</Text>
+                <Text style={{ color: 'white', fontSize: hp(2) }}>{name}</Text>
               </View>
-              <View style={{width: wp(8)}}>
+              <View style={{ width: wp(8) }}>
                 <Entypo size={20} color="white" name="calendar" />
               </View>
 
@@ -188,9 +255,12 @@ const DetailCard = ({
 
             {promiseMediaURL ? (
               <TouchableOpacity
-                onPress={() => handelAttachedMedia(promiseMediaURL)}>
-                <Text style={{color: 'blue'}}>Attached File</Text>
-              </TouchableOpacity>
+              onPress={() => handelAttachedMedia(promiseMediaURL)}>
+              <FontAw5 color="#652D90" name="youtube" size={23} style={{ marginHorizontal: hp(2) }} />
+              <VideoModal />
+
+              {/* <Text style={{ color: 'blue' }}>Attacheddd File</Text> */}
+            </TouchableOpacity>
             ) : null}
             <View style={DashBoardStyling.PromiseGoal}>
               <View>
@@ -285,13 +355,13 @@ const DetailCard = ({
                         refreshCallback();
                         //   setrefresh(!refersh)
                       }}>
-                      <Text>{action}</Text>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
                   );
                 } else if (action === 'Reject') {
                   return (
                     <TouchableOpacity
-                      style={[commonStyles.ActionBtn, {backgroundColor: 'red'}]}
+                      style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
                       key={index}
                       onPress={() => {
                         handleReject(promiseID, userN);
@@ -299,7 +369,7 @@ const DetailCard = ({
                         // handleRejectPromise(promiseID, userN);
                         //   setrefresh(!refersh)
                       }}>
-                      <Text>{action}</Text>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
                   );
                 }
@@ -341,7 +411,7 @@ const DetailCard = ({
                         setIsPaymentWebViewVisible(true);
                         // setrefresh(!refersh)
                       }}>
-                      <Text>{action}</Text>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
                   );
                 }
@@ -416,7 +486,7 @@ const DetailCard = ({
                 // alignItems: 'center',
               }
             }>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               {/* <View
      style={{
        width: wp(12),
@@ -438,9 +508,9 @@ const DetailCard = ({
                   source={
                     promiseeProfileImageUrl === ''
                       ? {
-                          uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                        }
-                      : {uri: promiseeProfileImageUrl}
+                        uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
+                      }
+                      : { uri: promiseeProfileImageUrl }
                   }
                   style={{
                     width: wp(13),
@@ -454,9 +524,9 @@ const DetailCard = ({
                   marginLeft: wp(3),
                   width: wp(45),
                 }}>
-                <Text style={{color: 'white', fontSize: hp(2)}}>{name}</Text>
+                <Text style={{ color: 'white', fontSize: hp(2) }}>{name}</Text>
               </View>
-              <View style={{width: wp(8)}}>
+              <View style={{ width: wp(8) }}>
                 <Entypo size={20} color="white" name="calendar" />
               </View>
 
@@ -538,8 +608,12 @@ const DetailCard = ({
             {promiseMediaURL ? (
               <TouchableOpacity
                 onPress={() => handelAttachedMedia(promiseMediaURL)}>
-                <Text style={{color: 'blue'}}>Attached File</Text>
+                <FontAw5 color="#652D90" name="youtube" size={23} style={{ marginHorizontal: hp(2) }} />
+                <VideoModal />
+
+                {/* <Text style={{ color: 'blue' }}>Attacheddd File</Text> */}
               </TouchableOpacity>
+
             ) : null}
             <View style={DashBoardStyling.PromiseGoal}>
               <View>
@@ -634,20 +708,20 @@ const DetailCard = ({
                         // setrefresh(!refersh)
                         refreshCallback();
                       }}>
-                      <Text>{action}</Text>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
                   );
                 } else if (action === 'Reject') {
                   return (
                     <TouchableOpacity
-                      style={[commonStyles.ActionBtn, {backgroundColor: 'red'}]}
+                      style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
                       key={index}
                       onPress={() => {
                         handleRejectPromise(promiseID, userN);
                         // setrefresh(!refersh)
                         refreshCallback();
                       }}>
-                      <Text>{action}</Text>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
                   );
                 } else if (action === 'Complete') {
@@ -660,20 +734,20 @@ const DetailCard = ({
                         //   setrefresh(!refersh)
                         refreshCallback();
                       }}>
-                      <Text>{action}</Text>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
                   );
                 } else if (action === 'Fail') {
                   return (
                     <TouchableOpacity
-                      style={[commonStyles.ActionBtn, {backgroundColor: 'red'}]}
+                      style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
                       key={index}
                       onPress={() => {
                         handleFailPromise(promiseID, userN);
                         // setrefresh(!refersh)
                         refreshCallback();
                       }}>
-                      <Text>{action}</Text>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
                   );
                 } else if (action === 'Pay') {
@@ -753,7 +827,7 @@ const DetailCard = ({
         // transparent={true}
         visible={isPaymentWebViewVisible}
         onRequestClose={isPaymentWebViewVisible}>
-        <SafeAreaView style={{height: '100%', width: wp(100)}}>
+        <SafeAreaView style={{ height: '100%', width: wp(100) }}>
           <TouchableOpacity
             onPress={() => setIsPaymentWebViewVisible(false)}
             style={{
@@ -774,11 +848,16 @@ const DetailCard = ({
               console.log('WebView error: ', syntheticEvent.nativeEvent)
             } 
           /> */}
-          <PaymentScreens promiseID={promiseID} userN={userN} amount={amount}/>
+          <PaymentScreens promiseID={promiseID} userN={userN} amount={amount} />
         </SafeAreaView>
       </Modal>
     </>
   );
 };
-
+const styles = StyleSheet.create({
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(10, 0, 0, 0.5)', // Semi-transparent black
+  },
+});
 export default DetailCard;
