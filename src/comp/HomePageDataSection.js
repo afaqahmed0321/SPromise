@@ -91,9 +91,7 @@ const HomePageDataSection = () => {
                 style={{
                   width: wp(8),
                   height: hp(4),
-                  borderRadius: wp(4), // Half of the width
-                  // marginLeft: wp(2),
-                  // marginTop: hp(1),
+                  borderRadius: wp(4), 
                 }}
               />
             </View>

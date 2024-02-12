@@ -107,6 +107,8 @@ const Pending = ({navigation}) => {
                     rewardPoints={item.rewardPoints}
                     userN={userN}
                     tab={'Promise'}
+                    navigation={navigation}
+
                   />
                 </TouchableOpacity>
               ) : (

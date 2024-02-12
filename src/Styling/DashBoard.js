@@ -6,12 +6,13 @@ import {
 
 export const DashBoardStyling = StyleSheet.create({
   MainCard: {
-    width: "auto",
-    height: "auto",
-    // marginTop: hp(5.4),
+    width: wp(90),
+    // height: hp(12),
+    marginTop: hp(1.4),
     borderRadius: wp(2),
     alignItems: 'center',
-    marginHorizontal:10
+    borderRadius: 32,
+    paddingVertical:10
   },
   MiniCard: {
     width: wp(90),
@@ -26,7 +27,7 @@ export const DashBoardStyling = StyleSheet.create({
   PromiseReward:{
     justifyContent: 'flex-start',
     alignItems:'flex-start',
-    height: hp(3),
+    // height: hp(10),
     marginTop: hp(1)
     // borderWidth:1,
   }
