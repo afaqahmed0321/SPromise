@@ -73,15 +73,14 @@ const PaymentScreens = ({ promiseID, userN, amount }) => {
       console.log('pament_data', pament_data);
       if (pament_data.status == 'succeeded') {
         alert("Payment Successfully");
-        console.log("this is id for send new funcion", pament_data?.source?.id);
         const sourseID = pament_data?.source?.id;
+        console.log("this is id for send new funcion", sourseID);
 
-        axios.post('https://snappromise.com:8080/updatePaymentTransactionID', { promiseID, sourseID }, {
-          headers: {
-            'Authorization': Auth_Token,
-            'Content-Type': 'application/json',
-          },
-        })
+        const dataa = {
+          promiseID,
+          sourseID
+        }
+        await axios.post(`https://snappromise.com:8080/updatePaymentTransactionID?promiseID=${promiseID}?transactionID=${sourseID}`)
           .then((response) => {
             console.log("IDs has been send to new API");
           })
