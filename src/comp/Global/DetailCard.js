@@ -131,7 +131,7 @@ const DetailCard = ({
               ? ['#E4A936', '#EE8347']
               : ['#73B6BF', '#2E888C']
           }
-          style={style}>
+          style={DashBoardStyling.MainCard}>
           <View
             style={
               {

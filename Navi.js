@@ -81,6 +81,8 @@ function HomeScreenn() {
         },
 
         showLabel: false,
+       
+        style:{backgroundColor:'#fff'},
         tabBarStyle: {
           // position: 'absolute',
           // position: 'relative',

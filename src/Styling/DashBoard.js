@@ -30,7 +30,7 @@ export const DashBoardStyling = StyleSheet.create({
     // height: hp(10),
     marginTop: hp(1),
     // borderWidth:1,
-    marginHorizontal:15
+    marginVertical:10
   },
   MainCardHome: {
     width: wp(85),

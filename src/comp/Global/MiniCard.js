@@ -111,7 +111,7 @@ const MiniCard = ({
           }
           style={DashBoardStyling.MiniCard}>
           <View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               {/* <View
              style={{
                width: wp(12),
