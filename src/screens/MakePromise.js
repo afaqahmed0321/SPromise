@@ -143,15 +143,34 @@ const MakePromise = ({ navigation }) => {
   };
 
   const handleNextButtonPress = () => {
-    if (!isTimeB) {
-      ToastAndroid.showWithGravityAndOffset(
-        'Please select compilation date',
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        25,
-        50,
-      );
+    if (isTimeB) {
+      // Compilation date is mandatory
+      if (startDa) {
+        ToastAndroid.showWithGravityAndOffset(
+          'Please select compilation date',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else {
+        // Proceed to the next step
+        const promiseText = promiseStatement;
+        if (!promiseText || promiseText.trim() === '') {
+          ToastAndroid.showWithGravityAndOffset(
+            'Promise statement cannot be empty',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        } else {
+          navigation.navigate('Review');
+          console.log('Reward points', rewardPoints);
+        }
+      }
     } else {
+      // Proceed to the next step without checking compilation date
       const promiseText = promiseStatement;
       if (!promiseText || promiseText.trim() === '') {
         ToastAndroid.showWithGravityAndOffset(
@@ -167,6 +186,8 @@ const MakePromise = ({ navigation }) => {
       }
     }
   };
+  
+  
   
   const handleBack = () => {
     navigation.goBack();
@@ -510,7 +531,7 @@ const MakePromise = ({ navigation }) => {
                   flexDirection: 'row',
                   alignItems: 'center',
                   height: hp(5),
-                  justifyContent: 'space-between',
+                  justifyContent: 'center',
                 }}>
                 {/* <Text style={Headings.Input3}>Amount</Text> */}
                 <TextInput
@@ -527,7 +548,7 @@ const MakePromise = ({ navigation }) => {
                     borderRadius: wp(10),
                     width: wp(42),
                     borderRadius: wp(5),
-                    paddingLeft: wp(3),
+                    textAlign:"center"
                   }}
                   placeholderTextColor="black"
                   onChangeText={text => setAmount(text)}
