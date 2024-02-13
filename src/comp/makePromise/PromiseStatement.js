@@ -326,9 +326,9 @@ const PromiseStatement = ({ onTextChange }) => {
             </TouchableOpacity>
             <TouchableOpacity onPress={suggest} style={{ marginTop: 30, marginStart: 10 }}>
               {!attachMedia ? (
-                <Ionicons color="#652D90" name="videocam" size={30} />
+                <Ionicons color="#652D90" name="flash-outline" size={30} />
               ) : (
-                <Ionicons color="red" name="videocam" size={30} />
+                <Ionicons color="red" name="flash" size={30} />
               )}
             </TouchableOpacity>
           </View>

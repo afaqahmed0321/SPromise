@@ -291,6 +291,7 @@ const Auth = () => {
             </>
           ) : (
             <>
+
               <Stack.Screen
                 name="HomeScreen"
                 component={HomeScreenn}
