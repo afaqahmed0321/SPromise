@@ -64,7 +64,7 @@ const LeaderBoard = () => {
     <LinearGradient
       colors={['#73B6BF', '#2E888C']}
       start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 0 }}
+      end={{ x: 0, y: 1 }}
       style={{
         width: '95%',
         height: hp(4.5),
