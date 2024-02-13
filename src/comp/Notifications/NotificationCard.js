@@ -363,14 +363,14 @@ const NotificationCard = () => {
                           </Text>
                         </View>
                       ) : null}
-                      {selectitem.promiseMediaURL ? (
+                      {/* {selectitem.promiseMediaURL ? (
                         <TouchableOpacity
                           onPress={() =>
                             handelAttachedMedia(selectitem.promiseMediaURL)
                           }>
-                          <Text style={{ color: 'blue' }}>Attached File</Text>
+                          <Text style={{ color: 'blue' , marginLeft: 16}}>Attached File</Text>
                         </TouchableOpacity>
-                      ) : null}
+                      ) : null} */}
                       <View style={DashBoardStyling.PromiseGoal}>
                         <View>
                           <Text
