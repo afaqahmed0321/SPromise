@@ -31,6 +31,7 @@ import { Sociallogin } from '../Network/LoginApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { token, UserNo } from '../recoil/AddPromise';
 import LinearGradient from 'react-native-linear-gradient';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 
 GoogleSignin.configure({
@@ -40,6 +41,19 @@ GoogleSignin.configure({
 const SignUpScreen = ({ navigation }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isCPasswordVisible, setIsCPasswordVisible] = useState(false);
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: 'Free', value: 'Free' },
+    { label: 'Paid', value: 'Paid' },
+  ]);
+
+  const handleDropdownSelect = (item) => {
+    setValue(item.value);
+    setOpen(false);
+  };
+
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -53,11 +67,13 @@ const SignUpScreen = ({ navigation }) => {
   const [emailID, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [Confirmpassword, setConfirmPassword] = useState('');
+  const [subscription, setSubscription] = useState('');
   const [Code, setCode] = useRecoilState(code);
   const [Semail, setSemail] = useRecoilState(uemail);
   const [Spassword, setSpassword] = useRecoilState(upassword);
   const [Sfname, setSfname] = useRecoilState(ufName);
   const [slname, setslname] = useRecoilState(ulName);
+  const [sSubscription, setSSubscription] = useState('')
   const [Token, setToken] = useRecoilState(token)
   const [userN, setUserN] = useRecoilState(UserNo)
   const [email, setemail] = useRecoilState(uemail)
@@ -67,6 +83,12 @@ const SignUpScreen = ({ navigation }) => {
       const emailRegex = /\S+@\S+\.\S+/;
       return emailRegex.test(email);
     };
+
+    const isValidPassword = (password) => {
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      return passwordRegex.test(password);
+    };
+
     if (fName == '') {
       ToastAndroid.show('Please Enter First Name', ToastAndroid.LONG);
     }
@@ -79,11 +101,13 @@ const SignUpScreen = ({ navigation }) => {
     } else if (!isValidEmail(emailID)) {
       ToastAndroid.show('Please Enter a Valid Email Address', ToastAndroid.LONG);
     }
-    else if (password == '') {
+    else if (password === '') {
       ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
 
     }
-    else if (password != Confirmpassword) {
+    else if (!isValidPassword(password)) {
+      ToastAndroid.show('Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and have a minimum length of 8 characters', ToastAndroid.LONG);
+    } else if (password != Confirmpassword) {
       ToastAndroid.show('Password is not Confirmed', ToastAndroid.LONG);
     }
     else {
@@ -96,6 +120,7 @@ const SignUpScreen = ({ navigation }) => {
         setSpassword(password)
         setSfname(fName)
         setslname(lName)
+        setSSubscription(subscription)
         navigation.navigate('VerficationPage')
       }
       else {
@@ -213,7 +238,7 @@ const SignUpScreen = ({ navigation }) => {
               justifyContent: 'space-between',
             }}>
             <View>
-              <Text style={Headings.Input3}>Fist Name</Text>
+              {/* <Text style={Headings.Input3}>Fist Name</Text> */}
               <TextInput
                 style={TextInP.Fileds}
                 placeholder="First Name"
@@ -224,7 +249,7 @@ const SignUpScreen = ({ navigation }) => {
             </View>
 
             <View>
-              <Text style={Headings.Input3}>Last Name</Text>
+              {/* <Text style={Headings.Input3}>Last Name</Text> */}
               <TextInput
                 style={TextInP.Fileds}
                 placeholder="Last Name"
@@ -235,7 +260,7 @@ const SignUpScreen = ({ navigation }) => {
               />
             </View>
           </View>
-          <Text style={Headings.Input3}>Email</Text>
+          {/* <Text style={Headings.Input3}>Email</Text> */}
           <TextInput
             style={TextInP.Fileds}
             placeholder="Email"
@@ -244,7 +269,7 @@ const SignUpScreen = ({ navigation }) => {
             placeholderTextColor={'black'}
 
           />
-          <Text style={Headings.Input3}>Create Password</Text>
+          {/* <Text style={Headings.Input3}>Create Password</Text> */}
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <TextInput
               style={TextInP.Fileds}
@@ -261,7 +286,7 @@ const SignUpScreen = ({ navigation }) => {
               <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
             </TouchableOpacity>
           </View>
-          <Text style={Headings.Input3}>Confirm Password</Text>
+          {/* <Text style={Headings.Input3}>Confirm Password</Text> */}
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <TextInput
               style={TextInP.Fileds}
@@ -277,7 +302,49 @@ const SignUpScreen = ({ navigation }) => {
               onPress={toggleCPasswordVisibility}>
               <Icon name={isCPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
             </TouchableOpacity>
+
           </View>
+
+          <View>
+            {/* <Text style={Headings.Input3}>Subscription</Text> */}
+
+            <DropDownPicker
+              open={open}
+              value={subscription}
+              items={items}
+              setOpen={setOpen}
+              setValue={setSubscription}
+              setItems={setItems}
+              style={[TextInP.Fileds, { borderRadius: open ? wp(6) : wp(50) }]}
+              placeholder="Subscription"
+              placeholderStyle={{ color: '#000' }}
+              dropDownContainerStyle={{ backgroundColor: '#F6E2FF', borderRadius: open ? wp(6) : wp(50), height: hp(12), borderColor: 'transparent', paddingLeft: 8, }}
+            />
+            <TouchableOpacity onPress={() => setOpen(!open)}>
+              <Text>
+                {value}
+                <Icon name={open ? 'chevron-up' : 'chevron-down'} size={20} />
+              </Text>
+            </TouchableOpacity>
+            {open && (
+              <View>
+                {items.map((item) => (
+                  <TouchableOpacity
+                    key={item.value}
+                    onPress={() => handleDropdownSelect(item)}
+                  >
+                    <Text>
+                      {item.label}
+                      {item.value === value && <Icon name="checkmark" size={20} />}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+
+
+          </View>
+
         </View>
         <View style={{ marginTop: hp(2), alignItems: 'center' }}>
           <View>

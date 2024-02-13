@@ -46,19 +46,38 @@ axiosInstance.interceptors.response.use(
 // Log interceptor addition
 console.log('Request and response interceptors added.');
 
-export async function login(email, password) {
+export async function login(email,password) {
+  console.log("here")
+  const headers = new Headers({
+    Accept: '*/*',
+  });
+  const formdata = new FormData();
+
+  formdata.append('email', email.toLowerCase());
+  formdata.append('password', password);
+
   try {
-    const formData = new FormData();
-    formData.append('email', email.toLowerCase());
-    formData.append('password', password);
+    const response = await fetch("https://snappromise.com:8080/Login", {
+      method: 'POST',
+      headers: headers,
+      body: formdata,
+    });
+    const responseData = await response.text();
+    const data = JSON.parse(responseData);
+    console.log(responseData,"responseData in Login APi")
+    // console.log(data.message,"data")
 
-    const response = await axiosInstance.post('/Login', formData);
-
-    return response.data;
+    if (data.message === 'Success') {
+      // console.log(data.message,"here")
+      return data;
+    } else {
+      console.log("","returning")
+      return "";
+    }
   } catch (error) {
-    return -2; // Return custom error code for request failure
+    return -2;
   }
-}
+};
 
 export async function Sociallogin(email, socialLogin) {
   try {

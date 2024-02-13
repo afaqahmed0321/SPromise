@@ -81,7 +81,7 @@ const MiniCard = ({
               <Video
                 source={{ uri: selectedVideo }}
                 style={{ width: '100%', height: 300, display: isLoading ? 'none' : 'flex' }}
-                controls={false}
+                controls={true}
                 resizeMode="contain"
                 onLoadStart={handleLoadStart}
                 onLoad={handleLoad}
