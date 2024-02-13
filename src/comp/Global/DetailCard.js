@@ -21,6 +21,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { Headings } from '../../Styling/Headings';
 import EvilIcon from 'react-native-vector-icons/Feather';
 import { format } from 'date-fns';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   handleAcceptPromise,
   handleCompletePromise,
@@ -243,7 +244,7 @@ const DetailCard = ({
             </View> */}
             {ratingImpact ? (
               <View>
-                <Text
+                {/* <Text
                   style={[
                     {
                       color: 'white',
@@ -252,7 +253,9 @@ const DetailCard = ({
                     },
                   ]}>
                   Rating will impact
-                </Text>
+                </Text> */}
+                <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} />
+
               </View>
             ) : null}
 
@@ -351,8 +354,10 @@ const DetailCard = ({
                   paddingHorizontal: 25
                 }}>
                 <TouchableOpacity
-                  onPress={() => {
-                    setMarkCompleted(true);
+                   onPress={() => {
+                    handleCompletePromise(promiseID, userN);
+                    //   setrefresh(!refersh)
+                    refreshCallback();
                   }}
                   style={styles.LinerC}>
                   <LinearGradient
@@ -365,15 +370,17 @@ const DetailCard = ({
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  onPress={() => {
-                    setMarkCompleted(false);
+                   onPress={() => {
+                    handleFailPromise(promiseID, userN);
+                    // setrefresh(!refersh)
+                    refreshCallback();
                   }}
                   style={styles.LinerC}>
                   <LinearGradient
                     // colors={['#E32E2E', '#E32E2E']}
-                    colors={markCompleted ? ['#E32E2E', '#E32E2E'] : ['#1D1B201F', '#1D1B201F']}
+                    colors= {['#E32E2E', '#E32E2E']}
                     style={styles.right}>
-                    <Text style={{ color: markCompleted ? 'white' : '#191C1A', textAlign: 'center' }}>
+                    <Text style={{ color: 'white', textAlign: 'center' }}>
                       Mark Failed
                     </Text>
                   </LinearGradient>
@@ -625,7 +632,7 @@ const DetailCard = ({
 
             {ratingImpact ? (
               <View>
-                <Text
+                {/* <Text
                   style={[
                     {
                       color: 'white',
@@ -636,7 +643,9 @@ const DetailCard = ({
                     },
                   ]}>
                   Rating will impact
-                </Text>
+                </Text> */}
+                <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} />
+
               </View>
             ) : null}
 
@@ -740,7 +749,9 @@ const DetailCard = ({
                 }}>
                 <TouchableOpacity
                   onPress={() => {
-                    setMarkCompleted(true);
+                    handleCompletePromise(promiseID, userN);
+                    //   setrefresh(!refersh)
+                    refreshCallback();
                   }}
                   style={styles.LinerC}>
                   <LinearGradient
@@ -753,15 +764,17 @@ const DetailCard = ({
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  onPress={() => {
-                    setMarkCompleted(false);
+                   onPress={() => {
+                    handleFailPromise(promiseID, userN);
+                    // setrefresh(!refersh)
+                    refreshCallback();
                   }}
                   style={styles.LinerC}>
                   <LinearGradient
                     // colors={['#E32E2E', '#E32E2E']}
-                    colors={markCompleted ? ['#E32E2E', '#E32E2E'] : ['#1D1B201F', '#1D1B201F']}
+                    colors={ ['#E32E2E', '#E32E2E']}
                     style={styles.right}>
-                    <Text style={{ color: markCompleted ? 'white' : '#191C1A', textAlign: 'center' }}>
+                    <Text style={{ color: 'white', textAlign: 'center' }}>
                       Mark Failed
                     </Text>
                   </LinearGradient>
@@ -805,33 +818,35 @@ const DetailCard = ({
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
                   );
-                } else if (action === 'Complete') {
-                  return (
-                    <TouchableOpacity
-                      style={[commonStyles.ActionBtn]}
-                      key={index}
-                      onPress={() => {
-                        handleCompletePromise(promiseID, userN);
-                        //   setrefresh(!refersh)
-                        refreshCallback();
-                      }}>
-                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                    </TouchableOpacity>
-                  );
-                } else if (action === 'Fail') {
-                  return (
-                    <TouchableOpacity
-                      style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                      key={index}
-                      onPress={() => {
-                        handleFailPromise(promiseID, userN);
-                        // setrefresh(!refersh)
-                        refreshCallback();
-                      }}>
-                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                    </TouchableOpacity>
-                  );
-                } else if (action === 'Pay') {
+                } 
+                // else if (action === 'Complete') {
+                //   return (
+                //     <TouchableOpacity
+                //       style={[commonStyles.ActionBtn]}
+                //       key={index}
+                //       onPress={() => {
+                //         handleCompletePromise(promiseID, userN);
+                //         //   setrefresh(!refersh)
+                //         refreshCallback();
+                //       }}>
+                //       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                //     </TouchableOpacity>
+                //   );
+                // } else if (action === 'Fail') {
+                //   return (
+                //     <TouchableOpacity
+                //       style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                //       key={index}
+                //       onPress={() => {
+                //         handleFailPromise(promiseID, userN);
+                //         // setrefresh(!refersh)
+                //         refreshCallback();
+                //       }}>
+                //       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                //     </TouchableOpacity>
+                //   );
+                // } 
+                else if (action === 'Pay') {
                   return (
                     <TouchableOpacity
                       style={commonStyles.ActionBtn}
@@ -1020,7 +1035,7 @@ const DetailCard = ({
 
             {ratingImpact ? (
               <View>
-                <Text
+                {/* <Text
                   style={[
                     {
                       color: 'white',
@@ -1031,7 +1046,9 @@ const DetailCard = ({
                     },
                   ]}>
                   Rating will impact
-                </Text>
+                </Text> */}
+                <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} />
+
               </View>
             ) : null}
 
