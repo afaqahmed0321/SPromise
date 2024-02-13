@@ -28,7 +28,17 @@ export const DashBoardStyling = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems:'flex-start',
     // height: hp(10),
-    marginTop: hp(1)
+    marginTop: hp(1),
     // borderWidth:1,
+    marginHorizontal:15
+  },
+  MainCardHome: {
+    width: wp(85),
+    // height: hp(12),
+    marginTop: hp(1.4),
+    borderRadius: wp(2),
+    alignItems: 'center',
+    borderRadius: 32,
+    paddingVertical:10
   }
 });

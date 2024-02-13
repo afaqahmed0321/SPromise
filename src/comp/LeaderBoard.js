@@ -1,17 +1,18 @@
-import {StyleSheet, Text, View, FlatList, Image} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import { StyleSheet, Text, View, FlatList, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {PlayerData} from '../Data/Data';
-import {useFocusEffect} from '@react-navigation/native';
+import { PlayerData } from '../Data/Data';
+import { useFocusEffect } from '@react-navigation/native';
 import TopUsers from '../Network/Users/TopUsers';
-import {UserNo} from '../recoil/AddPromise';
-import {useRecoilState} from 'recoil';
-import {ToastAndroid} from 'react-native';
-import {useIsFocused} from '@react-navigation/native';
-import {defaultImageURL} from '../source/UserProfile';
+import { UserNo } from '../recoil/AddPromise';
+import { useRecoilState } from 'recoil';
+import { ToastAndroid } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import { defaultImageURL } from '../source/UserProfile';
+import LinearGradient from 'react-native-linear-gradient';
 
 const LeaderBoard = () => {
   dataa = PlayerData;
@@ -26,6 +27,7 @@ const LeaderBoard = () => {
         // setNotificationList(data);
         // setIsLoading(false);
         setTopUserList(data);
+        console.log(data)
         // console.log(data.description,"data.description");
         if (data.description === 'No data found.') {
           ToastAndroid.showWithGravityAndOffset(
@@ -54,12 +56,14 @@ const LeaderBoard = () => {
     fetchTopUs();
   }, [focus]);
 
-  const renderItem = ({item}) => (
-    <View
+  const renderItem = ({ item }) => (
+
+<View
       style={{
         width: '95%',
         height: hp(4.5),
-        backgroundColor: '#E4EEE6',
+        backgroundColor: '#3c6bf5',
+        opacity:0.7,
         borderRadius: wp(4),
         marginTop: hp(0.5),
         flexDirection: 'row',
@@ -69,8 +73,8 @@ const LeaderBoard = () => {
 
         
       }}>
-      <View style={{marginLeft: wp(1)}}>
-        <Text>{item.id}</Text>
+      <View style={{ marginLeft: wp(1) }}>
+        <Text style={{color:'white'}}>{item.id}</Text>
       </View>
       <View>
         <Image
@@ -78,9 +82,9 @@ const LeaderBoard = () => {
           source={
             item.imageURL === ''
               ? {
-                  uri: 'https://th.bing.com/th/id/OIP.aWYpRbe6Tbsr_1W42rUwVAAAAA?rs=1&pid=ImgDetMain',
-                }
-              : {uri: item.imageURL}
+                uri: 'https://th.bing.com/th/id/OIP.aWYpRbe6Tbsr_1W42rUwVAAAAA?rs=1&pid=ImgDetMain',
+              }
+              : { uri: item.imageURL }
           }
           style={{
             width: wp(6),
@@ -90,27 +94,27 @@ const LeaderBoard = () => {
           }}
         />
       </View>
-      <View style={{marginLeft: wp(2)}}>
-        <Text style={{color: 'black'}}>
+      <View style={{ marginLeft: wp(2) }}>
+        <Text style={{ color: 'black' }}>
           {item.firstName} {item.lastName}
         </Text>
       </View>
-      <View style={{position: 'absolute', right: wp(1.5)}}>
-        <Text>{item.rewardPoints}</Text>
+      <View style={{ position: 'absolute', right: wp(1.5) }}>
+        <Text style={{ color: 'white', backgroundColor: 'red', borderRadius: 50, paddingVertical: 3, paddingHorizontal: 5 }}>{item.promisability}%</Text>
       </View>
     </View>
   );
 
   return (
-    <View style={{height: hp(20),}}>
+    <View style={{ height: hp(20), }}>
       <Text style={styles.barText}>Leader Board</Text>
 
       <FlatList
         data={topUserList}
         renderItem={renderItem}
         keyExtractor={(item, index) => item.userNo.toString()}
-        // style={styles.Container}
-        // style={{height: hp(10) }}
+      // style={styles.Container}
+      // style={{height: hp(10) }}
       />
     </View>
   );
@@ -132,7 +136,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    
+
   },
   barText: {
     fontSize: hp(1.5),
@@ -142,6 +146,6 @@ const styles = StyleSheet.create({
     marginLeft: wp(1.5),
     marginVertical: 5,
     paddingLeft: wp(2),
-    paddingVertical:hp(.2)
+    paddingVertical: hp(.2)
   },
 });
