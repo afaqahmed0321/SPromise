@@ -218,12 +218,14 @@ const NotificationCard = () => {
                   style={{
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // height: hp(38),
-                    // width: wp(90),
+                    height: hp(26),
+                    width: wp(90),
                     alignSelf: 'center',
-                    backgroundColor: 'white',
+                    padding:0,
+                    margin:0,
+                    // backgroundColor: 'white',
                     // marginTop: hp(35),
-                    // backgroundColor: '#E4EEE6',
+                    backgroundColor: '#E4EEE6',
                     // shadowColor: '#000',
                     // shadowOffset: {
                     //   width: 0,
@@ -234,13 +236,13 @@ const NotificationCard = () => {
 
                     // elevation: 1,
                   }}>
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     onPress={() => {
                       setIsModalV(false), setSelectitem({});
                     }}
                     style={{ position: 'absolute', right: wp(4), top: hp(1) }}>
                     <Font color="#652D90" name="close" size={30} />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                   <LinearGradient
                     colors={
                       noti.notificationMethodAction == 'MakePromiseRequest'
@@ -639,6 +641,6 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(100, 200, 210, 1)', // Semi-transparent black
-  },
+    backgroundColor: '#E4EEE6' ,
+   },
 });
