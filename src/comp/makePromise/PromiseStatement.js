@@ -40,8 +40,9 @@ import {
   AllowedVideoSizeState,
 } from '../../recoil/Globel';
 import { BlurView } from '@react-native-community/blur';
+import axios from 'axios';
 
-const PromiseStatement = ({onTextChange }) => {
+const PromiseStatement = ({ onTextChange }) => {
   const navigation = useNavigation();
   const [inputText, setInputText] = useState('');
   const [isModalV, setIsModalV] = useState(false);
@@ -67,6 +68,7 @@ const PromiseStatement = ({onTextChange }) => {
   const [VideoSize, setVideoSize] = useRecoilState(AllowedVideoSizeState);
 
   const [fullScreen, setFullScreen] = useState(false);
+  const [suggestedText, setSuggestedText] = useState(null)
   const ref = useRef();
 
   // const openCamera = async()=>{
@@ -260,6 +262,16 @@ const PromiseStatement = ({onTextChange }) => {
     onTextChange && onTextChange(text);
   };
 
+  const suggest = async ()=>{
+      await axios.post(`https://snappromise.com:8080/suggestPromiseText?promiseStatement=${generatedTexts}`)
+      .then((response)=>{
+          console.log("this is sugesstion response", response);
+          setSuggestedText(response.data.description);
+      })
+      .catch((error)=>{
+          console.log("this is sugesstion error", error);
+      })
+  }
 
   return (
     <View style={styles.container}>
@@ -284,6 +296,9 @@ const PromiseStatement = ({onTextChange }) => {
               marginTop: hp(2),
               width: wp(80),
             }}>
+              {
+                console.log("Suggested text", suggestedText)
+              }
             <TextInput
               placeholder="Write a Promise Statement"
               onChangeText={handleTextChange}
@@ -298,16 +313,25 @@ const PromiseStatement = ({onTextChange }) => {
 
               }}
               multiline={true}
-              value={generatedTexts}
+              value={suggestedText ? {...suggestedText} : generatedTexts}
             />
           </View>
-          <TouchableOpacity onPress={() => setIsModalV(true)} style={{ marginTop: 12, marginStart: 10 }}>
-            {!attachMedia ? (
-              <Ionicons color="#652D90" name="videocam" size={30} />
-            ) : (
-              <Ionicons color="red" name="videocam" size={30} />
-            )}
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity onPress={() => setIsModalV(true)} style={{ marginTop: 10, marginStart: 10 }}>
+              {!attachMedia ? (
+                <Ionicons color="#652D90" name="videocam" size={30} />
+              ) : (
+                <Ionicons color="red" name="videocam" size={30} />
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity onPress={suggest} style={{ marginTop: 30, marginStart: 10 }}>
+              {!attachMedia ? (
+                <Ionicons color="#652D90" name="videocam" size={30} />
+              ) : (
+                <Ionicons color="red" name="videocam" size={30} />
+              )}
+            </TouchableOpacity>
+          </View>
         </View>
 
         <Modal

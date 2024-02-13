@@ -18,4 +18,8 @@ export const DataLoading = atom({
   key: 'DataLoading',
   default: true,
 });
+export const onGoingPromisesListCard = atom({
+  key: 'onGoingPromisesListCard',
+  default: true,
+});
 

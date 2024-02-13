@@ -24,16 +24,23 @@ import {UserNo} from '../recoil/AddPromise';
 import {useFocusEffect} from '@react-navigation/native';
 import fetchOnGoingPromises from '../Network/Users/GetOnGoingPromises';
 import {useIsFocused} from '@react-navigation/native';
+import DetailCard from './Global/DetailCard';
+import { onGoingPromisesListCard } from '../recoil/Dashboard/dashBoard';
 
 data = PlayerData;
 
 const HomePageDataSection = () => {
   const [rating, setRating] = useState(0);
   const [promises, setPromises] = useState([]);
+  const [myPromisesLis, setMyPromisesLis] = useState([])
+  const [promisesToMeList, setPromisesToMeList] = useState([])
   const [userN, setUserN] = useRecoilState(UserNo);
+  const [showDetail, setshowDetail] = useState('');
+  const [onGoingPromises, setOnGoingPromises] = useRecoilState(onGoingPromisesListCard);
+
   const focus = useIsFocused();
   const [isLoading, setIsLoading] = useState(true);
-
+  const [refersh, setrefresh] = useState(false);
   const fetchData = async () => {
     // setPromises();
     setIsLoading(true);
@@ -49,10 +56,12 @@ const HomePageDataSection = () => {
       });
     setIsLoading(true);
   };
-
+  const onRefresh = () => {
+    setrefresh(!refersh);
+  };
   useEffect(() => {
     fetchData();
-  }, [focus]);
+  }, [focus, refersh]);
   // useEffect(() => {
   //   fetchData()
 
@@ -64,55 +73,97 @@ const HomePageDataSection = () => {
   //   }, [])
   // );
 
-  const renderItem = ({item, index}) => (
-    <View style={{justifyContent: 'center', alignItems: 'center'}}>
-      <LinearGradient
-        colors={
-          index % 2 === 0 ? ['#E4A936', '#EE8347'] : ['#73B6BF', '#2E888C']
-        }
-        style={styles.Card}>
-        <View style={{margin: hp(0.8)}}>
-          <View style={{flexDirection: 'row', marginLeft: wp(2)}}>
-            <View
-              style={{
-                backgroundColor: '#888888',
-                width: wp(8),
-                height: hp(4),
-                borderRadius: wp(4),
-              }}>
-              <Image
-                source={
-                  item.promisorProfileImageUrl === ''
-                    ? {
-                        uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                      }
-                    : {uri: item.promisorProfileImageUrl}
-                }
-                style={{
-                  width: wp(8),
-                  height: hp(4),
-                  borderRadius: wp(4), 
-                }}
-              />
-            </View>
-            <View style={{marginLeft: wp(2),justifyContent:'center',  width: wp(33)}}>
-              <Text
-                style={[
-                  Headings.Input6,
-                  {marginLeft: wp(0.7), color: 'white', marginTop: wp(1),},
-                ]}>
-                {item.promisorName}
-              </Text>
-            </View>
+  const renderItem = ({ item, index }) => (
+    <>
+      {showDetail == item.promiseID ? (
+        <TouchableOpacity
+          style={{ justifyContent: 'center', alignItems: 'center', }}
+          onPress={() => {
+            setshowDetail('');
+          }}>
+          <View style= {{flex:1, marginHorizontal:10, paddingHorizontal:10}} >
+          <DetailCard
+            promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+            promisetype={item.promiseType}
+            amount={item.paymentAmount}
+            name={item.promiseeName}
+            date={item.expiryDate}
+            promiseMediaURL={item.promiseMediaURL}
+            ratingImpact={item.ratingImpact}
+            promiseGoal={item.promiseGoal}
+            actions={item.actions}
+            promiseID={item.promiseID}
+            refreshCallback={onRefresh}
+            rewardPoints={item.rewardPoints}
+            onGoingPromises={onGoingPromises}
+            userN={userN}
+            tab={
+              'Home'
+            }
+            // customStyle={styles1}
 
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginLeft: wp(17),
-              }}>
-              {/* <View style={{width: wp(14)}}>
+          />
+          </View>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <LinearGradient
+              colors={
+                // index % 2 === 0?
+                ['#E4A936', '#EE8347']
+                // : ['#73B6BF', '#2E888C']
+              }
+              style={styles.Card}>
+              <View style={{ margin: hp(0.8) }}>
+                <View style={{ flexDirection: 'row', marginLeft: wp(2) }}>
+                  <View
+                    style={{
+                      backgroundColor: '#888888',
+                      width: wp(8),
+                      height: hp(4),
+                      borderRadius: wp(4),
+                    }}>
+                    <Image
+                      source={
+                        item.promiseeProfileImageUrl === ''
+                          ? {
+                            uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
+                          }
+                          : { uri: item.promiseeProfileImageUrl }
+                      }
+                      style={{
+                        width: wp(8),
+                        height: hp(4),
+                        borderRadius: wp(4), // Half of the width
+                        // marginLeft: wp(2),
+                        // marginTop: hp(1),
+                      }}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      marginLeft: wp(2),
+                      justifyContent: 'center',
+                      width: wp(33),
+                    }}>
+                    <Text
+                      style={[
+                        Headings.Input6,
+                        { marginLeft: wp(0.7), color: 'white', marginTop: wp(1) },
+                      ]}>
+                      {item.promiseeName}
+                    </Text>
+                  </View>
+
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      marginLeft: wp(17),
+                    }}>
+                    {/* <View style={{width: wp(14)}}>
                 <Text
                   style={[
                     Headings.Input6,
@@ -121,24 +172,24 @@ const HomePageDataSection = () => {
                   {item.promisorName}
                 </Text>
               </View> */}
-              <View style={{flexDirection: 'row'}}>
-                <View >
-                  <Entypo size={18} color="white" name="calendar" />
-                </View>
+                    <View style={{ flexDirection: 'row' }}>
+                      <View>
+                        <Entypo size={18} color="white" name="calendar" />
+                      </View>
 
-                <View style={{alignSelf:'center',marginHorizontal:2}}>
-                  <Text
-                    style={[
-                      Headings.Input6,
-                      { color: 'white',textAlign:'center'},
-                    ]}>
-                    {format(new Date(item.expiryDate), 'dd/MM/yyyy')}
-                  </Text>
+                      <View style={{ alignSelf: 'center', marginHorizontal: 2 }}>
+                        <Text
+                          style={[
+                            Headings.Input6,
+                            { color: 'white', textAlign: 'center' },
+                          ]}>
+                          {format(new Date(item.expiryDate), 'dd/MM/yyyy')}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
                 </View>
-              </View>
-            </View>
-          </View>
-          {/* <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                {/* <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <View
               style={{
                 width: wp(42),
@@ -149,13 +200,9 @@ const HomePageDataSection = () => {
               <Text
                 style={[
                   Headings.Input6,
-                  {
-                    marginLeft: wp(0.7),
-                    color: 'white',
-                    marginTop: wp(1),
-                    fontSize: hp(1.5),
-                    textAlign: 'center',
-                  },
+
+                  {color: 'white'},
+
                 ]}>
                 {item.promiseGoal}
               </Text>
@@ -176,9 +223,12 @@ const HomePageDataSection = () => {
               $ {item.paymentAmount}
             </Text>
           </View> */}
-        </View>
-      </LinearGradient>
-    </View>
+              </View>
+            </LinearGradient>
+          </View>
+        </TouchableOpacity>
+      )}
+    </>
   );
 
   return (
@@ -312,3 +362,4 @@ const styles = StyleSheet.create({
     borderRadius: wp(5),
   },
 });
+
