@@ -37,7 +37,6 @@ import Drawer from './src/comp/Drawer';
 import Player from './src/comp/makePromise/Player';
 import UserProfile from './src/screens/UserProfile';
 import TransactionsHistory from './src/screens/TransactionsHistory';
-import NetworkFeed from './src/comp/PromiseNetwork/NetworkFeed';
 import AdminPanel from './src/screens/AdminPanel';
 import BraintreeDropInUI from './src/screens/Payment';
 import PaymentScreen from './src/screens/PaymentScreen';
@@ -47,6 +46,8 @@ import { STRIPE_PUBLIC_KEY } from './src/comp/Payment/helper';
 import EnterNewPasswordScreen from './src/screens/EnterNewPasswordScreen';
 import EnterOTPScreen from './src/screens/EnterOTPScreen';
 import ForgetPasswordEmailScreen from './src/screens/ForgetPasswordEmailScreen';
+import NetworkFeed from './src/comp/PromiseNetwork/NetworkFeed';
+import PaymentScreens from './src/screens/PaymentScreens';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
