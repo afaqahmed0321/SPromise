@@ -153,7 +153,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#222242',
     paddingLeft: 15,
     borderRadius: 5,
-    color: '#fff'
+    color: '#fff',
+    flexDirection:"column",
   },
   labelStyle: {
     marginBottom: 5,

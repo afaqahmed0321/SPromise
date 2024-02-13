@@ -125,7 +125,7 @@ const Drawer = () => {
           </View>
 
 
-          <View>
+          {/* <View>
             <TouchableOpacity
               style={styles.listContainer}
               onPress={() => navigation.navigate('BraintreeDropInUI')}
@@ -163,7 +163,7 @@ const Drawer = () => {
               />
               <Text style={[styles.TebText, { padding: 3 }]}>Favorites</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
 
           <View>
@@ -182,7 +182,7 @@ const Drawer = () => {
           </View>
 
 
-          <View>
+          {/* <View>
             <TouchableOpacity
               style={styles.listContainer}
               onPress={() => navigation.navigate('')}
@@ -226,7 +226,7 @@ const Drawer = () => {
               />
               <Text style={[styles.TebText, { padding: 3 }]}>Tech Support</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           <View>
             <TouchableOpacity
@@ -235,11 +235,11 @@ const Drawer = () => {
             >
               <MaterialIcons
                 color="#652D90"
-                name="settings"
+                name="groups"
                 size={30}
                 style={{ marginTop: 8 }}
               />
-              <Text style={[styles.TebText, { padding: 3 }]}>Settings</Text>
+              <Text style={[styles.TebText, { padding: 3 }]}>Network Feed</Text>
             </TouchableOpacity>
           </View>
 
@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
     // borderWidth: wp(.3),
     flexDirection: 'row',
     alignItems: 'center',
-    height: hp(6.5),
+    height: hp(10),
   },
   TebText: {
     marginLeft: wp(3),

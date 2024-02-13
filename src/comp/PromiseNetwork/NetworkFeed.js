@@ -593,10 +593,10 @@ const NetworkFeed = ({navigation}) => {
             marginTop:30
 
           }}>
-          <Material name="group" size={23} color="white" />
 
+          <Material name="search" size={23} color="white" />
           <View style={{marginLeft: wp(1.5)}}>
-            <Text style={{color: 'white'}}> Network</Text>
+            <Text style={{color: 'white'}}> Search </Text>
           </View>
 
           <Modal

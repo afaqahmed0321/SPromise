@@ -71,7 +71,7 @@ export const selectedPromisee = atom({
 
 export const startDate = atom({
   key: 'StartDate',
-  default: 'Select Start Date',
+  default: 'Select Date',
 });
 // export const PromiseType = atom({
 //   key: 'PromiseType',
