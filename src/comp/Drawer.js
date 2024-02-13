@@ -104,7 +104,7 @@ const Drawer = () => {
               />
             </View>
             <View style={{ width: wp(58), marginLeft: wp(3) }}>
-              <Text style={{ color: '#6650A4' }}>{name}</Text>
+              {/* <Text style={{ color: '#6650A4' }}>{name}</Text> */}
               <Text style={{ color: '#6650A4', width: wp(65) }}>{email}</Text>
             </View>
           </View>
