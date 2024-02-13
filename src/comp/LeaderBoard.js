@@ -13,6 +13,8 @@ import { ToastAndroid } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { defaultImageURL } from '../source/UserProfile';
 import LinearGradient from 'react-native-linear-gradient';
+import Pie from 'react-native-pie';
+
 
 const LeaderBoard = () => {
   dataa = PlayerData;
@@ -58,12 +60,16 @@ const LeaderBoard = () => {
 
   const renderItem = ({ item }) => (
 
-<View
+
+    <LinearGradient
+      colors={['#73B6BF', '#2E888C']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 0 }}
       style={{
         width: '95%',
         height: hp(4.5),
-        backgroundColor: '#3c6bf5',
-        opacity:0.7,
+        // backgroundColor: '#3c6bf5',
+        opacity: 0.7,
         borderRadius: wp(4),
         marginTop: hp(0.5),
         flexDirection: 'row',
@@ -71,10 +77,12 @@ const LeaderBoard = () => {
         // justifyContent: 'space-between',
         alignItems: 'center',
 
-        
-      }}>
+
+      }}
+    >
+
       <View style={{ marginLeft: wp(1) }}>
-        <Text style={{color:'white'}}>{item.id}</Text>
+        <Text style={{ color: 'white' }}>{item.id}</Text>
       </View>
       <View>
         <Image
@@ -100,9 +108,31 @@ const LeaderBoard = () => {
         </Text>
       </View>
       <View style={{ position: 'absolute', right: wp(1.5) }}>
-        <Text style={{ color: 'white', backgroundColor: 'red', borderRadius: 50, paddingVertical: 3, paddingHorizontal: 5 }}>{item.promisability}%</Text>
+        {/* <Pie
+          radius={10}
+          innerRadius={7}
+          backgroundColor='#fff'
+          sections={[
+            
+            {
+              percentage: item.promisability,
+              color: '#ee8347',
+            },
+          ]}
+          dividerSize={2}
+          strokeCap={'butt'}
+        /> */}
+        <LinearGradient
+          colors={['#E4A936', '#EE8347']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          // style={TextInP.lognBtn}
+          style={{ backgroundColor: '#EE8347', borderRadius: 50, paddingVertical: 3, paddingHorizontal: 5 }}
+        >
+          <Text style={{color: 'black', fontSize:11}}>{item.promisability}%</Text>
+        </LinearGradient>
       </View>
-    </View>
+    </LinearGradient>
   );
 
   return (

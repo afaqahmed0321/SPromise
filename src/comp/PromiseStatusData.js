@@ -94,7 +94,7 @@ const PromiseStatusData = () => {
               <Pie
                 radius={60}
                 innerRadius={50}
-                backgroundColor='ee8347'
+                backgroundColor='#ee8347'
                 sections={[
                   // {
                   //   percentage: userPromisbility ,
