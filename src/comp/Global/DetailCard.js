@@ -590,16 +590,7 @@ const DetailCard = ({
               </View>
             </View>
             <View style={DashBoardStyling.PromiseReward}>
-              <Text style={[
-                {
-                  color: 'white',
-                  marginHorizontal: hp(2),
-                  //  fontWeight: 'bold',
-                  fontSize: hp(1.8),
-                },
-              ]}>
-                {promiseGoal}
-              </Text>
+              
               {promisetype == 'GUARANTEE' ? (
                 <Text
                   style={[
