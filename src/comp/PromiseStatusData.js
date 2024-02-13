@@ -11,12 +11,14 @@ import getUserPromisbility from '../Network/GetPromisibility';
 
 const PromiseStatusData = () => {
   const [userN, setUserN] = useRecoilState(UserNo);
+  console.log("this is userNO", userN)
   const [userPromisbility, setUserPromisbility] = useState(null);
 
   const fetchData = async () => {
+    console.log("fetch data is called")
     const res = await getUserPromisbility(userN);
     const userPromisbil = res ? Number(res) : 0
-    console.log(userPromisbil, 'j')
+    console.log(userPromisbil, 'jjjjjjjjjjjj')
     setUserPromisbility(userPromisbil)
    
   };
@@ -86,6 +88,9 @@ const PromiseStatusData = () => {
             style={{flex: 1 , justifyContent:'center',alignItems: 'center'}}
 
             >
+            {
+              console.log("this is promisibility", userPromisbility)
+            }
               <Pie
                 radius={60}
                 innerRadius={50}

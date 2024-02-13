@@ -13,7 +13,7 @@ export const TextInP = StyleSheet.create({
     height: hp(6),
     paddingLeft: 20,
     // borderTopWidth:1,
-
+    borderColor: 'transparent',
     borderCurve:'',
     color: "#000",
     // borderColor:'#652D90'

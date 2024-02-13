@@ -80,6 +80,7 @@ const EnterOTPScreen = ({ navigation }) => {
   const verifyOTP = () => {
     // Add logic to verify the entered OTP
     navigation.navigate('EnterNewPasswordScreen');
+    
   };
   return (
     <View style={{ flex: 1 }}>
@@ -101,7 +102,6 @@ const EnterOTPScreen = ({ navigation }) => {
             handleChange={(code) => setOutputCode(code)}
             numberOfInputs={4}
             inputStyles={{ textAlign: 'center', fontSize: hp(3), color:'#000' }}
-
           />
         </View>
         <View style={{ marginTop: hp(3) }}>

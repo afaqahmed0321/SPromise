@@ -3,13 +3,25 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
+import axios from 'axios';
 
 const ForgetPasswordEmailScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
 
-    const sendOTP = () => {
+    const sendOTP = async () => {
+        const encodedEmail = encodeURIComponent(email);
+        console.log("this is email", encodedEmail)
+        await axios.get(`https://snappromise.com:8080/getOTP?emailID=${encodedEmail}&isForgot=${true}`)
+            .then((res) => {
+                console.log("Forget password is hitted", res);
+                navigation.navigate('EnterOTPScreen', { email });
+
+            })
+            .catch((error) => {
+                console.log("Error in forgot password", error);
+                // navigation.navigate('EnterOTPScreen', { email });
+            })
         // Add logic to send OTP to the entered email
-        navigation.navigate('EnterOTPScreen', { email });
     };
     const onChangeEmail = async text => {
         // Update the Email state with the new text input

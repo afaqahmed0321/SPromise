@@ -101,8 +101,8 @@ const DetailCard = ({
             {isLoading && <ActivityIndicator size="large" color="white" />}
               <Video
                 source={{ uri: selectedVideo }}
-                style={{ width: '100%', height: 300, display: isLoading ? 'none' : 'flex' }}
-                controls={false}
+                style={{ width: '100%', height: 400, display: isLoading ? 'none' : 'flex' }}
+                controls={true}
                 resizeMode="contain"
                 onLoadStart={handleLoadStart}
                 onLoad={handleLoad}

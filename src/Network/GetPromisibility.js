@@ -2,20 +2,11 @@ import axios from 'axios';
 
 const getUserPromisbility = async (userN) => {
   try {
-    const response = await axios.get(
-      'http://138.197.52.199:8080/api/Users/getUserPromisbility',
-      {
-        params: {
-          userNo: userN,
-        },
-        headers: {
-          accept: 'text/plain',
-        },
-      }
+    const response = await axios.get(`https://snappromise.com:8080/api/Users/getUserPromisbility?userNo=${userN}`
     );
 
     console.log('Response:', response.data.promisibility);
-    return  response.data.promisibility
+    return response.data.promisibility;
 
   } catch (error) {
     // Handle error

@@ -274,9 +274,19 @@ const Auth = () => {
                 options={{ headerShown: false }}
               />
               <Stack.Screen
-                name="PaymentScreen"
-                component={PaymentScreen}
-                options={{ headerShown: true }}
+                name="EnterNewPasswordScreen"
+                component={EnterNewPasswordScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="EnterOTPScreen"
+                component={EnterOTPScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="ForgetPasswordEmailScreen"
+                component={ForgetPasswordEmailScreen}
+                options={{ headerShown: false }}
               />
             </>
           ) : (

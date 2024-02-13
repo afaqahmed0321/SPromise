@@ -163,10 +163,14 @@ const LoginScreen = ({ navigation }) => {
       ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
     } else {
       let response = await login(Email, Password);
+      console.log("Login response ka Email", Email)
+      console.log("Login response ka Password", Password)
+      console.log("Login response ka message", response)
       if (response.message === 'Success') {
         setToken(response.token);
         setUserN(response.userNo);
         setemail(Email);
+        
         let resp = await fetchUser(Email);
         console.log(resp.firstName + ' ' + resp.lastName, 'response');
         await AsyncStorage.setItem('token', '');
@@ -235,7 +239,7 @@ const LoginScreen = ({ navigation }) => {
             <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={handleForgetPassword} style={{ alignItems: 'flex-end', }}>
+        <TouchableOpacity onPress={() => navigation.navigate('ForgetPasswordEmailScreen')} style={{ alignItems: 'flex-end', }}>
           <Text style={{ fontWeight: 'bold', color: '#000' }}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
