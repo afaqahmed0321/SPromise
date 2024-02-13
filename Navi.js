@@ -335,6 +335,11 @@ const Auth = () => {
                 options={{ headerShown: true }}
               />
               <Stack.Screen
+                name="PromiseNetwork"
+                component={PromiseNetwork}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
                 name="PaymentScreen"
                 component={PaymentScreen}
                 options={{ headerShown: true }}

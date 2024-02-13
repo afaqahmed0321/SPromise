@@ -231,7 +231,7 @@ const Drawer = () => {
           <View>
             <TouchableOpacity
               style={styles.listContainer}
-              onPress={() => navigation.navigate('')}
+              onPress={() => navigation.navigate('PromiseNetwork')}
             >
               <MaterialIcons
                 color="#652D90"
@@ -239,7 +239,7 @@ const Drawer = () => {
                 size={30}
                 style={{ marginTop: 8 }}
               />
-              <Text style={[styles.TebText, { padding: 3 }]}>Network Feed</Text>
+              <Text style={[styles.TebText, { padding: 3 }]}>My Network</Text>
             </TouchableOpacity>
           </View>
 

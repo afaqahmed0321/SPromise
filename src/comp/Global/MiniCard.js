@@ -59,11 +59,11 @@ const MiniCard = ({
     const handleLoadStart = () => {
       setIsLoading(true);
     };
-  
+
     const handleLoad = () => {
       setIsLoading(false);
     };
-  
+
     return (
       <Modal
         animationType="none"
@@ -77,7 +77,7 @@ const MiniCard = ({
               <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}></BlurView>
             </View>
             <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', justifyContent: 'center', alignItems: 'center' }}>
-            {isLoading && <ActivityIndicator size="large" color="white" />}
+              {isLoading && <ActivityIndicator size="large" color="white" />}
               <Video
                 source={{ uri: selectedVideo }}
                 style={{ width: '100%', height: 300, display: isLoading ? 'none' : 'flex' }}
@@ -307,9 +307,24 @@ const MiniCard = ({
                         fontSize: hp(2),
                       },
                     ]}>
-                    Guarantee: ${amount} {rewardPoints ? <Text >& {rewardPoints} Ps</Text> : null}
+                    Guarantee: ${amount} {rewardPoints ? <Text >& {rewardPoints} pts</Text>
+                      : null}
                   </Text>
                 ) : promisetype == 'COMMITMENT' ? (
+                  <Text
+                    style={[
+                      {
+                        color: 'white',
+                        marginHorizontal: hp(2),
+                        fontWeight: 'bold',
+                        fontSize: 18,
+                        fontSize: hp(2),
+                      },
+                    ]}>
+                    Commitment: ${amount} {rewardPoints ? <Text >& {rewardPoints} pts</Text>
+                      : null}
+                  </Text>
+                ) :
                   <Text
                     style={[
                       {
@@ -321,9 +336,9 @@ const MiniCard = ({
                         fontSize: hp(2),
                       },
                     ]}>
-                    {rewardPoints ? <Text style={{}}>Reward: ${amount} & {rewardPoints} Pts</Text> : null}
-                  </Text>
-                ) : null}
+                    {rewardPoints ? <Text style={{}}>Reward: ${amount} & {rewardPoints} Pts</Text>
+                      : null}
+                  </Text>}
                 {promiseMediaURL ? (
                   <TouchableOpacity
                     onPress={() => handelAttachedMedia(promiseMediaURL)}>
