@@ -80,7 +80,7 @@ const PaymentScreens = ({ promiseID, userN, amount }) => {
           promiseID,
           sourseID
         }
-        await axios.post(`https://snappromise.com:8080/updatePaymentTransactionID?promiseID=${promiseID}?transactionID=${sourseID}`)
+        await axios.post(`https://snappromise.com:8080/updatePaymentTransactionID?promiseID=${promiseID}&transactionID=${sourseID}`)
           .then((response) => {
             console.log("IDs has been send to new API");
           })
