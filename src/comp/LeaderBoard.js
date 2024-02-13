@@ -76,8 +76,6 @@ const LeaderBoard = () => {
         alignSelf: 'center',
         // justifyContent: 'space-between',
         alignItems: 'center',
-
-
       }}
     >
 

@@ -65,6 +65,8 @@ const DetailCard = ({
   const [isPaymentWebViewVisible, setIsPaymentWebViewVisible] = useState(false);
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
   const [isVideoModalVisible, setIsVideoModalVisible] = useState(false);
+  const [markCompleted, setMarkCompleted] = useState(false);
+
 
   const handelAttachedMedia = (urll) => {
     console.log(urll, "video playing");
@@ -82,11 +84,11 @@ const DetailCard = ({
     const handleLoadStart = () => {
       setIsLoading(true);
     };
-  
+
     const handleLoad = () => {
       setIsLoading(false);
     };
-  
+
     return (
       <Modal
         animationType="none"
@@ -100,7 +102,7 @@ const DetailCard = ({
               <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}></BlurView>
             </View>
             <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', justifyContent: 'center', alignItems: 'center' }}>
-            {isLoading && <ActivityIndicator size="large" color="white" />}
+              {isLoading && <ActivityIndicator size="large" color="white" />}
               <Video
                 source={{ uri: selectedVideo }}
                 style={{ width: '100%', height: 400, display: isLoading ? 'none' : 'flex' }}
@@ -256,12 +258,12 @@ const DetailCard = ({
 
             {promiseMediaURL ? (
               <TouchableOpacity
-              onPress={() => handelAttachedMedia(promiseMediaURL)}>
-              <FontAw5 color="#652D90" name="youtube" size={23} style={{ marginHorizontal: hp(2) }} />
-              <VideoModal />
+                onPress={() => handelAttachedMedia(promiseMediaURL)}>
+                <FontAw5 color="#652D90" name="youtube" size={23} style={{ marginHorizontal: hp(2) }} />
+                <VideoModal />
 
-              {/* <Text style={{ color: 'blue' }}>Attacheddd File</Text> */}
-            </TouchableOpacity>
+                {/* <Text style={{ color: 'blue' }}>Attacheddd File</Text> */}
+              </TouchableOpacity>
             ) : null}
             <View style={DashBoardStyling.PromiseGoal}>
               <View>
@@ -335,7 +337,49 @@ const DetailCard = ({
                       </TouchableOpacity>
                     ) : null}
                   </View> */}
+            {tab == 'ReqPromiseDashboard' ? (
+              null
+            ) : (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  // justifyContent: 'space-between',
+                  justifyContent: 'space-around',
+                  alignItems: 'center',
+                  height: hp(5),
+                  marginTop: hp(.5),
+                  paddingHorizontal: 25
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setMarkCompleted(true);
+                  }}
+                  style={styles.LinerC}>
+                  <LinearGradient
+                    colors={markCompleted ? ['#1D1B201F', '#1D1B201F'] : ['#32C35B', '#32C35B']}
+                    style={styles.left}>
+                    <Text style={{ color: !markCompleted ? 'white' : '#191C1A', textAlign: 'center' }}>
+                      Mark Completed
+                    </Text>
+                  </LinearGradient>
+                </TouchableOpacity>
 
+                <TouchableOpacity
+                  onPress={() => {
+                    setMarkCompleted(false);
+                  }}
+                  style={styles.LinerC}>
+                  <LinearGradient
+                    // colors={['#E32E2E', '#E32E2E']}
+                    colors={markCompleted ? ['#E32E2E', '#E32E2E'] : ['#1D1B201F', '#1D1B201F']}
+                    style={styles.right}>
+                    <Text style={{ color: markCompleted ? 'white' : '#191C1A', textAlign: 'center' }}>
+                      Mark Failed
+                    </Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+            )}
             <View
               style={{
                 flexDirection: 'row',
@@ -528,26 +572,15 @@ const DetailCard = ({
                 <Text style={{ color: 'white', fontSize: hp(2) }}>{name}</Text>
               </View>
               <View style={{ width: wp(8) }}>
-                <Entypo size={20} color="white" name="calendar" />
+                <Entypo size={25} color="white" name="calendar" />
               </View>
 
               <View>
-                {/* <Text
-         style={[
-           Headings.Input5,
-           {
-             marginLeft: wp(0.7),
-             color: 'white',
-             marginTop: wp(0.3),
-           },
-         ]}>
-         DeadLine
-       </Text> */}
                 <Text
                   style={[
                     Headings.Input6,
                     {
-                      marginLeft: wp(0.7),
+                      marginLeft: wp(0),
                       color: 'white',
                       marginTop: wp(0.3),
                     },
@@ -557,6 +590,16 @@ const DetailCard = ({
               </View>
             </View>
             <View style={DashBoardStyling.PromiseReward}>
+              <Text style={[
+                {
+                  color: 'white',
+                  marginHorizontal: hp(2),
+                  //  fontWeight: 'bold',
+                  fontSize: hp(1.8),
+                },
+              ]}>
+                {promiseGoal}
+              </Text>
               {promisetype == 'GUARANTEE' ? (
                 <Text
                   style={[
@@ -691,6 +734,52 @@ const DetailCard = ({
      ) : null}
    </View> */}
 
+            {tab == 'PromisestoMe' ? (
+              null
+            ) : (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  // justifyContent: 'space-between',
+                  justifyContent: 'space-around',
+                  alignItems: 'center',
+                  height: hp(5),
+                  marginTop: hp(.5),
+                  paddingHorizontal: 25
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setMarkCompleted(true);
+                  }}
+                  style={styles.LinerC}>
+                  <LinearGradient
+                    colors={markCompleted ? ['#1D1B201F', '#1D1B201F'] : ['#32C35B', '#32C35B']}
+                    style={styles.left}>
+                    <Text style={{ color: !markCompleted ? 'white' : '#191C1A', textAlign: 'center' }}>
+                      Mark Completed
+                    </Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => {
+                    setMarkCompleted(false);
+                  }}
+                  style={styles.LinerC}>
+                  <LinearGradient
+                    // colors={['#E32E2E', '#E32E2E']}
+                    colors={markCompleted ? ['#E32E2E', '#E32E2E'] : ['#1D1B201F', '#1D1B201F']}
+                    style={styles.right}>
+                    <Text style={{ color: markCompleted ? 'white' : '#191C1A', textAlign: 'center' }}>
+                      Mark Failed
+                    </Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+            )}
+
+
+
             <View
               style={{
                 flexDirection: 'row',
@@ -822,7 +911,7 @@ const DetailCard = ({
             </View>
           </View>
         </LinearGradient>
-      ) : tab == 'Home' ?(
+      ) : tab == 'Home' ? (
         <LinearGradient
           colors={
             tab == 'PromisestoMe'
@@ -874,7 +963,7 @@ const DetailCard = ({
                   marginLeft: wp(-3),
                   width: wp(45),
                 }}>
-                <Text style={{ color: 'white', fontSize: hp(2), marginLeft:15 }}>{name}</Text>
+                <Text style={{ color: 'white', fontSize: hp(2), marginLeft: 15 }}>{name}</Text>
               </View>
               <View style={{ width: wp(8) }}>
                 <Entypo size={20} color="white" name="calendar" />
@@ -1204,6 +1293,25 @@ const DetailCard = ({
   );
 };
 const styles = StyleSheet.create({
+  left: {
+    // flex: 1,
+    width: wp(33),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: hp(5),
+    height: hp(5),
+    paddingHorizontal: 10,
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  right: {
+    // flex: 1,
+    width: wp(30),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: hp(5),
+    height: hp(5)
+  },
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(10, 0, 0, 0.5)', // Semi-transparent black

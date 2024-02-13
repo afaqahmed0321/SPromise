@@ -266,18 +266,6 @@ const MiniCard = ({
                       marginLeft: wp(0),
                       color: 'white',
                       marginTop: wp(0.3),
-                      fontSize: 12,
-                    },
-                  ]}>
-                  Deadline
-                </Text>
-                <Text
-                  style={[
-                    Headings.Input6,
-                    {
-                      marginLeft: wp(0),
-                      color: 'white',
-                      marginTop: wp(0.3),
                     },
                   ]}>
                   {format(new Date(date), 'dd/MM/yyyy')}
@@ -296,7 +284,7 @@ const MiniCard = ({
           </View>
         </View> */}
             <View style={{ paddingHorizontal: 15 }}>
-              <View >
+              {/* <View >
                 <Text style={{
                   textAlign: 'justify', fontWeight: 'bold', fontSize: 14, color: "white"
                 }}>
@@ -304,7 +292,7 @@ const MiniCard = ({
                   voluptatem accusantium doloremque laudantium, totam rem aperiam, ut perspiciatis unde omnis
                   iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam,
                 </Text>
-              </View>
+              </View> */}
               <View style={[DashBoardStyling.PromiseReward, {
                 textAlign: 'center', justifyContent: 'center', alignItems: 'center',
               }]}>
@@ -319,7 +307,7 @@ const MiniCard = ({
                         fontSize: hp(2),
                       },
                     ]}>
-                    Guarantee: ${amount} {rewardPoints ? <Text >{rewardPoints} reward Points</Text> : null}
+                    Guarantee: ${amount} {rewardPoints ? <Text >& {rewardPoints} Ps</Text> : null}
                   </Text>
                 ) : promisetype == 'COMMITMENT' ? (
                   <Text
@@ -333,7 +321,7 @@ const MiniCard = ({
                         fontSize: hp(2),
                       },
                     ]}>
-                    Commitment: ${amount} {rewardPoints ? <Text style={{}}>Reward: ${rewardPoints}</Text> : null}
+                    {rewardPoints ? <Text style={{}}>Reward: ${amount} & {rewardPoints} Pts</Text> : null}
                   </Text>
                 ) : null}
                 {promiseMediaURL ? (
@@ -348,7 +336,7 @@ const MiniCard = ({
               </View>
             </View>
 
-            <View
+            {/* <View
               style={{
                 flexDirection: 'row',
                 // justifyContent: 'space-between',
@@ -386,7 +374,7 @@ const MiniCard = ({
                   </Text>
                 </LinearGradient>
               </TouchableOpacity>
-            </View>
+            </View> */}
 
 
           </View>

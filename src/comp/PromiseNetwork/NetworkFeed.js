@@ -67,7 +67,7 @@ const NetworkFeed = ({navigation}) => {
     console.log('UserNo is ', networkUserNo);
     const res = await NetWorkFeedApi(networkUserNo);
     setSelectedNetworkUserFee(res);
-    console.log(res);
+    console.log("this from fedback",res);
   };
 
   // const handleSearch = () => {
