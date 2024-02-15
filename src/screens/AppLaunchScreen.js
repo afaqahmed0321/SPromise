@@ -49,11 +49,7 @@ const AppLaunchScreen = ({ navigation }) => {
           style={commonStyles.SignUpBtn}
         >
           <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
-            <Text style={{
-              color: 'white', fontSize: 16,
-              fontWeight: 'bold',
-              color: 'white',
-            }}>Create Account</Text>
+            <Text style={TextInP.SignInButton}>Create Account</Text>
           </TouchableOpacity>
         </LinearGradient>
       </View>

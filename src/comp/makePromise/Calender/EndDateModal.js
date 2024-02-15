@@ -19,11 +19,16 @@ const EndDateModal = () => {
     const [selectEndDate, setSelectEndDate] = useState(false);
     const [deadlinedate, setDeadLinedate] = useRecoilState(deadline);
     const [endDateMV, setEndDateMV] = useRecoilState(isEndDateModalV)
+
+    const currentDate = new Date();
+    const currentDateString = currentDate.toISOString().split('T')[0];
+
   return (
     <View style={{marginTop: hp(40), alignItems: 'center',height: hp(40), backgroundColor: 'white'  }}>
     
     <Calendar
   style={styles.keyB}
+  minDate={currentDateString}
   onDayPress={day => {
     console.log('Clicked'); // Corrected the string closing quote
     setDeadLinedate(day.dateString);

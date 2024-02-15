@@ -97,7 +97,7 @@ const VerficationPage = ({ navigation }) => {
             inputContainerStyles={styles.inBox}
             handleChange={(code) => setOutputCode(code)}
             numberOfInputs={4}
-            inputStyles={{ textAlign: 'center', fontSize: hp(3) }}
+            inputStyles={{ textAlign: 'center', fontSize: hp(3),color:"black" }}
 
           />
           {/* <TextInput  style={styles.inBox}/>
@@ -110,7 +110,7 @@ const VerficationPage = ({ navigation }) => {
             colors={['#73B6BF', '#2E888C']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
-            style={commonStyles.SignUpBtn}
+            style={commonStyles.lognBtn}
           >
             <TouchableOpacity
               onPress={() => verification()}

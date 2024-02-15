@@ -58,12 +58,20 @@ const MakePromise = ({ navigation }) => {
   // const [financial, setFinancial] = useState(false);
   const [isChecked1, setIsChecked1] = useState(istimeBoundCheckBox1);
   const [isChecked2, setIsChecked2] = useState(istimeBoundCheckBox2);
-  const [isTimeB, setIsTimeB] = useRecoilState(IsTimeBound);
   const [deadlinedate, setDeadLinedate] = useRecoilState(deadline);
+  const [isTimeB, setIsTimeB] = useRecoilState(IsTimeBound);
   const [startDa, setStartDate] = useRecoilState(startDate);
   const [paymentCheck, setpaymentCheck] = useRecoilState(PaymentCheck);
   const [rewardCheck, setrewardCheck] = useRecoilState(RewardCheck);
-
+  const [Promiseze, setSelectedPromisee] = useRecoilState(selectedPromisee);
+  const [promiseStatement, setPromiseStatement] = useState('');
+  const [amount, setAmount] = useRecoilState(promiseAmounnt);
+  const [rewardPoints, setRewardPoints] = useRecoilState(RewardPoints);
+  const [makePromise, setMakePromise] = useRecoilState(MakeaPromise);
+  const [preward, setPreward] = useRecoilState(promiseReward);
+  const [selectEndDate, setSelectEndDate] = useState(false);
+  const [startDateMV, setStartDateMV] = useRecoilState(isStartDateModalV);
+  const [endDateMV, setEndDateMV] = useRecoilState(isEndDateModalV);
   const currentDate = new Date();
 
   // const [guranted, setGuranted] = useState(Guaranteed);
@@ -85,18 +93,10 @@ const MakePromise = ({ navigation }) => {
   //   }, 1500);
   // };
 
-  const [amount, setAmount] = useRecoilState(promiseAmounnt);
-  const [rewardPoints, setRewardPoints] = useRecoilState(RewardPoints);
-  const [makePromise, setMakePromise] = useRecoilState(MakeaPromise);
-  const [preward, setPreward] = useRecoilState(promiseReward);
-  // const [selectStartDate, setselectStartDate] = useState(false);
-  // const [selectEndDate, setSelectEndDate] = useState(false);
-  const [startDateMV, setStartDateMV] = useRecoilState(isStartDateModalV);
-  const [endDateMV, setEndDateMV] = useRecoilState(isEndDateModalV);
   const bgBtnmakeprms = ['#E4A936', '#EE8347'];
   const bgBtnrqstprms = ['#73B6BF', '#2E888C'];
   const focus = useIsFocused();
-  const [Promiseze, setSelectedPromisee] = useRecoilState(selectedPromisee);
+ 
 
   const toggleCheckBox1 = () => {
     setIsChecked1(true);
@@ -134,7 +134,7 @@ const MakePromise = ({ navigation }) => {
   }, [focus]);
 
 
-  const [promiseStatement, setPromiseStatement] = useState('');
+
 
   const handleTextChange = (text) => {
     setPromiseStatement(text);
@@ -145,7 +145,7 @@ const MakePromise = ({ navigation }) => {
   const handleNextButtonPress = () => {
     if (isTimeB) {
       // Compilation date is mandatory
-      if (startDa) {
+      if (!startDa) {
         ToastAndroid.showWithGravityAndOffset(
           'Please select compilation date',
           ToastAndroid.LONG,
@@ -164,9 +164,17 @@ const MakePromise = ({ navigation }) => {
             25,
             50,
           );
-        } else {
+        } else if(selectEndDate){
           navigation.navigate('Review');
           console.log('Reward points', rewardPoints);
+        }else{
+          ToastAndroid.showWithGravityAndOffset(
+            'Please select compilation date',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
         }
       }
     } else {
@@ -186,6 +194,8 @@ const MakePromise = ({ navigation }) => {
       }
     }
   };
+  
+  
   
   
   
@@ -387,7 +397,7 @@ const MakePromise = ({ navigation }) => {
                   flexDirection: 'row',
                   justifyContent: 'center',
                 }}>
-               <View
+               {/* <View
                   style={{
                     marginLeft: wp(3),
                     width: wp(30),
@@ -396,12 +406,14 @@ const MakePromise = ({ navigation }) => {
                   }}>
                   <TouchableOpacity
 
-                    onPress={() => setStartDateMV(true)}
+                    onPress={() => {setStartDateMV(true)
+                      setSelectEndDate(true);}
+                    }
                     style={styles.DateCB}>
                     {startDa == '' ? (
                       <Text style={{
                         color: '#000'
-                      }}> yyyy-mm-dd</Text>
+                      }}> Select Date</Text>
                     ) : (
                       <Text style={{
                         color: '#000'
@@ -417,8 +429,8 @@ const MakePromise = ({ navigation }) => {
                     onRequestClose={() => setStartDateMV(false)}>
                     <StartModal />
                   </Modal>
-                </View> 
-                {/* <View
+                </View>  */}
+                <View
 
                   style={{
                     marginLeft: wp(3),
@@ -428,7 +440,9 @@ const MakePromise = ({ navigation }) => {
                     color: '#000'
                   }}>
                   <TouchableOpacity
-                    onPress={() => setEndDateMV(true)}
+                    onPress={() => {setEndDateMV(true);
+                      setSelectEndDate(true);
+                    }}
                     style={styles.DateCB}>
                     {deadlinedate === '' ? (
                       <Text
@@ -436,7 +450,7 @@ const MakePromise = ({ navigation }) => {
                           color: '#000'
                         }}
 
-                      > Select End Date</Text>
+                      > Select Date</Text>
                     ) : (
                       <Text
                         style={{
@@ -453,7 +467,7 @@ const MakePromise = ({ navigation }) => {
                     onRequestClose={() => setEndDateMV(false)}>
                     <EndDateModal />
                   </Modal>
-                </View>  */}
+                </View> 
 
                 {/* <View style={{marginRight: wp(6), width: wp(43), height: hp(5)}}>
             <TouchableOpacity

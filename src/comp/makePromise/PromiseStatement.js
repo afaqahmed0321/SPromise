@@ -310,11 +310,11 @@ const PromiseStatement = ({ onTextChange }) => {
                 color: '#000',
                 height: hp(15), // Set the height as needed
                 textAlignVertical: 'top',
-
+                paddingBottom: 10,
               }}
               multiline={true}
-              value={suggestedText ? {...suggestedText} : generatedTexts}
-            />
+              value={suggestedText !== null ? suggestedText : generatedTexts}
+              />
           </View>
           <View>
             <TouchableOpacity onPress={() => setIsModalV(true)} style={{ marginTop: 10, marginStart: 10 }}>

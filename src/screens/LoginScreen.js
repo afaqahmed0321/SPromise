@@ -6,7 +6,7 @@ import {
   ToastAndroid,
   TouchableOpacity,
   SafeAreaView,
-  Image
+  Image,
 } from 'react-native';
 import React, { useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
@@ -40,6 +40,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { uemail } from '../recoil/Users/GetUsers';
 import fetchUser from '../Network/Users/GetUser';
 import { signup, Socialsignup } from '../Network/SignUpApi';
+import LoadingOverlay from '../comp/Global/LoadingOverlay'; 
 
 const LoginScreen = ({ navigation }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -48,6 +49,8 @@ const LoginScreen = ({ navigation }) => {
   const [Token, setToken] = useRecoilState(token);
   const [userN, setUserN] = useRecoilState(UserNo);
   const [email, setemail] = useRecoilState(uemail);
+  const [isLoading, setIsLoading] = useState(false); 
+
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
@@ -157,48 +160,51 @@ const LoginScreen = ({ navigation }) => {
       });
   }
   const LoginPress = async () => {
-    if (Email == '') {
-      ToastAndroid.show('Please Enter Email', ToastAndroid.LONG);
-    } else if (Password == '') {
-      ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
-    } else {
-      let response = await login(Email, Password);
-      console.log("Login response ka Email", Email)
-      console.log("Login response ka Password", Password)
-      console.log("Login response ka message", response)
-      if (response.message === 'Success') {
-        setToken(response.token);
-        setUserN(response.userNo);
-        setemail(Email);
-        
-        let resp = await fetchUser(Email);
-        console.log(resp.firstName + ' ' + resp.lastName, 'response');
-        await AsyncStorage.setItem('token', '');
-        await AsyncStorage.setItem('userNo', '');
-        await AsyncStorage.setItem('Email', '');
-        await AsyncStorage.setItem('Name', '');
-        await AsyncStorage.setItem('token', response.token);
-        await AsyncStorage.setItem('userNo', response.userNo);
-        await AsyncStorage.setItem('Email', Email);
-        await AsyncStorage.setItem(
-          'Name',
-          resp.firstName + ' ' + resp.lastName,
-        );
-        // navigation.navigate('HomeScreen')
-      } else if (
-        (response.message =
-          'Either you do not have permission or credentials are invalid.')
-      ) {
-        ToastAndroid.show(
-          'Either you do not have permission or credentials are invalid.',
-          ToastAndroid.LONG,
-        );
+    try {
+      if (Email == '') {
+        ToastAndroid.show('Please Enter Email', ToastAndroid.LONG);
+      } else if (Password == '') {
+        ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
       } else {
-        ToastAndroid.show('Please Try Again !', ToastAndroid.LONG);
+        setIsLoading(true); // Show the loading overlay
+        let response = await login(Email, Password);
+        setIsLoading(false); // Hide the loading overlay
+        if (response.message === 'Success') {
+          setToken(response.token);
+          setUserN(response.userNo);
+          setemail(Email);
+          let resp = await fetchUser(Email);
+          console.log(resp.firstName + ' ' + resp.lastName, 'response');
+          await AsyncStorage.setItem('token', '');
+          await AsyncStorage.setItem('userNo', '');
+          await AsyncStorage.setItem('Email', '');
+          await AsyncStorage.setItem('Name', '');
+          await AsyncStorage.setItem('token', response.token);
+          await AsyncStorage.setItem('userNo', response.userNo);
+          await AsyncStorage.setItem('Email', Email);
+          await AsyncStorage.setItem(
+            'Name',
+            resp.firstName + ' ' + resp.lastName,
+          );
+          // navigation.navigate('HomeScreen')
+        } else if (
+          (response.message =
+            'Either you do not have permission or credentials are invalid.')
+        ) {
+          ToastAndroid.show(
+            'Either you do not have permission or credentials are invalid.',
+            ToastAndroid.LONG,
+          );        } else {
+          ToastAndroid.show('Please Try Again !', ToastAndroid.LONG);
+        }
       }
-      console.log(response, 'inLogin');
+    } catch (error) {
+      console.error('Error in LoginPress:', error);
+      setIsLoading(false); // Hide the loading overlay in case of error
+      ToastAndroid.show('An error occurred. Please try again later.', ToastAndroid.LONG);
     }
   };
+  
   const onChangeEmail = async text => {
     // Update the Email state with the new text input
     setEmail(text);
@@ -211,6 +217,8 @@ const LoginScreen = ({ navigation }) => {
   };
   return (
     <SafeAreaView style={styles.mainC}>
+            {isLoading && <LoadingOverlay />}
+
       <LogoHeaderGlobel navigation={navigation} />
       <View style={{ width: wp(90), marginTop: hp(8), marginLeft: hp(2) }}>
         <Text style={Headings.InputH}>Log In</Text>
@@ -243,7 +251,7 @@ const LoginScreen = ({ navigation }) => {
           <Text style={{ fontWeight: 'bold', color: '#000' }}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
-      {/* <View></View> */}
+    
       <View style={{ marginTop: hp(3), alignItems: 'center' }}>
         <View>
           <LinearGradient
@@ -252,9 +260,7 @@ const LoginScreen = ({ navigation }) => {
             end={{ x: 1, y: 0 }}
             style={commonStyles.lognBtn}
           >
-            <TouchableOpacity
-              onPress={() => LoginPress()}
-              >
+           <TouchableOpacity onPress={() => LoginPress()}>
               <Text style={TextInP.LogInButton}>Log In</Text>
             </TouchableOpacity>
           </LinearGradient>
