@@ -99,7 +99,7 @@ const VerficationPage = ({ navigation }) => {
             inputContainerStyles={styles.inBox}
             handleChange={(code) => setOutputCode(code)}
             numberOfInputs={4}
-            inputStyles={{ textAlign: 'center', fontSize: hp(3),color:"black" }}
+            inputStyles={{ textAlign: 'center', fontSize: hp(3), color: '#000' }}
 
           />
           {/* <TextInput  style={styles.inBox}/>

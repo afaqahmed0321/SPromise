@@ -24,7 +24,7 @@ const EndDateModal = () => {
     const currentDateString = currentDate.toISOString().split('T')[0];
 
   return (
-    <View style={{marginTop: hp(40), alignItems: 'center',height: hp(40), backgroundColor: 'white'  }}>
+    <View style={{marginTop: hp(40), alignItems: 'center',height: hp(45), backgroundColor: 'white'  }}>
     
     <Calendar
   style={styles.keyB}

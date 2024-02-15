@@ -123,15 +123,20 @@ const PromiseNetwork = ({navigation}) => {
   useEffect(() => {
     fetchData();
   }, [focus, refreshnetwork]);
-
+  const handleBack = () => {
+    navigation.goBack();
+  }
   return (
-    <View style={{backgroundColor: '#E4EEE6', flex: 1}}>
+   
+    <View style={{backgroundColor: '#E4EEE6', flex: 1}} >
       <View style={{height: hp(7), flexDirection: 'row', alignItems: 'center'}}>
+       {navigation.canGoBack() && (
         <TouchableOpacity
-          onPress={() => setIsnetworkModVi(false)}
+          onPress={handleBack}
           style={{marginLeft: wp(6)}}>
           <EvilIcon name="arrow-alt-circle-left" size={30} color="#652D90" />
         </TouchableOpacity>
+        )}
         <View style={{marginLeft: wp(6)}}>
         <Text style={{fontSize:hp(2.3), fontWeight:'bold',color:"#652D90"}}>
           Promise Network
@@ -172,6 +177,7 @@ const PromiseNetwork = ({navigation}) => {
 
           <TextInput
             placeholder="Search by name"
+            placeholderTextColor={'grey'}
             style={styles.SearchInpF}
             value={searchText}
             onChangeText={text => {
@@ -246,7 +252,7 @@ const PromiseNetwork = ({navigation}) => {
                 </View>
                 <View style={{width: wp(49), marginLeft: wp(3)}}>
                   {item.networkUserName !== '' ? (
-                    <Text>{item.networkUserName}</Text>
+                    <Text style={{color:"black"}}>{item.networkUserName}</Text>
                   ) : null}
                 </View>
                 {/* <View style={styles.container}>{renderStars(5)}</View> */}
@@ -310,6 +316,9 @@ const styles = StyleSheet.create({
     paddingLeft: wp(4),
     alignItems: 'center',
     justifyContent: 'center',
+    fontSize:14,
+    padding:0,
+    height:hp(5),
   },
 });
 
