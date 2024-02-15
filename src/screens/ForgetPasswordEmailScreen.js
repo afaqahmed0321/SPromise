@@ -4,9 +4,15 @@ import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
 import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import { code, uemail } from '../recoil/Users/GetUsers';
 
 const ForgetPasswordEmailScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
+    const [Code, setCode] = useRecoilState(code)
+  const [Semail, setSemail] = useRecoilState(uemail);
+
+
 
     const sendOTP = async () => {
         const encodedEmail = encodeURIComponent(email);
@@ -14,8 +20,9 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
         await axios.get(`https://snappromise.com:8080/getOTP?emailID=${encodedEmail}&isForgot=${true}`)
             .then((res) => {
                 console.log("Forget password is hitted", res);
-                navigation.navigate('EnterOTPScreen', { email });
-
+                setCode(res.data.code)
+                navigation.navigate('EnterOTPScreen', { Code, email });
+                setSemail(email)
             })
             .catch((error) => {
                 console.log("Error in forgot password", error);

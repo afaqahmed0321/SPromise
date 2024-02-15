@@ -30,7 +30,7 @@
 //     console.log("Api Call",NewPass)
 //     const userNo = userN;
 //     const newPassword = NewPass;
-  
+
 //     try {
 //       const response = await fetch(`https://snappromise.com:8080/api/Users/updatePassword?userNo=${userNo}&password=${encodeURIComponent(newPassword)}`, {
 //         method: 'POST',
@@ -38,7 +38,7 @@
 //           'Accept': 'text/plain',
 //         },
 //       });
-  
+
 //       if (response.ok) {
 //         console.log('Password updated successfully');
 //         console.log(response)
@@ -49,48 +49,31 @@
 //       console.error('Error updating password:', error.message);
 //     }
 //   };
-  
+
 // export default UpdatedPassword;
 
 const UpdatedPassword = async (userN, NewPass) => {
-    console.log("Api Call", userN);
-    console.log("Api Call", NewPass);
-    const userNo = userN;
-    const newPassword = NewPass;
-  
-    try {
-      const response = await fetch(
-        `https://snappromise.com:8080/api/Users/updatePassword?userNo=${userNo}&password=${newPassword}`,
-        {
-          method: 'POST',
-          headers: {
-            'Accept': 'text/plain', // Change to 'application/json'
-          },
-        }
-      );
-        console.log(response);
-      if (response.ok) {
-        const responseData = await response.json();
-  
-        if (responseData.code === 200) {
-          // Password updated successfully
-          console.log('Password updated successfully');
-          console.log(responseData);
-          return responseData.code;
-        } else {
-          // Handle unsuccessful response
-          console.error('Failed to update password:', responseData.description);
-        }
-      } else {
-        // Handle non-OK response
-        console.error('Failed to update password:', response.status, response.statusText);
+  console.log("Api Call", userN);
+  console.log("Api Call", NewPass);
+  const userNo = userN;
+  const newPassword = NewPass;
+
+  try {
+    const response = await fetch(
+      `https://snappromise.com:8080/api/Users/updatePassword?userNo=${userNo}&password=${newPassword}`,
+      {
+        method: 'POST',
+        headers: {
+          'Accept': 'text/plain', // Change to 'application/json'
+        },
       }
-    } catch (error) {
-      // Handle fetch error
-      console.error('Error updating password:', error.message);
-    }
-  };
-  
-  export default UpdatedPassword;
-  
- 
+    );
+    return response
+  } catch (error) {
+    // Handle fetch error
+    console.error('Error updating password:', error.message);
+  }
+};
+
+export default UpdatedPassword;
+

@@ -340,7 +340,7 @@ const DetailCard = ({
                       </TouchableOpacity>
                     ) : null}
                   </View> */}
-            {tab == 'ReqPromiseDashboard' ? (
+            {/* {tab == 'ReqPromiseDashboard' ? (
               null
             ) : (
               <View
@@ -386,7 +386,7 @@ const DetailCard = ({
                   </LinearGradient>
                 </TouchableOpacity>
               </View>
-            )}
+            )} */}
             <View
               style={{
                 flexDirection: 'row',
@@ -425,34 +425,34 @@ const DetailCard = ({
                     </TouchableOpacity>
                   );
                 }
-                // else if (action === 'Complete') {
-                //   return (
-                //     <TouchableOpacity
-                //       style={[commonStyles.ActionBtn]}
-                //       key={index}
-                //       onPress={() => {
-                //         handleCompletePromise(promiseID, userN);
-                //         //   setrefresh(!refersh)
-                //       }}>
-                //       <Text>{action}</Text>
-                //     </TouchableOpacity>
-                //   );
-                // }
-                //  else if (action === 'Fail') {
-                //   return (
-                //     <TouchableOpacity
-                //       style={[commonStyles.ActionBtn, {backgroundColor: 'red'}]}
-                //       key={index}
-                //       onPress={() => {
-                //         handleFailPromise(promiseID, userN);
-                //         refreshCallback();
+                else if (action === 'Complete') {
+                  return (
+                    <TouchableOpacity
+                      style={[commonStyles.ActionBtn]}
+                      key={index}
+                      onPress={() => {
+                        handleCompletePromise(promiseID, userN);
+                        setrefresh(!refersh)
+                      }}>
+                      <Text>{action}</Text>
+                    </TouchableOpacity>
+                  );
+                }
+                else if (action === 'Fail') {
+                  return (
+                    <TouchableOpacity
+                      style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                      key={index}
+                      onPress={() => {
+                        handleFailPromise(promiseID, userN);
+                        refreshCallback();
 
-                //         // setrefresh(!refersh)
-                //       }}>
-                //       <Text>{action}</Text>
-                //     </TouchableOpacity>
-                //   );
-                // }
+                        setrefresh(!refersh)
+                      }}>
+                      <Text>{action}</Text>
+                    </TouchableOpacity>
+                  );
+                }
                 else if (action === 'Pay') {
                   return (
                     <TouchableOpacity
@@ -468,8 +468,8 @@ const DetailCard = ({
                   );
                 }
               })}
-              {/* {item.actions.map((action, index) => {
-                      if (action === 'Accept') {
+              {actions.map((action, index) => {
+                {/* if (action === 'Accept') {
                         return (
                           <TouchableOpacity
                             style={commonStyles.ActionBtn}
@@ -494,33 +494,34 @@ const DetailCard = ({
                             <Text>{action}</Text>
                           </TouchableOpacity>
                         );
-                      } else if (action === 'Complete') {
-                        return (
-                          <TouchableOpacity
-                            style={[commonStyles.ActionBtn]}
-                            key={index}
-                            onPress={() =>
-                              handleCompletePromise(item.promiseID, userN)
-                            }>
-                            <Text>{action}</Text>
-                          </TouchableOpacity>
-                        );
-                      } else if (action === 'Fail') {
-                        return (
-                          <TouchableOpacity
-                            style={[
-                              commonStyles.ActionBtn,
-                              {backgroundColor: 'red'},
-                            ]}
-                            key={index}
-                            onPress={() =>
-                              handleFailPromise(item.promiseID, userN)
-                            }>
-                            <Text>{action}</Text>
-                          </TouchableOpacity>
-                        );
-                      }
-                    })} */}
+                      }*/}
+                if (action === 'Complete') {
+                  return (
+                    <TouchableOpacity
+                      style={[commonStyles.ActionBtn]}
+                      key={index}
+                      onPress={() =>
+                        handleCompletePromise(item.promiseID, userN)
+                      }>
+                      <Text>{action}</Text>
+                    </TouchableOpacity>
+                  );
+                } else if (action === 'Fail') {
+                  return (
+                    <TouchableOpacity
+                      style={[
+                        commonStyles.ActionBtn,
+                        { backgroundColor: 'red' },
+                      ]}
+                      key={index}
+                      onPress={() =>
+                        handleFailPromise(item.promiseID, userN)
+                      }>
+                      <Text>{action}</Text>
+                    </TouchableOpacity>
+                  );
+                }
+              })}
             </View>
           </View>
         </LinearGradient>
@@ -597,7 +598,7 @@ const DetailCard = ({
               </View>
             </View>
             <View style={DashBoardStyling.PromiseReward}>
-              
+
               {promisetype == 'GUARANTEE' ? (
                 <Text
                   style={[
@@ -734,9 +735,7 @@ const DetailCard = ({
      ) : null}
    </View> */}
 
-            {tab == 'PromisestoMe' ? (
-              null
-            ) : (
+            {/* {tab == 'PromisestoMe' ? (
               <View
                 style={{
                   flexDirection: 'row',
@@ -780,7 +779,9 @@ const DetailCard = ({
                   </LinearGradient>
                 </TouchableOpacity>
               </View>
-            )}
+            ) : (
+              null
+            )} */}
 
 
 
@@ -818,7 +819,7 @@ const DetailCard = ({
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
                   );
-                } 
+                }
                 // else if (action === 'Complete') {
                 //   return (
                 //     <TouchableOpacity

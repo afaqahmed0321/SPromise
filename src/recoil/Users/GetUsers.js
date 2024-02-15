@@ -1,7 +1,5 @@
 import {atom} from 'recoil';
 
-
-
 export const code = atom({
   key: 'code',
   default: '',
