@@ -15,8 +15,8 @@ import {
   Image,
   ActivityIndicator,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {useRecoilState} from 'recoil';
+import React, { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import {
   IspromiseNetworkmodalVisible,
   selectedNetworkUserFeed,
@@ -25,10 +25,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {ToastAndroid} from 'react-native';
-import {UserNo} from '../../recoil/AddPromise';
-import {useFocusEffect} from '@react-navigation/native';
-import {useIsFocused} from '@react-navigation/native';
+import { ToastAndroid } from 'react-native';
+import { UserNo } from '../../recoil/AddPromise';
+import { useFocusEffect } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import NetWorkFeedApi from '../../Network/Users/NetworkFeed/NetworkFeedAPi';
 import Material from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
@@ -36,12 +36,12 @@ import Evil from 'react-native-vector-icons/EvilIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Ant from 'react-native-vector-icons/AntDesign';
 
-import {DashBoardStyling} from '../../Styling/DashBoard';
+import { DashBoardStyling } from '../../Styling/DashBoard';
 import PromiseReaction from '../../Network/Users/NetworkFeed/PromiseReaction';
 import PromiseComment from '../../Network/Users/NetworkFeed/AddCommentAPI';
 import PromiseNetwork from '../../screens/PromiseNetwork';
 
-const NetworkFeed = ({navigation}) => {
+const NetworkFeed = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [promiseComments, setPromiseComments] = useState([]);
@@ -67,7 +67,7 @@ const NetworkFeed = ({navigation}) => {
     console.log('UserNo is ', networkUserNo);
     const res = await NetWorkFeedApi(networkUserNo);
     setSelectedNetworkUserFee(res);
-    console.log("this from fedback",res);
+    console.log("this from fedback", res);
   };
 
   // const handleSearch = () => {
@@ -89,7 +89,7 @@ const NetworkFeed = ({navigation}) => {
   };
   useEffect(() => {
     handelNetworkFeedComp();
-  }, [focus,refersh]);
+  }, [focus, refersh]);
 
   const onHandelReaction = async (PID, LikeA) => {
     const PIDd = PID;
@@ -140,17 +140,16 @@ const NetworkFeed = ({navigation}) => {
   //   isViewAll ? setIsViewAll(false) : setIsViewAll(true);
   // };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     const userNN = userN;
     const setLike = item.promiseReactions;
     const handleViewAllComments = (promiseID) => {
-      if(isViewAll.includes(promiseID))
-      {
+      if (isViewAll.includes(promiseID)) {
         const updatedArray = isViewAll.filter(item => item !== promiseID);
         setIsViewAll(updatedArray);
       }
-      else{
-        setIsViewAll([...isViewAll,promiseID])
+      else {
+        setIsViewAll([...isViewAll, promiseID])
 
       }
       // setIsViewAll(promiseID);
@@ -162,7 +161,7 @@ const NetworkFeed = ({navigation}) => {
           width: wp(90),
           marginVertical: hp(1.5),
         }}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View
             style={{
               width: wp(13),
@@ -174,11 +173,11 @@ const NetworkFeed = ({navigation}) => {
             <Image
               source={
                 item.promisorProfileImageUrl === '' ||
-                item.promisorProfileImageUrl === 'string'
+                  item.promisorProfileImageUrl === 'string'
                   ? {
-                      uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                    }
-                  : {uri: item.promisorProfileImageUrl}
+                    uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
+                  }
+                  : { uri: item.promisorProfileImageUrl }
               }
               style={{
                 width: wp(13),
@@ -187,14 +186,14 @@ const NetworkFeed = ({navigation}) => {
               }}
             />
           </View>
-          <View style={{marginLeft: wp(3)}}>
+          <View style={{ marginLeft: wp(3) }}>
             <Text
-              style={{color: '#652D90', fontWeight: 'bold', fontSize: hp(2)}}>
+              style={{ color: '#652D90', fontWeight: 'bold', fontSize: hp(2) }}>
               {item.promisorName}
             </Text>
           </View>
         </View>
-        <View style={{marginLeft: wp(2)}}>
+        <View style={{ marginLeft: wp(2) }}>
           {item.promiseType == 'Payment' ? (
             <Text
               style={[
@@ -225,7 +224,7 @@ const NetworkFeed = ({navigation}) => {
           </TouchableOpacity>
         ) : null} */}
         </View>
-        <View style={{height: hp(10)}}>
+        <View style={{ height: hp(10) }}>
           <Text
             style={[
               {
@@ -320,7 +319,7 @@ const NetworkFeed = ({navigation}) => {
               alignItems: 'center',
               width: wp(20),
             }}>
-            {}
+            { }
 
             {/* if (IteR === userN){
       <Ant name="like1" size={23} color="blue" />
@@ -420,7 +419,7 @@ const NetworkFeed = ({navigation}) => {
           </View>
         </View>
         {/* /// Comments Section */}
-        <View style={{marginLeft: wp(2)}}>
+        <View style={{ marginLeft: wp(2) }}>
           {item.promiseComments && item.promiseComments.length > 0 ? (
             item.promiseComments
               .slice(0, isViewAll.includes(item.promiseID) ? item.promiseComments.length : 2)
@@ -443,11 +442,11 @@ const NetworkFeed = ({navigation}) => {
                     <Image
                       source={
                         comment.userImageURL === '' ||
-                        comment.userImageURL === 'string'
+                          comment.userImageURL === 'string'
                           ? {
-                              uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                            }
-                          : {uri: comment.userImageURL}
+                            uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
+                          }
+                          : { uri: comment.userImageURL }
                       }
                       style={{
                         width: wp(13),
@@ -472,7 +471,7 @@ const NetworkFeed = ({navigation}) => {
             <Text>No comments for this promise</Text>
           )}
           {item.promiseComments && item.promiseComments.length > 2 && (
-            <TouchableOpacity onPress={()=>handleViewAllComments(item.promiseID)}>
+            <TouchableOpacity onPress={() => handleViewAllComments(item.promiseID)}>
               {isViewAll.includes(item.promiseID) ? (
                 <Text>View Less</Text>
               ) : (
@@ -496,7 +495,7 @@ const NetworkFeed = ({navigation}) => {
               paddingLeft: wp(2.2),
             }}></TextInput>
           <TouchableOpacity
-            style={{position: 'absolute', right: wp(3), top: hp(1.5)}}>
+            style={{ position: 'absolute', right: wp(3), top: hp(1.5) }}>
             <Material name="insert-emoticon" size={30} color="#652D90" />
           </TouchableOpacity>
           <TouchableOpacity
@@ -515,7 +514,7 @@ const NetworkFeed = ({navigation}) => {
               const PID = item.promiseID;
               onHandelComment(PID);
               setComment('')
-              console.log(comment,"comment")
+              console.log(comment, "comment")
             }}>
             <Text>Add Comment</Text>
           </TouchableOpacity>
@@ -555,7 +554,7 @@ const NetworkFeed = ({navigation}) => {
        <Feather name="chevron-down" size={23} color="black" />
      </TouchableOpacity> */}
 
-        <View style={{width: wp(60)}}>
+        <View style={{ width: wp(60) }}>
           {/* <TextInput style={styles.SearchInpF} placeholder='Search User'>
      
      </TextInput>
@@ -571,7 +570,7 @@ const NetworkFeed = ({navigation}) => {
             value={searchText}
             onChangeText={text => {
               setSearchText(text);
-              handleSearch(); // Trigger search on text change
+              // Trigger search on text change
             }}
           />
           {/* <TouchableOpacity onPress={handleSearch}
@@ -580,7 +579,7 @@ const NetworkFeed = ({navigation}) => {
          </TouchableOpacity> */}
         </View>
         <TouchableOpacity
-          onPress={() => setIsnetworkModVi(true)}
+          onPress={() => handleSearch}
           style={{
             height: hp(5),
             flexDirection: 'row',
@@ -590,22 +589,22 @@ const NetworkFeed = ({navigation}) => {
             width: wp(30),
             backgroundColor: '#6650A4',
             justifyContent: 'center',
-            marginTop:30
+            marginTop: 30
 
           }}>
 
-          <Material name="search" size={23} color="white" />
-          <View style={{marginLeft: wp(1.5)}}>
-            <Text style={{color: 'white'}}> Search </Text>
+          <Material name="search" size={20} color="white" />
+          <View style={{ marginLeft: wp(1.5) }}>
+            <Text style={{ color: 'white', fontSize: 16, fontWeight: "600" }}> Search </Text>
           </View>
 
-          <Modal
+          {/* <Modal
             animationType="slide"
             transparent={true}
             visible={isnetworkModalVi}
             onRequestClose={isnetworkModalVi}>
             <PromiseNetwork />
-          </Modal>
+          </Modal> */}
 
           {/* <Text style={{color: 'black', fontWeight: 'bold', fontSize: hp(1.4)}}>
          {' '}
@@ -615,17 +614,19 @@ const NetworkFeed = ({navigation}) => {
       </View>
 
       {isLoading ? (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-         <ActivityIndicator size="small" color="#0000ff" />
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+          <ActivityIndicator size="small" color="#0000ff" />
         </View>
       ) : (
-        <FlatList
-          data={searchText.length > 0 ? filteredData : selectedNetworkUserFee}
-          // data={selectedNetworkUserFee}
-          // data={searchText.length > 0 ? filteredData : networkUser}
-          keyExtractor={item => item.promiseID.toString()}
-          renderItem={renderItem}
-        />
+        <View style={{ marginVertical:10, marginHorizontal:10}}>
+          <FlatList
+            data={searchText.length > 0 ? filteredData : selectedNetworkUserFee}
+            // data={selectedNetworkUserFee}
+            // data={searchText.length > 0 ? filteredData : networkUser}
+            keyExtractor={item => item.promiseID.toString()}
+            renderItem={renderItem}
+          />
+        </View>
       )}
     </View>
   );
@@ -656,8 +657,8 @@ const styles = StyleSheet.create({
     paddingLeft: wp(4),
     paddingTop: wp(0),
     paddingBottom: wp(0),
-    height:hp(5),
-    marginTop:30
+    height: hp(5),
+    marginTop: 30
 
 
   },
