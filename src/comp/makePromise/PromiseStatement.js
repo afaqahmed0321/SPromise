@@ -68,7 +68,6 @@ const PromiseStatement = ({ onTextChange }) => {
   const [VideoSize, setVideoSize] = useRecoilState(AllowedVideoSizeState);
 
   const [fullScreen, setFullScreen] = useState(false);
-  const [suggestedText, setSuggestedText] = useState(null)
   const ref = useRef();
 
   // const openCamera = async()=>{
@@ -266,7 +265,7 @@ const PromiseStatement = ({ onTextChange }) => {
       await axios.post(`https://snappromise.com:8080/suggestPromiseText?promiseStatement=${generatedTexts}`)
       .then((response)=>{
           console.log("this is sugesstion response", response);
-          setSuggestedText(response.data.description);
+          setGeneratedTexts(response.data.description);
       })
       .catch((error)=>{
           console.log("this is sugesstion error", error);
@@ -296,9 +295,6 @@ const PromiseStatement = ({ onTextChange }) => {
               marginTop: hp(2),
               width: wp(80),
             }}>
-              {
-                console.log("Suggested text", suggestedText)
-              }
             <TextInput
               placeholder="Write a Promise Statement"
               onChangeText={handleTextChange}
@@ -313,7 +309,7 @@ const PromiseStatement = ({ onTextChange }) => {
                 paddingBottom: 10,
               }}
               multiline={true}
-              value={suggestedText !== null ? suggestedText : generatedTexts}
+              value={generatedTexts}
               />
           </View>
           <View>

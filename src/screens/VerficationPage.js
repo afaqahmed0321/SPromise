@@ -95,6 +95,7 @@ const VerficationPage = ({ navigation }) => {
         </Text>
         <View style={{ alignItems: 'center', justifyContent: "space-around", marginTop: hp(2.5), flexDirection: 'row', }}>
           <OtpInputs
+            autofillFromClipboard={false}
             inputContainerStyles={styles.inBox}
             handleChange={(code) => setOutputCode(code)}
             numberOfInputs={4}
