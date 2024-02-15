@@ -22,18 +22,13 @@ export const commonStyles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: wp(50),
     height: hp(7),
-    paddingHorizontal: 5,
     borderRadius: 50,
     paddingHorizontal: 5,
     paddingVertical: 8,
   },
   SignUpBtn: {
     backgroundColor: '#2E888C',
-    width: wp(90),
-    justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: wp(50),
-    paddingHorizontal: 5,
     height: hp(7),
     marginTop: hp(1),
     shadowColor: '#000',
@@ -43,10 +38,7 @@ export const commonStyles = StyleSheet.create({
     },
     shadowOpacity: 0.18,
     shadowRadius: 1.0,
-
     elevation: 1,
-    borderRadius: 25,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   SocialBtn: {
@@ -77,6 +69,20 @@ export const commonStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
 
+  },
+  VerifyButton:{
+    fontSize: 16, // Adjust as needed
+    fontWeight: 'bold', // or 'normal', '600', '700', etc.
+    color:'white',
+    width: wp(90),
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: wp(50),
+    height: hp(7),
+    borderRadius: 50,
+    paddingVertical: 8,
+    textAlign:"center"
   },
   container: {
     flexDirection: 'row',

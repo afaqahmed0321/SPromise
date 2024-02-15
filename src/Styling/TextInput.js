@@ -52,6 +52,30 @@ export const TextInP = StyleSheet.create({
     fontSize: 16, // Adjust as needed
     fontWeight: 'bold', // or 'normal', '600', '700', etc.
     color:'white',
+    width: wp(90),
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: wp(50),
+    height: hp(7),
+    borderRadius: 50,
+    paddingVertical: 8,
+    textAlign:"center"
+  },
+  SignInButton: {
+    // backgroundImage: 'linear-gradient(180deg, #E4A936 0%, #EE8347 100%)',
+    fontSize: 16, // Adjust as needed
+    fontWeight: 'bold', // or 'normal', '600', '700', etc.
+    color:'white',
+    width: wp(90),
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: wp(50),
+    height: hp(7),
+    borderRadius: 50,
+    paddingVertical: 16,
+    textAlign:"center"
   }
 
 

@@ -21,11 +21,17 @@ const StartModal = () => {
   // const [endDateMV, setEndDateMV] = useRecoilState(isEndDateModalV)
   // const [deadlinedate, setDeadLinedate] = useRecoilState(deadline);
   const [startDa, setStartDate] = useRecoilState(startDate);
+
+    // Get the current date in the format required by the Calendar component
+    const currentDate = new Date();
+    const currentDateString = currentDate.toISOString().split('T')[0];
+
   return (
     <View style={{ marginTop: hp(38), alignItems: 'center', height: hp(45), backgroundColor: 'white' }}>
 
       {selectStartDate ? (<Calendar
         style={styles.keyB}
+        minDate={currentDateString}
         onDayPress={day => {
           setStartDate(day.dateString);
           setStartDateMV(false)

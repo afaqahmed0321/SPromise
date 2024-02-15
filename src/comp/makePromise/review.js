@@ -39,6 +39,7 @@ import ReqPromiseApi from '../../Network/ReqPromiseApi';
 import PromiseNetwork from '../../screens/PromiseNetwork';
 import { ToastAndroid } from 'react-native';
 import GetUserData from '../../Network/Users/GetUserData';
+import LoadingOverlay from '../Global/LoadingOverlay';
 
 const Review = ({ navigation }) => {
   const [Promiseze, setSelectedPromisee] = useRecoilState(selectedPromisee);
@@ -46,6 +47,7 @@ const Review = ({ navigation }) => {
   console.log(Promiseze, 'Promiseze');
 
   const handlePromiseApi = async () => {
+    setIsLoading(true);
     console.log('rewardPointState is ', rewardPointState);
     console.log('financial', financial);
     console.log('isRating', isRating);
@@ -69,41 +71,48 @@ const Review = ({ navigation }) => {
     // const PromiseReward = rewardPointState ? rewardPoints : null;
     const PromiseReward = financial ? rewardPoints : null;
     const visibility = mNtoggle ? 'PUBLIC' : 'PRIVATE';
-
-    const prom = await MakePromiseApi(
-      expiryDate,
-      IsTimeBound,
-      promiseGoal,
-      promiseMediaU,
-      PromiseID,
-      promiseType,
-      promisee,
-      promisor,
-      RatingImapect,
-      LinkDin,
-      Twitter,
-      startDate,
-      status,
-      paymentAmount,
-      paymentStatus,
-      PromiseReward,
-      visibility,
-    );
-
-    if (prom === 100) {
-      console.log("running in make promise at line 96");
-      navigation.navigate('SnapPromiseVerification');
-    } else {
-      console.log("error in make promise at line 96");
-      ToastAndroid.showWithGravityAndOffset(
-        'Unexpected Error',
-        result.code,
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        25,
-        50,
+    try {
+      const prom = await MakePromiseApi(
+        expiryDate,
+        IsTimeBound,
+        promiseGoal,
+        promiseMediaU,
+        PromiseID,
+        promiseType,
+        promisee,
+        promisor,
+        RatingImapect,
+        LinkDin,
+        Twitter,
+        startDate,
+        status,
+        paymentAmount,
+        paymentStatus,
+        PromiseReward,
+        visibility,
       );
+
+      if (prom === 100) {
+        console.log("running in make promise at line 96");
+        navigation.navigate('SnapPromiseVerification');
+      } else {
+        console.log("error in make promise at line 96");
+        ToastAndroid.showWithGravityAndOffset(
+          'Unexpected Error',
+          result.code,
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      }
     }
+    catch (error) {
+      console.error('Error making promise:', error);
+    } finally {
+      setIsLoading(false); // Set loading state to false after API call is completed
+    }
+
 
     // const promiseDate = isTimeB ? promidate : dateString;
 
@@ -209,39 +218,42 @@ const Review = ({ navigation }) => {
   const [shareToggel, setShareToggel] = useState(false);
   const [xtoggle, setXTogel] = useState(false);
   const [financial, setFinancial] = useRecoilState(promiseType);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const getUser = async ()=>{
+  const getUser = async () => {
     const respon = await GetUserData(userN);
     const data = await respon;
     setUserData(data);
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     getUser();
   })
 
   return (
-    <View style={{ backgroundColor: '#E4EEE6', flex: 1 }}>
-      <View style={{ width: wp(94), marginLeft: wp(4) }}>
-        <Text style={[Headings.Input3, { marginTop: hp(2) }]}>
-          {makePromise ? 'Select Promisee' : 'Select Promiser'}
-        </Text>
+    <ScrollView>
+      {isLoading && <LoadingOverlay />}
+      <View style={{ backgroundColor: '#E4EEE6', flex: 1 }}>
+        <View style={{ width: wp(94), marginLeft: wp(4) }}>
+          <Text style={[Headings.Input3, { marginTop: hp(2) }]}>
+            {makePromise ? 'Select Promisee' : 'Select Promiser'}
+          </Text>
 
-        <TouchableOpacity
-          onPress={() => setModalVisible(true)}
-          style={{ marginTop: hp(1) }}>
-          <LinearGradient
-            colors={makePromise ? bgBtnmakeprms : bgBtnrqstprms}
-            style={{ borderRadius: wp(9), width: wp(94) }}>
-            <View
-              style={{
-                width: wp(90),
-                height: hp(7),
-                borderRadius: wp(9),
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              {/* <View
+          <TouchableOpacity
+            onPress={() => setModalVisible(true)}
+            style={{ marginTop: hp(1) }}>
+            <LinearGradient
+              colors={makePromise ? bgBtnmakeprms : bgBtnrqstprms}
+              style={{ borderRadius: wp(9), width: wp(94) }}>
+              <View
+                style={{
+                  width: wp(90),
+                  height: hp(7),
+                  borderRadius: wp(9),
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                {/* <View
                 style={{
                   backgroundColor: 'grey',
                   width: wp(12),
@@ -249,130 +261,130 @@ const Review = ({ navigation }) => {
                   borderRadius: wp(12) / 2,
                   marginLeft: wp(4),
                 }}></View> */}
-              <Image
-                // source={{uri:item.imageURL}}
-                source={
-                  Promiseze?.imageURL === ''
-                    ? {
-                      uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                    }
-                    : { uri: Promiseze.imageURL }
-                }
-                style={{
-                  width: wp(12),
-                  height: hp(6),
-                  borderRadius: wp(12) / 2,
-                  marginLeft: wp(4),
-                }}
-              />
-              <View style={{ width: wp(65), marginLeft: wp(3) }}>
-                <Text style={{ color: 'white' }}>
-                  {Promiseze?.firstName} {Promiseze?.lastName}
-                  {/* {Promiseze.networkUserName} */}
-                </Text>
-                <Text style={{ color: 'white', width: wp(65) }}>
-                  {Promiseze?.emailID}
-                </Text>
+                <Image
+                  // source={{uri:item.imageURL}}
+                  source={
+                    Promiseze?.imageURL === ''
+                      ? {
+                        uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
+                      }
+                      : { uri: Promiseze.imageURL }
+                  }
+                  style={{
+                    width: wp(12),
+                    height: hp(6),
+                    borderRadius: wp(12) / 2,
+                    marginLeft: wp(4),
+                  }}
+                />
+                <View style={{ width: wp(65), marginLeft: wp(3) }}>
+                  <Text style={{ color: 'white' }}>
+                    {Promiseze?.firstName} {Promiseze?.lastName}
+                    {/* {Promiseze.networkUserName} */}
+                  </Text>
+                  <Text style={{ color: 'white', width: wp(65) }}>
+                    {Promiseze?.emailID}
+                  </Text>
+                </View>
+                <View style={{}}>
+                  <Feather color="white" name="edit-2" size={17} />
+                </View>
               </View>
-              <View style={{}}>
-                <Feather color="white" name="edit-2" size={17} />
-              </View>
-            </View>
-          </LinearGradient>
-        </TouchableOpacity>
+            </LinearGradient>
+          </TouchableOpacity>
 
-        <Modal
-          animationType="slide"
-          // transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}>
-          <SelectPromise />
+          <Modal
+            animationType="slide"
+            // transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => setModalVisible(false)}>
+            <SelectPromise />
 
-          {/* <PromiseNetwork/> */}
-        </Modal>
+            {/* <PromiseNetwork/> */}
+          </Modal>
 
-        <View style={{ marginVertical: hp(1) }}>
-        {console.log("this is user data ", userData)}
-          <Text style={Headings.Input3}>Promise Details</Text>
-        </View>
-        <LinearGradient
-          colors={!makePromise ? bgBtnrqstprms : bgBtnmakeprms}
-          style={{ height: hp(51), width: wp(94), borderRadius: wp(10) }}>
-          <View style={{ marginLeft: wp(5.5) }}>
+          <View style={{ marginVertical: hp(1) }}>
+            {console.log("this is user data ", userData)}
+            <Text style={Headings.Input3}>Promise Details</Text>
+          </View>
+          <LinearGradient
+            colors={!makePromise ? bgBtnrqstprms : bgBtnmakeprms}
+            style={{ height: hp(51), width: wp(94), borderRadius: wp(10) }}>
+            <View style={{ marginLeft: wp(5.5) }}>
 
-            {financial ? (
-              <View style={{ marginTop: hp(1) }}>
-                <View style={{ flexDirection: '', }}>
-                  <View style={[, { paddingVertical: 5 }]}>
-                    {makePromise ? (
-                      <>
-                        <View>
+              {financial ? (
+                <View style={{ marginTop: hp(1) }}>
+                  <View style={{ flexDirection: '', }}>
+                    <View style={[, { paddingVertical: 5 }]}>
+                      {makePromise ? (
+                        <>
+                          <View>
+                            <Text
+                              style={[
+                                Headings.h3ForReviewpage,
+                                { marginVertical: hp(0.5) },
+                              ]}>
+                              Promise Amount
+                            </Text>
+                            <Text style={[Headings.h3ForReviewpage, { fontSize: 28 }]}>
+                              $ <Text>{amount}.00</Text>
+                            </Text>
+                          </View>
+                        </>
+                      ) : (
+                        <>
                           <Text
                             style={[
                               Headings.h3ForReviewpage,
                               { marginVertical: hp(0.5) },
                             ]}>
-                            Promise Amount
+                            Committed:
                           </Text>
-                          <Text style={[Headings.h3ForReviewpage, { fontSize: 28 }]}>
-                            $ <Text>{amount}.00</Text>
-                          </Text>
-                        </View>
-                      </>
-                    ) : (
-                      <>
-                        <Text
-                          style={[
-                            Headings.h3ForReviewpage,
-                            { marginVertical: hp(0.5) },
-                          ]}>
-                          Committed:
-                        </Text>
-                      </>
-                    )}
+                        </>
+                      )}
+                    </View>
+                    <View style={styles.Line}></View>
+
+                    <View style={[, { paddingVertical: 10 }]}>
+                      {
+                        rewardPoints ? (
+                          <View>
+                            <Text style={[Headings.h3ForReviewpage, {}]}>
+                              Reward Points
+                            </Text>
+                            <Text style={[Headings.h3ForReviewpage, {}]}>{rewardPoints}</Text>
+                          </View>
+                        ) : null
+                      }
+                    </View>
                   </View>
                   <View style={styles.Line}></View>
-
-                  <View style={[, { paddingVertical: 10 }]}>
-                    {
-                      rewardPoints ? (
-                        <View>
-                          <Text style={[Headings.h3ForReviewpage, {}]}>
-                            Reward Points
-                          </Text>
-                          <Text style={[Headings.h3ForReviewpage, {}]}>{rewardPoints}</Text>
-                        </View>
-                      ) : null
-                    }
-                  </View>
                 </View>
-                <View style={styles.Line}></View>
-              </View>
-            ) : null}
-
-            <View>
-              {isTimeB ? (
-                <>
-                  <View
-                    View
-                    style={{
-                      marginVertical: hp(0.5),
-                      flexDirection: '',
-                      // alignItems: 'center',
-                      paddingVertical:5
-                    }}>
-                    <Text style={[Headings.h3ForReviewpage,]}>
-                      Promise Deadline:{' '}
-                    </Text>
-                    <Text style={[Headings.h3ForReviewpage,{marginTop: 5}]}>{deadlinedate}</Text>
-                  </View>
-                  <View style={styles.Line}></View>
-                </>
               ) : null}
-            </View>
+
+              <View>
+                {isTimeB ? (
+                  <>
+                    <View
+                      View
+                      style={{
+                        marginVertical: hp(0.5),
+                        flexDirection: '',
+                        // alignItems: 'center',
+                        paddingVertical: 5
+                      }}>
+                      <Text style={[Headings.h3ForReviewpage,]}>
+                        Promise Deadline:{' '}
+                      </Text>
+                      <Text style={[Headings.h3ForReviewpage, { marginTop: 5 }]}>{deadlinedate}</Text>
+                    </View>
+                    <View style={styles.Line}></View>
+                  </>
+                ) : null}
+              </View>
 
 
-            {/* {rewardPointState ? (
+              {/* {rewardPointState ? (
               <View >
                 <View style={{flexDirection:'row', alignItems:'center',  marginVertical:hp(1)}}>
                   <Text style={[Headings.h3ForReviewpage, {}]}>
@@ -385,58 +397,58 @@ const Review = ({ navigation }) => {
                 <View style={styles.Line}></View>
               </View>
             ) : null} */}
-            {isRating ? (
-              <View style={{}}>
-                <View>
-                  <Text
-                    style={[Headings.h3ForReviewpage, { marginVertical: hp(1) }]}>
-                    Rating will Imapct
-                  </Text>
+              {isRating ? (
+                <View style={{}}>
+                  <View>
+                    <Text
+                      style={[Headings.h3ForReviewpage, { marginVertical: hp(1) }]}>
+                      Rating will Imapct
+                    </Text>
+                  </View>
+                  <View style={styles.Line}></View>
                 </View>
-                <View style={styles.Line}></View>
-              </View>
-            ) : null}
+              ) : null}
 
-            <View style={{}}>
-              <Text style={[Headings.h3ForReviewpage,{paddingVertical: 5}] }>Promise Statement</Text>
-              <View style={{ height: hp(8), width: wp(80) }}>
-                <View style={[styles.generatedBox,{padding:0, margin: 0}]}>
-                  {/* <ScrollView>
+              <View style={{}}>
+                <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5 }]}>Promise Statement</Text>
+                <View style={{ height: hp(8), width: wp(80) }}>
+                  <View style={[styles.generatedBox, { padding: 0, margin: 0 }]}>
+                    {/* <ScrollView>
                   {generatedTexts.map((text, index) => (
                     <View key={index} style={styles.generatedTextBox}>
                       <Text style={styles.generatedText}>{text}</Text>
                     </View>
                   ))}
                 </ScrollView> */}
-                  <Text style={{ color: '#FFFFFF' }}> {generatedTexts} </Text>
+                    <Text style={{ color: '#FFFFFF' }}> {generatedTexts} </Text>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
-        </LinearGradient>
-        {/* Share  */}
-        <View style={{ marginTop: hp(1) }}>
-          <Text style={Headings.Input3}>Also share on </Text>
-          <View>
-            {/* <Text>Facebook</Text> */}
-            <View style={styles.Social}>
-              <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
-                Twitter
-              </Text>
-              <ToggleSwitch
-                isOn={fbtoggle}
-                style={{ marginRight: wp(5) }}
-                onColor="#FFFFFF"
-                offColor="#FFFFFF"
-                thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
-                thumbOnStyle={{ backgroundColor: '#652D90' }}
-                size="small"
-                onToggle={() => {
-                  fbtoggle ? setFBTogel(false) : setFBTogel(true);
-                }}
-              />
-            </View>
-            {/* <View style={styles.Social}>
+          </LinearGradient>
+          {/* Share  */}
+          <View style={{ marginTop: hp(1) }}>
+            <Text style={Headings.Input3}>Also share on </Text>
+            <View>
+              {/* <Text>Facebook</Text> */}
+              <View style={styles.Social}>
+                <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
+                  Twitter
+                </Text>
+                <ToggleSwitch
+                  isOn={fbtoggle}
+                  style={{ marginRight: wp(5) }}
+                  onColor="#FFFFFF"
+                  offColor="#FFFFFF"
+                  thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
+                  thumbOnStyle={{ backgroundColor: '#652D90' }}
+                  size="small"
+                  onToggle={() => {
+                    fbtoggle ? setFBTogel(false) : setFBTogel(true);
+                  }}
+                />
+              </View>
+              {/* <View style={styles.Social}>
               <Text style={[{marginLeft: wp(5)}, Headings.Input5]}>
                 Twitter
               </Text>
@@ -453,46 +465,13 @@ const Review = ({ navigation }) => {
                 }}
               />
             </View> */}
-            <View style={styles.Social}>
-              <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
-                {/* Instagram */}
-                LinkedIn
-              </Text>
-              <ToggleSwitch
-                isOn={Igtoggle}
-                style={{ marginRight: wp(5) }}
-                onColor="#FFFFFF"
-                offColor="#FFFFFF"
-                thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
-                thumbOnStyle={{ backgroundColor: '#652D90' }}
-                size="small"
-                onToggle={() => {
-                  Igtoggle ? setIgTogel(false) : setIgTogel(true);
-                }}
-              />
-            </View>
-            <View style={styles.Social}>
-              <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>Share</Text>
-              <ToggleSwitch
-                isOn={shareToggel}
-                style={{ marginRight: wp(5) }}
-                onColor="#FFFFFF"
-                offColor="#FFFFFF"
-                thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
-                thumbOnStyle={{ backgroundColor: '#652D90' }}
-                size="small"
-                onToggle={() => {
-                  shareToggel ? setShareToggel(false) : setShareToggel(true);
-                }}
-              />
-            </View>
-            {shareToggel ? (
               <View style={styles.Social}>
                 <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
-                  Public or Network only
+                  {/* Instagram */}
+                  LinkedIn
                 </Text>
                 <ToggleSwitch
-                  isOn={mNtoggle}
+                  isOn={Igtoggle}
                   style={{ marginRight: wp(5) }}
                   onColor="#FFFFFF"
                   offColor="#FFFFFF"
@@ -500,32 +479,66 @@ const Review = ({ navigation }) => {
                   thumbOnStyle={{ backgroundColor: '#652D90' }}
                   size="small"
                   onToggle={() => {
-                    mNtoggle ? setMNTogel(false) : setMNTogel(true);
+                    Igtoggle ? setIgTogel(false) : setIgTogel(true);
                   }}
                 />
               </View>
-            ) : null}
+              <View style={styles.Social}>
+                <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>Share</Text>
+                <ToggleSwitch
+                  isOn={shareToggel}
+                  style={{ marginRight: wp(5) }}
+                  onColor="#FFFFFF"
+                  offColor="#FFFFFF"
+                  thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
+                  thumbOnStyle={{ backgroundColor: '#652D90' }}
+                  size="small"
+                  onToggle={() => {
+                    shareToggel ? setShareToggel(false) : setShareToggel(true);
+                  }}
+                />
+              </View>
+              {shareToggel ? (
+                <View style={styles.Social}>
+                  <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
+                    Public or Network only
+                  </Text>
+                  <ToggleSwitch
+                    isOn={mNtoggle}
+                    style={{ marginRight: wp(5) }}
+                    onColor="#FFFFFF"
+                    offColor="#FFFFFF"
+                    thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
+                    thumbOnStyle={{ backgroundColor: '#652D90' }}
+                    size="small"
+                    onToggle={() => {
+                      mNtoggle ? setMNTogel(false) : setMNTogel(true);
+                    }}
+                  />
+                </View>
+              ) : null}
+            </View>
+          </View>
+          <View style={{ marginTop: hp(2.5) }}>
+            <TouchableOpacity
+              onPress={makePromise ? handlePromiseApi : handelReqPromiseApi}
+              style={commonStyles.lognBtn}>
+              <LinearGradient
+                colors={!makePromise ? bgBtnrqstprms : bgBtnmakeprms}
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '100%',
+                  borderRadius: wp(50),
+                }}>
+                <Text style={{ color: 'white', textAlign: 'center' }}>Next</Text>
+              </LinearGradient>
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={{ marginTop: hp(2.5) }}>
-          <TouchableOpacity
-            onPress={makePromise ? handlePromiseApi : handelReqPromiseApi}
-            style={commonStyles.lognBtn}>
-            <LinearGradient
-              colors={!makePromise ? bgBtnrqstprms : bgBtnmakeprms}
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                borderRadius: wp(50),
-              }}>
-              <Text style={{ color: 'white', textAlign: 'center' }}>Next</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
