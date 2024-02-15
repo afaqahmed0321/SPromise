@@ -12,6 +12,7 @@ import { useRecoilState } from 'recoil';
 import OtpInputs from 'react-native-otp-inputs';
 import { signup } from '../Network/SignUpApi';
 import LinearGradient from 'react-native-linear-gradient';
+import { useRoute } from '@react-navigation/native';
 
 const EnterOTPScreen = ({ navigation }) => {
   const [isCodeSent, setIsCodeSent] = useState(false);
@@ -23,9 +24,12 @@ const EnterOTPScreen = ({ navigation }) => {
   // const [slname, setslname] = useRecoilState(ulName);
   const [fName, setFName] = useRecoilState(ufName);
   const [lName, setLName] = useRecoilState(ulName);
-  const [emailID, setEmail] = useRecoilState(uemail);;
+  const [emailID, setEmail] = useRecoilState(uemail);
   const [password, setPassword] = useRecoilState(upassword);
   const [OutputCode, setOutputCode] = useState('');
+
+  const route = useRoute();
+  const receivedData = route.params?.code || {};
 
   // const resendCode = () => {
   //   if (!isCodeSent) {
@@ -50,37 +54,27 @@ const EnterOTPScreen = ({ navigation }) => {
       return () => clearTimeout(timer);
     }
   }, [resendCooldown]);
-  // const verification = async () => {
-  //   console.log("here", OutputCode, Code)
-  //   console.log(fName, lName, password, emailID, "here1")
+  const verification = async () => {
+    console.log("here", OutputCode, Code)
+    console.log(fName, lName, password, emailID, "here1")
 
-  //   if (OutputCode == Code) {
-  //     console.log(fName, lName, password, emailID, "here1")
+    if (OutputCode == Code) {
+      console.log(fName, lName, password, emailID, "here11111111111")
+      navigation.navigate('EnterNewPasswordScreen');
 
-  //     let response = await signup(emailID, password, fName, lName);
-  //     console.log(response, "hey")
-  //     if (response == "Registered") {
-  //       ToastAndroid.show('Registered Sucessfully!', ToastAndroid.LONG);
-  //       navigation.navigate('LoginScreen')
 
-  //     }
-  //     else {
-  //       ToastAndroid.show(response, ToastAndroid.LONG);
+    }
+    else {
+      console.log("here2")
 
-  //     }
+      ToastAndroid.show('OTP is incorrect, Please try again', ToastAndroid.LONG);
 
-  //   }
-  //   else {
-  //     console.log("here2")
-
-  //     ToastAndroid.show('OTP is incorrect, Please try again', ToastAndroid.LONG);
-
-  //   }
-  // }
+    }
+  }
   const verifyOTP = () => {
     // Add logic to verify the entered OTP
     navigation.navigate('EnterNewPasswordScreen');
-    
+
   };
   return (
     <View style={{ flex: 1 }}>
@@ -98,10 +92,11 @@ const EnterOTPScreen = ({ navigation }) => {
         </Text>
         <View style={{ alignItems: 'center', justifyContent: "space-around", marginTop: hp(2.5), flexDirection: 'row', }}>
           <OtpInputs
+            autofillFromClipboard={false}
             inputContainerStyles={styles.inBox}
             handleChange={(code) => setOutputCode(code)}
             numberOfInputs={4}
-            inputStyles={{ textAlign: 'center', fontSize: hp(3), color:'#000' }}
+            inputStyles={{ textAlign: 'center', fontSize: hp(3), color: '#000' }}
           />
         </View>
         <View style={{ marginTop: hp(3) }}>
@@ -112,7 +107,7 @@ const EnterOTPScreen = ({ navigation }) => {
             style={commonStyles.SignUpBtn}
           >
             <TouchableOpacity
-              onPress={verifyOTP}
+              onPress={verification}
             >
               <Text style={{ color: 'white' }}>Verify</Text>
             </TouchableOpacity>
@@ -141,13 +136,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     height: hp(8),
     textAlign: 'center',
-    alignItems:'center',
+    alignItems: 'center',
     fontWeight: 'bold',
     fontSize: hp(3),
     borderColor: "#652D90",
     borderWidth: 1,
-    padding:0,
-    margin:0,
-   
+    padding: 0,
+    margin: 0,
+
   }
 })

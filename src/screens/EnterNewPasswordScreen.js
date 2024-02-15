@@ -1,39 +1,46 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ToastAndroid } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
+import { uemail } from '../recoil/Users/GetUsers';
+import { UserNo } from '../recoil/AddPromise';
+import { useRecoilState } from 'recoil';
+import UpdatedPassword from '../Network/Users/UpdatePassword';
 
 const EnterNewPasswordScreen = ({ navigation, route }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const handleSignup = async () => {
-    if (password == '') {
-      ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
-    }
-    else if (password != confirmPassword) {
-      ToastAndroid.show('Password is not Confirmed', ToastAndroid.LONG);
-    }
-    // else {
-    //   let response = await VerifyOTP(emailID);
+  const [emailID, setEmail] = useRecoilState(uemail);
 
-    //   console.log(response.code, "aniqa")
-    //   if (response.description = "Operation completed successfully.") {
-    //     setCode(response.code)
-    //     setPassword(password)
-    //     navigation.navigate('VerficationPage')
-    //   }
-    //   else {
-    //     ToastAndroid.show('Something went wrong !', ToastAndroid.LONG);
+  
+  const changePassword = async () => {
+    console.log("emailllllll", emailID,"paswordddddd", password);
+    try {
+      if (password === '') {
+        ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
+        return;
+      } else if (password !== confirmPassword) {
+        ToastAndroid.show('Password is not Confirmed', ToastAndroid.LONG);
+        return;
+      }
 
-    //   }
-    // }
-  };
-  const changePassword = () => {
-    // Add logic to change the password
-    // You can use the route.params.email to identify the user
-    // and update the password in your backend
-    // After changing the password, navigate to a success screen or login screen
+      // Make an API call to change the password
+      const response = await UpdatedPassword(emailID, password);
+      console.log("responce", response);
+      // Check the response and navigate accordingly
+      if (response.status == 400) {
+        // Password changed successfully
+        ToastAndroid.show('Failed to change password. Please try again once.', ToastAndroid.LONG);
+       
+      } else {
+        // Handle the case where password change fails
+        ToastAndroid.show('Failed to change password. Please try again.', ToastAndroid.LONG);
+      }
+    } catch (error) {
+      console.error('Error changing password:', error);
+      ToastAndroid.show('An unexpected error occurred. Please try again.', ToastAndroid.LONG);
+    }
   };
 
   return (

@@ -64,7 +64,7 @@ export async function login(email,password) {
     });
     const responseData = await response.text();
     const data = JSON.parse(responseData);
-    console.log(responseData,"responseData in Login APi")
+    console.log(data,"responseData in Login APi")
     // console.log(data.message,"data")
 
     if (data.message === 'Success') {
@@ -85,9 +85,11 @@ export async function Sociallogin(email, socialLogin) {
     formData.append('email', email);
     formData.append('socialLogIn', socialLogin);
 
-    const response = await axiosInstance.post('/Login', formData);
+    console.log("this form dataaaaa", formData);
 
-    return response.data;
+    const response = await axiosInstance.post('/Login', formData);
+    console.log("response from social login", response);
+    return response;
   } catch (error) {
     return -2; // Return custom error code for request failure
   }

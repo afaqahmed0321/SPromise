@@ -129,7 +129,8 @@ const LoginScreen = ({ navigation }) => {
             ToastAndroid.show(responses, ToastAndroid.LONG);
           }
         } else {
-          let response = await Sociallogin(user.user.email, true);
+          console.log("this is user emaillll", user?.user?.email)
+          let response = await Sociallogin(user?.user?.email, true);
           console.log(response, 'Login Response from Google');
           if (response.message === 'Success') {
             setToken(response.token);

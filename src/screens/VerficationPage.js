@@ -23,7 +23,7 @@ const VerficationPage = ({ navigation }) => {
   // const [slname, setslname] = useRecoilState(ulName);
   const [fName, setFName] = useRecoilState(ufName);
   const [lName, setLName] = useRecoilState(ulName);
-  const [emailID, setEmail] = useRecoilState(uemail);;
+  const [emailID, setEmail] = useRecoilState(uemail);
   const [password, setPassword] = useRecoilState(upassword);
   const [OutputCode, setOutputCode] = useState('');
 
@@ -50,6 +50,7 @@ const VerficationPage = ({ navigation }) => {
       return () => clearTimeout(timer);
     }
   }, [resendCooldown]);
+
   const verification = async () => {
     console.log("here", OutputCode, Code)
     console.log(fName, lName, password, emailID, "here1")
