@@ -376,7 +376,7 @@ const Review = ({ navigation }) => {
                       <Text style={[Headings.h3ForReviewpage,]}>
                         Promise Deadline:{' '}
                       </Text>
-                      <Text style={[Headings.h3ForReviewpage, { marginTop: 5 }]}>{deadlinedate}</Text>
+                      <Text style={[Headings.h3ForReviewpage, { marginTop: 5 }]}>{deadlinedate}abc</Text>
                     </View>
                     <View style={styles.Line}></View>
                   </>
@@ -521,8 +521,9 @@ const Review = ({ navigation }) => {
           </View>
           <View style={{ marginTop: hp(2.5) }}>
             <TouchableOpacity
-              onPress={makePromise ? handlePromiseApi : handelReqPromiseApi}
-              style={commonStyles.lognBtn}>
+              onPress={Promiseze ? (makePromise ? handlePromiseApi : handelReqPromiseApi) : null}
+              disabled={!Promiseze} // Disable the button if Promiseze is null or undefined
+              style={[commonStyles.lognBtn, { opacity: Promiseze ? 1 : 0.5 }]}>
               <LinearGradient
                 colors={!makePromise ? bgBtnrqstprms : bgBtnmakeprms}
                 style={{
