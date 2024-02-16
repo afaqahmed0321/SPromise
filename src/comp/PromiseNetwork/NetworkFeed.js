@@ -29,7 +29,6 @@ import { ToastAndroid } from 'react-native';
 import { UserNo } from '../../recoil/AddPromise';
 import { useFocusEffect } from '@react-navigation/native';
 import { useIsFocused } from '@react-navigation/native';
-import NetWorkFeedApi from '../../Network/Users/NetworkFeed/NetworkFeedAPi';
 import Material from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import Evil from 'react-native-vector-icons/EvilIcons';
@@ -40,6 +39,8 @@ import { DashBoardStyling } from '../../Styling/DashBoard';
 import PromiseReaction from '../../Network/Users/NetworkFeed/PromiseReaction';
 import PromiseComment from '../../Network/Users/NetworkFeed/AddCommentAPI';
 import PromiseNetwork from '../../screens/PromiseNetwork';
+import NetWorkFeedApi from '../../Network/Users/NetworkFeed/NetworkFeedAPi';
+import axios from 'axios';
 
 const NetworkFeed = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
@@ -65,9 +66,19 @@ const NetworkFeed = ({ navigation }) => {
   const handelNetworkFeedComp = async () => {
     const networkUserNo = userN;
     console.log('UserNo is ', networkUserNo);
-    const res = await NetWorkFeedApi(networkUserNo);
-    setSelectedNetworkUserFee(res);
-    console.log("this from fedback", res);
+    // const resp = NetWorkFeedApi(networkUserNo);
+    const resp = await axios.get(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=private`)
+    .then((response) => {
+      const data = response.data.promisesList; // Accessing the data property of the Axios response
+      console.log(data, "Network Feed");
+      return data;
+    })
+    .catch((error) => {
+      console.error('Error fetching data:', error);
+      return null; // Returning null in case of an error, you can adjust this as needed
+    })
+    setSelectedNetworkUserFee(resp);
+    console.log("this from fedback", resp);
   };
 
   // const handleSearch = () => {
@@ -80,12 +91,12 @@ const NetworkFeed = ({ navigation }) => {
   // };
 
   const handleSearch = () => {
-    if (selectedNetworkUserFee) {
+ 
       const filtered = selectedNetworkUserFee.filter(item =>
         item.promisorName.toLowerCase().includes(searchText.toLowerCase())
       );
       setFilteredData(filtered);
-    }
+
   };
   useEffect(() => {
     handelNetworkFeedComp();
@@ -214,7 +225,7 @@ const NetworkFeed = ({ navigation }) => {
                   fontSize: hp(2.3),
                 },
               ]}>
-              Reward: +20XP
+              Reward: +{item.rewardPoints}XP
             </Text>
           )}
           {/* {item.promiseMediaURL ? (
