@@ -407,7 +407,7 @@ const MakePromise = ({ navigation }) => {
                   <TouchableOpacity
 
                     onPress={() => {setStartDateMV(true)
-                      // setSelectEndDate(true);
+                      setSelectEndDate(true);
                     }
                     }
                     style={styles.DateCB}>
@@ -431,14 +431,13 @@ const MakePromise = ({ navigation }) => {
                     <StartModal />
                   </Modal>
                 </View> 
-                {/* <View
 
+                {/* <View
                   style={{
                     marginLeft: wp(3),
-                    width: wp(43),
+                    width: wp(30),
                     height: hp(5),
                     justifyContent: 'center',
-                    color: '#000'
                   }}>
                   <TouchableOpacity
                     onPress={() => {setEndDateMV(true);
@@ -508,7 +507,7 @@ const MakePromise = ({ navigation }) => {
             {makePromise ? (
               <Text style={Headings.Input3}>Guaranted $</Text>
             ) : (
-              <Text style={Headings.Input3}>Commitment $</Text>
+              <Text style={Headings.Input3}>Rewards $</Text>
             )}
             <ToggleSwitch
               isOn={financial}

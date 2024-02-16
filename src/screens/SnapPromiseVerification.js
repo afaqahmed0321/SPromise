@@ -9,6 +9,7 @@ import {
   MakeaPromise,
   promiseAmounnt,
   deadline,
+  startDate,
   promiseStatement,
   promiseType,
   selectedPromisee,
@@ -28,7 +29,7 @@ const SnapPromiseVerification = ({ navigation }) => {
 
   const [makePromise, setMakePromise] = useRecoilState(MakeaPromise);
   const [amount, setAmount] = useRecoilState(promiseAmounnt);
-  const [deadlinedate, setDeadLinedate] = useRecoilState(deadline);
+  const [deadlinedate, setDeadLinedate] = useRecoilState(startDate);
   const [generatedTexts, setGeneratedTexts] = useRecoilState(promiseStatement);
 
   const [fbtoggle, setFBTogel] = useState(false);
@@ -104,7 +105,7 @@ const SnapPromiseVerification = ({ navigation }) => {
             style={styles.profilePic}
           />
           {/* </View> */}
-          <Text style={Headings.h3ForReviewpage}>
+          <Text style={[Headings.h3ForReviewpage,{fontSize:18}]}>
             {Promiseze.firstName} {Promiseze.lastName}
           </Text>
           <Text
@@ -131,7 +132,7 @@ const SnapPromiseVerification = ({ navigation }) => {
                 {makePromise ? (
                   <Text
                     style={[
-                      Headings.h3ForReviewpage,
+                      Headings.h3ForReviewpage,{fontSize:18}
                       // {marginVertical: hp(0.5)},
                     ]}>
                     Promise Amount{' '}
@@ -170,8 +171,8 @@ const SnapPromiseVerification = ({ navigation }) => {
                 marginVertical: hp(0.5),
               }}>
               <Text
-                style={[Headings.h3ForReviewpage, { marginVertical: hp(0.5) }]}>
-                Promise Deadline
+                style={[Headings.h3ForReviewpage, { marginVertical: hp(0.5),fontSize:18 }]}>
+                Completion Date
               </Text>
               <Text style={Headings.h3ForReviewpage}> {deadlinedate}</Text>
             </View>
@@ -204,7 +205,7 @@ const SnapPromiseVerification = ({ navigation }) => {
               </View>) : null
           }
 
-          <Text style={Headings.h3ForReviewpage}>Promise Statement</Text>
+          <Text style={[Headings.h3ForReviewpage, {fontSize:18}]}>Promise Statement</Text>
           <View style={{ height: hp(7), width: wp(80) }}>
             <View style={styles.generatedBox}>
               {/* <ScrollView> */}
