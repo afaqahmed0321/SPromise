@@ -68,15 +68,15 @@ const NetworkFeed = ({ navigation }) => {
     console.log('UserNo is ', networkUserNo);
     // const resp = NetWorkFeedApi(networkUserNo);
     const resp = await axios.get(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=private`)
-    .then((response) => {
-      const data = response.data.promisesList; // Accessing the data property of the Axios response
-      console.log(data, "Network Feed");
-      return data;
-    })
-    .catch((error) => {
-      console.error('Error fetching data:', error);
-      return null; // Returning null in case of an error, you can adjust this as needed
-    })
+      .then((response) => {
+        const data = response.data.promisesList; // Accessing the data property of the Axios response
+        console.log(data, "Network Feed");
+        return data;
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        return null; // Returning null in case of an error, you can adjust this as needed
+      })
     setSelectedNetworkUserFee(resp);
     console.log("this from fedback", resp);
   };
@@ -91,11 +91,11 @@ const NetworkFeed = ({ navigation }) => {
   // };
 
   const handleSearch = () => {
- 
-      const filtered = selectedNetworkUserFee.filter(item =>
-        item.promisorName.toLowerCase().includes(searchText.toLowerCase())
-      );
-      setFilteredData(filtered);
+
+    const filtered = selectedNetworkUserFee.filter(item =>
+      item.promisorName.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setFilteredData(filtered);
 
   };
   useEffect(() => {
@@ -171,13 +171,16 @@ const NetworkFeed = ({ navigation }) => {
           backgroundColor: '#F5EEFF',
           width: wp(90),
           marginVertical: hp(1),
-          marginTop:20,
-          borderRadius: wp(6.5), 
+          marginTop: 20,
+          borderRadius: wp(6.5),
         }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "space-between", paddingRight:10 }}>
           <View
             style={{
-              width: wp(13),
+              flex:1,
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: wp(23),
               height: hp(6),
               borderRadius: wp(6.5), // Half of the width
               marginLeft: wp(2),
@@ -198,13 +201,42 @@ const NetworkFeed = ({ navigation }) => {
                 borderRadius: wp(6.5), // Half of the width
               }}
             />
+            <View style={{ marginLeft: wp(3) }}>
+              <Text
+                style={{ color: '#652D90', fontWeight: 'bold', fontSize: hp(2) }}>
+                {item.promisorName}
+              </Text>
+            </View>
           </View>
-          <View style={{ marginLeft: wp(3) }}>
+
+
+          <TouchableOpacity
+            onPress={() => {
+              // like ? false : true;
+              const PID = item.promiseID;
+              onHandelReaction(PID, item.promiseReactions);
+            }}
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              width: wp(20),
+            }}>
+            {item.promiseReactions.find(item => item === userN) ? (
+              <Ant name="like1" size={23} color="blue" />
+            ) : (
+              <Ant name="like1" size={23} color="grey" />
+            )}
             <Text
-              style={{ color: '#652D90', fontWeight: 'bold', fontSize: hp(2) }}>
-              {item.promisorName}
+              style={{
+                color: 'grey',
+                fontWeight: 'bold',
+                fontSize: hp(2),
+                marginRight:12
+              }}>
+              Like
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={{ marginLeft: wp(2) }}>
           {item.promiseType == 'Payment' ? (
@@ -320,40 +352,6 @@ const NetworkFeed = ({ navigation }) => {
             </TouchableOpacity>
           )} */}
 
-          <TouchableOpacity
-            onPress={() => {
-              // like ? false : true;
-              const PID = item.promiseID;
-              onHandelReaction(PID, item.promiseReactions);
-            }}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              alignItems: 'center',
-              width: wp(20),
-            }}>
-            { }
-
-            {/* if (IteR === userN){
-      <Ant name="like1" size={23} color="blue" />
-     }
-     else {
-      <Ant name="like1" size={23} color="grey" />
-     } */}
-            {item.promiseReactions.find(item => item === userN) ? (
-              <Ant name="like1" size={23} color="blue" />
-            ) : (
-              <Ant name="like1" size={23} color="grey" />
-            )}
-            <Text
-              style={{
-                color: 'grey',
-                fontWeight: 'bold',
-                fontSize: hp(2),
-              }}>
-              Like
-            </Text>
-          </TouchableOpacity>
 
           {/* {
   
@@ -475,20 +473,20 @@ const NetworkFeed = ({ navigation }) => {
                       width: wp(65),
                       marginLeft: wp(3),
                     }}>
-                    <Text style={{color:"black"}}>{comment.userName}</Text>
-                    <Text style={{color:"black"}}>{comment.comment}</Text>
+                    <Text style={{ color: "black" }}>{comment.userName}</Text>
+                    <Text style={{ color: "black" }}>{comment.comment}</Text>
                   </View>
                 </View>
               ))
           ) : (
-            <Text style={{color:"black", margin:10}}>No comments for this promise</Text>
+            <Text style={{ color: "black", margin: 10 }}>No comments for this promise</Text>
           )}
           {item.promiseComments && item.promiseComments.length > 2 && (
             <TouchableOpacity onPress={() => handleViewAllComments(item.promiseID)}>
               {isViewAll.includes(item.promiseID) ? (
-                <Text style={{color:"black"}}>View Less</Text>
+                <Text style={{ color: "black" }}>View Less</Text>
               ) : (
-                <Text style={{color:"black"}}>View All Comments</Text>
+                <Text style={{ color: "black" }}>View All Comments</Text>
               )}
             </TouchableOpacity>
           )}
@@ -506,15 +504,16 @@ const NetworkFeed = ({ navigation }) => {
               borderWidth: wp(0.5),
               borderColor: '#652D90',
               backgroundColor: 'white',
-              borderRadius: wp(6.5), 
-              marginHorizontal:10,
+              borderRadius: wp(6.5),
+              marginHorizontal: 10,
               paddingLeft: wp(2.2),
-              color:"black"
+              color: "black"
             }}></TextInput>
-          <TouchableOpacity
-            style={{ position: 'absolute', right: wp(4.5), top: hp(1.5) }}>
-            <Material name="insert-emoticon" size={30} color="#652D90" />
-          </TouchableOpacity>
+          {/* <TouchableOpacity
+              style={{ position: 'absolute', right: wp(4.5), top: hp(1.5) }}>
+              <Material name="insert-emoticon" size={30} color="#652D90" />
+            </TouchableOpacity> */}
+
           <TouchableOpacity
             style={{
               width: wp(30),
@@ -533,8 +532,9 @@ const NetworkFeed = ({ navigation }) => {
               setComment('')
               console.log(comment, "comment")
             }}>
-            <Text style={{color:"white"}}>Add Comment</Text>
+            <Text style={{ color: "white" }}>Add Comment</Text>
           </TouchableOpacity>
+
         </View>
       </View>
     );
@@ -635,7 +635,7 @@ const NetworkFeed = ({ navigation }) => {
           <ActivityIndicator size="small" color="#0000ff" />
         </View>
       ) : (
-        <View style={{ marginVertical:10, marginHorizontal:10}}>
+        <View style={{ marginVertical: 10, marginHorizontal: 10 }}>
           <FlatList
             data={searchText.length > 0 ? filteredData : selectedNetworkUserFee}
             // data={selectedNetworkUserFee}
