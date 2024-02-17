@@ -28,6 +28,7 @@ export const commonStyles = StyleSheet.create({
   },
   SignUpBtn: {
     backgroundColor: '#2E888C',
+    justifyContent: 'center',
     borderRadius: wp(50),
     height: hp(7),
     marginTop: hp(1),

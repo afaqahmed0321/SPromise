@@ -1,18 +1,20 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import Pie from 'react-native-pie';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {UserNo} from '../recoil/AddPromise';
-import {useRecoilState} from 'recoil';
+import { UserNo } from '../recoil/AddPromise';
+import { useRecoilState } from 'recoil';
 import getUserPromisbility from '../Network/GetPromisibility';
+import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 
 const PromiseStatusData = () => {
   const [userN, setUserN] = useRecoilState(UserNo);
   console.log("this is userNO", userN)
   const [userPromisbility, setUserPromisbility] = useState(null);
+  const [refresh, setRefresh] = useState(false);
 
   const fetchData = async () => {
     console.log("fetch data is called")
@@ -20,18 +22,30 @@ const PromiseStatusData = () => {
     const userPromisbil = res ? Number(res) : 0
     console.log(userPromisbil, 'jjjjjjjjjjjj')
     setUserPromisbility(userPromisbil)
-   
+
   };
 
   useEffect(() => {
     fetchData();
-  }, [userPromisbility]);
+  }, [userPromisbility, refresh]);
 
   return (
     <View style={styles.PromiseStatus}>
       <View>
-        <View style={styles.bar}>
-          <Text style={styles.barText}>Your Promisibility</Text>
+        <View style={{flexDirection:"row", justifyContent:"space-around", alignItems:"center", alignContent:"center", marginHorizontal:10,marginVertical:3}}>
+          <View style={styles.bar}>
+            <Text style={styles.barText}>Your Promisibility</Text>
+          </View>
+          <TouchableOpacity onPress={() => setRefresh(!refresh)}>
+            <View style={{ marginRight:15}}>
+              <FontAw5
+                name="sync"
+                size={15}
+                color="#6650A4"
+                
+              />
+            </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.container}>
           <View
@@ -83,14 +97,14 @@ const PromiseStatusData = () => {
             </View>
               </View>
             </View> */}
-            <View 
-            // style={{marginLeft: wp(-1), marginBottom:-40}}
-            style={{flex: 1 , justifyContent:'center',alignItems: 'center'}}
+            <View
+              // style={{marginLeft: wp(-1), marginBottom:-40}}
+              style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
 
             >
-            {
-              console.log("this is promisibility", userPromisbility)
-            }
+              {
+                console.log("this is promisibility", userPromisbility)
+              }
               <Pie
                 radius={60}
                 innerRadius={50}
@@ -101,7 +115,7 @@ const PromiseStatusData = () => {
                   //   color: '#ee8347',
                   // },
                   {
-                    percentage: userPromisbility  ,
+                    percentage: userPromisbility,
                     color: '#73B6BF',
                   },
                 ]}
@@ -109,16 +123,17 @@ const PromiseStatusData = () => {
                 strokeCap={'butt'}
               />
               <View
-               style={{position: 'absolute',
-               bottom: '43%',
-               left: '46%',
-              }}
-               >
+                style={{
+                  position: 'absolute',
+                  bottom: '43%',
+                  left: '46%',
+                }}
+              >
                 {userPromisbility ? (
-                  <Text style={{fontSize: hp(2), color:'#652D90'}}>{userPromisbility}%</Text>
+                  <Text style={{ fontSize: hp(2), color: '#652D90' }}> {parseInt(userPromisbility)}%</Text>
                 ) : (
-                  <Text style={{fontSize: hp(2), marginLeft: wp(1), color:'#652D90'}}>
-                    {userPromisbility}%
+                  <Text style={{ fontSize: hp(2), marginLeft: wp(1), color: '#652D90' }}>
+                    {parseInt(userPromisbility)}%
                   </Text>
                 )}
               </View>

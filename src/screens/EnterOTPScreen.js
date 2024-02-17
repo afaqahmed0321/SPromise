@@ -109,7 +109,7 @@ const EnterOTPScreen = ({ navigation }) => {
             <TouchableOpacity
               onPress={verification}
             >
-              <Text style={{ color: 'white' }}>Verify</Text>
+              <Text style={{ color: 'white',fontSize:16,fontWeight:"800" }}>Verify</Text>
             </TouchableOpacity>
           </LinearGradient>
         </View>

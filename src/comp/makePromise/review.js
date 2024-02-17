@@ -40,6 +40,7 @@ import PromiseNetwork from '../../screens/PromiseNetwork';
 import { ToastAndroid } from 'react-native';
 import GetUserData from '../../Network/Users/GetUserData';
 import LoadingOverlay from '../Global/LoadingOverlay';
+import axios from 'axios';
 
 const Review = ({ navigation }) => {
   const [Promiseze, setSelectedPromisee] = useRecoilState(selectedPromisee);
@@ -220,11 +221,31 @@ const Review = ({ navigation }) => {
   const [xtoggle, setXTogel] = useState(false);
   const [financial, setFinancial] = useRecoilState(promiseType);
   const [isLoading, setIsLoading] = useState(false);
+  const [LinkedInCode, setLinkedInCode] = useState(null);
+  const [twitterCode, setTwitterCode] = useState(null);
 
   const getUser = async () => {
     const respon = await GetUserData(userN);
     const data = await respon;
     setUserData(data);
+
+    const linkedinResp = await axios.get(`https://snappromise.com:8080/api/Users/checkLinkedIn?userNo=${userN}`)
+    .then((res)=>{
+      console.log("linkedIn",res)
+      setLinkedInCode(res?.data?.code)
+    })
+    .catch((err)=>{
+      return err
+    })
+
+    const twitterCode = await axios.get(`https://snappromise.com:8080/api/Users/checkTwitter?userNo=${userN}`)
+    .then((res)=>{
+      console.log("Twitter",res)
+      setTwitterCode(res?.data?.code)
+    })
+    .catch((err)=>{
+      return err
+    })
   }
 
   useEffect(() => {
@@ -436,7 +457,10 @@ const Review = ({ navigation }) => {
             <Text style={Headings.Input3}>Also share on </Text>
             <View>
               {/* <Text>Facebook</Text> */}
-              <View style={styles.Social}>
+              {twitterCode ===400 ?(
+                null
+              ):(
+                <View style={styles.Social}>
                 <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
                   Twitter
                 </Text>
@@ -453,6 +477,8 @@ const Review = ({ navigation }) => {
                   }}
                 />
               </View>
+              )}
+
               {/* <View style={styles.Social}>
               <Text style={[{marginLeft: wp(5)}, Headings.Input5]}>
                 Twitter
@@ -470,6 +496,9 @@ const Review = ({ navigation }) => {
                 }}
               />
             </View> */}
+            {LinkedInCode === 400 ? (
+              null
+            ):(
               <View style={styles.Social}>
                 <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
                   {/* Instagram */}
@@ -488,6 +517,8 @@ const Review = ({ navigation }) => {
                   }}
                 />
               </View>
+            )}
+
               <View style={styles.Social}>
                 <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>Share</Text>
                 <ToggleSwitch

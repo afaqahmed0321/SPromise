@@ -41,6 +41,7 @@ import PromiseComment from '../../Network/Users/NetworkFeed/AddCommentAPI';
 import PromiseNetwork from '../../screens/PromiseNetwork';
 import NetWorkFeedApi from '../../Network/Users/NetworkFeed/NetworkFeedAPi';
 import axios from 'axios';
+import {RefreshControl} from 'react-native';
 
 const NetworkFeed = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
@@ -62,6 +63,7 @@ const NetworkFeed = ({ navigation }) => {
   const [like, setLike] = useState(false);
   const [isLike, setIsLike] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [visibility, setVisibility] = useState('Private');
 
   const handelNetworkFeedComp = async () => {
     const networkUserNo = userN;
@@ -71,16 +73,23 @@ const NetworkFeed = ({ navigation }) => {
       .then((response) => {
         const data = response.data.promisesList; // Accessing the data property of the Axios response
         console.log(data, "Network Feed");
+        setIsLoading(false);
         return data;
       })
       .catch((error) => {
+        setIsLoading(false);
         console.error('Error fetching data:', error);
         return null; // Returning null in case of an error, you can adjust this as needed
       })
     setSelectedNetworkUserFee(resp);
     console.log("this from fedback", resp);
   };
-
+  const handleVisibilityChange = visibilityOption => {
+    setVisibility(visibilityOption);
+  };
+  const onRefresh = () => {
+    setrefresh(!refersh);
+  };
   // const handleSearch = () => {
   //   const filtered = selectedNetworkUserFee.filter(
   //     item =>
@@ -165,19 +174,29 @@ const NetworkFeed = ({ navigation }) => {
       }
       // setIsViewAll(promiseID);
     };
+    const getTotalLikes = () => {
+      return item.promiseReactions.length;
+    };
+
+    // Function to handle like/unlike action
+    const handleLikeAction = (promiseID) => {
+      const isLiked = item.promiseReactions.includes(userN);
+      const action = isLiked ? "Unlike" : "Like";
+      onHandelReaction(promiseID, item.promiseReactions, action);
+    };
     return (
       <View
         style={{
           backgroundColor: '#F5EEFF',
           width: wp(90),
           marginVertical: hp(1),
-          marginTop: 20,
+          marginTop: 5,
           borderRadius: wp(6.5),
         }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "space-between", paddingRight:10 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "space-between", paddingRight: 10 }}>
           <View
             style={{
-              flex:1,
+              flex: 1,
               flexDirection: 'row',
               alignItems: 'center',
               width: wp(23),
@@ -212,9 +231,8 @@ const NetworkFeed = ({ navigation }) => {
 
           <TouchableOpacity
             onPress={() => {
-              // like ? false : true;
               const PID = item.promiseID;
-              onHandelReaction(PID, item.promiseReactions);
+              handleLikeAction(PID);
             }}
             style={{
               flexDirection: 'row',
@@ -232,14 +250,15 @@ const NetworkFeed = ({ navigation }) => {
                 color: 'grey',
                 fontWeight: 'bold',
                 fontSize: hp(2),
-                marginRight:12
+                marginRight: 12
               }}>
               Like
             </Text>
+            <Text style={{ color: 'grey', fontWeight: 'bold', fontSize: hp(2), marginLeft:-12 }}>({getTotalLikes()})</Text>
           </TouchableOpacity>
         </View>
         <View style={{ marginLeft: wp(2) }}>
-          {item.promiseType == 'Payment' ? (
+          {item.promiseType == 'GUARANTEE' ? (
             <Text
               style={[
                 {
@@ -251,23 +270,35 @@ const NetworkFeed = ({ navigation }) => {
               Amount: {item.paymentAmount}$
             </Text>
           ) : (
-            <Text
-              style={[
-                {
-                  color: '#652D90',
-                  fontWeight: 'bold',
-                  fontSize: hp(2.3),
-                },
-              ]}>
-              Reward: +{item.rewardPoints}XP
-            </Text>
+            <>
+              <Text
+                style={[
+                  {
+                    color: '#652D90',
+                    fontWeight: 'bold',
+                    fontSize: hp(2.3),
+                  },
+                ]}>
+                Amount: {item.paymentAmount}$
+              </Text>
+              <Text
+                style={[
+                  {
+                    color: '#652D90',
+                    fontWeight: 'bold',
+                    fontSize: hp(2.3),
+                  },
+                ]}>
+                Reward: +{item.rewardPoints} pts
+              </Text>
+            </>
           )}
           {/* {item.promiseMediaURL ? (
           <TouchableOpacity
             onPress={() => handelAttachedMedia(item.promiseMediaURL)}>
             <Text style={{color: 'blue'}}>Attached File</Text>
           </TouchableOpacity>
-        ) : null} */}
+            ) : null} */}
         </View>
         <View style={{ height: hp(10) }}>
           <Text
@@ -549,7 +580,7 @@ const NetworkFeed = ({ navigation }) => {
       }}>
       <View
         style={{
-          height: hp(4),
+          height: hp(20),
           flexDirection: 'row',
           alignItems: 'center',
           // marginLeft: wp(3),
@@ -606,7 +637,7 @@ const NetworkFeed = ({ navigation }) => {
             width: wp(30),
             backgroundColor: '#6650A4',
             justifyContent: 'center',
-            marginTop: 30
+            marginTop:wp(28)
 
           }}>
 
@@ -628,8 +659,47 @@ const NetworkFeed = ({ navigation }) => {
          Invite User
        </Text> */}
         </TouchableOpacity>
+        
       </View>
+      <View
+        style={{
+          marginTop: hp(1),
+          // borderWidth: wp(1),
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: wp(84),
+          backgroundColor: '#cebdff',
+          borderRadius: wp(10),
+        }}>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            visibility === 'Public' && styles.selectedButton,
+          ]}
+          onPress={() => handleVisibilityChange('Public')}>
+          <Text style={styles.BtnText}>Public</Text>
+        </TouchableOpacity>
 
+        <TouchableOpacity
+          style={[
+            styles.button,
+            visibility === 'Private' && styles.selectedButton,
+          ]}
+          onPress={() => handleVisibilityChange('Private')}>
+          <Text style={styles.BtnText}>Private</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.button,
+            visibility === 'Network' && styles.selectedButton,
+          ]}
+          onPress={() => handleVisibilityChange('Network')}>
+          <Text style={styles.BtnText}>Network Only</Text>
+        </TouchableOpacity>
+        
+      </View>
       {isLoading ? (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
           <ActivityIndicator size="small" color="#0000ff" />
@@ -637,6 +707,16 @@ const NetworkFeed = ({ navigation }) => {
       ) : (
         <View style={{ marginVertical: 10, marginHorizontal: 10 }}>
           <FlatList
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoading}
+              onRefresh={onRefresh}
+              colors={['#E4A936', '#EE8347']} // Android
+              tintColor="white" // iOS
+              title="Refreshing..." // iOS
+              titleColor="white" // iOS
+            />
+          }
             data={searchText.length > 0 ? filteredData : selectedNetworkUserFee}
             // data={selectedNetworkUserFee}
             // data={searchText.length > 0 ? filteredData : networkUser}
@@ -658,6 +738,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: wp(26),
   },
+
   CiBox: {
     backgroundColor: 'grey',
     width: wp(13),
@@ -672,11 +753,35 @@ const styles = StyleSheet.create({
     color: '#652D90',
     fontWeight: 'bold',
     paddingLeft: wp(4),
-    paddingTop: wp(0),
-    paddingBottom: wp(0),
-    height: hp(5),
-    marginTop: 30
+    paddingTop: wp(1),
+    paddingBottom: wp(1),
+    marginTop:wp(28)
+  },
+  containerr: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 20,
+  },
+  button: {
+    padding: 10,
+    // borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    width: wp(28),
+    justifyContent: 'center',
+    textAlign: 'center',
+    
+  },
+  selectedButton: {
+    backgroundColor: '#6650A4',
+    borderRadius: wp(14),
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
 
-
+  BtnText: {
+    textAlign: 'center',
+    color:"white",
+    fontWeight:'600'
   },
 });

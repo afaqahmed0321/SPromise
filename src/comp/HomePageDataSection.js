@@ -7,25 +7,26 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import {format} from 'date-fns';
-import React, {useEffect, useState} from 'react';
+import { format } from 'date-fns';
+import React, { useEffect, useState } from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {PlayerData} from '../Data/Data';
-import {Headings} from '../Styling/Headings';
+import { PlayerData } from '../Data/Data';
+import { Headings } from '../Styling/Headings';
 import Entypo from 'react-native-vector-icons/Entypo';
 import LinearGradient from 'react-native-linear-gradient';
 import PromiseStatusData from './PromiseStatusData';
 import LeaderBoard from './LeaderBoard';
-import {useRecoilState} from 'recoil';
-import {UserNo} from '../recoil/AddPromise';
-import {useFocusEffect} from '@react-navigation/native';
+import { useRecoilState } from 'recoil';
+import { UserNo } from '../recoil/AddPromise';
+import { useFocusEffect } from '@react-navigation/native';
 import fetchOnGoingPromises from '../Network/Users/GetOnGoingPromises';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import DetailCard from './Global/DetailCard';
 import { onGoingPromisesListCard } from '../recoil/Dashboard/dashBoard';
+import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 
 data = PlayerData;
 
@@ -42,13 +43,15 @@ const HomePageDataSection = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [refersh, setrefresh] = useState(false);
   const fetchData = async () => {
+    console.log("Fetch data call")
+
     // setPromises();
     setIsLoading(true);
     await fetchOnGoingPromises(userN)
       .then(data => {
         setPromises(data);
         // setIsLoading(false);
-        // console.log(data)
+        console.log(data,"active promises")
       })
       .catch(error => {
         console.error('Error fetching promises:', error);
@@ -60,6 +63,7 @@ const HomePageDataSection = () => {
     setrefresh(!refersh);
   };
   useEffect(() => {
+    console.log("useEffect call")
     fetchData();
   }, [focus, refersh]);
   // useEffect(() => {
@@ -81,28 +85,28 @@ const HomePageDataSection = () => {
           onPress={() => {
             setshowDetail('');
           }}>
-          <View style= {{flex:1, marginHorizontal:10, paddingHorizontal:10}} >
-          <DetailCard
-            promiseeProfileImageUrl={item.promiseeProfileImageUrl}
-            promisetype={item.promiseType}
-            amount={item.paymentAmount}
-            name={item.promiseeName}
-            date={item.expiryDate}
-            promiseMediaURL={item.promiseMediaURL}
-            ratingImpact={item.ratingImpact}
-            promiseGoal={item.promiseGoal}
-            actions={item.actions}
-            promiseID={item.promiseID}
-            refreshCallback={onRefresh}
-            rewardPoints={item.rewardPoints}
-            onGoingPromises={onGoingPromises}
-            userN={userN}
-            tab={
-              'Home'
-            }
+          <View style={{ flex: 1, marginHorizontal: 10, paddingHorizontal: 10 }} >
+            <DetailCard
+              promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+              promisetype={item.promiseType}
+              amount={item.paymentAmount}
+              name={item.promiseeName}
+              date={item.expiryDate}
+              promiseMediaURL={item.promiseMediaURL}
+              ratingImpact={item.ratingImpact}
+              promiseGoal={item.promiseGoal}
+              actions={item.actions}
+              promiseID={item.promiseID}
+              refreshCallback={onRefresh}
+              rewardPoints={item.rewardPoints}
+              onGoingPromises={onGoingPromises}
+              userN={userN}
+              tab={
+                'Home'
+              }
             // customStyle={styles1}
 
-          />
+            />
           </View>
         </TouchableOpacity>
       ) : (
@@ -110,9 +114,8 @@ const HomePageDataSection = () => {
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <LinearGradient
               colors={
-                // index % 2 === 0?
-                ['#E4A936', '#EE8347']
-                // : ['#73B6BF', '#2E888C']
+                item.promiseType=="GUARANTEE" ? ['#E4A936', '#EE8347']
+                : ['#73B6BF', '#2E888C']
               }
               style={styles.Card}>
               <View style={{ margin: hp(0.8) }}>
@@ -232,28 +235,28 @@ const HomePageDataSection = () => {
   );
 
   return (
-    <View style={{justifyContent: 'center', alignItems: 'center'}}>
-      <View style={{ width:wp(90),marginBottom:hp(2)}}>
-      {/* <View style={styles.SubContainter}> */}
-      <View style={[styles.statesSecOne, {height: hp(21)}]}>
+    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ width: wp(90), marginBottom: hp(2) }}>
+        {/* <View style={styles.SubContainter}> */}
+        <View style={[styles.statesSecOne, { height: hp(21) }]}>
 
           <PromiseStatusData />
-          </View>
+        </View>
         {/* </View> */}
       </View>
       <View style={styles.mainContainer}>
-        
+
         <View style={styles.SubContainter}>
           {/* <LeaderBoard />
            */}
 
-          <View style={[styles.statesSecOne, {height: hp(21)}]}>
+          <View style={[styles.statesSecOne, { height: hp(21) }]}>
             {/* <View style={styles.LeaderBoard}>             */}
-              <LeaderBoard />
+            <LeaderBoard />
             {/* </View> */}
           </View>
         </View>
-       
+
 
         {/* <View style={styles.states}>
         <View style={[styles.statesSecOne]}>
@@ -271,95 +274,107 @@ const HomePageDataSection = () => {
       </View>
       <View style={styles.DataSection}>
         <View>
-          <View style={styles.bar}>
-            <Text style={styles.barText}>Active Promises</Text>
-            {/* <TouchableOpacity>
+          <View style={{ flexDirection: "row", justifyContent: "space-around", alignItems: "center", alignContent: "center", marginHorizontal: 10, marginVertical: 3 }}>
+            <View style={styles.bar}>
+              <Text style={styles.barText}>Active Promises</Text>
+              {/* <TouchableOpacity>
               <Text style={styles.barText}>View All</Text>
             </TouchableOpacity> */}
+            </View>
+            <TouchableOpacity onPress={() => setrefresh(!refersh)}>
+            <View style={{ marginRight:15}}>
+              <FontAw5
+                name="sync"
+                size={15}
+                color="#6650A4"
+                
+              />
+            </View>
+          </TouchableOpacity>
+            </View>
           </View>
+          <FlatList
+            data={promises}
+            renderItem={renderItem}
+            // keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(item, index) => item.promiseID.toString()}
+            style={{ marginBottom: hp(.2) }}
+            showsVerticalScrollIndicator={false}
+          />
         </View>
-        <FlatList
-          data={promises}
-          renderItem={renderItem}
-          // keyExtractor={(item, index) => index.toString()}
-          keyExtractor={(item, index) => item.promiseID.toString()}
-          style={{marginBottom:hp(.2)}}
-          showsVerticalScrollIndicator={false}
-        />
       </View>
-    </View>
-  );
+      );
 };
 
-export default HomePageDataSection;
+      export default HomePageDataSection;
 
-const styles = StyleSheet.create({
-  mainContainer: {
-    width: wp(90),
-    // borderWidth: wp(0.3),
-    // height: hp(40),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+      const styles = StyleSheet.create({
+        mainContainer: {
+        width: wp(90),
+      // borderWidth: wp(0.3),
+      // height: hp(40),
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
   },
-  SubContainter: {
-    width: wp(40),
-    height: hp(20),
+      SubContainter: {
+        width: wp(40),
+      height: hp(20),
   },
-  bar: {
-    height: hp(3),
-    width: '100%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
+      bar: {
+        height: hp(3),
+      width: '100%',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flexDirection: 'row',
   },
-  barText: {
-    fontSize: hp(1.5),
-    marginLeft: wp(1.5),
-    marginRight: wp(1.4),
-    color: '#652D90',
-    fontWeight: 'bold',
-    paddingLeft: wp(2),
+      barText: {
+        fontSize: hp(1.5),
+      marginLeft: wp(1.5),
+      marginRight: wp(1.4),
+      color: '#652D90',
+      fontWeight: 'bold',
+      paddingLeft: wp(2),
     // paddingRight: wp(2)
   },
-  DataSection: {
-    width: wp(90),
-    // borderWidth: wp(0.3),
-    height: hp(30),
-    // borderRadius: wp(4),
-    backgroundColor: '#DDDFE2',
-    borderRadius: wp(5),
-    // borderTopLeftRadius: wp(5),
-    // borderTopWidth: wp(.6),
-    // borderColor:'#652D90',
-    marginTop: hp(3),
+      DataSection: {
+        width: wp(90),
+      // borderWidth: wp(0.3),
+      height: hp(30),
+      // borderRadius: wp(4),
+      backgroundColor: '#DDDFE2',
+      borderRadius: wp(5),
+      // borderTopLeftRadius: wp(5),
+      // borderTopWidth: wp(.6),
+      // borderColor:'#652D90',
+      marginTop: hp(3),
   },
 
-  states: {
-    width: wp(39),
-    // borderWidth: wp(0.3),
-    height: hp(40),
-    borderColor: 'red',
-    flexDirection: 'colom',
-    marginLeft: wp(1),
+      states: {
+        width: wp(39),
+      // borderWidth: wp(0.3),
+      height: hp(40),
+      borderColor: 'red',
+      flexDirection: 'colom',
+      marginLeft: wp(1),
   },
 
-  statesSecOne: {
-    width: wp(90),
-    // borderWidth: wp(0.3),
-    height: hp(21),
-    // borderColor: 'red',
-    backgroundColor: '#DDDFE2',
-    borderRadius: wp(5),
+      statesSecOne: {
+        width: wp(90),
+      // borderWidth: wp(0.3),
+      height: hp(21),
+      // borderColor: 'red',
+      backgroundColor: '#DDDFE2',
+      borderRadius: wp(5),
   },
-  Card: {
-    width: '95%',
-    // borderWidth: wp(0.5),
-    height: hp(6),
-    // borderWidth: wp(0.5),
-    marginTop: hp(0.7),
-    // marginLeft: hp(0.8),
-    borderRadius: wp(5),
+      Card: {
+        width: '95%',
+      // borderWidth: wp(0.5),
+      height: hp(6),
+      // borderWidth: wp(0.5),
+      marginTop: hp(0.7),
+      // marginLeft: hp(0.8),
+      borderRadius: wp(5),
   },
 });
 
