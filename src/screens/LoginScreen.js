@@ -220,11 +220,7 @@ const LoginScreen = ({ navigation }) => {
             }
             if (firstUrl) {
 
-              <WebView
-                source={{ uri: firstUrl }}
-                style={{ flex: 1 }}
-              // Other WebView props can be added here
-              />
+              navigation.navigate('CustomWebView', { uri: firstUrl});
 
             } else {
               try {
@@ -235,18 +231,18 @@ const LoginScreen = ({ navigation }) => {
                     'Content-Type': 'application/json',
                   },
                 });
-
+              
                 const data = await response.json();
-                setSecondUrl(`${data.url}?prefilled_email=${Email}`);
-                console.log('Data from the serverrrrrr 222:', `${data.url}?prefilled_email=${Email}`);
-
-
-                navigation.navigate('CustomWebView', { uri: secondUrl });
-
-
+                const updatedUrl = `${data.url}?prefilled_email=${Email}`;
+                setSecondUrl(updatedUrl);
+                console.log('Data from the server:', updatedUrl);
+              
+                // Navigate inside the then block after setting the state
+                navigation.navigate('CustomWebView', { uri: updatedUrl });
               } catch (error) {
                 console.error('Error fetching data:', error);
               }
+              
             }
 
 
