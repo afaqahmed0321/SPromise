@@ -41,7 +41,7 @@ import PromiseComment from '../../Network/Users/NetworkFeed/AddCommentAPI';
 import PromiseNetwork from '../../screens/PromiseNetwork';
 import NetWorkFeedApi from '../../Network/Users/NetworkFeed/NetworkFeedAPi';
 import axios from 'axios';
-import {RefreshControl} from 'react-native';
+import { RefreshControl } from 'react-native';
 
 const NetworkFeed = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
@@ -254,7 +254,7 @@ const NetworkFeed = ({ navigation }) => {
               }}>
               Like
             </Text>
-            <Text style={{ color: 'grey', fontWeight: 'bold', fontSize: hp(2), marginLeft:-12 }}>({getTotalLikes()})</Text>
+            <Text style={{ color: 'grey', fontWeight: 'bold', fontSize: hp(2), marginLeft: -12 }}>({getTotalLikes()})</Text>
           </TouchableOpacity>
         </View>
         <View style={{ marginLeft: wp(2) }}>
@@ -575,12 +575,12 @@ const NetworkFeed = ({ navigation }) => {
       style={{
         backgroundColor: '#E4EEE6',
         flex: 1,
-        justifyContent: 'center',
+        // justifyContent: 'center',
         alignItems: 'center',
       }}>
       <View
         style={{
-          height: hp(20),
+          height: hp(8),
           flexDirection: 'row',
           alignItems: 'center',
           // marginLeft: wp(3),
@@ -637,7 +637,7 @@ const NetworkFeed = ({ navigation }) => {
             width: wp(30),
             backgroundColor: '#6650A4',
             justifyContent: 'center',
-            marginTop:wp(28)
+            marginTop: wp(0)
 
           }}>
 
@@ -659,7 +659,7 @@ const NetworkFeed = ({ navigation }) => {
          Invite User
        </Text> */}
         </TouchableOpacity>
-        
+
       </View>
       <View
         style={{
@@ -698,33 +698,40 @@ const NetworkFeed = ({ navigation }) => {
           onPress={() => handleVisibilityChange('Network')}>
           <Text style={styles.BtnText}>Network Only</Text>
         </TouchableOpacity>
-        
+
       </View>
-      {isLoading ? (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-          <ActivityIndicator size="small" color="#0000ff" />
-        </View>
+      {visibility === "Private" ? (
+        <>
+          {isLoading ? (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+              <ActivityIndicator size="small" color="#0000ff" />
+            </View>
+          ) : (
+            <View style={{ marginVertical: 10, marginHorizontal: 10 }}>
+              <FlatList
+                refreshControl={
+                  <RefreshControl
+                    refreshing={isLoading}
+                    onRefresh={onRefresh}
+                    colors={['#E4A936', '#EE8347']} // Android
+                    tintColor="white" // iOS
+                    title="Refreshing..." // iOS
+                    titleColor="white" // iOS
+                  />
+                }
+                data={searchText.length > 0 ? filteredData : selectedNetworkUserFee}
+                // data={selectedNetworkUserFee}
+                // data={searchText.length > 0 ? filteredData : networkUser}
+                keyExtractor={item => item.promiseID.toString()}
+                renderItem={renderItem}
+              />
+            </View>
+          )}
+        </>
       ) : (
-        <View style={{ marginVertical: 10, marginHorizontal: 10 }}>
-          <FlatList
-          refreshControl={
-            <RefreshControl
-              refreshing={isLoading}
-              onRefresh={onRefresh}
-              colors={['#E4A936', '#EE8347']} // Android
-              tintColor="white" // iOS
-              title="Refreshing..." // iOS
-              titleColor="white" // iOS
-            />
-          }
-            data={searchText.length > 0 ? filteredData : selectedNetworkUserFee}
-            // data={selectedNetworkUserFee}
-            // data={searchText.length > 0 ? filteredData : networkUser}
-            keyExtractor={item => item.promiseID.toString()}
-            renderItem={renderItem}
-          />
-        </View>
-      )}
+        null
+      )
+      }
     </View>
   );
 };
@@ -755,7 +762,7 @@ const styles = StyleSheet.create({
     paddingLeft: wp(4),
     paddingTop: wp(1),
     paddingBottom: wp(1),
-    marginTop:wp(28)
+    // marginTop: wp(28)
   },
   containerr: {
     flexDirection: 'row',
@@ -770,7 +777,7 @@ const styles = StyleSheet.create({
     width: wp(28),
     justifyContent: 'center',
     textAlign: 'center',
-    
+
   },
   selectedButton: {
     backgroundColor: '#6650A4',
@@ -781,7 +788,7 @@ const styles = StyleSheet.create({
 
   BtnText: {
     textAlign: 'center',
-    color:"white",
-    fontWeight:'600'
+    color: "white",
+    fontWeight: '600'
   },
 });
