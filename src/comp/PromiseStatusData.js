@@ -31,7 +31,7 @@ const PromiseStatusData = () => {
     <View style={styles.PromiseStatus}>
       <View>
         <View style={styles.bar}>
-          <Text style={styles.barText}>User Promisibility</Text>
+          <Text style={styles.barText}>Your Promisibility</Text>
         </View>
         <View style={styles.container}>
           <View

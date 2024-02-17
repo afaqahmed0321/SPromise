@@ -169,7 +169,9 @@ const Drawer = () => {
           <View>
             <TouchableOpacity
               style={styles.listContainer}
-              onPress={() => navigation.navigate('Notifications')}
+              onPress={() => {navigation.navigate('Notifications')
+              setIsDrawerV(false);
+            }}
             >
               <MaterialIcons
                 color="#652D90"
@@ -231,7 +233,8 @@ const Drawer = () => {
           <View>
             <TouchableOpacity
               style={styles.listContainer}
-              onPress={() => navigation.navigate('PromiseNetwork')}
+              onPress={() => {navigation.navigate('PromiseNetwork')
+              setIsDrawerV(false);}}
             >
               <MaterialIcons
                 color="#652D90"
