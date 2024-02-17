@@ -48,6 +48,7 @@ import EnterOTPScreen from './src/screens/EnterOTPScreen';
 import ForgetPasswordEmailScreen from './src/screens/ForgetPasswordEmailScreen';
 import NetworkFeed from './src/comp/PromiseNetwork/NetworkFeed';
 import PaymentScreens from './src/screens/PaymentScreens';
+import CustomWebView from './src/screens/CustomWebView';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -82,8 +83,8 @@ function HomeScreenn() {
         },
 
         showLabel: false,
-       
-        style:{backgroundColor:'#fff'},
+
+        style: { backgroundColor: '#fff' },
         tabBarStyle: {
           // position: 'absolute',
           // position: 'relative',
@@ -291,6 +292,11 @@ const Auth = () => {
                 component={ForgetPasswordEmailScreen}
                 options={{ headerShown: false }}
               />
+              <Stack.Screen
+                name="CustomWebView"
+                component={CustomWebView}
+                options={{ headerShown: false }}
+              />
             </>
           ) : (
             <>
@@ -318,6 +324,12 @@ const Auth = () => {
                 component={UserProfile}
                 options={{ headerShown: false }}
               />
+              <Stack.Screen
+                name="CustomWebView"
+                component={CustomWebView}
+                options={{ headerShown: false }}
+              />
+
               {/* <Stack.Screen
 
               name="AdminPanel"
