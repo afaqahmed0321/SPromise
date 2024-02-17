@@ -91,15 +91,14 @@ const Review = ({ navigation }) => {
         PromiseReward,
         visibility,
       );
-
+      console.log("prommmmmm", prom);
       if (prom === 100) {
         console.log("running in make promise at line 96");
         navigation.navigate('SnapPromiseVerification');
       } else {
         console.log("error in make promise at line 96");
         ToastAndroid.showWithGravityAndOffset(
-          'Unexpected Error',
-          result.code,
+          'Buy Subscription to make more promises',
           ToastAndroid.LONG,
           ToastAndroid.BOTTOM,
           25,
@@ -175,7 +174,8 @@ const Review = ({ navigation }) => {
       PromiseStatus,
       visibility,
     );
-    if (prom === 100) {
+    console.log("prom from 178", prom)
+    if (prom === 500) {
       navigation.navigate('SnapPromiseVerification');
     }
   };
@@ -193,7 +193,8 @@ const Review = ({ navigation }) => {
   console.log(makePromise, 'makePromise');
   const [modalVisible, setModalVisible] = useRecoilState(isSelectModalVisible);
   const [amount, setAmount] = useRecoilState(promiseAmounnt);
-  const [deadlinedate, setDeadLinedate] = useRecoilState(deadline);
+  const [deadlinedate, setDeadLinedate] = useRecoilState(startDate);
+
   const [promidate, setPromidate] = useRecoilState(startDate);
   const [generatedTexts, setGeneratedTexts] = useRecoilState(promiseStatement);
   const [rewardPoints, setRewardPoints] = useRecoilState(RewardPoints);
@@ -322,7 +323,7 @@ const Review = ({ navigation }) => {
                             <Text
                               style={[
                                 Headings.h3ForReviewpage,
-                                { marginVertical: hp(0.5) },
+                                { marginVertical: hp(0.5),fontSize:18 },
                               ]}>
                               Promise Amount
                             </Text>
@@ -333,23 +334,27 @@ const Review = ({ navigation }) => {
                         </>
                       ) : (
                         <>
-                          <Text
-                            style={[
-                              Headings.h3ForReviewpage,
-                              { marginVertical: hp(0.5) },
-                            ]}>
-                            Committed:
-                          </Text>
+                        <View>
+                            <Text
+                              style={[
+                                Headings.h3ForReviewpage,
+                                { marginVertical: hp(0.5),fontSize:18 },
+                              ]}>
+                              Reward Amount
+                            </Text>
+                            <Text style={[Headings.h3ForReviewpage, { fontSize: 28 }]}>
+                              $ <Text>{amount}.00</Text>
+                            </Text>
+                          </View>
                         </>
                       )}
                     </View>
-                    <View style={styles.Line}></View>
 
                     <View style={[, { paddingVertical: 10 }]}>
                       {
                         rewardPoints ? (
                           <View>
-                            <Text style={[Headings.h3ForReviewpage, {}]}>
+                            <Text style={[Headings.h3ForReviewpage, {fontSize:18}]}>
                               Reward Points
                             </Text>
                             <Text style={[Headings.h3ForReviewpage, {}]}>{rewardPoints}</Text>
@@ -373,10 +378,10 @@ const Review = ({ navigation }) => {
                         // alignItems: 'center',
                         paddingVertical: 5
                       }}>
-                      <Text style={[Headings.h3ForReviewpage,]}>
-                        Promise Deadline:{' '}
+                      <Text style={[Headings.h3ForReviewpage,{fontSize:18}]}>
+                        Completion Date{' '}
                       </Text>
-                      <Text style={[Headings.h3ForReviewpage, { marginTop: 5 }]}>{deadlinedate}abc</Text>
+                      <Text style={[Headings.h3ForReviewpage, { marginTop: 5 }]}>{deadlinedate}</Text>
                     </View>
                     <View style={styles.Line}></View>
                   </>
@@ -401,7 +406,7 @@ const Review = ({ navigation }) => {
                 <View style={{}}>
                   <View>
                     <Text
-                      style={[Headings.h3ForReviewpage, { marginVertical: hp(1) }]}>
+                      style={[Headings.h3ForReviewpage, { marginVertical: hp(1),fontSize:18 }]}>
                       Rating will Imapct
                     </Text>
                   </View>
@@ -410,7 +415,7 @@ const Review = ({ navigation }) => {
               ) : null}
 
               <View style={{}}>
-                <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5 }]}>Promise Statement</Text>
+                <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5,fontSize:18 }]}>Promise Statement</Text>
                 <View style={{ height: hp(8), width: wp(80) }}>
                   <View style={[styles.generatedBox, { padding: 0, margin: 0 }]}>
                     {/* <ScrollView>

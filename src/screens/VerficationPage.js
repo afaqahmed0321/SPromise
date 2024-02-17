@@ -7,7 +7,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { commonStyles } from '../Styling/buttons'
-import { code, uemail, ufName, ulName, upassword } from '../recoil/Users/GetUsers';
+import { code, uSubscription, uemail, ufName, ulName, upassword } from '../recoil/Users/GetUsers';
 import { useRecoilState } from 'recoil';
 import OtpInputs from 'react-native-otp-inputs';
 import { signup } from '../Network/SignUpApi';
@@ -26,6 +26,8 @@ const VerficationPage = ({ navigation }) => {
   const [emailID, setEmail] = useRecoilState(uemail);
   const [password, setPassword] = useRecoilState(upassword);
   const [OutputCode, setOutputCode] = useState('');
+  const [subscription, setSubscription] = useRecoilState(uSubscription);
+
 
   const resendCode = () => {
     // if (!isCodeSent) {
@@ -53,12 +55,12 @@ const VerficationPage = ({ navigation }) => {
 
   const verification = async () => {
     console.log("here", OutputCode, Code)
-    console.log(fName, lName, password, emailID, "here1")
+    console.log(fName, lName, password, emailID,subscription, "here1")
 
     if (OutputCode == Code) {
-      console.log(fName, lName, password, emailID, "here1")
+      console.log(fName, lName, password, emailID,subscription, "here1")
 
-      let response = await signup(emailID, password, fName, lName);
+      let response = await signup(emailID, password, fName, lName,subscription);
       console.log(response, "hey")
       if (response == "Registered") {
         ToastAndroid.show('Registered Sucessfully!', ToastAndroid.LONG);

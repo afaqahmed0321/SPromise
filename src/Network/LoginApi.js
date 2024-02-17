@@ -80,6 +80,9 @@ export async function login(email,password) {
 };
 
 export async function Sociallogin(email, socialLogin) {
+  const headers = new Headers({
+    Accept: '*/*',
+  });
   try {
     const formData = new FormData();
     formData.append('email', email);
@@ -87,10 +90,20 @@ export async function Sociallogin(email, socialLogin) {
 
     console.log("this form dataaaaa", formData);
 
-    const response = await axiosInstance.post('/Login', formData);
+    // const response = await axiosInstance.post('/Login', formData, {
+    //   withCredentials: true,
+    // });
+    const response = await fetch("https://snappromise.com:8080/Login", {
+      method: 'POST',
+      headers: headers,
+      body: formData,
+    });
     console.log("response from social login", response);
-    return response;
+    const responseData = await response.text();
+    const data = JSON.parse(responseData);
+    return data;
   } catch (error) {
+    console.log("error before -222", error);
     return -2; // Return custom error code for request failure
   }
 }

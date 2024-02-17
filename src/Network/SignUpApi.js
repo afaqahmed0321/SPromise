@@ -16,8 +16,8 @@
    
 // };
 
-export async function signup(emailID, password, fName, lName) {
-  console.log(emailID, password, fName, lName,"signup")
+export async function signup(emailID, password, fName, lName, subscription) {
+  console.log(emailID, password, fName, lName,subscription,"signup")
   const headers = new Headers({
     'Content-Type': 'application/json',
   });
@@ -27,6 +27,7 @@ export async function signup(emailID, password, fName, lName) {
      "password": password,
      "firstName": fName,
      "lastName": lName,
+     "subscription": subscription,
      "loginType": "Manual",
      "status": "Active"
    }

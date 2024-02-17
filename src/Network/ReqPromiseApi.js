@@ -49,7 +49,7 @@ const ReqPromiseApi = async (expiryDate, IsTimeBound, promiseGoal, promiseMediaU
     });
 
     result = await result.json();
-    console.log(result)
+    console.log("resultttt",result)
     if (result.code === 500) {
       return result.code
       ToastAndroid.showWithGravityAndOffset(
