@@ -546,6 +546,7 @@ const MakePromise = ({ navigation }) => {
                   alignItems: 'center',
                   height: hp(5),
                   justifyContent: 'center',
+                  gap:8
                 }}>
                 {/* <Text style={Headings.Input3}>Amount</Text> */}
                 <TextInput
@@ -560,7 +561,7 @@ const MakePromise = ({ navigation }) => {
                     borderWidth: wp(0.6),
                     borderColor: '#652D90',
                     borderRadius: wp(10),
-                    width: wp(42),
+                    width: wp(30),
                     borderRadius: wp(5),
                     textAlign:"center"
                   }}
@@ -568,6 +569,26 @@ const MakePromise = ({ navigation }) => {
                   onChangeText={text => setAmount(text)}
                   keyboardType="phone-pad"
                 />
+                 <TextInput
+                      placeholder="Points"
+                      placeholderTextColor="black"
+                      value={rewardPoints}
+                      style={{
+                        height: hp(5),
+                        color: '#000',
+                        // marginLeft: wp(18),
+                        fontSize: hp(1.8),
+                        // borderWidth: hp(.1),
+                        borderWidth: wp(0.6),
+                        borderColor: '#652D90',
+                        borderRadius: wp(10),
+                        width: wp(30),
+                        borderRadius: wp(5),
+                        textAlign:"center"
+                      }}
+                      onChangeText={text => setRewardPoints(text)}
+                      keyboardType="phone-pad"
+                    />
                 {/* <TextInput
                   placeholder="Reward Points"
                   value={rewardPoints}
