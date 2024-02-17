@@ -41,6 +41,7 @@ import { uemail } from '../recoil/Users/GetUsers';
 import fetchUser from '../Network/Users/GetUser';
 import { signup, Socialsignup } from '../Network/SignUpApi';
 import LoadingOverlay from '../comp/Global/LoadingOverlay';
+import WebView from 'react-native-webview';
 
 const LoginScreen = ({ navigation }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -50,6 +51,9 @@ const LoginScreen = ({ navigation }) => {
   const [userN, setUserN] = useRecoilState(UserNo);
   const [email, setemail] = useRecoilState(uemail);
   const [isLoading, setIsLoading] = useState(false);
+  const [firstUrl, setFirstUrl] = useState('');
+  const [secondUrl, setSecondUrl] = useState('');
+
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -169,25 +173,87 @@ const LoginScreen = ({ navigation }) => {
         setIsLoading(true); // Show the loading overlay
         let response = await login(Email, Password);
         console.log("login response complette", response);
+
+        const paymentStatus = response.paymentPending;
+        const userNumber = response.userNo;
+
+        console.log("this is payment status", paymentStatus);
+        console.log("this is userNumber", userNumber);
+
         setIsLoading(false); // Hide the loading overlay
         if (response.message === 'Success') {
-          setToken(response.token);
-          setUserN(response.userNo);
-          setemail(Email);
-          let resp = await fetchUser(Email);
-          console.log(resp.firstName + ' ' + resp.lastName, 'response');
-          await AsyncStorage.setItem('token', '');
-          await AsyncStorage.setItem('userNo', '');
-          await AsyncStorage.setItem('Email', '');
-          await AsyncStorage.setItem('Name', '');
-          await AsyncStorage.setItem('token', response.token);
-          await AsyncStorage.setItem('userNo', response.userNo);
-          await AsyncStorage.setItem('Email', Email);
-          await AsyncStorage.setItem(
-            'Name',
-            resp.firstName + ' ' + resp.lastName,
-          );
-          // navigation.navigate('HomeScreen')
+
+          if (!paymentStatus) {
+            setToken(response.token);
+            setUserN(response.userNo);
+            setemail(Email);
+            let resp = await fetchUser(Email);
+            console.log(resp.firstName + ' ' + resp.lastName, 'response');
+            await AsyncStorage.setItem('token', '');
+            await AsyncStorage.setItem('userNo', '');
+            await AsyncStorage.setItem('Email', '');
+            await AsyncStorage.setItem('Name', '');
+            await AsyncStorage.setItem('token', response.token);
+            await AsyncStorage.setItem('userNo', response.userNo);
+            await AsyncStorage.setItem('Email', Email);
+            await AsyncStorage.setItem(
+              'Name',
+              resp.firstName + ' ' + resp.lastName,
+            );
+            // navigation.navigate('HomeScreen')
+          } else {
+            try {
+
+              const response = await fetch(`https://snappromise.com:8080/getCustomerPortalURL?UserNo=${userNumber}`, {
+                method: 'GET',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+              });
+
+              const data = await response.json();
+              setFirstUrl(data.url);
+              console.log('Data from the serverrrrrr:', response.statusText);
+            } catch (error) {
+              console.error('Error fetching data:', error);
+            }
+            if (firstUrl) {
+
+              <WebView
+                source={{ uri: firstUrl }}
+                style={{ flex: 1 }}
+              // Other WebView props can be added here
+              />
+
+            } else {
+              try {
+                const response = await fetch(`https://snappromise.com:8080/getCheckOutURL`, {
+                  method: 'GET',
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                  },
+                });
+
+                const data = await response.json();
+                setSecondUrl(`${data.url}?prefilled_email=${Email}`);
+                console.log('Data from the serverrrrrr 222:', `${data.url}?prefilled_email=${Email}`);
+
+
+                navigation.navigate('CustomWebView', { uri: secondUrl });
+
+
+              } catch (error) {
+                console.error('Error fetching data:', error);
+              }
+            }
+
+
+
+          }
+
+
         } else if (
           (response.message =
             'Either you do not have permission or credentials are invalid.')
