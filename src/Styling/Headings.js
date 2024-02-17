@@ -42,7 +42,7 @@ export const Headings = StyleSheet.create({
   Input5:{
     fontWeight:'bold',
     color: 'black',
-    fontSize:hp(1.4),
+    fontSize:hp(2),
     
   },
   h1:{

@@ -15,15 +15,20 @@ const EnterNewPasswordScreen = ({ navigation, route }) => {
 
   
   const changePassword = async () => {
+
     console.log("emailllllll", emailID,"paswordddddd", password);
+    const isValidPassword = (password) => {
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      return passwordRegex.test(password);
+    };
     try {
       if (password === '') {
         ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
         return;
-      } else if (password !== confirmPassword) {
-        ToastAndroid.show('Password is not Confirmed', ToastAndroid.LONG);
+      } else if (!isValidPassword(password)) {
+        ToastAndroid.show('Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and have a minimum length of 8 characters', ToastAndroid.LONG);
         return;
-      }
+      } 
 
       // Make an API call to change the password
       const response = await UpdatedPassword(emailID, password);
@@ -31,7 +36,8 @@ const EnterNewPasswordScreen = ({ navigation, route }) => {
       // Check the response and navigate accordingly
       if (response.status == 400) {
         // Password changed successfully
-        ToastAndroid.show('Failed to change password. Please try again once.', ToastAndroid.LONG);
+        ToastAndroid.show('Password changed successfully', ToastAndroid.LONG);
+        navigation.navigate('LoginScreen');
        
       } else {
         // Handle the case where password change fails

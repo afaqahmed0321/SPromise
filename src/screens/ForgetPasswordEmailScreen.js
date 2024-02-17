@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert ,ToastAndroid} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
@@ -9,38 +9,46 @@ import { code, uemail } from '../recoil/Users/GetUsers';
 
 const ForgetPasswordEmailScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
-    const [Code, setCode] = useRecoilState(code)
-  const [Semail, setSemail] = useRecoilState(uemail);
+    const [Code, setCode] = useRecoilState(code);
+    const [Semail, setSemail] = useRecoilState(uemail);
 
-
+    const validateEmail = (email) => {
+        // Regular expression for email validation
+        const regex = /\S+@\S+\.\S+/;
+        return regex.test(email);
+    };
 
     const sendOTP = async () => {
+        if (!validateEmail(email)) {
+            ToastAndroid.show(
+                'Please enter a valid email',
+                ToastAndroid.LONG,
+              );            return;
+        }
+
         const encodedEmail = encodeURIComponent(email);
-        console.log("this is email", encodedEmail)
+        console.log("this is email", encodedEmail);
         await axios.get(`https://snappromise.com:8080/getOTP?emailID=${encodedEmail}&isForgot=${true}`)
             .then((res) => {
                 console.log("Forget password is hitted", res);
-                setCode(res.data.code)
+                setCode(res.data.code);
                 navigation.navigate('EnterOTPScreen', { Code, email });
-                setSemail(email)
+                setSemail(email);
             })
             .catch((error) => {
                 console.log("Error in forgot password", error);
-                // navigation.navigate('EnterOTPScreen', { email });
-            })
-        // Add logic to send OTP to the entered email
+            });
     };
+
     const onChangeEmail = async text => {
-        // Update the Email state with the new text input
         setEmail(text);
     };
+
     return (
         <View style={TextInP.container}>
             <LogoHeaderGlobel navigation={navigation} />
             <View>
-                <Text style={TextInP.heading}>
-                    Forgot Password
-                </Text>
+                <Text style={TextInP.heading}>Forgot Password</Text>
             </View>
             <TextInput
                 style={TextInP.Fileds}
@@ -57,9 +65,7 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
                     style={TextInP.lognBtn}
                 >
                     <TouchableOpacity onPress={sendOTP}>
-                        <Text style={{
-                            color: "#fff", fontWeight: '600',
-                        }}  >Send OTP</Text>
+                        <Text style={{ color: "#fff", fontWeight: '600' }}>Send OTP</Text>
                     </TouchableOpacity>
                 </LinearGradient>
             </View>
@@ -67,13 +73,11 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
     );
 };
 
-
-
 export const TextInP = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'start', // Align items vertically in the center
-        alignItems: 'start', // Align items horizontally in the center
+        justifyContent: 'start',
+        alignItems: 'start',
         paddingHorizontal: 10
     },
     heading: {
@@ -81,7 +85,6 @@ export const TextInP = StyleSheet.create({
         fontWeight: '700',
         fontSize: 24,
         padding: 10
-
     },
     Fileds: {
         marginTop: hp(1),
@@ -94,8 +97,8 @@ export const TextInP = StyleSheet.create({
         placeholderTextColor: "#000"
     },
     lognBtnParent: {
-        justifyContent: 'center', // Align children horizontally in the center
-        alignItems: 'center', // Align children vertically in the center
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     lognBtn: {
         width: wp(30),
