@@ -170,7 +170,9 @@ const NetworkFeed = ({ navigation }) => {
         style={{
           backgroundColor: '#F5EEFF',
           width: wp(90),
-          marginVertical: hp(1.5),
+          marginVertical: hp(1),
+          marginTop:20,
+          borderRadius: wp(6.5), 
         }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View
@@ -406,7 +408,7 @@ const NetworkFeed = ({ navigation }) => {
   )
 } */}
 
-          <View
+          {/* <View
             style={{
               // borderWidth: 1,
               flexDirection: 'row',
@@ -427,7 +429,7 @@ const NetworkFeed = ({ navigation }) => {
               ]}>
               Share
             </Text>
-          </View>
+          </View> */}
         </View>
         {/* /// Comments Section */}
         <View style={{ marginLeft: wp(2) }}>
@@ -473,20 +475,20 @@ const NetworkFeed = ({ navigation }) => {
                       width: wp(65),
                       marginLeft: wp(3),
                     }}>
-                    <Text>{comment.userName}</Text>
-                    <Text>{comment.comment}</Text>
+                    <Text style={{color:"black"}}>{comment.userName}</Text>
+                    <Text style={{color:"black"}}>{comment.comment}</Text>
                   </View>
                 </View>
               ))
           ) : (
-            <Text>No comments for this promise</Text>
+            <Text style={{color:"black", margin:10}}>No comments for this promise</Text>
           )}
           {item.promiseComments && item.promiseComments.length > 2 && (
             <TouchableOpacity onPress={() => handleViewAllComments(item.promiseID)}>
               {isViewAll.includes(item.promiseID) ? (
-                <Text>View Less</Text>
+                <Text style={{color:"black"}}>View Less</Text>
               ) : (
-                <Text>View All Comments</Text>
+                <Text style={{color:"black"}}>View All Comments</Text>
               )}
             </TouchableOpacity>
           )}
@@ -499,14 +501,18 @@ const NetworkFeed = ({ navigation }) => {
               // console.log(text);
             }}
             placeholder="Add a comment"
+            placeholderTextColor={"black"}
             style={{
               borderWidth: wp(0.5),
               borderColor: '#652D90',
               backgroundColor: 'white',
+              borderRadius: wp(6.5), 
+              marginHorizontal:10,
               paddingLeft: wp(2.2),
+              color:"black"
             }}></TextInput>
           <TouchableOpacity
-            style={{ position: 'absolute', right: wp(3), top: hp(1.5) }}>
+            style={{ position: 'absolute', right: wp(4.5), top: hp(1.5) }}>
             <Material name="insert-emoticon" size={30} color="#652D90" />
           </TouchableOpacity>
           <TouchableOpacity
@@ -516,7 +522,7 @@ const NetworkFeed = ({ navigation }) => {
               height: hp(5),
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: 'green',
+              backgroundColor: '#652D90',
               borderRadius: wp(10),
               marginVertical: hp(1),
               marginLeft: wp(30),
@@ -527,7 +533,7 @@ const NetworkFeed = ({ navigation }) => {
               setComment('')
               console.log(comment, "comment")
             }}>
-            <Text>Add Comment</Text>
+            <Text style={{color:"white"}}>Add Comment</Text>
           </TouchableOpacity>
         </View>
       </View>
