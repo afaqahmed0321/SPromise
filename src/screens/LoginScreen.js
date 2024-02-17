@@ -40,7 +40,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { uemail } from '../recoil/Users/GetUsers';
 import fetchUser from '../Network/Users/GetUser';
 import { signup, Socialsignup } from '../Network/SignUpApi';
-import LoadingOverlay from '../comp/Global/LoadingOverlay'; 
+import LoadingOverlay from '../comp/Global/LoadingOverlay';
 
 const LoginScreen = ({ navigation }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -49,7 +49,7 @@ const LoginScreen = ({ navigation }) => {
   const [Token, setToken] = useRecoilState(token);
   const [userN, setUserN] = useRecoilState(UserNo);
   const [email, setemail] = useRecoilState(uemail);
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -110,6 +110,8 @@ const LoginScreen = ({ navigation }) => {
           console.log(responses, 'hey');
           if (responses == 'This user is already registered!') {
             let response = await Sociallogin(user.user.email, true);
+            console.log(response, 'Login Response from Google ifff');
+
             if (response.message === 'Success') {
               setToken(response.token);
               setUserN(response.userNo);
@@ -132,6 +134,7 @@ const LoginScreen = ({ navigation }) => {
             ToastAndroid.show(responses, ToastAndroid.LONG);
           }
         } else {
+
           console.log("this is user emaillll", user?.user?.email)
           let response = await Sociallogin(user?.user?.email, true);
           console.log(response, 'Login Response from Google');
@@ -145,11 +148,7 @@ const LoginScreen = ({ navigation }) => {
             await AsyncStorage.setItem('token', response.token);
             await AsyncStorage.setItem('userNo', response.userNo);
             await AsyncStorage.setItem('Email', user.user.email);
-            await AsyncStorage.setItem(
-              'Name',
-              user.user.displayName
-            );
-
+            await AsyncStorage.setItem('Name', user.user.displayName);
             navigation.navigate('HomeScreen');
           }
         }
@@ -169,6 +168,7 @@ const LoginScreen = ({ navigation }) => {
       } else {
         setIsLoading(true); // Show the loading overlay
         let response = await login(Email, Password);
+        console.log("login response complette", response);
         setIsLoading(false); // Hide the loading overlay
         if (response.message === 'Success') {
           setToken(response.token);
@@ -195,7 +195,8 @@ const LoginScreen = ({ navigation }) => {
           ToastAndroid.show(
             'Either you do not have permission or credentials are invalid.',
             ToastAndroid.LONG,
-          );        } else {
+          );
+        } else {
           ToastAndroid.show('Please Try Again !', ToastAndroid.LONG);
         }
       }
@@ -205,7 +206,7 @@ const LoginScreen = ({ navigation }) => {
       ToastAndroid.show('An error occurred. Please try again later.', ToastAndroid.LONG);
     }
   };
-  
+
   const onChangeEmail = async text => {
     // Update the Email state with the new text input
     setEmail(text);
@@ -214,11 +215,11 @@ const LoginScreen = ({ navigation }) => {
     setPassword(text);
   };
   const handleForgetPassword = () => {
-    navigation.navigate('ForgetPasswordEmailScreen'); 
+    navigation.navigate('ForgetPasswordEmailScreen');
   };
   return (
     <SafeAreaView style={styles.mainC}>
-            {isLoading && <LoadingOverlay />}
+      {isLoading && <LoadingOverlay />}
 
       <LogoHeaderGlobel navigation={navigation} />
       <View style={{ width: wp(90), marginTop: hp(8), marginLeft: hp(2) }}>
@@ -252,7 +253,7 @@ const LoginScreen = ({ navigation }) => {
           <Text style={{ fontWeight: 'bold', color: '#000' }}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
-    
+
       <View style={{ marginTop: hp(3), alignItems: 'center' }}>
         <View>
           <LinearGradient
@@ -261,7 +262,7 @@ const LoginScreen = ({ navigation }) => {
             end={{ x: 1, y: 0 }}
             style={commonStyles.lognBtn}
           >
-           <TouchableOpacity onPress={() => LoginPress()}>
+            <TouchableOpacity onPress={() => LoginPress()}>
               <Text style={TextInP.LogInButton}>Log In</Text>
             </TouchableOpacity>
           </LinearGradient>

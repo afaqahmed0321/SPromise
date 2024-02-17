@@ -21,6 +21,10 @@ export const uemail = atom({
     key: 'lName',
     default: '',
   });
+  export const uSubscription = atom({
+    key: 'subscription',
+    default: '',
+  });
   export const userData = atom({
     key: 'userData',
     default: '',
