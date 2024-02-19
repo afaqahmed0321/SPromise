@@ -27,12 +27,19 @@ import { useIsFocused } from '@react-navigation/native';
 import DetailCard from './Global/DetailCard';
 import { onGoingPromisesListCard } from '../recoil/Dashboard/dashBoard';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
+import MyPromisesApi from '../Network/Dashboard/Promises/MyPromisesApi/MyPromisesApi';
+import PromisesToMeApi from '../Network/Dashboard/Promises/PromisesToMeApi/PromisesToMeApi';
+import GetPromiseRequestToUser from '../Network/Dashboard/PromiseReq/GetPromiseReqToUser';
+import GetUserPromiseRequest from '../Network/Dashboard/PromiseReq/GetUserPromiseReq';
 
 data = PlayerData;
 
 const HomePageDataSection = () => {
   const [rating, setRating] = useState(0);
   const [promises, setPromises] = useState([]);
+  const [promisesToMe, setpromisesToMe] = useState([]);
+  const [promisesReq, setPromisesReq] = useState([]);
+  const [promisesReqToMe, setpromisesReqToMe] = useState([]);
   const [myPromisesLis, setMyPromisesLis] = useState([])
   const [promisesToMeList, setPromisesToMeList] = useState([])
   const [userN, setUserN] = useRecoilState(UserNo);
@@ -47,16 +54,52 @@ const HomePageDataSection = () => {
 
     // setPromises();
     setIsLoading(true);
-    await fetchOnGoingPromises(userN)
+    await MyPromisesApi(userN)
       .then(data => {
         setPromises(data);
         // setIsLoading(false);
-        console.log(data,"active promises")
+        console.log(data, "active promises")
       })
       .catch(error => {
         console.error('Error fetching promises:', error);
         setIsLoading(false);
       });
+
+    await PromisesToMeApi(userN)
+      .then(data => {
+        setpromisesToMe(data);
+        // setIsLoading(false);
+        console.log(data, "active promises")
+      })
+      .catch(error => {
+        console.error('Error fetching promises:', error);
+        setIsLoading(false);
+      });
+
+
+    await GetPromiseRequestToUser(userN)
+      .then(data => {
+        setPromisesReq(data);
+        // setIsLoading(false);
+        console.log(data, "active promises")
+      })
+      .catch(error => {
+        console.error('Error fetching promises:', error);
+        setIsLoading(false);
+      });
+
+    await GetUserPromiseRequest(userN)
+      .then(data => {
+        setpromisesReqToMe(data);
+        // setIsLoading(false);
+        console.log(data, "active promises")
+      })
+      .catch(error => {
+        console.error('Error fetching promises:', error);
+        setIsLoading(false);
+      });
+
+
     setIsLoading(true);
   };
   const onRefresh = () => {
@@ -66,16 +109,6 @@ const HomePageDataSection = () => {
     console.log("useEffect call")
     fetchData();
   }, [focus, refersh]);
-  // useEffect(() => {
-  //   fetchData()
-
-  //  }, []);
-  // useFocusEffect(
-
-  //   React.useCallback(() => {
-  //     fetchData();
-  //   }, [])
-  // );
 
   const renderItem = ({ item, index }) => (
     <>
@@ -86,6 +119,7 @@ const HomePageDataSection = () => {
             setshowDetail('');
           }}>
           <View style={{ flex: 1, marginHorizontal: 10, paddingHorizontal: 10 }} >
+            {console.log(item,"bharwy")}
             <DetailCard
               promiseeProfileImageUrl={item.promiseeProfileImageUrl}
               promisetype={item.promiseType}
@@ -104,8 +138,7 @@ const HomePageDataSection = () => {
               tab={
                 'Home'
               }
-            // customStyle={styles1}
-
+              jugaar="lpc"
             />
           </View>
         </TouchableOpacity>
@@ -114,8 +147,8 @@ const HomePageDataSection = () => {
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <LinearGradient
               colors={
-                item.promiseType=="GUARANTEE" ? ['#E4A936', '#EE8347']
-                : ['#73B6BF', '#2E888C']
+                item.actions == "Pay" ? ['#E4A936', '#EE8347']
+                  : ['#73B6BF', '#2E888C']
               }
               style={styles.Card}>
               <View style={{ margin: hp(0.8) }}>
@@ -138,9 +171,7 @@ const HomePageDataSection = () => {
                       style={{
                         width: wp(8),
                         height: hp(4),
-                        borderRadius: wp(4), // Half of the width
-                        // marginLeft: wp(2),
-                        // marginTop: hp(1),
+                        borderRadius: wp(4),
                       }}
                     />
                   </View>
@@ -155,7 +186,8 @@ const HomePageDataSection = () => {
                         Headings.Input6,
                         { marginLeft: wp(0.7), color: 'white', marginTop: wp(1) },
                       ]}>
-                      {item.promiseeName}
+                        {item.actions === 'Pay' ? item?.promiseeName : item?.promisorName}
+                      {}
                     </Text>
                   </View>
 
@@ -166,15 +198,6 @@ const HomePageDataSection = () => {
                       alignItems: 'center',
                       marginLeft: wp(17),
                     }}>
-                    {/* <View style={{width: wp(14)}}>
-                <Text
-                  style={[
-                    Headings.Input6,
-                    {marginLeft: wp(0.7), color: 'white', marginTop: wp(1)},
-                  ]}>
-                  {item.promisorName}
-                </Text>
-              </View> */}
                     <View style={{ flexDirection: 'row' }}>
                       <View>
                         <Entypo size={18} color="white" name="calendar" />
@@ -192,40 +215,6 @@ const HomePageDataSection = () => {
                     </View>
                   </View>
                 </View>
-                {/* <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <View
-              style={{
-                width: wp(42),
-                marginVertical: hp(1),
-                height: hp(5),
-                // borderWidth: 1,
-              }}>
-              <Text
-                style={[
-                  Headings.Input6,
-
-                  {color: 'white'},
-
-                ]}>
-                {item.promiseGoal}
-              </Text>
-            </View>
-            <Text
-              style={[
-                Headings.Input6,
-
-                {
-                  marginLeft: wp(0.7),
-                  color: 'white',
-                  marginTop: wp(0.3),
-                  fontSize: hp(1.5),
-                  textAlign: 'center',
-                  fontWeight: 'bold',
-                },
-              ]}>
-              $ {item.paymentAmount}
-            </Text>
-          </View> */}
               </View>
             </LinearGradient>
           </View>
@@ -237,144 +226,122 @@ const HomePageDataSection = () => {
   return (
     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ width: wp(90), marginBottom: hp(2) }}>
-        {/* <View style={styles.SubContainter}> */}
         <View style={[styles.statesSecOne, { height: hp(21) }]}>
-
           <PromiseStatusData />
         </View>
-        {/* </View> */}
       </View>
       <View style={styles.mainContainer}>
 
         <View style={styles.SubContainter}>
-          {/* <LeaderBoard />
-           */}
-
           <View style={[styles.statesSecOne, { height: hp(21) }]}>
-            {/* <View style={styles.LeaderBoard}>             */}
             <LeaderBoard />
-            {/* </View> */}
           </View>
         </View>
-
-
-        {/* <View style={styles.states}>
-        <View style={[styles.statesSecOne]}>
-          <PromiseStatusData />
-        </View>
-   
-        <View style={[styles.statesSecOne, { height: hp(18),}]}>
-          <View style={styles.LeaderBoard}>
-        <LeaderBoard />
-
-          </View>
-        </View>
-        
-      </View> */}
       </View>
       <View style={styles.DataSection}>
         <View>
           <View style={{ flexDirection: "row", justifyContent: "space-around", alignItems: "center", alignContent: "center", marginHorizontal: 10, marginVertical: 3 }}>
             <View style={styles.bar}>
               <Text style={styles.barText}>Active Promises</Text>
-              {/* <TouchableOpacity>
-              <Text style={styles.barText}>View All</Text>
-            </TouchableOpacity> */}
             </View>
             <TouchableOpacity onPress={() => setrefresh(!refersh)}>
-            <View style={{ marginRight:15}}>
-              <FontAw5
-                name="sync"
-                size={15}
-                color="#6650A4"
-                
-              />
-            </View>
-          </TouchableOpacity>
-            </View>
+              <View style={{ marginRight: 15 }}>
+                <FontAw5
+                  name="sync"
+                  size={15}
+                  color="#6650A4"
+
+                />
+              </View>
+            </TouchableOpacity>
           </View>
-          <FlatList
-            data={promises}
-            renderItem={renderItem}
-            // keyExtractor={(item, index) => index.toString()}
-            keyExtractor={(item, index) => item.promiseID.toString()}
-            style={{ marginBottom: hp(.2) }}
-            showsVerticalScrollIndicator={false}
-          />
         </View>
+        <FlatList
+          data={[
+            ...promises.filter(item => item.status === 'AmountDue'),
+            ...promisesToMe.filter(item => item.status === 'AmountDue'),
+            ...promisesReq.filter(item => item.status === 'AmountDue'),
+            ...promisesReqToMe.filter(item => item.status === 'AmountDue'),
+          ]} 
+          renderItem={renderItem}
+          keyExtractor={(item, index) => item.promiseID.toString()}
+          style={{ marginBottom: hp(.2) }}
+          showsVerticalScrollIndicator={false}
+        />
       </View>
-      );
+    </View>
+  );
 };
 
-      export default HomePageDataSection;
+export default HomePageDataSection;
 
-      const styles = StyleSheet.create({
-        mainContainer: {
-        width: wp(90),
-      // borderWidth: wp(0.3),
-      // height: hp(40),
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
+const styles = StyleSheet.create({
+  mainContainer: {
+    width: wp(90),
+    // borderWidth: wp(0.3),
+    // height: hp(40),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-      SubContainter: {
-        width: wp(40),
-      height: hp(20),
+  SubContainter: {
+    width: wp(40),
+    height: hp(20),
   },
-      bar: {
-        height: hp(3),
-      width: '100%',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      flexDirection: 'row',
+  bar: {
+    height: hp(3),
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
-      barText: {
-        fontSize: hp(1.5),
-      marginLeft: wp(1.5),
-      marginRight: wp(1.4),
-      color: '#652D90',
-      fontWeight: 'bold',
-      paddingLeft: wp(2),
+  barText: {
+    fontSize: hp(1.5),
+    marginLeft: wp(1.5),
+    marginRight: wp(1.4),
+    color: '#652D90',
+    fontWeight: 'bold',
+    paddingLeft: wp(2),
     // paddingRight: wp(2)
   },
-      DataSection: {
-        width: wp(90),
-      // borderWidth: wp(0.3),
-      height: hp(30),
-      // borderRadius: wp(4),
-      backgroundColor: '#DDDFE2',
-      borderRadius: wp(5),
-      // borderTopLeftRadius: wp(5),
-      // borderTopWidth: wp(.6),
-      // borderColor:'#652D90',
-      marginTop: hp(3),
+  DataSection: {
+    width: wp(90),
+    // borderWidth: wp(0.3),
+    height: hp(30),
+    // borderRadius: wp(4),
+    backgroundColor: '#DDDFE2',
+    borderRadius: wp(5),
+    // borderTopLeftRadius: wp(5),
+    // borderTopWidth: wp(.6),
+    // borderColor:'#652D90',
+    marginTop: hp(3),
   },
 
-      states: {
-        width: wp(39),
-      // borderWidth: wp(0.3),
-      height: hp(40),
-      borderColor: 'red',
-      flexDirection: 'colom',
-      marginLeft: wp(1),
+  states: {
+    width: wp(39),
+    // borderWidth: wp(0.3),
+    height: hp(40),
+    borderColor: 'red',
+    flexDirection: 'colom',
+    marginLeft: wp(1),
   },
 
-      statesSecOne: {
-        width: wp(90),
-      // borderWidth: wp(0.3),
-      height: hp(21),
-      // borderColor: 'red',
-      backgroundColor: '#DDDFE2',
-      borderRadius: wp(5),
+  statesSecOne: {
+    width: wp(90),
+    // borderWidth: wp(0.3),
+    height: hp(21),
+    // borderColor: 'red',
+    backgroundColor: '#DDDFE2',
+    borderRadius: wp(5),
   },
-      Card: {
-        width: '95%',
-      // borderWidth: wp(0.5),
-      height: hp(6),
-      // borderWidth: wp(0.5),
-      marginTop: hp(0.7),
-      // marginLeft: hp(0.8),
-      borderRadius: wp(5),
+  Card: {
+    width: '95%',
+    // borderWidth: wp(0.5),
+    height: hp(6),
+    // borderWidth: wp(0.5),
+    marginTop: hp(0.7),
+    // marginLeft: hp(0.8),
+    borderRadius: wp(5),
   },
 });
 

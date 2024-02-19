@@ -74,7 +74,7 @@ const Complete = ({navigation}) => {
         <ActivityIndicator size="small" color="#652D90" />
       ) : (
         <FlatList
-          data={promises.filter(item => item.status === 'Completed')}
+          data={promises.filter(item => item.status === 'Accepted')}
           refreshControl={
             <RefreshControl
               refreshing={isLoading}

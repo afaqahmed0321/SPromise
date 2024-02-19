@@ -100,7 +100,7 @@ const NetworkFeed = ({ navigation }) => {
   // };
 
   const handleSearch = () => {
-
+    console.log("search");
     const filtered = selectedNetworkUserFee.filter(item =>
       item.promisorName.toLowerCase().includes(searchText.toLowerCase())
     );
@@ -515,9 +515,9 @@ const NetworkFeed = ({ navigation }) => {
           {item.promiseComments && item.promiseComments.length > 2 && (
             <TouchableOpacity onPress={() => handleViewAllComments(item.promiseID)}>
               {isViewAll.includes(item.promiseID) ? (
-                <Text style={{ color: "black" }}>View Less</Text>
+                <Text style={{ color: '#652D90',fontWeight: 'bold', marginLeft: 15, marginVertical: 10, }}>View Less</Text>
               ) : (
-                <Text style={{ color: "black" }}>View All Comments</Text>
+                <Text style={{ color: '#652D90',fontWeight: 'bold', marginLeft: 15, marginVertical: 10 }}>View All Comments</Text>
               )}
             </TouchableOpacity>
           )}
@@ -627,7 +627,7 @@ const NetworkFeed = ({ navigation }) => {
          </TouchableOpacity> */}
         </View>
         <TouchableOpacity
-          onPress={() => handleSearch}
+          onPress={handleSearch}
           style={{
             height: hp(5),
             flexDirection: 'row',
@@ -707,7 +707,7 @@ const NetworkFeed = ({ navigation }) => {
               <ActivityIndicator size="small" color="#0000ff" />
             </View>
           ) : (
-            <View style={{ marginVertical: 10, marginHorizontal: 10 }}>
+            <View style={{ marginVertical: 10, marginHorizontal: 10, marginBottom: 110 }}>
               <FlatList
                 refreshControl={
                   <RefreshControl

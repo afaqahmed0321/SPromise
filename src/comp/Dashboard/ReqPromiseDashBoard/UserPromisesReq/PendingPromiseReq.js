@@ -48,6 +48,7 @@ const PendingPromiseReq = ({navigation}) => {
     // Fetch data from the API using MyPromisesApi
     GetUserPromiseRequest(userN)
       .then(data => {
+        console.log(data,"lund afaq")
         setPromises(data);
         setIsLoading(false);
       })
