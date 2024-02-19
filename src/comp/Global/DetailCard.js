@@ -60,9 +60,9 @@ const DetailCard = ({
   rewardPoints,
   refreshCallback,
   style,
-  navigation
+  navigation,
+  jugaar
 }) => {
-  console.log("this is style!", style);
   const [isPaymentWebViewVisible, setIsPaymentWebViewVisible] = useState(false);
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
   const [isVideoModalVisible, setIsVideoModalVisible] = useState(false);
@@ -72,7 +72,7 @@ const DetailCard = ({
   const handelAttachedMedia = (urll) => {
     console.log(urll, "video playing");
     setSelectedVideo(urll);
-    toggleVideoModal(); // Open the video modal
+    toggleVideoModal();
   };
 
   const toggleVideoModal = () => {
@@ -127,7 +127,7 @@ const DetailCard = ({
 
   return (
     <>
-      {tab == 'UserPromiseReq' || tab == 'ReqPromiseDashboard' ? (
+      {tab == 'UserPromiseReq' || tab == 'ReqPromiseDashboard'  ? (
         <LinearGradient
           colors={
             tab == 'UserPromiseReq'
@@ -135,22 +135,8 @@ const DetailCard = ({
               : ['#73B6BF', '#2E888C']
           }
           style={DashBoardStyling.MainCard}>
-          <View
-            style={
-              {
-                // alignItems: 'center',
-              }
-            }>
+          <View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              {/* <View
-                    style={{
-                      width: wp(12),
-                      height: hp(6),
-                      backgroundColor: 'grey',
-                      marginTop: hp(0.5),
-                      borderRadius: wp(12),
-                      
-                    }}></View> */}
               <View
                 style={{
                   width: wp(12),
@@ -170,7 +156,7 @@ const DetailCard = ({
                   style={{
                     width: wp(12),
                     height: hp(6),
-                    borderRadius: wp(6), // Half of the width
+                    borderRadius: wp(6), 
                   }}
                 />
               </View>
@@ -186,17 +172,6 @@ const DetailCard = ({
               </View>
 
               <View>
-                {/* <Text
-                        style={[
-                          Headings.Input5,
-                          {
-                            marginLeft: wp(0.7),
-                            color: 'white',
-                            marginTop: wp(0.3),
-                          },
-                        ]}>
-                        DeadLine
-                      </Text> */}
                 <Text
                   style={[
                     Headings.Input6,
@@ -217,7 +192,6 @@ const DetailCard = ({
                     {
                       color: 'white',
                       marginHorizontal: hp(2),
-                      //  fontWeight: 'bold',
                       fontSize: hp(2),
                     },
                   ]}>
@@ -227,35 +201,9 @@ const DetailCard = ({
                 </Text>
               ) : null}
             </View>
-            {/* <View style={DashBoardStyling.PromiseReward}>
-              {alotRewardPoints ? (
-                <Text
-                  style={[
-                    {
-                      color: 'white',
-                      marginHorizontal: hp(2),
-                      //  fontWeight: 'bold',
-                      fontSize: hp(2),
-                    },
-                  ]}>
-                  {rewardPoints} Reward points will be given
-                </Text>
-              ) : null}
-            </View> */}
             {ratingImpact ? (
               <View>
-                {/* <Text
-                  style={[
-                    {
-                      color: 'white',
-                      marginHorizontal: hp(2),
-                      fontSize: hp(2),
-                    },
-                  ]}>
-                  Rating will impact
-                </Text> */}
-                <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} />
-
+               <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} />
               </View>
             ) : null}
 
@@ -264,8 +212,6 @@ const DetailCard = ({
                 onPress={() => handelAttachedMedia(promiseMediaURL)}>
                 <FontAw5 color="#652D90" name="youtube" size={23} style={{ marginHorizontal: hp(2) }} />
                 <VideoModal />
-
-                {/* <Text style={{ color: 'blue' }}>Attacheddd File</Text> */}
               </TouchableOpacity>
             ) : null}
             <View style={DashBoardStyling.PromiseGoal}>
@@ -282,111 +228,6 @@ const DetailCard = ({
                 </Text>
               </View>
             </View>
-            {/* <View
-                    style={DashBoardStyling.PromiseReward}>
-                 
-                      <Text
-                        style={[
-                          {
-                            color: 'white',
-                            fontWeight: 'bold',
-                            fontSize: hp(2.3),
-                          },
-                        ]}>
-                        Amount: {item.paymentAmount}$
-                      </Text>
-                    {item.promiseMediaURL ? (
-                      <TouchableOpacity
-                        onPress={() =>
-                          handelAttachedMedia(item.promiseMediaURL)
-                        }>
-                        <Text style={{color: 'blue'}}>Attached File</Text>
-                      </TouchableOpacity>
-                    ) : null}
-                  </View> */}
-            {/* <View
-                    style={DashBoardStyling.PromiseReward}>
-                    {item.paymentAmount == '0' ? (
-                      <Text
-                        style={[
-                          {
-                            color: 'white',
-                            fontWeight: 'bold',
-                            fontSize: hp(2.3),
-                          },
-                        ]}>
-                        Guarantee: {item.paymentAmount}$
-                      </Text>
-                    ) : ( null
-                      // <Text
-                      //   style={[
-                      //     {
-                      //       color: 'white',
-                      //       fontWeight: 'bold',
-                      //       fontSize: hp(2.3),
-                      //     },
-                      //   ]}>
-                      //   Commitment: 
-                      // </Text>
-                    )}
-  
-
-                    {item.promiseMediaURL ? (
-                      <TouchableOpacity
-                        onPress={() =>
-                          handelAttachedMedia(item.promiseMediaURL)
-                        }>
-                        <Text style={{color: 'blue'}}>Attached File</Text>
-                      </TouchableOpacity>
-                    ) : null}
-                  </View> */}
-            {/* {tab == 'ReqPromiseDashboard' ? (
-              null
-            ) : (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  // justifyContent: 'space-between',
-                  justifyContent: 'space-around',
-                  alignItems: 'center',
-                  height: hp(5),
-                  marginTop: hp(.5),
-                  paddingHorizontal: 25
-                }}>
-                <TouchableOpacity
-                   onPress={() => {
-                    handleCompletePromise(promiseID, userN);
-                    //   setrefresh(!refersh)
-                    refreshCallback();
-                  }}
-                  style={styles.LinerC}>
-                  <LinearGradient
-                    colors={markCompleted ? ['#1D1B201F', '#1D1B201F'] : ['#32C35B', '#32C35B']}
-                    style={styles.left}>
-                    <Text style={{ color: !markCompleted ? 'white' : '#191C1A', textAlign: 'center' }}>
-                      Mark Completed
-                    </Text>
-                  </LinearGradient>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                   onPress={() => {
-                    handleFailPromise(promiseID, userN);
-                    // setrefresh(!refersh)
-                    refreshCallback();
-                  }}
-                  style={styles.LinerC}>
-                  <LinearGradient
-                    // colors={['#E32E2E', '#E32E2E']}
-                    colors= {['#E32E2E', '#E32E2E']}
-                    style={styles.right}>
-                    <Text style={{ color: 'white', textAlign: 'center' }}>
-                      Mark Failed
-                    </Text>
-                  </LinearGradient>
-                </TouchableOpacity>
-              </View>
-            )} */}
             <View
               style={{
                 flexDirection: 'row',
@@ -402,10 +243,8 @@ const DetailCard = ({
                       style={commonStyles.ActionBtn}
                       key={index}
                       onPress={() => {
-                        // handleAcceptPromise(promiseID, userN);
                         handleAccept(promiseID, userN);
                         refreshCallback();
-                        //   setrefresh(!refersh)
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -418,8 +257,6 @@ const DetailCard = ({
                       onPress={() => {
                         handleReject(promiseID, userN);
                         refreshCallback();
-                        // handleRejectPromise(promiseID, userN);
-                        //   setrefresh(!refersh)
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -459,9 +296,7 @@ const DetailCard = ({
                       style={commonStyles.ActionBtn}
                       key={index}
                       onPress={() => {
-                        // handleFailPromise(promiseID, userN);
                         setIsPaymentWebViewVisible(true);
-                        // setrefresh(!refersh)
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -469,33 +304,7 @@ const DetailCard = ({
                 }
               })}
               {actions.map((action, index) => {
-                {/* if (action === 'Accept') {
-                        return (
-                          <TouchableOpacity
-                            style={commonStyles.ActionBtn}
-                            key={index}
-                            onPress={() =>
-                              handleAcceptPromise(item.promiseID, userN)
-                            }>
-                            <Text>{action}</Text>
-                          </TouchableOpacity>
-                        );
-                      } else if (action === 'Reject') {
-                        return (
-                          <TouchableOpacity
-                            style={[
-                              commonStyles.ActionBtn,
-                              {backgroundColor: 'red'},
-                            ]}
-                            key={index}
-                            onPress={() =>
-                              handleRejectPromise(item.promiseID, userN)
-                            }>
-                            <Text>{action}</Text>
-                          </TouchableOpacity>
-                        );
-                      }*/}
-                if (action === 'Complete') {
+               if (action === 'Complete') {
                   return (
                     <TouchableOpacity
                       style={[commonStyles.ActionBtn]}
@@ -528,32 +337,18 @@ const DetailCard = ({
       ) : tab == 'PromisestoMe' || tab == 'Promise' ? (
         <LinearGradient
           colors={
-            tab == 'PromisestoMe'
+            tab == 'PromisestoMe' 
               ? ['#73B6BF', '#2E888C']
               : ['#E4A936', '#EE8347']
           }
           style={DashBoardStyling.MainCard}>
-          <View
-            style={
-              {
-                // alignItems: 'center',
-              }
-            }>
+          <View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              {/* <View
-     style={{
-       width: wp(12),
-       height: hp(6),
-       backgroundColor: 'grey',
-       marginTop: hp(0.5),
-       borderRadius: wp(12),
-       
-     }}></View> */}
-              <View
+             <View
                 style={{
                   width: wp(13),
                   height: hp(6),
-                  borderRadius: wp(6.5), // Half of the width
+                  borderRadius: wp(6.5),
                   marginLeft: wp(2),
                   marginTop: hp(1),
                 }}>
@@ -568,7 +363,7 @@ const DetailCard = ({
                   style={{
                     width: wp(13),
                     height: hp(6),
-                    borderRadius: wp(6.5), // Half of the width
+                    borderRadius: wp(6.5), 
                   }}
                 />
               </View>
@@ -605,7 +400,6 @@ const DetailCard = ({
                     {
                       color: 'white',
                       marginHorizontal: hp(2),
-                      //  fontWeight: 'bold',
                       fontSize: hp(1.8),
                     },
                   ]}>
@@ -633,20 +427,7 @@ const DetailCard = ({
 
             {ratingImpact ? (
               <View>
-                {/* <Text
-                  style={[
-                    {
-                      color: 'white',
-                      marginHorizontal: hp(2),
-
-                      //  fontWeight: 'bold',
-                      fontSize: hp(2),
-                    },
-                  ]}>
-                  Rating will impact
-                </Text> */}
                 <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} />
-
               </View>
             ) : null}
 
@@ -655,10 +436,7 @@ const DetailCard = ({
                 onPress={() => handelAttachedMedia(promiseMediaURL)}>
                 <FontAw5 color="#652D90" name="youtube" size={23} style={{ marginHorizontal: hp(2) }} />
                 <VideoModal />
-
-                {/* <Text style={{ color: 'blue' }}>Attacheddd File</Text> */}
               </TouchableOpacity>
-
             ) : null}
             <View style={DashBoardStyling.PromiseGoal}>
               <View>
@@ -667,8 +445,6 @@ const DetailCard = ({
                     {
                       color: 'white',
                       marginHorizontal: hp(2),
-
-                      //  fontWeight: 'bold',
                       fontSize: hp(2),
                     },
                   ]}>
@@ -676,116 +452,7 @@ const DetailCard = ({
                 </Text>
               </View>
             </View>
-            {/* <View
-     style={DashBoardStyling.PromiseReward}>
-  
-       <Text
-         style={[
-           {
-             color: 'white',
-             fontWeight: 'bold',
-             fontSize: hp(2.3),
-           },
-         ]}>
-         Amount: {item.paymentAmount}$
-       </Text>
-     {item.promiseMediaURL ? (
-       <TouchableOpacity
-         onPress={() =>
-           handelAttachedMedia(item.promiseMediaURL)
-         }>
-         <Text style={{color: 'blue'}}>Attached File</Text>
-       </TouchableOpacity>
-     ) : null}
-   </View> */}
-            {/* <View
-     style={DashBoardStyling.PromiseReward}>
-     {item.paymentAmount == '0' ? (
-       <Text
-         style={[
-           {
-             color: 'white',
-             fontWeight: 'bold',
-             fontSize: hp(2.3),
-           },
-         ]}>
-         Guarantee: {item.paymentAmount}$
-       </Text>
-     ) : ( null
-       // <Text
-       //   style={[
-       //     {
-       //       color: 'white',
-       //       fontWeight: 'bold',
-       //       fontSize: hp(2.3),
-       //     },
-       //   ]}>
-       //   Commitment: 
-       // </Text>
-     )}
-
-
-     {item.promiseMediaURL ? (
-       <TouchableOpacity
-         onPress={() =>
-           handelAttachedMedia(item.promiseMediaURL)
-         }>
-         <Text style={{color: 'blue'}}>Attached File</Text>
-       </TouchableOpacity>
-     ) : null}
-   </View> */}
-
-            {/* {tab == 'PromisestoMe' ? (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  // justifyContent: 'space-between',
-                  justifyContent: 'space-around',
-                  alignItems: 'center',
-                  height: hp(5),
-                  marginTop: hp(.5),
-                  paddingHorizontal: 25
-                }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    handleCompletePromise(promiseID, userN);
-                    //   setrefresh(!refersh)
-                    refreshCallback();
-                  }}
-                  style={styles.LinerC}>
-                  <LinearGradient
-                    colors={markCompleted ? ['#1D1B201F', '#1D1B201F'] : ['#32C35B', '#32C35B']}
-                    style={styles.left}>
-                    <Text style={{ color: !markCompleted ? 'white' : '#191C1A', textAlign: 'center' }}>
-                      Mark Completed
-                    </Text>
-                  </LinearGradient>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                   onPress={() => {
-                    handleFailPromise(promiseID, userN);
-                    // setrefresh(!refersh)
-                    refreshCallback();
-                  }}
-                  style={styles.LinerC}>
-                  <LinearGradient
-                    // colors={['#E32E2E', '#E32E2E']}
-                    colors={ ['#E32E2E', '#E32E2E']}
-                    style={styles.right}>
-                    <Text style={{ color: 'white', textAlign: 'center' }}>
-                      Mark Failed
-                    </Text>
-                  </LinearGradient>
-                </TouchableOpacity>
-              </View>
-            ) : (
-              null
-            )} */}
-
-
-
-            <View
+           <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-around',
@@ -800,7 +467,6 @@ const DetailCard = ({
                       key={index}
                       onPress={() => {
                         handleAcceptPromise(promiseID, userN);
-                        // setrefresh(!refersh)
                         refreshCallback();
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
@@ -813,140 +479,43 @@ const DetailCard = ({
                       key={index}
                       onPress={() => {
                         handleRejectPromise(promiseID, userN);
-                        // setrefresh(!refersh)
                         refreshCallback();
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
                   );
                 }
-                // else if (action === 'Complete') {
-                //   return (
-                //     <TouchableOpacity
-                //       style={[commonStyles.ActionBtn]}
-                //       key={index}
-                //       onPress={() => {
-                //         handleCompletePromise(promiseID, userN);
-                //         //   setrefresh(!refersh)
-                //         refreshCallback();
-                //       }}>
-                //       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                //     </TouchableOpacity>
-                //   );
-                // } else if (action === 'Fail') {
-                //   return (
-                //     <TouchableOpacity
-                //       style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                //       key={index}
-                //       onPress={() => {
-                //         handleFailPromise(promiseID, userN);
-                //         // setrefresh(!refersh)
-                //         refreshCallback();
-                //       }}>
-                //       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                //     </TouchableOpacity>
-                //   );
-                // } 
                 else if (action === 'Pay') {
                   return (
                     <TouchableOpacity
                       style={commonStyles.ActionBtn}
                       key={index}
                       onPress={() => {
-                        // handleFailPromise(promiseID, userN);
                         setIsPaymentWebViewVisible(true);
-                        // setrefresh(!refersh)
                       }}>
                       <Text>{action}</Text>
                     </TouchableOpacity>
                   );
                 }
               })}
-              {/* {item.actions.map((action, index) => {
-       if (action === 'Accept') {
-         return (
-           <TouchableOpacity
-             style={commonStyles.ActionBtn}
-             key={index}
-             onPress={() =>
-               handleAcceptPromise(item.promiseID, userN)
-             }>
-             <Text>{action}</Text>
-           </TouchableOpacity>
-         );
-       } else if (action === 'Reject') {
-         return (
-           <TouchableOpacity
-             style={[
-               commonStyles.ActionBtn,
-               {backgroundColor: 'red'},
-             ]}
-             key={index}
-             onPress={() =>
-               handleRejectPromise(item.promiseID, userN)
-             }>
-             <Text>{action}</Text>
-           </TouchableOpacity>
-         );
-       } else if (action === 'Complete') {
-         return (
-           <TouchableOpacity
-             style={[commonStyles.ActionBtn]}
-             key={index}
-             onPress={() =>
-               handleCompletePromise(item.promiseID, userN)
-             }>
-             <Text>{action}</Text>
-           </TouchableOpacity>
-         );
-       } else if (action === 'Fail') {
-         return (
-           <TouchableOpacity
-             style={[
-               commonStyles.ActionBtn,
-               {backgroundColor: 'red'},
-             ]}
-             key={index}
-             onPress={() =>
-               handleFailPromise(item.promiseID, userN)
-             }>
-             <Text>{action}</Text>
-           </TouchableOpacity>
-         );
-       }
-     })} */}
-            </View>
+             </View>
           </View>
         </LinearGradient>
       ) : tab == 'Home' ? (
         <LinearGradient
           colors={
-            tab == 'PromisestoMe'
+            tab == 'PromisestoMe' 
               ? ['#73B6BF', '#2E888C']
               : ['#E4A936', '#EE8347']
           }
           style={DashBoardStyling.MainCardHome}>
-          <View
-            style={
-              {
-                // alignItems: 'center',
-              }
-            }>
+          <View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              {/* <View
-     style={{
-       width: wp(12),
-       height: hp(6),
-       backgroundColor: 'grey',
-       marginTop: hp(0.5),
-       borderRadius: wp(12),
-       
-     }}></View> */}
-              <View
+             <View
                 style={{
                   width: wp(13),
                   height: hp(6),
-                  borderRadius: wp(6.5), // Half of the width
+                  borderRadius: wp(6.5),
                   marginLeft: wp(7),
                   marginTop: hp(1),
                 }}>
@@ -961,7 +530,7 @@ const DetailCard = ({
                   style={{
                     width: wp(13),
                     height: hp(6),
-                    borderRadius: wp(6.5), // Half of the width
+                    borderRadius: wp(6.5), 
                   }}
                 />
               </View>
@@ -977,17 +546,6 @@ const DetailCard = ({
               </View>
 
               <View>
-                {/* <Text
-         style={[
-           Headings.Input5,
-           {
-             marginLeft: wp(0.7),
-             color: 'white',
-             marginTop: wp(0.3),
-           },
-         ]}>
-         DeadLine
-       </Text> */}
                 <Text
                   style={[
                     Headings.Input6,
@@ -1007,8 +565,7 @@ const DetailCard = ({
                   style={[
                     {
                       color: 'white',
-                      marginHorizontal: hp(2),
-                      //  fontWeight: 'bold',
+                      marginHorizontal: hp(4),
                       fontSize: hp(1.8),
                     },
                   ]}>
@@ -1022,7 +579,7 @@ const DetailCard = ({
                   style={[
                     {
                       color: 'white',
-                      marginHorizontal: hp(2),
+                      marginHorizontal: hp(4),
                       fontSize: hp(1.8),
                     },
                   ]}>
@@ -1036,20 +593,7 @@ const DetailCard = ({
 
             {ratingImpact ? (
               <View>
-                {/* <Text
-                  style={[
-                    {
-                      color: 'white',
-                      marginHorizontal: hp(4),
-
-                      //  fontWeight: 'bold',
-                      fontSize: hp(2),
-                    },
-                  ]}>
-                  Rating will impact
-                </Text> */}
-                <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} />
-
+               <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(4) }} />
               </View>
             ) : null}
 
@@ -1058,8 +602,6 @@ const DetailCard = ({
                 onPress={() => handelAttachedMedia(promiseMediaURL)}>
                 <FontAw5 color="#652D90" name="youtube" size={23} style={{ marginHorizontal: hp(4) }} />
                 <VideoModal />
-
-                {/* <Text style={{ color: 'blue' }}>Attacheddd File</Text> */}
               </TouchableOpacity>
 
             ) : null}
@@ -1070,7 +612,6 @@ const DetailCard = ({
                     {
                       color: 'white',
                       marginHorizontal: hp(4),
-                      //  fontWeight: 'bold',
                       fontSize: hp(2),
                     },
                   ]}>
@@ -1078,66 +619,7 @@ const DetailCard = ({
                 </Text>
               </View>
             </View>
-            {/* <View
-     style={DashBoardStyling.PromiseReward}>
-  
-       <Text
-         style={[
-           {
-             color: 'white',
-             fontWeight: 'bold',
-             fontSize: hp(2.3),
-           },
-         ]}>
-         Amount: {item.paymentAmount}$
-       </Text>
-     {item.promiseMediaURL ? (
-       <TouchableOpacity
-         onPress={() =>
-           handelAttachedMedia(item.promiseMediaURL)
-         }>
-         <Text style={{color: 'blue'}}>Attached File</Text>
-       </TouchableOpacity>
-     ) : null}
-   </View> */}
-            {/* <View
-     style={DashBoardStyling.PromiseReward}>
-     {item.paymentAmount == '0' ? (
-       <Text
-         style={[
-           {
-             color: 'white',
-             fontWeight: 'bold',
-             fontSize: hp(2.3),
-           },
-         ]}>
-         Guarantee: {item.paymentAmount}$
-       </Text>
-     ) : ( null
-       // <Text
-       //   style={[
-       //     {
-       //       color: 'white',
-       //       fontWeight: 'bold',
-       //       fontSize: hp(2.3),
-       //     },
-       //   ]}>
-       //   Commitment: 
-       // </Text>
-     )}
-
-
-     {item.promiseMediaURL ? (
-       <TouchableOpacity
-         onPress={() =>
-           handelAttachedMedia(item.promiseMediaURL)
-         }>
-         <Text style={{color: 'blue'}}>Attached File</Text>
-       </TouchableOpacity>
-     ) : null}
-   </View> */}
-
-            <View
+           <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-around',
@@ -1152,7 +634,6 @@ const DetailCard = ({
                       key={index}
                       onPress={() => {
                         handleAcceptPromise(promiseID, userN);
-                        // setrefresh(!refersh)
                         refreshCallback();
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
@@ -1165,7 +646,6 @@ const DetailCard = ({
                       key={index}
                       onPress={() => {
                         handleRejectPromise(promiseID, userN);
-                        // setrefresh(!refersh)
                         refreshCallback();
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
@@ -1178,7 +658,6 @@ const DetailCard = ({
                       key={index}
                       onPress={() => {
                         handleCompletePromise(promiseID, userN);
-                        //   setrefresh(!refersh)
                         refreshCallback();
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
@@ -1191,7 +670,6 @@ const DetailCard = ({
                       key={index}
                       onPress={() => {
                         handleFailPromise(promiseID, userN);
-                        // setrefresh(!refersh)
                         refreshCallback();
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
@@ -1203,75 +681,19 @@ const DetailCard = ({
                       style={commonStyles.ActionBtn}
                       key={index}
                       onPress={() => {
-                        // handleFailPromise(promiseID, userN);
                         setIsPaymentWebViewVisible(true);
-                        // setrefresh(!refersh)
                       }}>
                       <Text>{action}</Text>
                     </TouchableOpacity>
                   );
                 }
               })}
-              {/* {item.actions.map((action, index) => {
-       if (action === 'Accept') {
-         return (
-           <TouchableOpacity
-             style={commonStyles.ActionBtn}
-             key={index}
-             onPress={() =>
-               handleAcceptPromise(item.promiseID, userN)
-             }>
-             <Text>{action}</Text>
-           </TouchableOpacity>
-         );
-       } else if (action === 'Reject') {
-         return (
-           <TouchableOpacity
-             style={[
-               commonStyles.ActionBtn,
-               {backgroundColor: 'red'},
-             ]}
-             key={index}
-             onPress={() =>
-               handleRejectPromise(item.promiseID, userN)
-             }>
-             <Text>{action}</Text>
-           </TouchableOpacity>
-         );
-       } else if (action === 'Complete') {
-         return (
-           <TouchableOpacity
-             style={[commonStyles.ActionBtn]}
-             key={index}
-             onPress={() =>
-               handleCompletePromise(item.promiseID, userN)
-             }>
-             <Text>{action}</Text>
-           </TouchableOpacity>
-         );
-       } else if (action === 'Fail') {
-         return (
-           <TouchableOpacity
-             style={[
-               commonStyles.ActionBtn,
-               {backgroundColor: 'red'},
-             ]}
-             key={index}
-             onPress={() =>
-               handleFailPromise(item.promiseID, userN)
-             }>
-             <Text>{action}</Text>
-           </TouchableOpacity>
-         );
-       }
-     })} */}
-            </View>
+             </View>
           </View>
         </LinearGradient>
       ) : null}
       <Modal
         animationType="slide"
-        // transparent={true}
         visible={isPaymentWebViewVisible}
         onRequestClose={isPaymentWebViewVisible}>
         <SafeAreaView style={{ height: '100%', width: wp(100) }}>
@@ -1283,18 +705,7 @@ const DetailCard = ({
               marginTop: hp(1),
             }}>
             <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
-
-            {/* <EvilIcon name="arrow-left-circle" size={30} color="black" /> */}
           </TouchableOpacity>
-          {/* <WebView
-            source={{
-              uri: `http://138.197.52.199/payment/${userN}/${promiseID}`,
-            }}
-            style={{height: '100%', width: wp(100)}}
-            onError={syntheticEvent =>
-              console.log('WebView error: ', syntheticEvent.nativeEvent)
-            } 
-          /> */}
           <PaymentScreens promiseID={promiseID} userN={userN} amount={amount} />
         </SafeAreaView>
       </Modal>
@@ -1303,7 +714,6 @@ const DetailCard = ({
 };
 const styles = StyleSheet.create({
   left: {
-    // flex: 1,
     width: wp(33),
     justifyContent: 'center',
     alignItems: 'center',
@@ -1314,7 +724,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   right: {
-    // flex: 1,
     width: wp(30),
     justifyContent: 'center',
     alignItems: 'center',
@@ -1323,7 +732,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(10, 0, 0, 0.5)', // Semi-transparent black
+    backgroundColor: 'rgba(10, 0, 0, 0.5)',
   },
 });
 export default DetailCard;

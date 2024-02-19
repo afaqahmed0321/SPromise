@@ -198,8 +198,8 @@ const NotificationCard = () => {
     <>
       <TouchableWithoutFeedback onPress={handleCloseModal}>
         <View style={styles.overlay}>
-          <View style={{ height: hp(35) }}>
-            <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}></BlurView>
+          <View style={{ height: hp(25) }}>
+            {/* <BlurView blurType="light" blurAmount={5} style={{ flex: 1 }}></BlurView> */}
           </View>
           <View>
             {isLoading ? (
@@ -218,7 +218,7 @@ const NotificationCard = () => {
                   style={{
                     justifyContent: 'center',
                     alignItems: 'center',
-                    height: hp(26),
+                    height: hp(35),
                     width: wp(90),
                     alignSelf: 'center',
                     padding:0,
@@ -570,8 +570,8 @@ const NotificationCard = () => {
               </View>
             )}
           </View>
-          <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}>
-          </BlurView>
+          {/* <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}>
+          </BlurView> */}
         </View>
       </TouchableWithoutFeedback>
     </>

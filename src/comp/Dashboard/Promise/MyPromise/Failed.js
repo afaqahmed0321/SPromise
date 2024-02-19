@@ -74,7 +74,7 @@ const Failed = ({navigation}) => {
         <ActivityIndicator size="small" color="#0000ff" />
       ) : (
         <FlatList
-          data={promises.filter(item => item.status === 'AmountDue')}
+          data={promises.filter(item => item.status === 'Rejected')}
           refreshControl={
             <RefreshControl
               refreshing={isLoading}

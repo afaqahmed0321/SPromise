@@ -84,7 +84,7 @@ const Notifications = ({navigation}) => {
         <View
           style={{
             width: wp(90),
-            height: hp(7),
+            height: hp(8),
             // backgroundColor: '#FFE4BB',
             borderRadius: wp(9),
             flexDirection: 'row',

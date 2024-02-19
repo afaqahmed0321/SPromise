@@ -101,7 +101,7 @@ const ReqDashboard = () => {
           style={styles.LinerC}
           >
           <Text style={{color: 'white', textAlign: 'center'}}>
-           Promise Requests
+           My Requests
           </Text>
         </LinearGradient>
       </TouchableOpacity>
@@ -116,7 +116,7 @@ const ReqDashboard = () => {
           style={styles.LinerC}
           >
           <Text style={{color: 'white', textAlign: 'center'}}>
-            Promise Requests To Me
+            Requests To Me
           </Text>
         </LinearGradient>
       </TouchableOpacity>
