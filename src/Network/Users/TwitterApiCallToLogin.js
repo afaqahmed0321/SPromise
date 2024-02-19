@@ -18,13 +18,7 @@ const TwitterApiCallLogin = async (userN) => {
     
 
   } catch (error) {
-    
-    // ToastAndroid.showWithGravityAndOffset(
-    //   'Already have the user',
-    //   ToastAndroid.LONG,
-    //   ToastAndroid.BOTTOM,
-    //   25,
-    //   50,)
+  
     console.log(error)
     // return [];
   }

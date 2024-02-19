@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -19,13 +19,13 @@ import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import fetchUserData from '../Network/Users/GetUsers';
-import {TextInP} from '../Styling/TextInput';
-import {UserNo} from '../recoil/AddPromise';
-import {useRecoilState} from 'recoil';
-import {ismodalVisible, refreshPromiseNetwork} from '../recoil/Globel';
+import { TextInP } from '../Styling/TextInput';
+import { UserNo } from '../recoil/AddPromise';
+import { useRecoilState } from 'recoil';
+import { ismodalVisible, refreshPromiseNetwork } from '../recoil/Globel';
 import AddToMyNetwork from '../comp/MyNetwork/AddToMyNetwork';
-import {useFocusEffect} from '@react-navigation/native';
-import {useIsFocused} from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import {
   IspromiseNetworkmodalVisible,
   selectedNetworkUser,
@@ -35,7 +35,7 @@ import NetWorkFeedApi from '../Network/Users/NetworkFeed/NetworkFeedAPi';
 import EvilIcon from 'react-native-vector-icons/FontAwesome5';
 import addRemoveFavouriteAPi from '../Network/Users/AddRemoveFavApi';
 
-const PromiseNetwork = ({navigation}) => {
+const PromiseNetwork = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [selectedNetworkUse, setSelectedNetworkUse] =
@@ -127,20 +127,20 @@ const PromiseNetwork = ({navigation}) => {
     navigation.goBack();
   }
   return (
-   
-    <View style={{backgroundColor: '#E4EEE6', flex: 1}} >
-      <View style={{height: hp(7), flexDirection: 'row', alignItems: 'center'}}>
-       {navigation.canGoBack() && (
-        <TouchableOpacity
-          onPress={handleBack}
-          style={{marginLeft: wp(6)}}>
-          <EvilIcon name="arrow-alt-circle-left" size={30} color="#652D90" />
-        </TouchableOpacity>
+
+    <View style={{ backgroundColor: '#E4EEE6', flex: 1 }} >
+      <View style={{ height: hp(7), flexDirection: 'row', alignItems: 'center' }}>
+        {navigation.canGoBack() && (
+          <TouchableOpacity
+            onPress={handleBack}
+            style={{ marginLeft: wp(6) }}>
+            <EvilIcon name="arrow-alt-circle-left" size={30} color="#652D90" />
+          </TouchableOpacity>
         )}
-        <View style={{marginLeft: wp(6)}}>
-        <Text style={{fontSize:hp(2.3), fontWeight:'bold',color:"#652D90"}}>
-          Promise Network
-        </Text>
+        <View style={{ marginLeft: wp(6) }}>
+          <Text style={{ fontSize: hp(2.3), fontWeight: 'bold', color: "#652D90" }}>
+            Promise Network
+          </Text>
 
         </View>
       </View>
@@ -151,29 +151,9 @@ const PromiseNetwork = ({navigation}) => {
           alignItems: 'center',
           marginLeft: wp(3),
         }}>
-        {/* // Show All filter */}
-        {/* <Feather name="filter" size={23} color="black" />
-        <TouchableOpacity
-          style={{
-            height: hp(4),
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginLeft: wp(3),
-          }}>
-          <Text style={{color: 'black', fontWeight: 'bold', fontSize: hp(1.4)}}>
-            Show All
-          </Text>
-          <Feather name="chevron-down" size={23} color="black" />
-        </TouchableOpacity> */}
 
-        <View style={{width: wp(79)}}>
-          {/* <TextInput style={styles.SearchInpF} placeholder='Search User'>
-        
-        </TextInput>
-        <TouchableOpacity
-                style={{position: 'absolute', right: hp(1.8), top: hp(.8)}}>
-                <Feather name="search" size={20} color="#8250A6" />
-            </TouchableOpacity> */}
+
+        <View style={{ width: wp(79) }}>
 
           <TextInput
             placeholder="Search by name"
@@ -185,10 +165,7 @@ const PromiseNetwork = ({navigation}) => {
               handleSearch(); // Trigger search on text change
             }}
           />
-          {/* <TouchableOpacity onPress={handleSearch}
-                style={{position: 'absolute', right: hp(1.8), top: hp(.8)}}>
-                <Feather name="search" size={20} color="#8250A6" />
-            </TouchableOpacity> */}
+
         </View>
         <TouchableOpacity
           onPress={() => setMmodalVisible(true)}
@@ -208,21 +185,18 @@ const PromiseNetwork = ({navigation}) => {
             <AddToMyNetwork />
           </Modal>
 
-          {/* <Text style={{color: 'black', fontWeight: 'bold', fontSize: hp(1.4)}}>
-            {' '}
-            Invite User
-          </Text> */}
+
         </TouchableOpacity>
       </View>
       {isLoading ? (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <ActivityIndicator size="small" color="#652D90" />
         </View>
       ) : (
         <FlatList
           data={searchText.length > 0 ? filteredData : userData}
           keyExtractor={item => item.serialNo.toString()}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <View>
               <TouchableOpacity
                 onPress={() => handelNetworkFeedComp(item.networkUserNo)}
@@ -238,9 +212,9 @@ const PromiseNetwork = ({navigation}) => {
                     source={
                       item.imageURL === ''
                         ? {
-                            uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                          }
-                        : {uri: item.imageURL}
+                          uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
+                        }
+                        : { uri: item.imageURL }
                     }
                     style={{
                       width: wp(12),
@@ -250,9 +224,9 @@ const PromiseNetwork = ({navigation}) => {
                     }}
                   />
                 </View>
-                <View style={{width: wp(49), marginLeft: wp(3)}}>
+                <View style={{ width: wp(49), marginLeft: wp(3) }}>
                   {item.networkUserName !== '' ? (
-                    <Text style={{color:"black"}}>{item.networkUserName}</Text>
+                    <Text style={{ color: "black" }}>{item.networkUserName}</Text>
                   ) : null}
                 </View>
                 {/* <View style={styles.container}>{renderStars(5)}</View> */}
@@ -270,12 +244,7 @@ const PromiseNetwork = ({navigation}) => {
                       const res = addRemoveFavouriteAPi(item.serialNo, Value);
                       setrefreshnetwork(!refreshnetwork);
                     }}>
-                    {/* <View
-                      style={{
-                        padding: 0.2,
-                        borderRadius: 50,
-                        position: 'absolute',
-                      }}> */}
+
                     {item.isFavourite == true ? (
                       <FontAwesome name="heart" size={15} color="#652D90" />
                     ) : (
@@ -316,9 +285,9 @@ const styles = StyleSheet.create({
     paddingLeft: wp(4),
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize:14,
-    padding:0,
-    height:hp(5),
+    fontSize: 14,
+    padding: 0,
+    height: hp(5),
   },
 });
 

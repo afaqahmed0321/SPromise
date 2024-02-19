@@ -112,15 +112,7 @@ const MiniCard = ({
           style={DashBoardStyling.MiniCard}>
           <View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              {/* <View
-             style={{
-               width: wp(12),
-               height: hp(6),
-               backgroundColor: 'grey',
-               marginTop: hp(0.5),
-               borderRadius: wp(12),
-               
-             }}></View> */}
+             
               <View
                 style={{
                   width: wp(13),
@@ -169,17 +161,7 @@ const MiniCard = ({
                 </Text>
               </View>
             </View>
-            {/* <View style={DashBoardStyling.PromiseGoal}>
-             <View>
-               <Text
-                 style={[
-                   Headings.Input5,
-                   {color: 'white', textAlign: 'center'},
-                 ]}>
-                 {item.promiseGoal}
-               </Text>
-             </View>
-           </View> */}
+            
             <View style={DashBoardStyling.PromiseReward}>
               {guaranteedWithMoney ? (
                 <Text
@@ -196,14 +178,7 @@ const MiniCard = ({
                   ) : null}
                 </Text>
               ) : null}
-              {/* {promiseMediaURL ? (
-               <TouchableOpacity
-                 onPress={() =>
-                   handelAttachedMedia(promiseMediaURL)
-                 }>
-                 <Text style={{color: 'blue'}}>Attached File</Text>
-               </TouchableOpacity>
-             ) : null} */}
+             
             </View>
           </View>
         </LinearGradient>
@@ -215,15 +190,7 @@ const MiniCard = ({
           style={DashBoardStyling.MiniCard}>
           <View style={{ paddingBottom: 20 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              {/* <View
-          style={{
-            width: wp(12),
-            height: hp(6),
-            backgroundColor: 'grey',
-            marginTop: hp(0.5),
-            borderRadius: wp(12),
-            
-          }}></View> */}
+              
               <View
                 style={{
                   width: wp(13),
@@ -272,27 +239,9 @@ const MiniCard = ({
                 </Text>
               </View>
             </View>
-            {/* <View style={DashBoardStyling.PromiseGoal}>
-          <View>
-            <Text
-              style={[
-                Headings.Input5,
-                {color: 'white', textAlign: 'center'},
-              ]}>
-              {item.promiseGoal}
-            </Text>
-          </View>
-        </View> */}
+           
             <View style={{ paddingHorizontal: 15 }}>
-              {/* <View >
-                <Text style={{
-                  textAlign: 'justify', fontWeight: 'bold', fontSize: 14, color: "white"
-                }}>
-                  Harry promised you to meet you on Sed ut perspiciatis unde omnis iste natus error sit
-                  voluptatem accusantium doloremque laudantium, totam rem aperiam, ut perspiciatis unde omnis
-                  iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam,
-                </Text>
-              </View> */}
+              
               <View style={[DashBoardStyling.PromiseReward, {
                 textAlign: 'center', justifyContent: 'center', alignItems: 'center',
               }]}>
@@ -351,45 +300,7 @@ const MiniCard = ({
               </View>
             </View>
 
-            {/* <View
-              style={{
-                flexDirection: 'row',
-                // justifyContent: 'space-between',
-                justifyContent: 'space-around',
-                alignItems: 'center',
-                height: hp(5),
-                marginTop: hp(.5),
-                paddingHorizontal: 25
-              }}>
-              <TouchableOpacity
-                onPress={() => {
-                  setMarkCompleted(true);
-                }}
-                style={styles.LinerC}>
-                <LinearGradient
-                  colors={markCompleted ? ['#1D1B201F', '#1D1B201F'] : ['#32C35B', '#32C35B']}
-                  style={styles.left}>
-                  <Text style={{ color: !markCompleted ? 'white' : '#191C1A', textAlign: 'center' }}>
-                    Mark Completed
-                  </Text>
-                </LinearGradient>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => {
-                  setMarkCompleted(false);
-                }}
-                style={styles.LinerC}>
-                <LinearGradient
-                  // colors={['#E32E2E', '#E32E2E']}
-                  colors={markCompleted ? ['#E32E2E', '#E32E2E'] : ['#1D1B201F', '#1D1B201F']}
-                  style={styles.right}>
-                  <Text style={{ color: markCompleted ? 'white' : '#191C1A', textAlign: 'center' }}>
-                    Mark Failed
-                  </Text>
-                </LinearGradient>
-              </TouchableOpacity>
-            </View> */}
+          
 
 
           </View>

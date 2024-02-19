@@ -39,7 +39,7 @@ import UserProfile from './src/screens/UserProfile';
 import TransactionsHistory from './src/screens/TransactionsHistory';
 import AdminPanel from './src/screens/AdminPanel';
 import BraintreeDropInUI from './src/screens/Payment';
-import PaymentScreen from './src/screens/PaymentScreen';
+import PaymentScreen from './src/screens/PaymentScreenNotUsed';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { STRIPE_PUBLIC_KEY } from './src/comp/Payment/helper';
 

@@ -78,9 +78,7 @@ const Notifications = ({navigation}) => {
             borderRadius: wp(50),
           },
         ]}>
-        {/* <Text style={{color: 'white', textAlign: 'center'}}>Next</Text> */}
-
-        {/* <Text>{item.userName}</Text> */}
+       
         <View
           style={{
             width: wp(90),

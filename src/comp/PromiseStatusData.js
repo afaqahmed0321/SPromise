@@ -56,47 +56,7 @@ const PromiseStatusData = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            {/* <View>
-              <View style={{}}>
-                <View style={{flexDirection: 'row'}}>
-                  <View
-                    style={{
-                      backgroundColor: '#73B6BF',
-                      height: hp(1.5),
-                      width: wp(3),
-                    }}></View>
-                  <Text
-                    style={{
-                      marginLeft: wp(2),
-                      fontWeight: 'bold',
-                      fontSize: hp(1.5),
-                      color:'#652D90',
-                    }}>
-                    Promisbility
-                  </Text>
-                </View>
-                <View style={{flexDirection: 'row', marginVertical:hp(2)}}>
-              <View
-                style={{
-                  backgroundColor: '#ee8347',
-                  height: hp(1.5),
-                  width: wp(3),
-                }}>
-
-                </View>
-              <Text
-                style={{
-                  marginLeft: wp(2),
-                  fontWeight: 'bold',
-                  fontSize: wp(3),
-                  color:'#652D90',
-
-                }}>
-                Failed
-              </Text>
-            </View>
-              </View>
-            </View> */}
+          
             <View
               // style={{marginLeft: wp(-1), marginBottom:-40}}
               style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
@@ -110,10 +70,7 @@ const PromiseStatusData = () => {
                 innerRadius={50}
                 backgroundColor='#ee8347'
                 sections={[
-                  // {
-                  //   percentage: userPromisbility ,
-                  //   color: '#ee8347',
-                  // },
+                  
                   {
                     percentage: userPromisbility,
                     color: '#73B6BF',
@@ -140,74 +97,7 @@ const PromiseStatusData = () => {
             </View>
           </View>
 
-          {/* <View style={{flexDirection: 'row'}}>
-            <View style={{flexDirection: 'row'}}>
-              <View
-                style={{
-                  backgroundColor: '#FFE4BB',
-                  height: hp(1.5),
-                  width: wp(3),
-                }}></View>
-              <Text
-                style={{
-                  marginLeft: wp(2),
-                  fontWeight: 'bold',
-                  fontSize: wp(2.5),
-                }}>
-                Pending
-              </Text>
-            </View>
-            <View style={{flexDirection: 'row', marginLeft: wp(4)}}>
-              <View
-                style={{
-                  backgroundColor: '#CCF3FF',
-                  height: hp(1.5),
-                  width: wp(3),
-                }}></View>
-              <Text
-                style={{
-                  marginLeft: wp(2),
-                  fontWeight: 'bold',
-                  fontSize: wp(2.5),
-                }}>
-                Active
-              </Text>
-            </View>
-          </View>
-          <View style={{flexDirection: 'row', marginTop: hp(1)}}>
-            <View style={{flexDirection: 'row'}}>
-              <View
-                style={{
-                  backgroundColor: '#DAFFD0',
-                  height: hp(1.5),
-                  width: wp(3),
-                }}></View>
-              <Text
-                style={{
-                  marginLeft: wp(2),
-                  fontWeight: 'bold',
-                  fontSize: wp(2.5),
-                }}>
-                Complete
-              </Text>
-            </View>
-            <View style={{flexDirection: 'row', marginLeft: wp(4)}}>
-              <View
-                style={{
-                  backgroundColor: '#FFBEBE',
-                  height: hp(1.5),
-                  width: wp(3),
-                }}></View>
-              <Text
-                style={{
-                  marginLeft: wp(2),
-                  fontWeight: 'bold',
-                  fontSize: wp(2.5),
-                }}>
-                Failed
-              </Text>
-            </View>
-          </View> */}
+          
         </View>
       </View>
     </View>

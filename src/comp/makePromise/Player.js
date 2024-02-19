@@ -157,37 +157,7 @@ const Player = () => {
   // const onSeeking = (currentTime) => setCurrentTime(currentTime);
 
   return (
-    // <View style={{flex: 1}}>
-    //   <Video
-    //     onEnd={onEnd}
-    //     onLoad={onLoad}
-    //     onLoadStart={onLoadStart}
-    //     onProgress={onProgress}
-    //     paused={paused}
-    //     ref={videoPlayer}
-    //     resizeMode={screenType}
-    //     onFullScreen={isFullScreen}
-    //     source={{
-    //       uri: selectedVideo,
-    //     }}
-    //     // style={styles.mediaPlayer}
-    //     style={!isFullScreen ? styles.halfScreen : styles.fullScreen}
-    //     volume={10}
-    //   />
-    //   <MediaControls
-    //     duration={duration}
-    //     isLoading={isLoading}
-    //     mainColor="#333"
-    //     onFullScreen={onFullScreen}
-    //     onPaused={onPaused}
-    //     onReplay={onReplay}
-    //     onSeek={onSeek}
-    //     onSeeking={onSeeking}
-    //     playerState={playerState}
-    //     progress={currentTime}
-    //     toolbar={renderToolbar()}
-    //   />
-    // </View>
+    
 
     <View style={{flex: 1}}>
     <View style={{height: hp(27)}}>
@@ -303,23 +273,7 @@ const Player = () => {
         )}
       </TouchableOpacity>
     </View>
-    {/* {!fullScreen && (
-      <View>
-        <Text style={{fontWeight: 'bold'}}>Title:{selectedVideo.title}</Text>
-        <Text style={{fontWeight: 'bold'}}>
-          Sub Title:{selectedVideo.subtitle}
-        </Text>
-
-        <Text style={{fontWeight: 'bold'}}>Description:</Text>
-        <Text>{selectedVideo.description}</Text>
-        <FlatList
-          data={selectedPlayer.videos}
-          renderItem={renderVideos}
-          keyExtractor={(item, index) => index.toString()}
-          style={styles.container}
-        />
-      </View>
-    )} */}
+   
   </View>
   );
 };

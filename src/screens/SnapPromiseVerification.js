@@ -105,7 +105,7 @@ const SnapPromiseVerification = ({ navigation }) => {
             style={styles.profilePic}
           />
           {/* </View> */}
-          <Text style={[Headings.h3ForReviewpage,{fontSize:18}]}>
+          <Text style={[Headings.h3ForReviewpage, { fontSize: 18 }]}>
             {Promiseze.firstName} {Promiseze.lastName}
           </Text>
           <Text
@@ -129,27 +129,27 @@ const SnapPromiseVerification = ({ navigation }) => {
                   marginVertical: hp(0.5),
                 }}>
                 <View>
-                {makePromise ? (
-                  <Text
-                    style={[
-                      Headings.h3ForReviewpage,{fontSize:18}
-                      // {marginVertical: hp(0.5)},
-                    ]}>
-                    Promise Amount{' '}
-                  </Text>
-                ) : (
-                  <Text
-                    style={[
-                      Headings.h3ForReviewpage,
-                      // {marginVertical: hp(0.5)},
-                    ]}>
-                    Promise Amount:{' '}
-                  </Text>
-                )}
+                  {makePromise ? (
+                    <Text
+                      style={[
+                        Headings.h3ForReviewpage, { fontSize: 18 }
+                        // {marginVertical: hp(0.5)},
+                      ]}>
+                      Promise Amount{' '}
+                    </Text>
+                  ) : (
+                    <Text
+                      style={[
+                        Headings.h3ForReviewpage,
+                        // {marginVertical: hp(0.5)},
+                      ]}>
+                      Promise Amount:{' '}
+                    </Text>
+                  )}
                 </View>
                 <View>
                   <Text
-                    style={[Headings.h3ForReviewpage, {fontSize:28}]}>
+                    style={[Headings.h3ForReviewpage, { fontSize: 28 }]}>
                     $ {amount}.00
                   </Text>
                 </View>
@@ -171,30 +171,14 @@ const SnapPromiseVerification = ({ navigation }) => {
                 marginVertical: hp(0.5),
               }}>
               <Text
-                style={[Headings.h3ForReviewpage, { marginVertical: hp(0.5),fontSize:18 }]}>
+                style={[Headings.h3ForReviewpage, { marginVertical: hp(0.5), fontSize: 18 }]}>
                 Completion Date
               </Text>
               <Text style={Headings.h3ForReviewpage}> {deadlinedate}</Text>
             </View>
           ) : null}
 
-          {/* {rewardPointState ? (
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginVertical: hp(0.5),
-              }}>
-              <Text
-                style={[Headings.h3ForReviewpage, {marginVertical: hp(0.5)}]}>
-                {rewardPoints}{' '}
-              </Text>
-              <Text
-                style={[Headings.h3ForReviewpage, {marginVertical: hp(0.5)}]}>
-                Reward Points will be given{' '}
-              </Text>
-            </View>
-          ) : null} */}
+
 
 
 
@@ -205,12 +189,10 @@ const SnapPromiseVerification = ({ navigation }) => {
               </View>) : null
           }
 
-          <Text style={[Headings.h3ForReviewpage, {fontSize:18}]}>Promise Statement</Text>
+          <Text style={[Headings.h3ForReviewpage, { fontSize: 18 }]}>Promise Statement</Text>
           <View style={{ height: hp(7), width: wp(80) }}>
             <View style={styles.generatedBox}>
-              {/* <ScrollView> */}
-              {/* {generatedTexts.map((text, index) => (
-                  <View key={index} style={styles.generatedTextBox}> */}
+
               <Text
                 style={[
                   {
@@ -223,9 +205,7 @@ const SnapPromiseVerification = ({ navigation }) => {
                 ]}>
                 {generatedTexts}
               </Text>
-              {/* </View>
-                ))} */}
-              {/* </ScrollView> */}
+
             </View>
           </View>
         </LinearGradient>

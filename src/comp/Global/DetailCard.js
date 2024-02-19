@@ -35,7 +35,7 @@ import {
   handleReject,
 } from '../Dashboard/ReqPromiseDashBoard/Action';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
-import PaymentScreen from '../../screens/PaymentScreen';
+import PaymentScreen from '../../screens/PaymentScreenNotUsed';
 import PaymentScreens from '../../screens/PaymentScreens';
 import { selectedVideoR } from '../../recoil/AddPromise';
 import { useRecoilState } from 'recoil';

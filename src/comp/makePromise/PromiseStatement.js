@@ -281,14 +281,7 @@ const PromiseStatement = ({ onTextChange }) => {
             alignItems: 'center',
             marginTop: hp(0.5),
           }}>
-          {/* <View
-            style={[
-              styles.CiBox,
-              {
-                borderColor: makePromise ? '#EB6F1F' : '#305B61',
-                borderWidth: hp(0.4),
-              },
-            ]}></View> */}
+         
 
           <View
             style={{
@@ -402,36 +395,10 @@ const PromiseStatement = ({ onTextChange }) => {
           </TouchableWithoutFeedback>
         </Modal>
 
-        {/* <TouchableOpacity onPress={handleGenerate} style={styles.genrateBtn}>
-          <View>
-            <Text style={Headings.Input5}>Generate</Text>
-          </View>
-          <View>
-            <Ionicons
-              name="return-up-back-outline"
-              size={20}
-              color="#652D90"
-              style={{marginVertical: hp(0)}}
-            />
-            <Ionicons
-              name="return-down-forward-outline"
-              size={20}
-              color="#F6921E"
-              style={{marginVertical: hp(0)}}
-            />
-          </View>
-        </TouchableOpacity> */}
       </View>
       {/* Promises */}
       <View style={styles.generatedBox}>
-        {/* <ScrollView>
-          {generatedTexts.map((text, index) => (
-            <View key={index} style={styles.generatedTextBox}>
-              <Text style={styles.generatedText}>{text}</Text>
-            </View>
-          ))}
-        </ScrollView> */}
-        {/* <Text> {generatedTexts} </Text> */}
+     
       </View>
     </View>
   );

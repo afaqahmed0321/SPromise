@@ -90,14 +90,7 @@ const NetworkFeed = ({ navigation }) => {
   const onRefresh = () => {
     setrefresh(!refersh);
   };
-  // const handleSearch = () => {
-  //   const filtered = selectedNetworkUserFee.filter(
-  //     item =>
-  //       item.firstName.toLowerCase().includes(searchText.toLowerCase()) ||
-  //       item.lastName.toLowerCase().includes(searchText.toLowerCase()),
-  //   );
-  //   setFilteredData(filtered);
-  // };
+ 
 
   const handleSearch = () => {
     console.log("search");
@@ -115,15 +108,12 @@ const NetworkFeed = ({ navigation }) => {
     const PIDd = PID;
     const userNN = userN;
     console.log(userNN, "New UserNo")
-    // console.log(LikeA.find(item => item === userN))
-    // let containsPromiseId=false;
-    // const Reac = LikeA.find(item => item === userN);
+    
     const containsPromiseId = LikeA.includes(userNN);
 
     const Reac = containsPromiseId ? "UnLike" : "Like";
     console.log(containsPromiseId, "Reac");
-    // console.log('UserNo is ', userNN);
-    // console.log('Before APi Call', userNN, 'UserNO', PID, 'Promise ID');
+   
 
     const res = await PromiseReaction(userNN, PIDd, Reac);
     // console.log(res.code);
@@ -155,11 +145,7 @@ const NetworkFeed = ({ navigation }) => {
     }
   };
 
-  // const handleViewAllComments = () => {
-  //   // setIsViewAll(true);
-  //   isViewAll ? setIsViewAll(false) : setIsViewAll(true);
-  // };
-
+  
   const renderItem = ({ item }) => {
     const userNN = userN;
     const setLike = item.promiseReactions;
@@ -293,12 +279,7 @@ const NetworkFeed = ({ navigation }) => {
               </Text>
             </>
           )}
-          {/* {item.promiseMediaURL ? (
-          <TouchableOpacity
-            onPress={() => handelAttachedMedia(item.promiseMediaURL)}>
-            <Text style={{color: 'blue'}}>Attached File</Text>
-          </TouchableOpacity>
-            ) : null} */}
+          
         </View>
         <View style={{ height: hp(10) }}>
           <Text
@@ -322,143 +303,7 @@ const NetworkFeed = ({ navigation }) => {
             alignItems: 'center',
             flexDirection: 'row',
           }}>
-          {/* {item.promiseReactions.includes(userN) ? (
-            <TouchableOpacity
-              onPress={() => {
-                const PID = item.promiseID;
-                onHandelReaction(PID);
-              }}
-              style={{
-                // borderWidth: 1,
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                alignItems: 'center',
-                width: wp(20),
-              }}>
-              <Ant name="like1" size={23} color="#652D90" />
-              <Text
-                style={[
-                  {
-                    color: '#652D90',
-                    fontWeight: 'bold',
-                    fontSize: hp(2),
-                  },
-                ]}>
-                Like
-              </Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              onPress={() => {
-                const PID = item.promiseID;
-                onHandelReaction(() => {
-                  console.log('item.promiseReactions:', item.promiseReactions);
-                  console.log('userN:', userN);
-                  console.log(
-                    'Condition:',
-                    item.promiseReactions.includes(userN),
-                  );
-                  PID;
-                });
-              }}
-              style={{
-                // borderWidth: 1,
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                alignItems: 'center',
-                width: wp(20),
-              }}>
-              <Ant name="like1" size={23} color="grey" />
-              <Text
-                style={[
-                  {
-                    color: 'grey',
-                    fontWeight: 'bold',
-                    fontSize: hp(2),
-                    // textAlign: 'center',
-                  },
-                ]}>
-                Like
-              </Text>
-            </TouchableOpacity>
-          )} */}
-
-
-          {/* {
-  
-  item.promiseReactions.includes(userNN) ? (
-    <TouchableOpacity
-      onPress={() => {
-        const PID = item.promiseID;
-        onHandelReaction(PID);
-      }}
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        width: wp(20),
-      }}
-    >
-      <Ant name="like1" size={23} color="#652D90" />
-      <Text
-        style={{
-          color: '#652D90',
-          fontWeight: 'bold',
-          fontSize: hp(2),
-        }}
-      >
-        Like
-      </Text>
-    </TouchableOpacity>
-  ) : (
-    <TouchableOpacity
-      onPress={() => {
-        const PID = item.promiseID;
-        onHandelReaction(PID);
-      }}
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        width: wp(20),
-      }}
-    >
-      <Ant name="like1" size={23} color="grey" />
-      <Text
-        style={{
-          color: 'grey',
-          fontWeight: 'bold',
-          fontSize: hp(2),
-        }}
-      >
-        Like
-      </Text>
-    </TouchableOpacity>
-  )
-} */}
-
-          {/* <View
-            style={{
-              // borderWidth: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              alignItems: 'center',
-              width: wp(20),
-            }}>
-            <Evil name="share-google" size={30} color="#652D90" />
-
-            <Text
-              style={[
-                {
-                  color: '#652D90',
-                  fontWeight: 'bold',
-                  fontSize: hp(2),
-                  // textAlign: 'center',
-                },
-              ]}>
-              Share
-            </Text>
-          </View> */}
+         
         </View>
         {/* /// Comments Section */}
         <View style={{ marginLeft: wp(2) }}>
@@ -540,10 +385,7 @@ const NetworkFeed = ({ navigation }) => {
               paddingLeft: wp(2.2),
               color: "black"
             }}></TextInput>
-          {/* <TouchableOpacity
-              style={{ position: 'absolute', right: wp(4.5), top: hp(1.5) }}>
-              <Material name="insert-emoticon" size={30} color="#652D90" />
-            </TouchableOpacity> */}
+        
 
           <TouchableOpacity
             style={{
@@ -583,33 +425,12 @@ const NetworkFeed = ({ navigation }) => {
           height: hp(8),
           flexDirection: 'row',
           alignItems: 'center',
-          // marginLeft: wp(3),
-          // justifyContent: 'center',
-          // borderWidth: 1,
+         
         }}>
-        {/* // Show All filter */}
-        {/* <Feather name="filter" size={23} color="black" />
-     <TouchableOpacity
-       style={{
-         height: hp(4),
-         flexDirection: 'row',
-         alignItems: 'center',
-         marginLeft: wp(3),
-       }}>
-       <Text style={{color: 'black', fontWeight: 'bold', fontSize: hp(1.4)}}>
-         Show All
-       </Text>
-       <Feather name="chevron-down" size={23} color="black" />
-     </TouchableOpacity> */}
+       
 
         <View style={{ width: wp(60) }}>
-          {/* <TextInput style={styles.SearchInpF} placeholder='Search User'>
-     
-     </TextInput>
-     <TouchableOpacity
-             style={{position: 'absolute', right: hp(1.8), top: hp(.8)}}>
-             <Feather name="search" size={20} color="#8250A6" />
-         </TouchableOpacity> */}
+         
 
           <TextInput
             placeholder="Search User"
@@ -621,10 +442,7 @@ const NetworkFeed = ({ navigation }) => {
               // Trigger search on text change
             }}
           />
-          {/* <TouchableOpacity onPress={handleSearch}
-             style={{position: 'absolute', right: hp(1.8), top: hp(.8)}}>
-             <Feather name="search" size={20} color="#8250A6" />
-         </TouchableOpacity> */}
+          
         </View>
         <TouchableOpacity
           onPress={handleSearch}
@@ -646,18 +464,7 @@ const NetworkFeed = ({ navigation }) => {
             <Text style={{ color: 'white', fontSize: 16, fontWeight: "600" }}> Search </Text>
           </View>
 
-          {/* <Modal
-            animationType="slide"
-            transparent={true}
-            visible={isnetworkModalVi}
-            onRequestClose={isnetworkModalVi}>
-            <PromiseNetwork />
-          </Modal> */}
-
-          {/* <Text style={{color: 'black', fontWeight: 'bold', fontSize: hp(1.4)}}>
-         {' '}
-         Invite User
-       </Text> */}
+          
         </TouchableOpacity>
 
       </View>
@@ -720,8 +527,7 @@ const NetworkFeed = ({ navigation }) => {
                   />
                 }
                 data={searchText.length > 0 ? filteredData : selectedNetworkUserFee}
-                // data={selectedNetworkUserFee}
-                // data={searchText.length > 0 ? filteredData : networkUser}
+              
                 keyExtractor={item => item.promiseID.toString()}
                 renderItem={renderItem}
               />

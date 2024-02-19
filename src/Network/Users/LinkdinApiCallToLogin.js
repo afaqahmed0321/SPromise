@@ -1,8 +1,3 @@
-// const url = 'http://138.197.52.199:8080/savePromise';
-// import React from 'react'
-// import {ToastAndroid} from 'react-native'
-
-
 import axios from 'axios';
 // import { ToastAndroid } from 'react-native';
 
@@ -19,12 +14,7 @@ const LinkDinApiCallLogin = async (userN) => {
 
   } catch (error) {
     
-    // ToastAndroid.showWithGravityAndOffset(
-    //   'Already have the user',
-    //   ToastAndroid.LONG,
-    //   ToastAndroid.BOTTOM,
-    //   25,
-    //   50,)
+   
     console.log(error)
     // return [];
   }

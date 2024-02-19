@@ -215,8 +215,6 @@ const SignUpScreen = ({ navigation }) => {
 
         }
       }
-      // navigation.navigate('HomeScreen')
-      // setLoginState(true)
     })
       .catch((error) => {
         console.log(error)
@@ -323,12 +321,6 @@ const SignUpScreen = ({ navigation }) => {
               placeholderStyle={{ color: '#000' }}
               dropDownContainerStyle={{ backgroundColor: '#F6E2FF', borderRadius: open ? wp(6) : wp(50), height: hp(12), borderColor: 'transparent', paddingLeft: 8, }}
             />
-            {/* <TouchableOpacity onPress={() => setOpen(!open)}>
-              <Text style={{color:"black"}}>
-                {value}
-                {/* <Icon name={open ? 'chevron-up' : 'chevron-down'} size={20} /> 
-              </Text>
-            </TouchableOpacity> */}
             {open && (
               <View>
                 {items.map((item) => (
@@ -368,29 +360,13 @@ const SignUpScreen = ({ navigation }) => {
           </View>
 
           <View style={{ marginTop: hp(3), paddingBottom: 20 }}>
-            {/* <View>
-              <Text style={{ textAlign: 'center', color: 'black' }}>
-                ----------Or Register With----------
-              </Text>
-            </View> */}
-            {/* <View style={commonStyles.container1}>
-              <View style={commonStyles.divider}>
-                <Text style={commonStyles.text}>Or Register With</Text>
-              </View>
-            </View> */}
+
             <View style={commonStyles.container}>
               <View style={commonStyles.line} />
               <Text style={commonStyles.text}>Or Register With</Text>
               <View style={commonStyles.line} />
             </View>
-            {/* <TouchableOpacity
-            onPress={() => navigation.navigate('LoginScreen')}
-            style={commonStyles.SocialBtn}>
-            <Icon name="logo-google" size={24} color="red" />
-            <Text style={{color: 'black', marginLeft: wp(2)}}>
-              Continue with Google
-            </Text>
-          </TouchableOpacity> */}
+
 
 
             {/* //Google Auth by AB */}
@@ -403,15 +379,7 @@ const SignUpScreen = ({ navigation }) => {
             </TouchableOpacity>
 
 
-            {/* /// */}
-            {/* <TouchableOpacity
-            onPress={() => navigation.navigate('LoginScreen')}
-            style={commonStyles.SocialBtn}>
-            <Icon name="logo-facebook" size={24} color="blue" />
-            <Text style={{color: 'black', marginLeft: wp(2)}}>
-              Continue with Facebook
-            </Text>
-          </TouchableOpacity> */}
+
           </View>
         </View>
 
@@ -430,20 +398,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1
   },
-  // LogoC: {
-  //   width: hp(14),
-  //   height: hp(14),
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
-  // ImageStyle: {
-  //   width: hp(14),
-  //   height: hp(14),
-  //   borderRadius: hp(25) / 2,
-  //   resizeMode: 'cover',
-  // },
-  // line: {
-  //   height: hp(1), // Adjust the height to your preference
-  //   backgroundColor: 'black',
-  // },
+
 });
