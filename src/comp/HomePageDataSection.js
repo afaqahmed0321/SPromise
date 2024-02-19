@@ -45,6 +45,7 @@ const HomePageDataSection = () => {
   const [userN, setUserN] = useRecoilState(UserNo);
   const [showDetail, setshowDetail] = useState('');
   const [onGoingPromises, setOnGoingPromises] = useRecoilState(onGoingPromisesListCard);
+  const [forName, setForName] = useState(false);
 
   const focus = useIsFocused();
   const [isLoading, setIsLoading] = useState(true);
@@ -112,6 +113,8 @@ const HomePageDataSection = () => {
 
   const renderItem = ({ item, index }) => (
     <>
+    {item.actions == 'Pay' && setForName(true)}
+    {console.log("itemsss", item)}
       {showDetail == item.promiseID ? (
         <TouchableOpacity
           style={{ justifyContent: 'center', alignItems: 'center', }}
@@ -186,7 +189,7 @@ const HomePageDataSection = () => {
                         Headings.Input6,
                         { marginLeft: wp(0.7), color: 'white', marginTop: wp(1) },
                       ]}>
-                        {item.actions === 'Pay' ? item?.promiseeName : item?.promisorName}
+                        {forName ? item?.promiseeName : item?.promisorName}
                       {}
                     </Text>
                   </View>

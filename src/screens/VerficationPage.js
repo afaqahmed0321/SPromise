@@ -104,10 +104,7 @@ const VerficationPage = ({ navigation }) => {
             inputStyles={{ textAlign: 'center', fontSize: hp(3), color: '#000' }}
 
           />
-          {/* <TextInput  style={styles.inBox}/>
-            <TextInput  style={styles.inBox}/>
-            <TextInput  style={styles.inBox}/>
-            <TextInput  style={styles.inBox}/> */}
+       
         </View>
         <View style={{ marginTop: hp(3) }}>
           <LinearGradient

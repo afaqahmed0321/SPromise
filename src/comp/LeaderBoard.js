@@ -109,20 +109,6 @@ const LeaderBoard = () => {
         </Text>
       </View>
       <View style={{ position: 'absolute', right: wp(1.5) }}>
-        {/* <Pie
-          radius={10}
-          innerRadius={7}
-          backgroundColor='#fff'
-          sections={[
-            
-            {
-              percentage: item.promisability,
-              color: '#ee8347',
-            },
-          ]}
-          dividerSize={2}
-          strokeCap={'butt'}
-        /> */}
         <LinearGradient
           colors={['#E4A936', '#EE8347']}
           start={{ x: 0, y: 0 }}
@@ -166,13 +152,7 @@ const LeaderBoard = () => {
       export default LeaderBoard;
 
       const styles = StyleSheet.create({
-        // mainContainer: {
-        //   width: wp(90),
-        //   borderWidth: wp(0.3),
-        //   height: hp(40),
-        //   flexDirection: 'row',
-        //   borderTopWidth: wp(0.6),
-        // },
+      
         bar: {
         height: hp(4),
       width: '100%',

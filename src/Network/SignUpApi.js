@@ -1,21 +1,3 @@
-
-
-// export default signup = async (emailID, password, fName, lName) => {
-//         console.log(emailID, password)
-//        userID = '212910'
-//     const url = 'http://138.197.52.199:8080/api/Users/signUp'
-//     let result = await fetch (url, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//           },
-//         body: JSON.stringify({userID, emailID, password, fName, lName})
-//     })
-//         result = await result.json();
-//         console.warn(result);
-   
-// };
-
 export async function signup(emailID, password, fName, lName, subscription) {
   console.log(emailID, password, fName, lName,subscription,"signup")
   const headers = new Headers({

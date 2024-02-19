@@ -62,15 +62,7 @@ export async function UpdateProfileApi(
     console.log(data, 'data');
 
     if (data.code === 200) {
-    //   return 'Registered';
-    //   ToastAndroid.showWithGravityAndOffset(
-    //     'Data Successfully Updated',
-    //     ToastAndroid.LONG,
-    //     ToastAndroid.BOTTOM,
-    //     25,
-    //     50,
-
-    //   );
+   
       return data;
     } else {
       return data.description;

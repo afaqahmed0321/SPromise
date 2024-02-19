@@ -31,22 +31,7 @@ const RemoveSoicalLinkApproval = () => {
     const Platform = istwitterRemoveAccount ? 'Twitter' : 'LinkedIn';
     const res = await AccountRemovedApiCall(userN, Platform);
     console.log(res);
-    // Handle the 'Yes' option
-    // toggleModal();
-
-    // istwitterRemoveAccount ? (
-    //     console.log('Twitter  Call')
-
-    //      // ToastAndroid.showWithGravityAndOffset(
-    // //   'Account has been removed',
-    // //   ToastAndroid.LONG,
-    // //   ToastAndroid.BOTTOM,
-    // //   25,
-    // //   50,)
-
-    // ) : (
-    //     console.log('Linkdin account has been removed Call')
-    // );
+   
 
     setRemoveSLAModal(false);
   };
@@ -60,21 +45,16 @@ const RemoveSoicalLinkApproval = () => {
   return (
     <View
       style={{
-        // marginTop: heightPercentageToDP(30),
+      
         height: heightPercentageToDP(30),
-        // borderWidth: heightPercentageToDP(0.4),
+       
         justifyContent: 'center',
         alignItems: 'center',
-        // borderRadius: widthPercentageToDP(10)
-
         borderWidth: 0.5,
         width: widthPercentageToDP(90),
         alignSelf: 'center',
         borderRadius: widthPercentageToDP(2),
         borderColor: '#652D90',
-        // marginHorizontal:wp(3),
-        // height: hp(58),
-        // marginTop: hp(20),
         backgroundColor: 'white',
       }}>
       <Text style={{fontSize: heightPercentageToDP(3.5)}}>

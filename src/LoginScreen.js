@@ -116,28 +116,7 @@ const LoginScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View style={{marginTop: hp(6)}}>
-          {/* <TouchableOpacity
-            onPress={onGoogleButtonPress}
-            style={commonStyles.SocialBtn}>
-            <Image
-              source={require('./source/google.png')} // Replace with the actual path to your local image
-              style={{width: 24, height: 24, marginRight: wp(2)}} // Adjust the width and height as needed
-            />
-            <Text style={{color: 'black'}}>Continue with Google</Text>
-          </TouchableOpacity> */}
-          {/* <TouchableOpacity
-            // onPress={() => navigation.navigate('LoginScreen')}
-            onPress={onFacebookButtonPress}
-            style={commonStyles.SocialBtn}>
-            <Icon
-              name="logo-facebook" // Use appropriate icon names
-              size={24}
-              color="blue"
-            />
-            <Text style={{color: 'black', marginLeft: wp(2)}}>
-              Continue with Facebook
-            </Text>
-          </TouchableOpacity> */}
+         
         </View>
       </View>
     </View>

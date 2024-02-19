@@ -220,7 +220,7 @@ const LoginScreen = ({ navigation }) => {
             }
             if (firstUrl) {
 
-              navigation.navigate('CustomWebView', { uri: firstUrl});
+              navigation.navigate('CustomWebView', { uri: firstUrl });
 
             } else {
               try {
@@ -231,18 +231,18 @@ const LoginScreen = ({ navigation }) => {
                     'Content-Type': 'application/json',
                   },
                 });
-              
+
                 const data = await response.json();
                 const updatedUrl = `${data.url}?prefilled_email=${Email}`;
                 setSecondUrl(updatedUrl);
                 console.log('Data from the server:', updatedUrl);
-              
+
                 // Navigate inside the then block after setting the state
                 navigation.navigate('CustomWebView', { uri: updatedUrl });
               } catch (error) {
                 console.error('Error fetching data:', error);
               }
-              
+
             }
 
 
@@ -339,17 +339,7 @@ const LoginScreen = ({ navigation }) => {
             />
             <Text style={{ color: 'black' }}>Continue with Google</Text>
           </TouchableOpacity>
-          {/* <TouchableOpacity 
-            // onPress={() => navigation.navigate('LoginScreen')}
-            onPress={onFacebookButtonPress}
-            style={commonStyles.SocialBtn}>
-            <Icon
-              name='logo-facebook' // Use appropriate icon names
-              size={24}
-            color="blue"
-            />
-            <Text style={{color: 'black', marginLeft:wp(2)}}>Continue with Facebook</Text>
-          </TouchableOpacity> */}
+
         </View>
       </View>
     </SafeAreaView>

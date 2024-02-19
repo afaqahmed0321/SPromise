@@ -96,7 +96,7 @@ const MakePromise = ({ navigation }) => {
   const bgBtnmakeprms = ['#E4A936', '#EE8347'];
   const bgBtnrqstprms = ['#73B6BF', '#2E888C'];
   const focus = useIsFocused();
- 
+
 
   const toggleCheckBox1 = () => {
     setIsChecked1(true);
@@ -164,10 +164,10 @@ const MakePromise = ({ navigation }) => {
             25,
             50,
           );
-        } else if(selectEndDate){
+        } else if (selectEndDate) {
           navigation.navigate('Review');
           console.log('Reward points', rewardPoints);
-        }else{
+        } else {
           ToastAndroid.showWithGravityAndOffset(
             'Please select compilation date',
             ToastAndroid.LONG,
@@ -194,11 +194,11 @@ const MakePromise = ({ navigation }) => {
       }
     }
   };
-  
-  
-  
-  
-  
+
+
+
+
+
   const handleBack = () => {
     navigation.goBack();
   }
@@ -212,11 +212,7 @@ const MakePromise = ({ navigation }) => {
       }}>
       {navigation.canGoBack() && (
         <TouchableOpacity style={{ position: 'absolute', left: wp(3), top: hp(1.5) }} onPress={handleBack}>
-          {/* <EvilIcon
-            name="arrow-left"
-            size={40}
-            color="black"
-          /> */}
+
           <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
 
         </TouchableOpacity>
@@ -230,101 +226,7 @@ const MakePromise = ({ navigation }) => {
       <View style={{ borderWidth: 1 }}>
         <PromiseButtons />
       </View>
-      {/* <View
-        style={{
-          marginVertical: hp(1),
-          height: hp(0.2),
-          backgroundColor: '#AAAAAA',
-          width: wp(90),
-        }}></View/}
-      {/* <View style={{width: wp(90)}}>
-        <Text style={[Headings.Input3]}>Choose Promise Type</Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginVertical: wp(3),
-          }}>
-          <TouchableOpacity
-            style={{flexDirection: 'row', marginLeft: 50}}
-            onPress={handelFin}>
-            <View style={[paymentCheck ? styles.checked : styles.unchecked]}>
-              {paymentCheck && (
-                <View style={styles.innerCircle}>
-                  <Text style={styles.checkIcon}>✓</Text>
-                </View>
-              )}
-            </View>
-            <Text style={Headings.Input3}>Financial</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{flexDirection: 'row'}}
-            onPress={handelNonFin}>
-            <View style={[rewardCheck ? styles.checked : styles.unchecked]}>
-              {rewardCheck && (
-                <View style={styles.innerCircle}>
-                  <Text style={styles.checkIcon}>✓</Text>
-                </View>
-              )}
-            </View>
-            <Text style={Headings.Input3}>Non Financial</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      {financial ? (
-        <View>
-          <View
-            style={{
-              marginVertical: hp(1),
-              height: hp(0.2),
-              backgroundColor: '#AAAAAA',
-              width: wp(90),
-            }}></View>
-          <View
-            style={{flexDirection: 'row', alignItems: 'center', height: hp(5)}}>
-            <Text style={Headings.Input3}>Promise Amount </Text>
-            <TextInput
-              placeholder="Write amount.."
-              value={amount}
-              style={{height: hp(5), marginLeft: wp(18), fontSize: hp(1.8)}}
-              onChangeText={text => setAmount(text)}
-              keyboardType="phone-pad"
-            />
-          </View>
 
-          <View
-            style={{
-              marginTop: hp(0.6),
-              height: hp(0.2),
-              backgroundColor: '#AAAAAA',
-              width: wp(90),
-            }}></View>
-        </View>
-      ) : (
-        <View>
-          <View
-            style={{
-              marginVertical: hp(1),
-              height: hp(0.2),
-              backgroundColor: '#AAAAAA',
-              width: wp(90),
-            }}></View>
-          <View
-            style={{flexDirection: 'row', alignItems: 'center', height: hp(5)}}>
-            <Text style={Headings.Input3}>Promise Reward </Text>
-            <Text style={[{marginLeft: wp(20)}, Headings.Input3]}>+20</Text>
-          </View>
-
-          <View
-            style={{
-              marginTop: hp(0.6),
-              height: hp(0.2),
-              backgroundColor: '#AAAAAA',
-              width: wp(90),
-            }}></View>
-        </View>
-      )} */}
       <ScrollView>
         <View style={{ marginTop: hp(2) }}>
           <Text style={Headings.Input3}>Promise Time Bound</Text>
@@ -397,7 +299,7 @@ const MakePromise = ({ navigation }) => {
                   flexDirection: 'row',
                   justifyContent: 'center',
                 }}>
-               <View
+                <View
                   style={{
                     marginLeft: wp(3),
                     width: wp(30),
@@ -406,7 +308,8 @@ const MakePromise = ({ navigation }) => {
                   }}>
                   <TouchableOpacity
 
-                    onPress={() => {setStartDateMV(true)
+                    onPress={() => {
+                      setStartDateMV(true)
                       setSelectEndDate(true);
                     }
                     }
@@ -430,74 +333,11 @@ const MakePromise = ({ navigation }) => {
                     onRequestClose={() => setStartDateMV(false)}>
                     <StartModal />
                   </Modal>
-                </View> 
+                </View>
 
-                {/* <View
-                  style={{
-                    marginLeft: wp(3),
-                    width: wp(30),
-                    height: hp(5),
-                    justifyContent: 'center',
-                  }}>
-                  <TouchableOpacity
-                    onPress={() => {setEndDateMV(true);
-                      setSelectEndDate(true);
-                    }}
-                    style={styles.DateCB}>
-                    {deadlinedate === '' ? (
-                      <Text
-                        style={{
-                          color: '#000'
-                        }}
 
-                      > Select Date</Text>
-                    ) : (
-                      <Text
-                        style={{
-                          color: '#000'
-                        }}
-                      >{deadlinedate}</Text>
-                    )}
-                  </TouchableOpacity>
-                  <Modal
-                    animationType="slide"
-                    transparent={true}
-                    style={{ height: hp(40), backgroundColor: 'red' }}
-                    visible={endDateMV}
-                    onRequestClose={() => setEndDateMV(false)}>
-                    <EndDateModal />
-                  </Modal>
-                </View>  */}
-
-                {/* <View style={{marginRight: wp(6), width: wp(43), height: hp(5)}}>
-            <TouchableOpacity
-              
-              onPress={() => setEndDateMV(true)} 
-              style={styles.DateCB}>
-              {deadlinedate == '' ? 
-                <Text>Select End Date</Text>
-               : 
-                <Text>{deadlinedate}</Text>
-              }
-            
-            </TouchableOpacity>
-            <Modal
-          animationType="slide"
-          transparent={true}
-            style={{height: hp(40), backgroundColor: 'red'}}
-          visible={endDateMV}
-          onRequestClose={() => setEndDateMV(false)}>
-          <StartModal />
-        </Modal>
-          </View> */}
               </View>
-              {/* <View
-              style={{
-                marginTop: hp(1),
-                height: hp(0.2),
-                backgroundColor: '#AAAAAA',
-                width: wp(90),
-              }}></View> */}
+
             </View>
           ) : null}
         </View>
@@ -522,31 +362,18 @@ const MakePromise = ({ navigation }) => {
               }}
             />
 
-            {/* <Text style={Headings.Input3}>Guaranted $</Text> */}
-            {/* <Switch
-          trackColor={{false: '#767577', true: '#81b0ff'}}
-          thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-        /> */}
+
           </View>
           {financial ? (
             <>
-              {/* <View
-                style={{
-                  marginVertical: hp(2),
-                  height: hp(0.2),
-                  backgroundColor: '#AAAAAA',
-                  width: wp(90),
-                }}></View> */}
+
               <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
                   height: hp(5),
                   justifyContent: 'center',
-                  gap:8
+                  gap: 8
                 }}>
                 {/* <Text style={Headings.Input3}>Amount</Text> */}
                 <TextInput
@@ -563,52 +390,33 @@ const MakePromise = ({ navigation }) => {
                     borderRadius: wp(10),
                     width: wp(30),
                     borderRadius: wp(5),
-                    textAlign:"center"
+                    textAlign: "center"
                   }}
                   placeholderTextColor="black"
                   onChangeText={text => setAmount(text)}
                   keyboardType="phone-pad"
                 />
-                 <TextInput
-                      placeholder="Points"
-                      placeholderTextColor="black"
-                      value={rewardPoints}
-                      style={{
-                        height: hp(5),
-                        color: '#000',
-                        // marginLeft: wp(18),
-                        fontSize: hp(1.8),
-                        // borderWidth: hp(.1),
-                        borderWidth: wp(0.6),
-                        borderColor: '#652D90',
-                        borderRadius: wp(10),
-                        width: wp(30),
-                        borderRadius: wp(5),
-                        textAlign:"center"
-                      }}
-                      onChangeText={text => setRewardPoints(text)}
-                      keyboardType="phone-pad"
-                    />
-                {/* <TextInput
-                  placeholder="Reward Points"
+                <TextInput
+                  placeholder="Points"
+                  placeholderTextColor="black"
                   value={rewardPoints}
                   style={{
                     height: hp(5),
+                    color: '#000',
                     // marginLeft: wp(18),
                     fontSize: hp(1.8),
                     // borderWidth: hp(.1),
                     borderWidth: wp(0.6),
                     borderColor: '#652D90',
                     borderRadius: wp(10),
-                    color: '#000',
-                    width: wp(42),
+                    width: wp(30),
                     borderRadius: wp(5),
-                    paddingLeft: wp(3),
+                    textAlign: "center"
                   }}
-                  placeholderTextColor="black"
                   onChangeText={text => setRewardPoints(text)}
                   keyboardType="phone-pad"
-                /> */}
+                />
+
               </View>
             </>
           ) : null}
@@ -619,65 +427,7 @@ const MakePromise = ({ navigation }) => {
               backgroundColor: '#AAAAAA',
               width: wp(90),
             }}></View>
-          {/* {makePromise ? null : (
-            <>
-              <View style={styles.ToggelBox}>
-                <Text style={Headings.Input3}>Reward Points</Text>
-                <ToggleSwitch
-                  isOn={rewardPointState}
-                  style={{marginRight: wp(2)}}
-                  onColor="#FFFFFF"
-                  offColor="#FFFFFF"
-                  thumbOffStyle={{backgroundColor: '#E4E4E4'}}
-                  thumbOnStyle={{backgroundColor: '#652D90'}}
-                  size="small"
-                  onToggle={() => {
-                    setRewardPointState(!rewardPointState);
-                  }}
-                />
-              </View>
-              <View
-                style={{
-                  marginVertical: hp(2),
-                  height: hp(0.2),
-                  backgroundColor: '#AAAAAA',
-                  width: wp(90),
-                }}></View>
-              {rewardPointState ? (
-                <>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      height: hp(5),
-                    }}>
-                    <TextInput
-                      placeholder="0"
-                      value={rewardPoints}
-                      style={{
-                        height: hp(5),
-                        marginLeft: wp(18),
-                        fontSize: hp(1.8),
-                        borderWidth: hp(0.1),
-                        width: wp(42),
-                        borderRadius: wp(5),
-                        paddingLeft: wp(3),
-                      }}
-                      onChangeText={text => setRewardPoints(text)}
-                      keyboardType="phone-pad"
-                    />
-                  </View>
-                  <View
-                    style={{
-                      marginVertical: hp(2),
-                      height: hp(0.2),
-                      backgroundColor: '#AAAAAA',
-                      width: wp(90),
-                    }}></View>
-                </>
-              ) : null}
-            </>
-          )} */}
+
           <View style={styles.ToggelBox}>
             <View style={styles.ToggelBox}>
               <Text style={Headings.Input3}>Rating Impact?</Text>
@@ -695,14 +445,7 @@ const MakePromise = ({ navigation }) => {
                 }}
               />
 
-              {/* <Text style={Headings.Input3}>Guaranted $</Text> */}
-              {/* <Switch
-          trackColor={{false: '#767577', true: '#81b0ff'}}
-          thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-        /> */}
+
             </View>
           </View>
           <View>

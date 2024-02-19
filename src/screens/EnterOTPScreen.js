@@ -48,7 +48,6 @@ const EnterOTPScreen = ({ navigation }) => {
   // };
 
   useEffect(() => {
-    // Decrease the resend cooldown timer every second
     if (resendCooldown > 0) {
       const timer = setTimeout(() => setResendCooldown(resendCooldown - 1), 1000);
       return () => clearTimeout(timer);

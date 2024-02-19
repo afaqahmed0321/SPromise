@@ -182,11 +182,6 @@ const UserProfile = () => {
 
   const LinkDinallHandel = async () => {
     setLinkDinResponse('');
-    // console.log(userN, 'ApiCall');
-    // const response = await LinkDinApiCallToCheckData(userN);
-    // console.log(response);
-    // if (response == '400') {
-    //   console.log('Not Data Found for this user');
     const LinkDinApiRes = await LinkDinApiCallLogin(userN);
     console.log('LinkDinApiRes: ' + LinkDinApiRes);
     setLinkDinResponse(LinkDinApiRes);
@@ -195,9 +190,6 @@ const UserProfile = () => {
     } else {
       console.log('Error');
     }
-    // } else {
-    //   console.log('User is already logged in');
-    // }
   };
   const TwitterCallHandel = async () => {
     console.log(
@@ -211,22 +203,7 @@ const UserProfile = () => {
     } else {
       console.log('Error');
     }
-    // setTwitterResponse(false);
-    // console.log(userN, 'ApiCall');
-    // const response = await TwitterApiCallToCheckData(userN);
-    // console.log(response);
-    // if (response == '400') {
-    //   console.log('Not Data Found for this user');
-    //   const twriterApiRes = await TwitterApiCallLogin(userN);
-    //   setTwitterResponse(twriterApiRes);
-    //   if (twitterResponse !== '') {
-    //     setIsWebView(true);
-    //   } else {
-    //     console.log('Error');
-    //   }
-    // } else {
-    //   console.log('User is already logged in');
-    // }
+   
   };
 
   const apiCallChceckRes = async () => {
@@ -304,7 +281,7 @@ const UserProfile = () => {
                 <View>
                   <Text style={Headings.Input3}>Email</Text>
                   <TextInput
-                    style={[TextInP.Fileds, { width: wp(80), }]}
+                    style={[TextInP.Fileds, { width: wp(82), }]}
                     // placeholder={userData.emailID}
                     value={userData.emailID}
                     placeholderTextColor="#000"
@@ -312,14 +289,14 @@ const UserProfile = () => {
                   />
                 </View>
 
-                <View style={styles.Box}>
+                <View style={[styles.Box,{paddingHorizontal:0}]}>
                   <View styles={styles.InnerBox}>
                     <Text style={Headings.Input3}>First Name</Text>
                     <TextInput
                       style={[TextInP.Fileds, { width: wp(38) }]}
-                      placeholder={userData.firstName}
-                      value={userData.firstName}
-                      placeholderTextColor="#000"
+                      placeholder="First Name"
+                      value={fName}
+                      placeholderTextColor="grey"
                       onChangeText={text => setFName(text)}
                     />
                   </View>
@@ -327,13 +304,14 @@ const UserProfile = () => {
                     <Text style={Headings.Input3}>Last Name</Text>
                     <TextInput
                       style={[TextInP.Fileds, { width: wp(38) }]}
-                      placeholder={userData.lastName}
-                      placeholderTextColor="#000"
+                      placeholder="Last Name"
+                      placeholderTextColor="grey"
                       value={lName}
                       onChangeText={text => setLName(text)}
                     />
                   </View>
                 </View>
+
                 <View style={styles.Box}>
                   <View styles={styles.InnerBox}>
                     <Text style={Headings.Input3}>Gender</Text>
@@ -342,21 +320,14 @@ const UserProfile = () => {
                       placeholder={
                         userData.gender == '' ? 'N/A' : userData.gender
                       }
-                      placeholderTextColor="#000"
+                      placeholderTextColor="grey"
                       // value={lName}
                       onChangeText={text => setGender(text)}
                     />
                   </View>
                   <View styles={styles.InnerBox}>
                     <Text style={[Headings.Input3]}>Select Date Of Birth</Text>
-                    {/* <View
-                  style={{
-                    marginLeft: wp(3),
-                    width: wp(43),
-                    height: hp(5),
-                    justifyContent: 'center',
-                    borderWidth: 1
-                  }}> */}
+                  
                     <TouchableOpacity
                       // onPress={() => (selectStartDate ? setselectStartDate(false) : setselectStartDate(true))}
                       onPress={() => setStartDateMV(true)}
@@ -368,12 +339,13 @@ const UserProfile = () => {
                           justifyContent: 'center',
                           // alignItems: 'center',
                           paddingLeft: 0,
+                          color:"#000"
                         },
                       ]}>
                       {userData.dob == '' ? (
                         <Text>N/A</Text>
                       ) : (
-                        <Text style={{}}>{startDa}</Text>
+                        <Text style={{color:"#000"}}>{startDa}</Text>
                       )}
                       {/* {startDateMV ? () : ()} */}
                     </TouchableOpacity>
@@ -388,12 +360,13 @@ const UserProfile = () => {
                     {/* </View> */}
                   </View>
                 </View>
+
                 <View styles={styles.InnerBox}>
                   <Text style={Headings.Input3}>Phone</Text>
                   <TextInput
-                    style={[TextInP.Fileds, { width: wp(80) }]}
+                    style={[TextInP.Fileds, { width: wp(82) }]}
                     placeholder={userData.phoneNo == '' ? 'N/A' : userData.phone}
-                    placeholderTextColor="#000"
+                    placeholderTextColor="grey"
                     value={userData.phone}
                     onChangeText={text => setPhoneNo(text)}
                   />
@@ -402,22 +375,23 @@ const UserProfile = () => {
                 <View>
                   <Text style={Headings.Input3}>Address</Text>
                   <TextInput
-                    style={[TextInP.Fileds, { width: wp(80) }]}
+                    style={[TextInP.Fileds, { width: wp(82) }]}
                     placeholder={
                       userData.address1 == '' ? 'N/A' : userData.address1
                     }
-                    placeholderTextColor="#000"
+                    placeholderTextColor="grey"
                     // value={lName}
                     onChangeText={text => setAddress(text)}
                   />
                 </View>
+
                 <View style={styles.Box}>
                   <View styles={styles.InnerBox}>
                     <Text style={Headings.Input3}>City</Text>
                     <TextInput
                       style={[TextInP.Fileds, { width: wp(38) }]}
                       placeholder={userData.city == '' ? 'N/A' : userData.city}
-                      placeholderTextColor="#000"
+                      placeholderTextColor="grey"
                       // value={lName}
                       onChangeText={text => setCity(text)}
                     />
@@ -428,19 +402,20 @@ const UserProfile = () => {
                     <TextInput
                       style={[TextInP.Fileds, { width: wp(38) }]}
                       placeholder={userData.zip == '' ? 'N/A' : userData.zip}
-                      placeholderTextColor="#000"
+                      placeholderTextColor="grey"
                       // value={lName}
                       onChangeText={text => setPinCode(text)}
                     />
                   </View>
                 </View>
+
                 <View style={styles.Box}>
                   <View styles={styles.InnerBox}>
                     <Text style={Headings.Input3}>State</Text>
                     <TextInput
                       style={[TextInP.Fileds, { width: wp(38) }]}
                       placeholder={userData.state == '' ? 'N/A' : userData.state}
-                      placeholderTextColor="#000"
+                      placeholderTextColor="grey"
                       // value={lName}
                       onChangeText={text => setState(text)}
                     />
@@ -452,12 +427,13 @@ const UserProfile = () => {
                       placeholder={
                         userData.country == '' ? 'N/A' : userData.country
                       }
-                      placeholderTextColor="#000"
+                      placeholderTextColor="grey"
                       // value={lName}
                       onChangeText={text => setCountry(text)}
                     />
                   </View>
                 </View>
+
                 <View style={styles.Social}>
                   <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
                     Twitter
@@ -471,25 +447,18 @@ const UserProfile = () => {
                     thumbOnStyle={{ backgroundColor: '#652D90' }}
                     size="small"
                     onToggle={() => {
-                      // xtoggle
-                      //   ? (setXTogel(false), setSocialLogin(true))
-                      //   : (setXTogel(true), setSocialLogin(false));
-
-                      // // console.log(socialLogin);
-                      // setIsTwitterApiCall(true); //
-                      // TwitterCallHandel();
+                     
                       xtoggle
                         ? (setRemoveSLAModal(true),
                           setIstwitterRemoveAccount(true),
                           setXTogel(false))
                         : // setRemoveSLAModal(true)
                         (setIsTwitterApiCall(true), TwitterCallHandel());
-                      // ? (setRemoveSLAModal(true),
-                      //   setIstwitterRemoveAccount(true))
-                      // : (setIsTwitterApiCall(true), TwitterCallHandel());
+                     
                     }}
                   />
                 </View>
+                
                 <View style={styles.Social}>
                   <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
                     LinkedIn
@@ -525,19 +494,9 @@ const UserProfile = () => {
                     blurType="light"
                     blurAmount={10}
                   ></BlurView>
-                  {/* <View style={{flexDirection: 'row'}}>
-                  <BlurView
-                    style={{width:wp(5)}}
-                    blurType="light" // You can customize the blurType as needed
-                    blurAmount={10} // You can adjust the blurAmount as needed
-                  ></BlurView> */}
+                
                   <RemoveSoicalLinkApproval />
-                  {/* <BlurView
-                    style={{width:wp(5)}}
-                    blurType="light" // You can customize the blurType as needed
-                    blurAmount={10} // You can adjust the blurAmount as needed
-                  ></BlurView>
-                </View> */}
+                 
                   <BlurView
                     style={{ flex: 1 }}
                     blurType="light" // You can customize the blurType as needed
@@ -545,13 +504,7 @@ const UserProfile = () => {
                   ></BlurView>
                 </Modal>
 
-                {/* <TouchableOpacity
-                onPress={() => {
-                  setIsWebView(true);
-                  console.log(isWebView);
-                }}>
-                <Text>Text</Text>
-              </TouchableOpacity> */}
+              
               </View>
             ) : (
               <SafeAreaView style={{ height: '100%' }}>
@@ -574,10 +527,7 @@ const UserProfile = () => {
                   source={{
                     uri: isTwitterApiCall ? twitterResponse : linkDinResponse,
                   }}
-                // style={styles.webview}
-                // onError={syntheticEvent =>
-                //   console.log('WebView error: ', syntheticEvent.nativeEvent)
-                // }
+              
                 />
               </SafeAreaView>
             )}
@@ -662,19 +612,7 @@ const UserProfile = () => {
                 placeholderTextColor="#000"
                 onChangeText={text => setEmailId(text)}
                 editable={false}              />
-            </View>
-
-          
-
-            
-            {/* <Text style={styles.label}>
-              City:{' '}
-              <Text style={styles.data}>
-                {userData.city == '' ? 'N/A' : userData.city}
-              </Text>
-            </Text> */}
-
-          
+            </View>          
           </View>
         </>
       )}
@@ -790,7 +728,7 @@ const styles = StyleSheet.create({
   DateCB: {},
   Box: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   InnerBox: { with: wp(40) },

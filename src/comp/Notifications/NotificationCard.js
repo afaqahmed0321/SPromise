@@ -166,9 +166,7 @@ const NotificationCard = () => {
               );
           }
 
-          // setSelectitem(data[0]);
-          // console.log(data, 'Test By AB');
-          // setIsLoading(false);
+         
         })
         .catch(error => {
           console.error('Error fetching promise:', error);
@@ -223,26 +221,11 @@ const NotificationCard = () => {
                     alignSelf: 'center',
                     padding:0,
                     margin:0,
-                    // backgroundColor: 'white',
-                    // marginTop: hp(35),
+                    
                     backgroundColor: '#E4EEE6',
-                    // shadowColor: '#000',
-                    // shadowOffset: {
-                    //   width: 0,
-                    //   height: 1,
-                    // },
-                    // shadowOpacity: 0.18,
-                    // shadowRadius: 1.0,
-
-                    // elevation: 1,
+               
                   }}>
-                  {/* <TouchableOpacity
-                    onPress={() => {
-                      setIsModalV(false), setSelectitem({});
-                    }}
-                    style={{ position: 'absolute', right: wp(4), top: hp(1) }}>
-                    <Font color="#652D90" name="close" size={30} />
-                  </TouchableOpacity> */}
+                  
                   <LinearGradient
                     colors={
                       noti.notificationMethodAction == 'MakePromiseRequest'
@@ -252,12 +235,7 @@ const NotificationCard = () => {
                     style={DashBoardStyling.MainCard}>
                     <View
                       style={
-                        {
-                          // width: wp(90),
-                          // height: hp(23),
-                          // alignItems: 'center',
-                          // borderWidth:1
-                        }
+                        {}
                       }>
                       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <View
@@ -297,17 +275,7 @@ const NotificationCard = () => {
                         </View>
 
                         <View style={{ width: wp(15) }}>
-                          {/* <Text
-                      style={[
-                        Headings.Input5,
-                        {
-                          marginLeft: wp(0.1),
-                          color: 'white',
-                          marginTop: wp(0.3),
-                        },
-                      ]}>
-                      DeadLine
-                    </Text> */}
+                          
                           <Text
                             style={[
                               Headings.Input6,
@@ -363,14 +331,7 @@ const NotificationCard = () => {
                           </Text>
                         </View>
                       ) : null}
-                      {/* {selectitem.promiseMediaURL ? (
-                        <TouchableOpacity
-                          onPress={() =>
-                            handelAttachedMedia(selectitem.promiseMediaURL)
-                          }>
-                          <Text style={{ color: 'blue' , marginLeft: 16}}>Attached File</Text>
-                        </TouchableOpacity>
-                      ) : null} */}
+                     
                       <View style={DashBoardStyling.PromiseGoal}>
                         <View>
                           <Text
@@ -385,46 +346,7 @@ const NotificationCard = () => {
                           </Text>
                         </View>
                       </View>
-                      {/* <View style={DashBoardStyling.PromiseReward}>
-                  {selectitem.promiseType == 'Payment' ? (
-                    <Text
-                      style={[
-                        {
-                          color: 'white',
-                          fontWeight: 'bold',
-                          fontSize: hp(2.3),
-                        },
-                      ]}>
-                      Amount:$ {selectitem.paymentAmount}
-                    </Text>
-                  ) : (
-                    <Text
-                      style={[
-                        {
-                          color: 'white',
-                          fontWeight: 'bold',
-                          fontSize: hp(2.3),
-                        },
-                      ]}>
-                      Reward: +20XP
-                    </Text>
-                  )}
-                  {selectitem.promiseMediaURL ? (
-                    <TouchableOpacity
-                      onPress={() =>
-                        handelAttachedMedia(selectitem.promiseMediaURL)
-                      }>
-                      <Text style={{color: 'blue'}}>Attached File</Text>
-                    </TouchableOpacity>
-                  ) : null}
-                </View> */}
-                      {/* <View style={DashBoardStyling.PromiseGoal}>
-                    <View>
-                      <Text style={[Headings.Input5, {color: 'white', }]}>
-                        {selectitem.promiseGoal}
-                      </Text>
-                    </View>
-                  </View> */}
+                      
                       <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                         <View
                           style={{
@@ -435,16 +357,7 @@ const NotificationCard = () => {
                             // borderWidth: 1,
 
                           }}>
-                          {/* <TouchableOpacity style={styles.btn}>
-                         {selectitem.status=="Pending"?
-                         <Text>Accept</Text>:
-                         <Text>Mark Completed</Text> }
-                         </TouchableOpacity>
-                         <TouchableOpacity style={[styles.btn, {backgroundColor:'#E32E2E'}]}>
-                         {selectitem.status=="Pending"?
-                         <Text>Reject</Text>:
-                         <Text>Mark Failed</Text>}
-                         </TouchableOpacity> */}
+                          
                           {selectitem.actions.map((action, index) => {
                             if (action === 'Accept') {
                               return (
@@ -455,8 +368,7 @@ const NotificationCard = () => {
                                     const promiseId = noti.docNo;
                                     const userNoo = noti.userNo;
                                     const notiMethod = noti.notificationMethod;
-                                    // handleAccept(selectitem.promiseID, userN),
-                                    // console.log(promiseId, userN, "Test")
+                                    
                                     if (notiMethod == 'MakePromise') {
                                       handleAcceptPromise(promiseId, userN);
                                     } else {
@@ -549,8 +461,7 @@ const NotificationCard = () => {
                             setGeneratedTexts(selectitem.promiseGoal);
                             setSelectedMedia(selectitem.promiseMediaURL);
                             setEditPromiseReq(true);
-                            // setSelectedPromisee.networkUserNo(selectitem.promisee)
-                            // setSelectedPromisee.networkUserName(selectitem.promiseeName)
+                           
                             setSelectedPromisee({
                               networkUserName: selectitem.promiseeName,
                               networkUserNo: selectitem.promisee,

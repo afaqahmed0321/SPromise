@@ -6,16 +6,6 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 
 export const commonStyles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
-  // text: {
-    // fontSize: 18,
-    // color: 'black',
-  // },
-
   lognBtn: {
     width: wp(90),
     justifyContent: 'center',

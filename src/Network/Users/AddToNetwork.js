@@ -1,35 +1,3 @@
-
-
-// import axios from 'axios';
-// import { ToastAndroid } from 'react-native';
-
-// const AddUserNetwork = async (AddUserN,userN ) => {
-//   const apiUrl = 'https://snappromise.com:8080/saveUsertoNetwork?UserNo='+userN+"&NetworkUserNo="+AddUserN;
-
-//   console.log(userN, AddUserN)
-//   try {
-//     console.log("Try Case")
-//     const response = await axios.post(apiUrl);
-//     console.log(response)
-//     // return response.data.users[0];
-
-//   } catch (error) {
-    
-//     // ToastAndroid.showWithGravityAndOffset(
-//     //   'Already have the user',
-//     //   ToastAndroid.LONG,
-//     //   ToastAndroid.BOTTOM,
-//     //   25,
-//     //   50,)
-//     console.log(error)
-//     // return [];
-//   }
-// };
-
-// export default AddUserNetwork;
-
-
-
 import { ToastAndroid } from 'react-native';
 
 const url = 'https://snappromise.com:8080/saveUsertoNetwork';

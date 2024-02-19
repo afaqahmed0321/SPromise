@@ -16,16 +16,7 @@ const AccountRemovedApiCall = async (userN, Platform) => {
     console.log('Response Data:', response.data);
     return response.data.code;
   } catch (error) {
-    // Uncomment the following line if you want to see the error details in the console
-    // console.log('Error:', error);
-
-    // ToastAndroid.showWithGravityAndOffset(
-    //   'Already have the user',
-    //   ToastAndroid.LONG,
-    //   ToastAndroid.BOTTOM,
-    //   25,
-    //   50,
-    // );
+    
 
     console.error('API Request Error:', error);
     // Return an appropriate value or rethrow the error if needed

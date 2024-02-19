@@ -20,13 +20,6 @@ const TopUsers = async (userN) => {
     return response.data.userRewards;
 
   } catch (error) {
-    
-    // ToastAndroid.showWithGravityAndOffset(
-    //   'Already have the user',
-    //   ToastAndroid.LONG,
-    //   ToastAndroid.BOTTOM,
-    //   25,
-    //   50,)
     console.log(error)
     // return [];
   }

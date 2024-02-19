@@ -122,17 +122,7 @@ const Review = ({ navigation }) => {
 
     const userNo = Promiseze.userNo;
 
-    // // const PromisAmo = financial ? promiseAmounnt: '+20XP'
-
-    // const PromiseRew = !financial ? "+20": preward
-    // const userPromisePayment = {
-    //   "userNo": Promiseze.userNo,
-    //   "paymentStatus": "Pending",
-    //   "paymentAmount": financial ? promiseAmounnt: '0'
-    // }
-    // console.log(promisor,promisee,"aniqa")
-
-    // const prom = await MakePromiseApi(Promisee,PromiseDate,PromiseType,ExpiryDate,Promisor, IsTimeBound,PromiseGoal, PromisAmo )
+    
   };
 
   const handelReqPromiseApi = async () => {
@@ -275,14 +265,7 @@ const Review = ({ navigation }) => {
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                {/* <View
-                style={{
-                  backgroundColor: 'grey',
-                  width: wp(12),
-                  height: hp(6),
-                  borderRadius: wp(12) / 2,
-                  marginLeft: wp(4),
-                }}></View> */}
+              
                 <Image
                   // source={{uri:item.imageURL}}
                   source={
@@ -410,19 +393,7 @@ const Review = ({ navigation }) => {
               </View>
 
 
-              {/* {rewardPointState ? (
-              <View >
-                <View style={{flexDirection:'row', alignItems:'center',  marginVertical:hp(1)}}>
-                  <Text style={[Headings.h3ForReviewpage, {}]}>
-                    Given reward points 
-                  </Text>
-                  <Text style={[Headings.h3ForReviewpage, {}]}>
-                    <Text> {rewardPoints}</Text>
-                  </Text>
-                </View>
-                <View style={styles.Line}></View>
-              </View>
-            ) : null} */}
+           
               {isRating ? (
                 <View style={{}}>
                   <View>
@@ -439,13 +410,7 @@ const Review = ({ navigation }) => {
                 <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5,fontSize:18 }]}>Promise Statement</Text>
                 <View style={{ height: hp(8), width: wp(80) }}>
                   <View style={[styles.generatedBox, { padding: 0, margin: 0 }]}>
-                    {/* <ScrollView>
-                  {generatedTexts.map((text, index) => (
-                    <View key={index} style={styles.generatedTextBox}>
-                      <Text style={styles.generatedText}>{text}</Text>
-                    </View>
-                  ))}
-                </ScrollView> */}
+                   
                     <Text style={{ color: '#FFFFFF' }}> {generatedTexts} </Text>
                   </View>
                 </View>
@@ -479,23 +444,7 @@ const Review = ({ navigation }) => {
               </View>
               )}
 
-              {/* <View style={styles.Social}>
-              <Text style={[{marginLeft: wp(5)}, Headings.Input5]}>
-                Twitter
-              </Text>
-              <ToggleSwitch
-                isOn={xtoggle}
-                style={{marginRight: wp(5)}}
-                onColor="#FFFFFF"
-                offColor="#FFFFFF"
-                thumbOffStyle={{backgroundColor: '#E4E4E4'}}
-                thumbOnStyle={{backgroundColor: '#652D90'}}
-                size="small"
-                onToggle={() => {
-                  xtoggle ? setXTogel(false) : setXTogel(true);
-                }}
-              />
-            </View> */}
+             
             {LinkedInCode === 400 ? (
               null
             ):(
