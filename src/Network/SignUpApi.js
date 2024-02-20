@@ -33,7 +33,7 @@ export async function signup(emailID, password, fName, lName, subscription) {
   }
 };
 
-export async function Socialsignup(emailID,Name,socialLogin,imageURL) {
+export async function Socialsignup(emailID,Name,socialLogin,imageURL, sSubscription) {
   const headers = new Headers({
     'Content-Type': 'application/json',
   });
@@ -46,8 +46,8 @@ export async function Socialsignup(emailID,Name,socialLogin,imageURL) {
      "status": "Active",
      "socialLogin":socialLogin,
      "loginType": "Google",
-     "imageURL":imageURL
-
+     "imageURL":imageURL,
+     "subscription": sSubscription
    }
   try {
     const response = await fetch("https://snappromise.com:8080/api/Users/signUp", {

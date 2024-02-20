@@ -122,7 +122,7 @@ const SignUpScreen = ({ navigation }) => {
       setIsLoading(true);
 
       // If all validations pass, proceed with the signup process
-      let response = await VerifyOTP(emailID);
+      let response = await VerifyOTP(emailID); 
 
       console.log(response.code, "aniqa")
       if (response.description === "Operation completed successfully.") {
@@ -161,7 +161,7 @@ const SignUpScreen = ({ navigation }) => {
     await GoogleSignin.signOut();
 
     const { idToken } = await GoogleSignin.signIn();
-
+    setSSubscription(subscription)
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
     const user_sign_in = auth().signInWithCredential(googleCredential);
     user_sign_in.then(async (user) => {
@@ -169,7 +169,7 @@ const SignUpScreen = ({ navigation }) => {
       let person = await fetchUser(user.user.email)
       console.log(person, "aniqa")
       if (person == 'User Does not Exist') {
-        let responses = await Socialsignup(user.user.email, user.user.displayName, true, user.user.photoURL);
+        let responses = await Socialsignup(user.user.email, user.user.displayName, true, user.user.photoURL, sSubscription);
         console.log(responses, "hey")
         if (responses == "Registered") {
           let response = await Sociallogin(user.user.email, true,)

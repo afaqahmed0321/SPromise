@@ -59,7 +59,7 @@ const DashboardTopTabs = () => {
     >
       <Tab.Screen name="Show All" component={isshowMyPromiseReqV ? ShowAllTabPromiseReq : ShowAllTabPRTM } />
       <Tab.Screen name="Pending" component={isshowMyPromiseReqV ? PendingPromiseReq : PendingPRTM } />
-      <Tab.Screen name="Active" component={ isshowMyPromiseReqV ? OngoingPromiseReq : OngoingPRTM } />
+      {/* <Tab.Screen name="Active" component={ isshowMyPromiseReqV ? OngoingPromiseReq : OngoingPRTM } /> */}
       <Tab.Screen name="Complete" component={ isshowMyPromiseReqV ? CompletePromiseReq : CompletePRTM} />
       <Tab.Screen name="Failed" component={ isshowMyPromiseReqV ? FailedPromiseReq : FailedPRTM } />
       {/* <Tab.Screen name="Tab3" component={Screen3} /> */}

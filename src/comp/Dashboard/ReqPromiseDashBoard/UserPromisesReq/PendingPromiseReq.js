@@ -49,6 +49,8 @@ const PendingPromiseReq = ({navigation}) => {
     GetUserPromiseRequest(userN)
       .then(data => {
         setPromises(data);
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", data)
+
         setIsLoading(false);
       })
       .catch(error => {
