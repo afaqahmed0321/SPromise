@@ -46,8 +46,10 @@ const DetailCard = ({
   promiseeProfileImageUrl,
   promisetype,
   amount,
-  name,
+  promiseeName,
+  promisorName,
   date,
+  name,
   promiseMediaURL,
   ratingImpact,
   promiseGoal,
@@ -127,6 +129,7 @@ const DetailCard = ({
 
   return (
     <>
+    {console.log("actionsss", actions)}
       {tab == 'UserPromiseReq' || tab == 'ReqPromiseDashboard'  ? (
         <LinearGradient
           colors={
@@ -165,7 +168,7 @@ const DetailCard = ({
                   marginLeft: wp(3),
                   width: wp(45),
                 }}>
-                <Text style={{ color: 'white', fontSize: hp(2) }}>{name}</Text>
+                <Text style={{ color: 'white', fontSize: hp(2) }}>{actions == 'Pay' ? promiseeName : promisorName ? promisorName : name }</Text>
               </View>
               <View style={{ width: wp(8) }}>
                 <Entypo size={20} color="white" name="calendar" />
@@ -372,7 +375,7 @@ const DetailCard = ({
                   marginLeft: wp(3),
                   width: wp(45),
                 }}>
-                <Text style={{ color: 'white', fontSize: hp(2) }}>{name}</Text>
+                <Text style={{ color: 'white', fontSize: hp(2) }}>{actions == 'Pay' ? promiseeName :promisorName ? promisorName : name}</Text>
               </View>
               <View style={{ width: wp(8) }}>
                 <Entypo size={25} color="white" name="calendar" />
@@ -504,9 +507,9 @@ const DetailCard = ({
       ) : tab == 'Home' ? (
         <LinearGradient
           colors={
-            tab == 'PromisestoMe' 
-              ? ['#73B6BF', '#2E888C']
-              : ['#E4A936', '#EE8347']
+            tab == 'PromisestoMe' || actions == 'Pay' 
+              ? ['#E4A936', '#EE8347']
+              : ['#73B6BF', '#2E888C']
           }
           style={DashBoardStyling.MainCardHome}>
           <View>
@@ -539,7 +542,7 @@ const DetailCard = ({
                   marginLeft: wp(-3),
                   width: wp(45),
                 }}>
-                <Text style={{ color: 'white', fontSize: hp(2), marginLeft: 15 }}>{name}</Text>
+                <Text style={{ color: 'white', fontSize: hp(2), marginLeft: 15 }}>{actions == 'Pay' ? promiseeName :promisorName ? promisorName : name}</Text>
               </View>
               <View style={{ width: wp(8) }}>
                 <Entypo size={20} color="white" name="calendar" />
