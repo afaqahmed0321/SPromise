@@ -127,7 +127,8 @@ const HomePageDataSection = () => {
               promiseeProfileImageUrl={item.promiseeProfileImageUrl}
               promisetype={item.promiseType}
               amount={item.paymentAmount}
-              name={item.promiseeName}
+              promiseeName={item.promiseeName}
+              promisorName={item.promisorName}
               date={item.expiryDate}
               promiseMediaURL={item.promiseMediaURL}
               ratingImpact={item.ratingImpact}
