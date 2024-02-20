@@ -129,8 +129,29 @@ const DetailCard = ({
 
   return (
     <>
-    {console.log("actionsss", actions)}
-      {tab == 'UserPromiseReq' || tab == 'ReqPromiseDashboard'  ? (
+      {console.log("actionsss", promiseeProfileImageUrl,
+        promisetype,
+        amount,
+        promiseeName,
+        promisorName,
+        date,
+        name,
+        promiseMediaURL,
+        ratingImpact,
+        promiseGoal,
+        actions,
+        promiseID,
+        "this is userNumber",
+        userN,
+        tab,
+        guaranteedWithMoney,
+        alotRewardPoints,
+        rewardPoints,
+        refreshCallback,
+        style,
+        navigation,
+        jugaar)}
+      {tab == 'UserPromiseReq' || tab == 'ReqPromiseDashboard' ? (
         <LinearGradient
           colors={
             tab == 'UserPromiseReq'
@@ -159,7 +180,7 @@ const DetailCard = ({
                   style={{
                     width: wp(12),
                     height: hp(6),
-                    borderRadius: wp(6), 
+                    borderRadius: wp(6),
                   }}
                 />
               </View>
@@ -168,7 +189,7 @@ const DetailCard = ({
                   marginLeft: wp(3),
                   width: wp(45),
                 }}>
-                <Text style={{ color: 'white', fontSize: hp(2) }}>{actions == 'Pay' ? promiseeName : promisorName ? promisorName : name }</Text>
+                <Text style={{ color: 'white', fontSize: hp(2) }}>{actions == 'Pay' ? promiseeName : promisorName ? promisorName : name}</Text>
               </View>
               <View style={{ width: wp(8) }}>
                 <Entypo size={20} color="white" name="calendar" />
@@ -206,7 +227,7 @@ const DetailCard = ({
             </View>
             {ratingImpact ? (
               <View>
-               <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} />
+                <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} />
               </View>
             ) : null}
 
@@ -242,15 +263,18 @@ const DetailCard = ({
               {actions.map((action, index) => {
                 if (action === 'Accept') {
                   return (
-                    <TouchableOpacity
-                      style={commonStyles.ActionBtn}
-                      key={index}
-                      onPress={() => {
-                        handleAccept(promiseID, userN);
-                        refreshCallback();
-                      }}>
-                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                    </TouchableOpacity>
+                    <>
+                      <TouchableOpacity
+                        style={commonStyles.ActionBtn}
+                        key={index}
+                        onPress={() => {
+                          handleAccept(promiseID, userN);
+                          console.log("my dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",promiseID, userN)
+                          refreshCallback();
+                        }}>
+                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                      </TouchableOpacity>
+                    </>
                   );
                 } else if (action === 'Reject') {
                   return (
@@ -307,7 +331,7 @@ const DetailCard = ({
                 }
               })}
               {actions.map((action, index) => {
-               if (action === 'Complete') {
+                if (action === 'Complete') {
                   return (
                     <TouchableOpacity
                       style={[commonStyles.ActionBtn]}
@@ -340,14 +364,14 @@ const DetailCard = ({
       ) : tab == 'PromisestoMe' || tab == 'Promise' ? (
         <LinearGradient
           colors={
-            tab == 'PromisestoMe' 
+            tab == 'PromisestoMe'
               ? ['#73B6BF', '#2E888C']
               : ['#E4A936', '#EE8347']
           }
           style={DashBoardStyling.MainCard}>
           <View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-             <View
+              <View
                 style={{
                   width: wp(13),
                   height: hp(6),
@@ -366,7 +390,7 @@ const DetailCard = ({
                   style={{
                     width: wp(13),
                     height: hp(6),
-                    borderRadius: wp(6.5), 
+                    borderRadius: wp(6.5),
                   }}
                 />
               </View>
@@ -375,7 +399,7 @@ const DetailCard = ({
                   marginLeft: wp(3),
                   width: wp(45),
                 }}>
-                <Text style={{ color: 'white', fontSize: hp(2) }}>{actions == 'Pay' ? promiseeName :promisorName ? promisorName : name}</Text>
+                <Text style={{ color: 'white', fontSize: hp(2) }}>{actions == 'Pay' ? promiseeName : promisorName ? promisorName : name}</Text>
               </View>
               <View style={{ width: wp(8) }}>
                 <Entypo size={25} color="white" name="calendar" />
@@ -455,7 +479,7 @@ const DetailCard = ({
                 </Text>
               </View>
             </View>
-           <View
+            <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-around',
@@ -470,6 +494,7 @@ const DetailCard = ({
                       key={index}
                       onPress={() => {
                         handleAcceptPromise(promiseID, userN);
+                        console.log(promiseID, userN)
                         refreshCallback();
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
@@ -501,20 +526,20 @@ const DetailCard = ({
                   );
                 }
               })}
-             </View>
+            </View>
           </View>
         </LinearGradient>
       ) : tab == 'Home' ? (
         <LinearGradient
           colors={
-            tab == 'PromisestoMe' || actions == 'Pay' 
+            tab == 'PromisestoMe' || actions == 'Pay'
               ? ['#E4A936', '#EE8347']
               : ['#73B6BF', '#2E888C']
           }
           style={DashBoardStyling.MainCardHome}>
           <View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-             <View
+              <View
                 style={{
                   width: wp(13),
                   height: hp(6),
@@ -533,7 +558,7 @@ const DetailCard = ({
                   style={{
                     width: wp(13),
                     height: hp(6),
-                    borderRadius: wp(6.5), 
+                    borderRadius: wp(6.5),
                   }}
                 />
               </View>
@@ -542,7 +567,7 @@ const DetailCard = ({
                   marginLeft: wp(-3),
                   width: wp(45),
                 }}>
-                <Text style={{ color: 'white', fontSize: hp(2), marginLeft: 15 }}>{actions == 'Pay' ? promiseeName :promisorName ? promisorName : name}</Text>
+                <Text style={{ color: 'white', fontSize: hp(2), marginLeft: 15 }}>{actions == 'Pay' ? promiseeName : promisorName ? promisorName : name}</Text>
               </View>
               <View style={{ width: wp(8) }}>
                 <Entypo size={20} color="white" name="calendar" />
@@ -596,7 +621,7 @@ const DetailCard = ({
 
             {ratingImpact ? (
               <View>
-               <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(4) }} />
+                <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(4) }} />
               </View>
             ) : null}
 
@@ -622,7 +647,7 @@ const DetailCard = ({
                 </Text>
               </View>
             </View>
-           <View
+            <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-around',
@@ -638,6 +663,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleAcceptPromise(promiseID, userN);
                         refreshCallback();
+
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -691,7 +717,7 @@ const DetailCard = ({
                   );
                 }
               })}
-             </View>
+            </View>
           </View>
         </LinearGradient>
       ) : null}

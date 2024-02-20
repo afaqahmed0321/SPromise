@@ -55,7 +55,7 @@ import { ToastAndroid } from 'react-native';
 const MakePromise = ({ navigation }) => {
   // const [isChecked, setIsChecked] = useState(false);
   // const [financial, setFinancial] = useRecoilState(promiseType);
-  // const [financial, setFinancial] = useState(false);
+  const [financial, setFinancial] = useState(false);
   const [isChecked1, setIsChecked1] = useState(istimeBoundCheckBox1);
   const [isChecked2, setIsChecked2] = useState(istimeBoundCheckBox2);
   const [deadlinedate, setDeadLinedate] = useRecoilState(deadline);
@@ -77,7 +77,7 @@ const MakePromise = ({ navigation }) => {
   // const [guranted, setGuranted] = useState(Guaranteed);
 
   // const [isChecked, setIsChecked] = useState(false);
-  const [financial, setFinancial] = useRecoilState(promiseType);
+  // const [financial, setFinancial] = useRecoilState(Guaranteed);
   // const [isEnabled, setIsEnabled] = useState(promiseType);
   const [isRating, setIsRating] = useRecoilState(RatingImapect);
 
@@ -131,6 +131,7 @@ const MakePromise = ({ navigation }) => {
     // setIsChecked1(false)
     // setIsChecked2(false)
     // setSelectedPromisee({})
+    console.log(promiseType,"promise type")
   }, [focus]);
 
 

@@ -99,6 +99,7 @@ const PendingPRTM = ({navigation}) => {
     GetPromiseRequestToUser(userN)
       .then(data => {
         setPromises(data);
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", data)
         setIsLoading(false);
       })
       .catch(error => {
@@ -120,6 +121,8 @@ const PendingPRTM = ({navigation}) => {
       {isLoading ? (
         <ActivityIndicator size="small" color="#0000ff" />
       ) : (
+        <>
+        {console.log("item array", promises)}
         <FlatList
           refreshControl={
             <RefreshControl
@@ -175,6 +178,7 @@ const PendingPRTM = ({navigation}) => {
            
           )}
         />
+        </>
       )}
     </View>
   );

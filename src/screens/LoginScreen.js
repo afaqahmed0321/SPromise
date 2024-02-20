@@ -105,11 +105,9 @@ const LoginScreen = ({ navigation }) => {
         let person = await fetchUser(user.user.email);
         console.log(person, 'aniqa Person');
         if (person == 'User Does not Exist') {
-          let responses = await Socialsignup(
+          let responses = await Sociallogin(
             user.user.email,
-            user.user.displayName,
             true,
-            user.user.photoURL,
           );
           console.log(responses, 'hey');
           if (responses == 'This user is already registered!') {
@@ -163,6 +161,7 @@ const LoginScreen = ({ navigation }) => {
         console.log(error);
       });
   }
+
   const LoginPress = async () => {
     try {
       if (Email == '') {

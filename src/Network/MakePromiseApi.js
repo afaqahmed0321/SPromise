@@ -54,7 +54,7 @@ const MakePromiseApi = async (
       },
     });
 
-    console.log(response.data);
+    console.log("make promise API ka",response.data);
     return response.data.code;
   } catch (error) {
     console.error('Error during API call:', error);

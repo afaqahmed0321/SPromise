@@ -44,6 +44,7 @@ import axios from 'axios';
 
 const Review = ({ navigation }) => {
   const [Promiseze, setSelectedPromisee] = useRecoilState(selectedPromisee);
+  const [forType, setForType] = useState(false);
 
   console.log(Promiseze, 'Promiseze');
 
@@ -56,10 +57,8 @@ const Review = ({ navigation }) => {
     const IsTimeBound = isTimeB;
     const promiseGoal = generatedTexts;
     const promiseMediaU = attachMedia;
-    const PromiseID = editPromiseReq
-      ? selectedReqPromiseID
-      : '00000000-0000-0000-0000-000000000000';
-    const promiseType = financial ? 'GUARANTEE' : 'COMMITMENT';
+    const PromiseID = editPromiseReq ? selectedReqPromiseID : '00000000-0000-0000-0000-000000000000';
+    const promiseType = 'GUARANTEE';
     const promisee = Promiseze.networkUserNo;
     const promisor = userN;
     const RatingImapect = isRating;
@@ -130,8 +129,8 @@ const Review = ({ navigation }) => {
     const expiryDate = isTimeB ? deadlinedate : dateString;
     const IsTimeBound = isTimeB;
     const promiseGoal = generatedTexts;
-    const promiseMediaU = attachMedia;
-    const promiseType = 'REQUEST';
+    const promiseMediaU = attachMedia ? attachMedia : "";
+    const promiseType = 'COMMITMENT';
     const promisee = Promiseze.networkUserNo;
     const promisor = userN;
     const RatingImapect = isRating;
@@ -139,10 +138,10 @@ const Review = ({ navigation }) => {
     const Twitter = fbtoggle;
     const startDate = isTimeB ? promidate : dateString;
     const status = 'Pending';
-    const paymentAmount = financial ? amount : null;
+    const paymentAmount = financial ? amount : 0;
     const paymentStatus = 'Pending';
     // const PromiseReward = rewardPointState ? rewardPoints : null;
-    const PromiseReward = financial ? rewardPoints : null;
+    const PromiseReward = financial ? rewardPoints : 0;
     const PromiseStatus = 'Pending';
     const visibility = mNtoggle ? 'PUBLIC' : 'PRIVATE';
 
@@ -165,11 +164,12 @@ const Review = ({ navigation }) => {
       PromiseStatus,
       visibility,
     );
-    console.log("prom from 178", prom)
-    if (prom === 500) {
+    console.log("prom from 167", prom)
+    if (prom === 100) {
       navigation.navigate('SnapPromiseVerification');
     }
   };
+
 
   const [userN, setUserN] = useRecoilState(UserNo);
   const [preward, setPreward] = useRecoilState(promiseReward);
@@ -181,6 +181,7 @@ const Review = ({ navigation }) => {
   const bgBtnrqstprms = ['#73B6BF', '#2E888C'];
 
   const [makePromise, setMakePromise] = useRecoilState(MakeaPromise);
+  makePromise ? promiseType == 'GUARANTEE' : promiseType == "COMMITMENT"
   console.log(makePromise, 'makePromise');
   const [modalVisible, setModalVisible] = useRecoilState(isSelectModalVisible);
   const [amount, setAmount] = useRecoilState(promiseAmounnt);
