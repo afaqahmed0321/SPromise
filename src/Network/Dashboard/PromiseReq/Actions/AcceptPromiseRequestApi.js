@@ -19,7 +19,7 @@ export default AcceptPromiseRequest = async (promiseID, userNo) => {
           'Accepted',
           ToastAndroid.LONG,
           ToastAndroid.BOTTOM,
-          500,
+          25,
           50,
         );
       } else {
