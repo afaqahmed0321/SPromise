@@ -54,8 +54,8 @@ import { ToastAndroid } from 'react-native';
 
 const MakePromise = ({ navigation }) => {
   // const [isChecked, setIsChecked] = useState(false);
-  // const [financial, setFinancial] = useRecoilState(promiseType);
-  const [financial, setFinancial] = useState(false);
+  const [financial, setFinancial] = useRecoilState(promiseType);
+  // const [financial, setFinancial] = useState(false);
   const [isChecked1, setIsChecked1] = useState(istimeBoundCheckBox1);
   const [isChecked2, setIsChecked2] = useState(istimeBoundCheckBox2);
   const [deadlinedate, setDeadLinedate] = useRecoilState(deadline);
@@ -168,6 +168,8 @@ const MakePromise = ({ navigation }) => {
         } else if (selectEndDate) {
           navigation.navigate('Review');
           console.log('Reward points', rewardPoints);
+          console.log('Promise Amount', amount);
+
         } else {
           ToastAndroid.showWithGravityAndOffset(
             'Please select compilation date',

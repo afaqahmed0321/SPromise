@@ -71,6 +71,26 @@ const Review = ({ navigation }) => {
     // const PromiseReward = rewardPointState ? rewardPoints : null;
     const PromiseReward = financial ? rewardPoints : null;
     const visibility = mNtoggle ? 'PUBLIC' : 'PRIVATE';
+
+    console.log("Data before sending",
+    expiryDate,
+    IsTimeBound,
+    promiseGoal,
+    promiseMediaU,
+    PromiseID,
+    promiseType,
+    promisee,
+    promisor,
+    RatingImapect,
+    LinkDin,
+    Twitter,
+    startDate,
+    status,
+    amount,
+    paymentStatus,
+    PromiseReward,
+    visibility, )
+
     try {
       const prom = await MakePromiseApi(
         expiryDate,
@@ -241,7 +261,7 @@ const Review = ({ navigation }) => {
 
   useEffect(() => {
     getUser();
-  })
+  },[])
 
   return (
     <ScrollView>
