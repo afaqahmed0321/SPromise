@@ -151,7 +151,7 @@ const LoginScreen = ({ navigation }) => {
             await AsyncStorage.setItem('userNo', response.userNo);
             await AsyncStorage.setItem('Email', user.user.email);
             await AsyncStorage.setItem('Name', user.user.displayName);
-            navigation.navigate('HomeScreen');
+            navigation.navigate('LoginScreen');
           }
         }
         // navigation.navigate('HomeScreen')
