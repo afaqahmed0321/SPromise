@@ -69,6 +69,8 @@ const DetailCard = ({
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
   const [isVideoModalVisible, setIsVideoModalVisible] = useState(false);
   const [markCompleted, setMarkCompleted] = useState(false);
+  const [forName, setForName] = useState(false);
+
 
 
   const handelAttachedMedia = (urll) => {
@@ -317,7 +319,7 @@ const DetailCard = ({
                     </TouchableOpacity>
                   );
                 }
-                else if (action === 'Pay') {
+                else if (action == 'Pay') {
                   return (
                     <TouchableOpacity
                       style={commonStyles.ActionBtn}
@@ -513,7 +515,7 @@ const DetailCard = ({
                     </TouchableOpacity>
                   );
                 }
-                else if (action === 'Pay') {
+                else if (action == 'Pay') {
                   return (
                     <TouchableOpacity
                       style={commonStyles.ActionBtn}
@@ -704,7 +706,7 @@ const DetailCard = ({
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
                   );
-                } else if (action === 'Pay') {
+                } else if (action == 'Pay') {
                   return (
                     <TouchableOpacity
                       style={commonStyles.ActionBtn}

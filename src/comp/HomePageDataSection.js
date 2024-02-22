@@ -190,7 +190,7 @@ const HomePageDataSection = () => {
                         Headings.Input6,
                         { marginLeft: wp(0.7), color: 'white', marginTop: wp(1) },
                       ]}>
-                        {forName ? item?.promiseeName : item?.promisorName}
+                        {item.actions == 'Pay' ? item?.promiseeName : item?.promisorName}
                       {}
                     </Text>
                   </View>
