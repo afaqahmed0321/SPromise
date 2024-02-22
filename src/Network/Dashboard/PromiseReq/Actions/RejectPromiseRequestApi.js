@@ -17,7 +17,7 @@ export default RejectPromiseRequest = async (promiseID,userNo) => {
         'Rejected',
         ToastAndroid.LONG,
         ToastAndroid.BOTTOM,
-        500,
+        25,
         50,
       );
     } else {
