@@ -13,6 +13,7 @@ import OtpInputs from 'react-native-otp-inputs';
 import { signup } from '../Network/SignUpApi';
 import LinearGradient from 'react-native-linear-gradient';
 import { useRoute } from '@react-navigation/native';
+import axios from 'axios';
 
 const EnterOTPScreen = ({ navigation }) => {
   const [isCodeSent, setIsCodeSent] = useState(false);
@@ -30,22 +31,20 @@ const EnterOTPScreen = ({ navigation }) => {
 
   const route = useRoute();
   const receivedData = route.params?.code || {};
+  const mail = emailID.toLowerCase();
+  const resendCode = async () => {
+    setResendCooldown(30)
 
-  // const resendCode = () => {
-  //   if (!isCodeSent) {
+    await axios.get(`https://snappromise.com:8080/getOTP?emailID=${mail}&isForgot=${true}`)
+      .then((res) => {
+        console.log("Forget password is hitted", res);
+        setCode(res.data.code);
+      })
+      .catch((error) => {
+        console.log("Error in forgot password", error);
+      });
 
-  //     setIsCodeSent(true);
-
-
-  //     setResendCooldown(30);
-
-
-  //     console.log('Code Sent', 'A verification code has been sent.');
-  //   } else {
-
-  //   }
-
-  // };
+  };
 
   useEffect(() => {
     if (resendCooldown > 0) {
@@ -60,14 +59,10 @@ const EnterOTPScreen = ({ navigation }) => {
     if (OutputCode == Code) {
       console.log(fName, lName, password, emailID, "here11111111111")
       navigation.navigate('EnterNewPasswordScreen');
-
-
     }
     else {
       console.log("here2")
-
       ToastAndroid.show('OTP is incorrect, Please try again', ToastAndroid.LONG);
-
     }
   }
   const verifyOTP = () => {
@@ -108,16 +103,19 @@ const EnterOTPScreen = ({ navigation }) => {
             <TouchableOpacity
               onPress={verification}
             >
-              <Text style={{ color: 'white',fontSize:16,fontWeight:"800" , width: wp(90),textAlign:"center"}}>Verify</Text>
+              <Text style={{ color: 'white', fontSize: 16, fontWeight: "800", width: wp(90), textAlign: "center" }}>Verify</Text>
             </TouchableOpacity>
           </LinearGradient>
         </View>
         <View>
 
-
-          <TouchableOpacity onPress={() => setResendCooldown(30)}>
-            <Text style={{ color: 'black', textAlign: 'center', marginTop: hp(2), fontWeight: '600', fontSize: 16 }}>Send code again   00:{resendCooldown}  </Text>
-          </TouchableOpacity>
+          {resendCooldown <= 0 ? (
+            <TouchableOpacity onPress={resendCode}>
+              <Text style={{ color: 'black', textAlign: 'center', marginTop: hp(2), fontWeight: '600', fontSize: 16 }}>Send code again</Text>
+            </TouchableOpacity>
+          ) : (
+            null
+          )}
 
         </View>
       </View>
