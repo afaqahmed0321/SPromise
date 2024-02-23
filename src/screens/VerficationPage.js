@@ -93,7 +93,7 @@ const VerficationPage = ({ navigation }) => {
           Please check your email
         </Text>
         <Text style={[Headings.Input31]}>
-          We've sent a code to user {emailID}
+          We've sent a code to user {emailID.toLowerCase()}
         </Text>
         <View style={{ alignItems: 'center', justifyContent: "space-around", marginTop: hp(2.5), flexDirection: 'row', }}>
           <OtpInputs

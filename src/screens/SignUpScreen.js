@@ -87,7 +87,7 @@ const SignUpScreen = ({ navigation }) => {
       const isValidEmail = (email) => {
         // Email validation using regular expression
         const emailRegex = /\S+@\S+\.\S+/;
-        return emailRegex.test(email);
+        return emailRegex.test(email.toLowerCase());
       };
 
       const isValidPassword = (password) => {
@@ -227,7 +227,17 @@ const SignUpScreen = ({ navigation }) => {
   // /
 
 
+  const handleFNameChange = (text) => {
+    // Replace any non-alphabetic characters with an empty string
+    const formattedText = text.replace(/[^a-zA-Z]/g, '');
+    setFName(formattedText);
+  };
 
+  const handleLNameChange = (text) => {
+    // Replace any non-alphabetic characters with an empty string
+    const formattedText = text.replace(/[^a-zA-Z]/g, '');
+    setLName(formattedText);
+  };
 
   return (
     <View style={styles.mainC}>
@@ -245,7 +255,7 @@ const SignUpScreen = ({ navigation }) => {
                 style={TextInP.Fileds}
                 placeholder="First Name"
                 value={fName}
-                onChangeText={setFName}
+                onChangeText={handleFNameChange}
                 placeholderTextColor={'black'}
               />
             </View>
@@ -257,6 +267,7 @@ const SignUpScreen = ({ navigation }) => {
                 placeholder="Last Name"
                 value={lName}
                 onChangeText={setLName}
+                onChangeText={handleLNameChange}
                 placeholderTextColor={'black'}
 
               />

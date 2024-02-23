@@ -42,7 +42,17 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+const handleEmailChange = (text) => {
+    // Convert to lowercase and remove spaces
+    const formattedText = text.toLowerCase().replace(/\s/g, '');
+    // Validate email format
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formattedText);
 
+    // Update state only if the input is a valid email
+    if (isValidEmail) {
+      setEmailID(formattedText);
+    }
+  };
 // Log interceptor addition
 console.log('Request and response interceptors added.');
 

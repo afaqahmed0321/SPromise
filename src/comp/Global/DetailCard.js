@@ -191,7 +191,7 @@ const DetailCard = ({
                   marginLeft: wp(3),
                   width: wp(45),
                 }}>
-                <Text style={{ color: 'white', fontSize: hp(2) }}>{actions == 'Pay' ? promiseeName : promisorName ? promisorName : name}</Text>
+                <Text style={{ color: '#000', fontSize: hp(2) }}>{actions == 'Pay' ? promiseeName : promisorName ? promisorName : name}</Text>
               </View>
               <View style={{ width: wp(8) }}>
                 <Entypo size={20} color="white" name="calendar" />
@@ -523,7 +523,7 @@ const DetailCard = ({
                       onPress={() => {
                         setIsPaymentWebViewVisible(true);
                       }}>
-                      <Text>{action}</Text>
+                      <Text style={{color:"white"}}>{action}</Text>
                     </TouchableOpacity>
                   );
                 }
@@ -714,7 +714,7 @@ const DetailCard = ({
                       onPress={() => {
                         setIsPaymentWebViewVisible(true);
                       }}>
-                      <Text>{action}</Text>
+                      <Text style={{color:"white"}}>{action}</Text>
                     </TouchableOpacity>
                   );
                 }
