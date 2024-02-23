@@ -4,6 +4,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {ToastAndroid} from 'react-native';
@@ -39,17 +40,18 @@ const UpdatePasswordModal = () => {
   const UpdatePassword = async () => {
     console.log(currentPassword);
     console.log(currentPasswor);
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  
     if (currentPassword === currentPasswor) {
       console.log('Matached password');
       if (passwordd === Confirmpassword) {
-        if (passwordd.length >= 6) {
+        if (passwordRegex.test(passwordd)) {
           const NewPass = passwordd;
-
           console.log('Updating password...');
           console.log(NewPass, 'UserNumber');
           console.log(NewPass, 'New password');
           const res = await UpdatedPassword(userN, NewPass);
-          // console.log(res, 'Adapted password');
+          console.log(res, 'Adapted password');
           if (res === 200) {
             ToastAndroid.showWithGravityAndOffset(
               'Password updated successfully',
@@ -61,15 +63,17 @@ const UpdatePasswordModal = () => {
             setIsDrawerV(false);
           }
         } else {
-          alert('Password must be at least 6 characters');
+          ToastAndroid.show('Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and have a minimum length of 8 characters', ToastAndroid.LONG);
         }
       } else {
-        alert('Passwords do not match');
+         ToastAndroid.show('Passwords do not match', ToastAndroid.LONG);
       }
     } else {
-      alert('Old password does not match');
+       ToastAndroid.show('Old password does not match', ToastAndroid.LONG);
     }
   };
+  
+  
 
   const toggleOldPasswordVisibility = () => {
     setIsOldPasswordVisible(!isOldPasswordVisible);
@@ -155,13 +159,13 @@ const UpdatePasswordModal = () => {
         </TouchableOpacity>
       </View>
       <View style={{flexDirection: 'row', marginTop: hp(2), justifyContent:'center', alignItems:'center'}}>
-        {passwordd && (
+     
           <TouchableOpacity
             onPress={UpdatePassword}
             style={{marginLeft: wp(6)}}>
-            <Font color="green" name="check" size={30} />
+           <Font color="green" name="check" size={30} />
           </TouchableOpacity>
-        )}
+      
       </View>
     </View>
   );

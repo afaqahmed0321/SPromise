@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert ,ToastAndroid} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ToastAndroid } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
@@ -23,22 +23,35 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
             ToastAndroid.show(
                 'Please enter a valid email',
                 ToastAndroid.LONG,
-              );            return;
+            );
+            return;
         }
-
+    
         const encodedEmail = encodeURIComponent(email);
-        console.log("this is email", encodedEmail);
-        await axios.get(`https://snappromise.com:8080/getOTP?emailID=${encodedEmail}&isForgot=${true}`)
-            .then((res) => {
-                console.log("Forget password is hitted", res);
-                setCode(res.data.code);
-                navigation.navigate('EnterOTPScreen', { Code, email });
-                setSemail(email);
-            })
-            .catch((error) => {
-                console.log("Error in forgot password", error);
-            });
+    
+        // try {
+        //     const res = await axios.get(`https://snappromise.com:8080/getOTP?emailID=${encodedEmail}&isForgot=${true}`);
+        //     console.log("Forget password is hitted", res.data);
+        //     setCode(res.data.code);
+        //     navigation.navigate('EnterOTPScreen', { Code, email });
+        //     setSemail(email);
+        // } catch (error) {
+        //     console.log("Error in forgot password", error);
+        //     // Handle error here
+        //     // Example: Alert.alert('Error', 'Failed to send OTP');
+        // }
+    
+        try {
+            const resp = await axios.get(`https://snappromise.com:8080/api/Users/getUsers?searchString=${encodedEmail}`);
+            console.log("get users", resp.data);
+            return resp.data;
+        } catch (error) {
+            console.log("Error fetching user data", error);
+            // Handle error here
+            // Example: Alert.alert('Error', 'Failed to fetch user data');
+        }
     };
+    
 
     const onChangeEmail = async text => {
         setEmail(text);

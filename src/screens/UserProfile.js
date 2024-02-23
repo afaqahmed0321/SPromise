@@ -681,7 +681,7 @@ const UserProfile = () => {
             <TouchableOpacity
               style={[commonStyles.ActionBtn, { width: wp(35) }]}
               onPress={() => setEditProfile(true)}>
-              <Text> Edit Profile</Text>
+              <Text style={{color:"white"}}> Edit Profile</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -693,7 +693,7 @@ const UserProfile = () => {
                 console.log(currentPassword, 'current password');
                 setIsDrawerV(true);
               }}>
-              <Text> Change Password</Text>
+              <Text  style={{color:"white"}}> Change Password</Text>
             </TouchableOpacity>
           </View>
         )}
