@@ -64,6 +64,7 @@ const NetworkFeed = ({ navigation }) => {
   const [isLike, setIsLike] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [visibility, setVisibility] = useState('Private');
+  const [visible, setVisible] = useState('');
 
   const handelNetworkFeedComp = async () => {
     const networkUserNo = userN;
@@ -72,7 +73,7 @@ const NetworkFeed = ({ navigation }) => {
     const resp = await axios.get(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=private`)
       .then((response) => {
         const data = response.data.promisesList; // Accessing the data property of the Axios response
-        console.log(data, "Network Feed");
+        console.log(data?.[0], "Network Feed");
         setIsLoading(false);
         return data;
       })
@@ -84,7 +85,7 @@ const NetworkFeed = ({ navigation }) => {
     setSelectedNetworkUserFee(resp);
     console.log("this from fedback", resp);
   };
-  const handleVisibilityChange = visibilityOption => {
+  const handleVisibilityChange = (visibilityOption) => {
     setVisibility(visibilityOption);
   };
   const onRefresh = () => {
