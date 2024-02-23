@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert ,ToastAndroid} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ToastAndroid } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
@@ -24,7 +24,8 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
             ToastAndroid.show(
                 'Please enter a valid email',
                 ToastAndroid.LONG,
-              );            return;
+            );
+            return;
         }
         const mail = email.toLowerCase();
         const encodedEmail = encodeURIComponent(mail);
@@ -46,9 +47,8 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
             .catch((error) => {
                 console.log("Error in forgot password", error);
             });
-
-        
     };
+    
 
     const onChangeEmail = async text => {
         setEmail(text);

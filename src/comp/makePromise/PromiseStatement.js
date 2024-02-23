@@ -95,59 +95,51 @@ const PromiseStatement = ({ onTextChange }) => {
   // };
 
   const openCamera = async () => {
+    setIsModalV(false)
     const result = await launchCamera({ mediaType: 'video', quality: 1 });
 
     if (result.assets && result.assets.length > 0) {
       const selectedFileSize = result.assets[0].fileSize; // Size in bytes
-
-      // Check if the file size is less than or equal to 5MB (5 * 1024 * 1024 bytes)
-      // const maxSizeInBytes = VideoSize * 1024 * 1024;
-      const maxSizeInBytes = 5 * 1024 * 1024;
+      const maxSizeInBytes = 20 * 1024 * 1024;
       const allowedFormats = [".mp4", ".mov", ".wmv", ".qt"];
-      // const allowedFormats = VideoFarmats;
-
       const selectedFileType = result.assets[0].type;
-
-      if (allowedFormats.includes(selectedFileType)) {
         if (selectedFileSize <= maxSizeInBytes) {
           setSelectedVideo(result.assets[0].uri);
-        } else {
-          alert(`Selected file size exceeds. Please choose a smaller file.${VideoSize}`)
-        }
-      } else {
+        } 
+      else {
         alert(
           `Invalid file format. Please choose a valid video format${allowedFormats}`,
         );
       }
     }
-  };
-
+  }
   const chooseVideo = async () => {
-    console.log('cho', VideoFarmats, VideoSize);
+    setIsModalV(false)
     const result = await launchImageLibrary({ mediaType: 'video', quality: 1 });
-
+  
     if (result.assets && result.assets.length > 0) {
       const selectedFileSize = result.assets[0].fileSize; // Size in bytes
-
-      // 5MB (5 * 1024 * 1024 bytes)
-      const maxSizeInBytes = VideoSize * 1024 * 1024;
-      const allowedFormats = VideoFarmats;
-
+      const maxSizeInBytes = 20 * 1024 * 1024; // Convert MB to bytes
+      const allowedFormats = VideoFarmats; // Check allowed formats
       const selectedFileType = result.assets[0].type;
-
-      if (allowedFormats.includes(selectedFileType)) {
-        if (selectedFileSize <= maxSizeInBytes) {
-          setSelectedVideo(result.assets[0].uri);
-        } else {
-          alert(`Selected file size exceeds. Please choose a smaller file.${VideoSize}`)
-        }
+  
+      // Log information for debugging
+      console.log("Selected file size:", selectedFileSize);
+      console.log("Max allowed size:", maxSizeInBytes);
+      console.log("Selected file type:", selectedFileType);
+  
+      if (selectedFileSize <= maxSizeInBytes) {
+        // If the file size is within the limit, set the selected video URI
+        setSelectedVideo(result.assets[0].uri);
       } else {
-        alert(
-          `Invalid file format. Please choose a valid video format${allowedFormats}`,
-        );
+        // If the file size exceeds the limit, show an error message
+        alert(`Selected file size exceeds. Please choose a smaller file.`);
       }
     }
   };
+  
+  
+  
 
   // const chooseVideo = async () => {
   //   const result = await launchImageLibrary({mediaType: 'video', quality: 1});
@@ -314,11 +306,9 @@ const PromiseStatement = ({ onTextChange }) => {
               )}
             </TouchableOpacity>
             <TouchableOpacity onPress={suggest} style={{ marginTop: 30, marginStart: 10 }}>
-              {!attachMedia ? (
+           
                 <Ionicons color="#652D90" name="flash-outline" size={30} />
-              ) : (
-                <Ionicons color="red" name="flash" size={30} />
-              )}
+              
             </TouchableOpacity>
           </View>
         </View>
@@ -345,7 +335,7 @@ const PromiseStatement = ({ onTextChange }) => {
                   backgroundColor: 'white',
                 }}>
                 <View style={{ marginTop: hp(1), marginHorizontal: 30 }}>
-                  <View style={{ width: wp(100) }}>
+                  {/* <View style={{ width: wp(100) }}>
                     {selectedVideo ? (
                       <Video
                         ref={ref}
@@ -355,7 +345,7 @@ const PromiseStatement = ({ onTextChange }) => {
                         muted={true}
                       />
                     ) : null}
-                  </View>
+                  </View> */}
                   <View
                     style={{
                       justifyContent: 'space-between',
@@ -376,7 +366,7 @@ const PromiseStatement = ({ onTextChange }) => {
                         <Text style={{ color: '#000', marginLeft: wp(-4) }}>Select Media</Text>
                       </View>
                     </TouchableOpacity>
-                    {selectedVideo && (
+                    {/* {selectedVideo && (
                       <TouchableOpacity onPress={handelUpload} style={{}}>
                         <MaterialIcons color="#652D90" name="done" size={40} />
                       </TouchableOpacity>
@@ -385,7 +375,7 @@ const PromiseStatement = ({ onTextChange }) => {
                       <TouchableOpacity onPress={() => setSelectedVideo(null)} style={{}}>
                         <Mater color="#652D90" name="selection-remove" size={40} />
                       </TouchableOpacity>
-                    )}
+                    )} */}
                   </View>
                 </View>
               </View>
