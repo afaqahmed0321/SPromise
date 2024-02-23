@@ -11,7 +11,6 @@ const fetchUser = async (email) => {
     if(response.data.users==null)
     {
       return "User Does not Exist";
-
     }
     else{
       return response.data.users[0];

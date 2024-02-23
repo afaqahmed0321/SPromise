@@ -90,6 +90,8 @@ const LoginScreen = ({ navigation }) => {
     // Sign-in the user with the credential
     return auth().signInWithCredential(facebookCredential);
   }
+
+
   async function onGoogleButtonPress() {
     console.log('here');
     await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
@@ -102,44 +104,52 @@ const LoginScreen = ({ navigation }) => {
     user_sign_in
       .then(async user => {
         console.log(user.user.photoURL, 'aniqa Photo Url');
+
         let person = await fetchUser(user.user.email);
+
         console.log(person, 'aniqa Person');
+
         if (person == 'User Does not Exist') {
-          let responses = await Sociallogin(
-            user.user.email,
-            true,
-          );
-          console.log(responses, 'hey');
-          if (responses == 'This user is already registered!') {
-            let response = await Sociallogin(user.user.email, true);
-            console.log(response, 'Login Response from Google ifff');
 
-            if (response.message === 'Success') {
-              setToken(response.token);
-              setUserN(response.userNo);
-              setemail(user.user.email);
-              let resp = await fetchUser(user.user.email);
+          // let responses = await Sociallogin(
+          //   user.user.email,
+          //   true,
+          // );
+          // console.log(responses, 'hey');
+          // if (responses == 'This user is already registered!') {
+          //   let response = await Sociallogin(user.user.email, true);
+          //   console.log(response, 'Login Response from Google ifff');
 
-              console.log(resp.firstName + ' ' + resp.lastName, 'response');
-              await AsyncStorage.setItem('token', response.token);
-              await AsyncStorage.setItem('userNo', response.userNo);
-              await AsyncStorage.setItem('Email', user.user.email);
-              await AsyncStorage.setItem('Name', user.user.displayName,
+          //   if (response.message === 'Success') {
+          //     setToken(response.token);
+          //     setUserN(response.userNo);
+          //     setemail(user.user.email);
+          //     let resp = await fetchUser(user.user.email);
 
-              );
+          //     console.log(resp.firstName + ' ' + resp.lastName, 'response');
+          //     await AsyncStorage.setItem('token', response.token);
+          //     await AsyncStorage.setItem('userNo', response.userNo);
+          //     await AsyncStorage.setItem('Email', user.user.email);
+          //     await AsyncStorage.setItem('Name', user.user.displayName,
 
-              // navigation.navigate('HomeScreen')
-            }
-            // ToastAndroid.show('Registered Sucessfully!', ToastAndroid.LONG);
-            // navigation.navigate('LoginScreen')
-          } else {
-            ToastAndroid.show(responses, ToastAndroid.LONG);
-          }
+          //     );
+
+          //     navigation.navigate('HomeScreen')
+          //   }
+          //   ToastAndroid.show('Registered Sucessfully!', ToastAndroid.LONG);
+          //   navigation.navigate('LoginScreen')
+          // } else {
+          //   ToastAndroid.show(responses, ToastAndroid.LONG);
+          // }
+          ToastAndroid.show('User does not exist', ToastAndroid.LONG);
+
         } else {
-
           console.log("this is user emaillll", user?.user?.email)
-          let response = await Sociallogin(user?.user?.email, true);
-          console.log(response, 'Login Response from Google');
+          const mail = user?.user?.email.toLowerCase();
+          let response = await Sociallogin(mail, true);
+
+          console.log('Login Response from Google',response);
+
           if (response.message === 'Success') {
             setToken(response.token);
             setUserN(response.userNo);
@@ -154,8 +164,6 @@ const LoginScreen = ({ navigation }) => {
             navigation.navigate('LoginScreen');
           }
         }
-        // navigation.navigate('HomeScreen')
-        // setLoginState(true)
       })
       .catch(error => {
         console.log(error);
@@ -170,7 +178,9 @@ const LoginScreen = ({ navigation }) => {
         ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
       } else {
         setIsLoading(true); // Show the loading overlay
-        let response = await login(Email, Password);
+        const mail = Email.toLowerCase();
+        let response = await login(mail, Password);
+        
         console.log("login response complette", response);
 
         const paymentStatus = response.paymentPending;
