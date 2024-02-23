@@ -148,20 +148,67 @@ const LoginScreen = ({ navigation }) => {
           const mail = user?.user?.email.toLowerCase();
           let response = await Sociallogin(mail, true);
 
-          console.log('Login Response from Google',response);
+          console.log('Login Response from Google', response);
+
+          const paymentStatus = response.paymentPending;
+          const userNumber = response.userNo;
 
           if (response.message === 'Success') {
-            setToken(response.token);
-            setUserN(response.userNo);
-            setemail(user.user.email);
-            let resp = await fetchUser(user.user.email);
+            if (!paymentStatus) {
+              setToken(response.token);
+              setUserN(response.userNo);
+              setemail(user.user.email);
+              let resp = await fetchUser(user.user.email);
 
-            console.log(resp.firstName + ' ' + resp.lastName, 'response');
-            await AsyncStorage.setItem('token', response.token);
-            await AsyncStorage.setItem('userNo', response.userNo);
-            await AsyncStorage.setItem('Email', user.user.email);
-            await AsyncStorage.setItem('Name', user.user.displayName);
-            navigation.navigate('LoginScreen');
+              console.log(resp.firstName + ' ' + resp.lastName, 'response');
+              await AsyncStorage.setItem('token', response.token);
+              await AsyncStorage.setItem('userNo', response.userNo);
+              await AsyncStorage.setItem('Email', user.user.email);
+              await AsyncStorage.setItem('Name', user.user.displayName);
+              navigation.navigate('LoginScreen');
+            } else {
+              try {
+
+                const response = await fetch(`https://snappromise.com:8080/getCustomerPortalURL?UserNo=${userNumber}`, {
+                  method: 'GET',
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                  },
+                });
+
+                const data = await response.json();
+                setFirstUrl(data.url);
+                console.log('Data from the serverrrrrr:', response.statusText);
+              } catch (error) {
+                console.error('Error fetching data:', error);
+              }
+              if (firstUrl) {
+                console.log("first URL is running");
+                navigation.navigate('CustomWebView', { uri: firstUrl });
+
+              } else {
+                try {
+                  const response = await fetch(`https://snappromise.com:8080/getCheckOutURL`, {
+                    method: 'GET',
+                    headers: {
+                      Accept: 'application/json',
+                      'Content-Type': 'application/json',
+                    },
+                  });
+                  const data = await response.json();
+                  const updatedUrl = `${data.url}?prefilled_email=${mail}`;
+                  setSecondUrl(updatedUrl);
+                  console.log('Data from the server:', updatedUrl);
+
+                  // Navigate inside the then block after setting the state
+                  navigation.navigate('CustomWebView', { uri: updatedUrl });
+                } catch (error) {
+                  console.error('Error fetching data:', error);
+                }
+              }
+            }
+
           }
         }
       })
@@ -180,7 +227,7 @@ const LoginScreen = ({ navigation }) => {
         setIsLoading(true); // Show the loading overlay
         const mail = Email.toLowerCase();
         let response = await login(mail, Password);
-        
+
         console.log("login response complette", response);
 
         const paymentStatus = response.paymentPending;

@@ -8,7 +8,8 @@ import {
 
 export default function CustomWebView({ route }) {
     const { uri } = route.params.uri;
-        console.log("urllll", route);
+        console.log("this is URI", uri);
+        console.log("urllll", route.params);
 
     return (
         
