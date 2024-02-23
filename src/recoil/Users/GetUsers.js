@@ -9,6 +9,10 @@ export const uemail = atom({
     key: 'email',
     default: '',
   });
+  export const uNumber = atom({
+    key: 'UserNo',
+    default: '',
+  });
   export const upassword = atom({
     key: 'password',
     default: '',

@@ -31,8 +31,8 @@ const LeaderBoard = () => {
       .then(data => {
         // setNotificationList(data);
         // setIsLoading(false);
-        setTopUserList(data);
-        console.log(data)
+        setTopUserList(data.slice(0, 4));
+        console.log("Tooop user data",data.slice(0, 5));
         // console.log(data.description,"data.description");
         if (data.description === 'No data found.') {
           ToastAndroid.showWithGravityAndOffset(
@@ -142,8 +142,6 @@ const LeaderBoard = () => {
           data={topUserList}
           renderItem={renderItem}
           keyExtractor={(item, index) => item.userNo.toString()}
-        // style={styles.Container}
-        // style={{height: hp(10) }}
         />
       </View>
       );
