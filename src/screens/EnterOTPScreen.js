@@ -103,12 +103,12 @@ const EnterOTPScreen = ({ navigation }) => {
             colors={['#73B6BF', '#2E888C']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
-            style={commonStyles.SignUpBtn}
+            style={commonStyles.ForgetVerify}
           >
             <TouchableOpacity
               onPress={verification}
             >
-              <Text style={{ color: 'white',fontSize:16,fontWeight:"800" }}>Verify</Text>
+              <Text style={{ color: 'white',fontSize:16,fontWeight:"800" , width: wp(90),textAlign:"center"}}>Verify</Text>
             </TouchableOpacity>
           </LinearGradient>
         </View>

@@ -32,6 +32,23 @@ export const commonStyles = StyleSheet.create({
     elevation: 1,
     alignItems: 'center',
   },
+  ForgetVerify: {
+    width: wp(90),
+    backgroundColor: '#2E888C',
+    justifyContent: 'center',
+    borderRadius: wp(50),
+    height: hp(7),
+    marginTop: hp(1),
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.0,
+    elevation: 1,
+    alignItems: 'center',
+  },
   SocialBtn: {
     width: wp(90),
     backgroundColor: 'white',

@@ -8,18 +8,18 @@ import {
   Modal,
   ActivityIndicator,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 // import EvilIcon from 'react-native-vector-icons/EvilIcons';
-import {Headings} from '../Styling/Headings';
-import {UserNo} from '../recoil/AddPromise';
-import {useRecoilState} from 'recoil';
-import {useFocusEffect} from '@react-navigation/native';
+import { Headings } from '../Styling/Headings';
+import { UserNo } from '../recoil/AddPromise';
+import { useRecoilState } from 'recoil';
+import { useFocusEffect } from '@react-navigation/native';
 import fetchNotification from '../Network/Notifications/Notification';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import {
   DetailsModalVi,
   NotificationData,
@@ -27,9 +27,10 @@ import {
 import NoticationCard from '../comp/Notifications/NotificationCard';
 import LinearGradient from 'react-native-linear-gradient';
 import { RefreshControl } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const Notifications = ({navigation}) => {
+const Notifications = ({ navigation }) => {
   const [rating, setRating] = useState(0);
   const [notilist, setNotificationList] = useState([]);
   const [userN, setUserN] = useRecoilState(UserNo);
@@ -38,6 +39,32 @@ const Notifications = ({navigation}) => {
   const [noti, setNoti] = useRecoilState(NotificationData);
   const [isLoading, setIsLoading] = useState(true);
   const [refersh, setrefresh] = useState(false);
+  const [viewedNotifications, setViewedNotifications] = useState([]);
+  // Other state variables...
+  useEffect(() => {
+    // Retrieve viewed notifications from AsyncStorage
+    AsyncStorage.getItem('viewedNotifications').then((value) => {
+      if (value) {
+        setViewedNotifications(JSON.parse(value));
+      }
+    });
+  }, []);
+  // Function to handle viewing a notification
+  const handleViewNotification = (item) => {
+    setNoti(item);
+    setIsModalV(true);
+    // Add the viewed notification's identifier to the list
+    setViewedNotifications([...viewedNotifications, item.docNo]);
+    // Store updated viewed notifications list in AsyncStorage
+    AsyncStorage.setItem(
+      'viewedNotifications',
+      JSON.stringify([...viewedNotifications, item.docNo])
+    );
+  };
+  // Filter out viewed notifications from the list
+  const filteredNotifications = notilist.filter(
+    (item) => !viewedNotifications.includes(item.docNo)
+  );
 
   const onRefresh = () => {
     setrefresh(!refersh);
@@ -46,75 +73,72 @@ const Notifications = ({navigation}) => {
   const bgBtnmakeprms = ['#E4A936', '#EE8347'];
   const bgBtnrqstprms = ['#73B6BF', '#2E888C'];
 
-  const renderItem = ({item}) => (
+  const renderItem = ({ item }) => (
 
     <>
 
-    <TouchableOpacity
-      onPress={() => {
-        setNoti(item);
-        console.log(item, 'Noti');
-        setIsModalV(true);
-       
-      }}
-      style={{
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginVertical: hp(1),
-        width: wp(90),
-      }}>
-      <LinearGradient
-        colors={
-          item.notificationMethod === 'Promise'
-            ? bgBtnmakeprms 
-            : bgBtnrqstprms
-        }
-        style={[
-          {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
-            borderRadius: wp(50),
-          },
-        ]}>
-       
-        <View
-          style={{
-            width: wp(90),
-            height: hp(8),
-            // backgroundColor: '#FFE4BB',
-            borderRadius: wp(9),
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Image
-            // source={{uri:item.imageURL}}
-            source={
-              item.imageURL === ''
-                ? {
+      <TouchableOpacity
+        onPress={() => handleViewNotification(item)}
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginVertical: hp(1),
+          width: wp(90),
+        }}>
+        <LinearGradient
+          colors={
+            item.notificationMethod === 'Promise'
+              ? bgBtnmakeprms
+              : bgBtnrqstprms
+          }
+          style={[
+            {
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              borderRadius: wp(50),
+            },
+          ]}>
+          {/* <Text style={{color: 'white', textAlign: 'center'}}>Next</Text> */}
+
+          {/* <Text>{item.userName}</Text> */}
+          <View
+            style={{
+              width: wp(90),
+              height: hp(7),
+              // backgroundColor: '#FFE4BB',
+              borderRadius: wp(9),
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Image
+              // source={{uri:item.imageURL}}
+              source={
+                item.imageURL === ''
+                  ? {
                     uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
                   }
-                : {uri: item.imageURL}
-            }
-            style={{
-              width: wp(13),
-              height: hp(6),
-              borderRadius: wp(12) / 2,
-              borderColor: '#F99C68',
-              // borderWidth: wp(.5),
-              position: 'absolute',
-              left: wp(1.2),
-            }}
-          />
-          {/* </View> */}
-          <Text style={{marginLeft: wp(11), color: 'black', width: wp(70)}}>
-            {item.description}
-          </Text>
-        </View>
-      </LinearGradient>
-    </TouchableOpacity>
+                  : { uri: item.imageURL }
+              }
+              style={{
+                width: wp(13),
+                height: hp(6),
+                borderRadius: wp(12) / 2,
+                borderColor: '#F99C68',
+                // borderWidth: wp(.5),
+                position: 'absolute',
+                left: wp(1.2),
+              }}
+            />
+            {/* </View> */}
+            <Text style={{ marginLeft: wp(11), color: 'black', width: wp(70) }}>
+              {item.description}
+            </Text>
+          </View>
+        </LinearGradient>
+      </TouchableOpacity>
     </>
   );
 
@@ -124,7 +148,7 @@ const Notifications = ({navigation}) => {
       .then(data => {
         setNotificationList(data);
         setIsLoading(false);
-        console.log("i am notification data",data);
+        console.log("i am notification data", data);
       })
       .catch(error => {
         console.error('Error fetching promises:', error);
@@ -134,7 +158,7 @@ const Notifications = ({navigation}) => {
 
   useEffect(() => {
     fetchNoti();
-  }, [focus,refersh]);
+  }, [focus, refersh]);
 
   const handleCloseModal = () => {
     setIsModalV(false);
@@ -170,9 +194,10 @@ const Notifications = ({navigation}) => {
                 titleColor="white" // iOS
               />
             }
-            data={notilist}
-            keyExtractor={item => item.serialNo.toString()}
+            data={filteredNotifications}
             renderItem={renderItem}
+            keyExtractor={(item) => item.serialNo.toString()}
+
           />
           <Modal
             animationType="none"
