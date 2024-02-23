@@ -59,8 +59,8 @@ const VerficationPage = ({ navigation }) => {
 
     if (OutputCode == Code) {
       console.log(fName, lName, password, emailID,subscription, "here1")
-
-      let response = await signup(emailID, password, fName, lName,subscription);
+      const mail = emailID.toLowerCase();
+      let response = await signup(mail, password, fName, lName,subscription);
       console.log(response, "hey")
       if (response == "Registered") {
         ToastAndroid.show('Registered Sucessfully!', ToastAndroid.LONG);

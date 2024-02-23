@@ -122,7 +122,8 @@ const SignUpScreen = ({ navigation }) => {
       setIsLoading(true);
 
       // If all validations pass, proceed with the signup process
-      let response = await VerifyOTP(emailID); 
+      const mail = emailID.toLowerCase();
+      let response = await VerifyOTP(mail); 
 
       console.log(response.code, "aniqa")
       if (response.description === "Operation completed successfully.") {
@@ -164,56 +165,61 @@ const SignUpScreen = ({ navigation }) => {
     setSSubscription(subscription)
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
     const user_sign_in = auth().signInWithCredential(googleCredential);
+
     user_sign_in.then(async (user) => {
       console.log(user.user.photoURL, "aniqa");
       let person = await fetchUser(user.user.email)
-      console.log(person, "aniqa")
+      console.log(person, "aniqa user email")
+
       if (person == 'User Does not Exist') {
-        let responses = await Socialsignup(user.user.email, user.user.displayName, true, user.user.photoURL, sSubscription);
-        console.log(responses, "hey")
+        const mail = user.user.email.toLowerCase();
+        let responses = await Socialsignup(mail, user.user.displayName, true, user.user.photoURL, sSubscription);
+        console.log(responses, "hey response from social signup API")
+
         if (responses == "Registered") {
-          let response = await Sociallogin(user.user.email, true,)
-          if (response.message === 'Success') {
-            setToken(response.token)
-            setUserN(response.userNo)
-            setemail(user.user.email)
-            let resp = await fetchUser(user.user.email)
+          // let response = await Sociallogin(user.user.email, true,)
+          // if (response.message === 'Success') {
+          //   setToken(response.token)
+          //   setUserN(response.userNo)
+          //   setemail(user.user.email)
+          //   let resp = await fetchUser(user.user.email)
 
-            console.log(resp.firstName + " " + resp.lastName, "response")
-            await AsyncStorage.setItem("token", response.token)
-            await AsyncStorage.setItem("userNo", response.userNo)
-            await AsyncStorage.setItem("Email", user.user.email)
-            await AsyncStorage.setItem("Name", resp.firstName + " " + resp.lastName)
+          //   console.log(resp.firstName + " " + resp.lastName, "response")
+          //   await AsyncStorage.setItem("token", response.token)
+          //   await AsyncStorage.setItem("userNo", response.userNo)
+          //   await AsyncStorage.setItem("Email", user.user.email)
+          //   await AsyncStorage.setItem("Name", resp.firstName + " " + resp.lastName)
 
-            // navigation.navigate('HomeScreen')
+          //   // navigation.navigate('HomeScreen')
 
-          }
-          // ToastAndroid.show('Registered Sucessfully!', ToastAndroid.LONG);
-          // navigation.navigate('LoginScreen')
-
+          // }
+          ToastAndroid.show('Registered Sucessfully!', ToastAndroid.LONG);
+          navigation.navigate('LoginScreen')
         }
         else {
           ToastAndroid.show(responses, ToastAndroid.LONG);
-
+          
         }
       }
       else {
-        let response = await Sociallogin(user.user.email, true)
-        if (response.message === 'Success') {
-          setToken(response.token)
-          setUserN(response.userNo)
-          setemail(user.user.email)
-          let resp = await fetchUser(user.user.email)
+        // let response = await Sociallogin(user.user.email, true)
+        // if (response.message === 'Success') {
+        //   setToken(response.token)
+        //   setUserN(response.userNo)
+        //   setemail(user.user.email)
+        //   let resp = await fetchUser(user.user.email)
 
-          console.log(resp.firstName + " " + resp.lastName, "response")
-          await AsyncStorage.setItem("token", response.token)
-          await AsyncStorage.setItem("userNo", response.userNo)
-          await AsyncStorage.setItem("Email", user.user.email)
-          await AsyncStorage.setItem("Name", resp.firstName + " " + resp.lastName)
+        //   console.log(resp.firstName + " " + resp.lastName, "response")
+        //   await AsyncStorage.setItem("token", response.token)
+        //   await AsyncStorage.setItem("userNo", response.userNo)
+        //   await AsyncStorage.setItem("Email", user.user.email)
+        //   await AsyncStorage.setItem("Name", resp.firstName + " " + resp.lastName)
 
-          navigation.navigate('HomeScreen')
+        //   navigation.navigate('HomeScreen')
 
-        }
+        // }
+        ToastAndroid.show('User is already registered...!', ToastAndroid.LONG);
+
       }
     })
       .catch((error) => {
@@ -266,7 +272,6 @@ const SignUpScreen = ({ navigation }) => {
                 style={TextInP.Fileds}
                 placeholder="Last Name"
                 value={lName}
-                onChangeText={setLName}
                 onChangeText={handleLNameChange}
                 placeholderTextColor={'black'}
 
