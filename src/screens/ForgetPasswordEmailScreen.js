@@ -5,12 +5,13 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
-import { code, uemail } from '../recoil/Users/GetUsers';
+import { code, uNumber, uemail } from '../recoil/Users/GetUsers';
 
 const ForgetPasswordEmailScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [Code, setCode] = useRecoilState(code);
     const [Semail, setSemail] = useRecoilState(uemail);
+    const [userNumber, setUserNumber] = useRecoilState(uNumber);
 
     const validateEmail = (email) => {
         // Regular expression for email validation
@@ -25,19 +26,28 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
                 ToastAndroid.LONG,
               );            return;
         }
-
-        const encodedEmail = encodeURIComponent(email);
+        const mail = email.toLowerCase();
+        const encodedEmail = encodeURIComponent(mail);
         console.log("this is email", encodedEmail);
+
+        await axios.get(`https://snappromise.com:8080/api/Users/getUsers?searchString=${mail}`)
+        .then((response)=>{
+            console.log("this is userNumber", response?.data?.users?.[0].userNo)
+            setUserNumber(response?.data?.users?.[0].userNo)
+        })
+
         await axios.get(`https://snappromise.com:8080/getOTP?emailID=${encodedEmail}&isForgot=${true}`)
             .then((res) => {
                 console.log("Forget password is hitted", res);
                 setCode(res.data.code);
-                navigation.navigate('EnterOTPScreen', { Code, email });
+                navigation.navigate('EnterOTPScreen', { Code, email, userNumber });
                 setSemail(email);
             })
             .catch((error) => {
                 console.log("Error in forgot password", error);
             });
+
+        
     };
 
     const onChangeEmail = async text => {

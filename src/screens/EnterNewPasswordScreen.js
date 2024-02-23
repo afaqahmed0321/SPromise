@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ToastAndroid } fro
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
-import { uemail } from '../recoil/Users/GetUsers';
+import { uNumber, uemail } from '../recoil/Users/GetUsers';
 import { UserNo } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import UpdatedPassword from '../Network/Users/UpdatePassword';
@@ -12,11 +12,13 @@ const EnterNewPasswordScreen = ({ navigation, route }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [emailID, setEmail] = useRecoilState(uemail);
+  const [userNumber, setUserNumber] = useRecoilState(uNumber);
+  
 
   
   const changePassword = async () => {
 
-    console.log("emailllllll", emailID,"paswordddddd", password);
+    console.log("User Number", userNumber,"paswordddddd", password);
     const isValidPassword = (password) => {
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
       return passwordRegex.test(password);
@@ -28,13 +30,16 @@ const EnterNewPasswordScreen = ({ navigation, route }) => {
       } else if (!isValidPassword(password)) {
         ToastAndroid.show('Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and have a minimum length of 8 characters', ToastAndroid.LONG);
         return;
-      } 
+      } else if(password !== confirmPassword){
+        ToastAndroid.show('Password is not Confirmed', ToastAndroid.LONG);
+        return;
+      }
 
       // Make an API call to change the password
-      const response = await UpdatedPassword(emailID, password);
-      console.log("responce", response);
+      const response = await UpdatedPassword(userNumber, password);
+      console.log("responceeeeee", response);
       // Check the response and navigate accordingly
-      if (response.status == 400) {
+      if (response.status == 200) {
         // Password changed successfully
         ToastAndroid.show('Password changed successfully', ToastAndroid.LONG);
         navigation.navigate('LoginScreen');
@@ -51,6 +56,7 @@ const EnterNewPasswordScreen = ({ navigation, route }) => {
 
   return (
     <View style={TextInP.container}>
+    {console.log("his is user number", userNumber)}
       <LogoHeaderGlobel navigation={navigation} />
 
       <Text style={TextInP.heading}>Enter New Password</Text>
