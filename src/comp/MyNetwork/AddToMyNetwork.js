@@ -43,7 +43,8 @@ const AddToMyNetwork = () => {
     } else {
       setIsLoading(true);
       setSearching(true);
-      const res = await fetchUser(email)
+      const mail = email.toLowerCase();
+      const res = await fetchUser(mail)
         .then(data => {
           console.log(data, 'data');
           if (data == 'User Does not Exist') {
