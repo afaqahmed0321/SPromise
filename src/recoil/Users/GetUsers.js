@@ -13,6 +13,10 @@ export const uemail = atom({
     key: 'UserNo',
     default: '',
   });
+  export const uLoginType = atom({
+    key: 'LoginType',
+    default: '',
+  });
   export const upassword = atom({
     key: 'password',
     default: '',
