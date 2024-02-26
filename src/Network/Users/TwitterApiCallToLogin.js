@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const TwitterApiCallLogin = async (userN) => {
   const apiUrl = 'https://snappromise.com:8080/twitter?userNo='+userN;
-  console.log(userN)
+  console.log("user noooooooooo",userN)
   try {
     // console.log("Try Case")
     const response = await axios.get(apiUrl);

@@ -167,8 +167,8 @@ const AddToMyNetwork = () => {
           <View style={{height: hp(8), marginTop: hp(2)}}>
             {userData && userData.emailID && (
               <View>
-                <Text>Email: {userData.emailID}</Text>
-                <Text>
+                <Text style={{color:"black"}}>Email: {userData.emailID}</Text>
+                <Text  style={{color:"black"}}>
                   Name: {userData.firstName} {userData.lastName}
                 </Text>
               </View>
@@ -181,7 +181,7 @@ const AddToMyNetwork = () => {
             <TouchableOpacity
               style={styles.SignBtn}
               onPress={handelAddtoNetwork}>
-              <Text>Add to network</Text>
+              <Text  style={{color:"white"}}>Add to network</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
