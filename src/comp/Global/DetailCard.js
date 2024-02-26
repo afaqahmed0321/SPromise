@@ -528,18 +528,6 @@ const DetailCard = ({
                     </TouchableOpacity>
                   );
                 }
-                else if (action == 'Pay') {
-                  return (
-                    <TouchableOpacity
-                      style={commonStyles.ActionBtn}
-                      key={index}
-                      onPress={() => {
-                        setIsPaymentWebViewVisible(true);
-                      }}>
-                      <Text style={{ color: "white" }}>{action}</Text>
-                    </TouchableOpacity>
-                  );
-                }
               })}
 
 
