@@ -1,5 +1,5 @@
-import {format} from 'date-fns';
-import React, {useEffect, useState} from 'react';
+import { format } from 'date-fns';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -16,23 +16,23 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Headings} from '../../../../Styling/Headings';
-import {UserNo, selectedVideoR} from '../../../../recoil/AddPromise';
-import {useRecoilState} from 'recoil';
-import {useIsFocused} from '@react-navigation/native';
-import {commonStyles} from '../../../../Styling/buttons';
+import { Headings } from '../../../../Styling/Headings';
+import { UserNo, selectedVideoR } from '../../../../recoil/AddPromise';
+import { useRecoilState } from 'recoil';
+import { useIsFocused } from '@react-navigation/native';
+import { commonStyles } from '../../../../Styling/buttons';
 import {
   handleAcceptPromise,
   handleCompletePromise,
   handleFailPromise,
   handleRejectPromise,
 } from '../PromiseAction';
-import {DashBoardStyling} from '../../../../Styling/DashBoard';
-import {RefreshControl} from 'react-native';
+import { DashBoardStyling } from '../../../../Styling/DashBoard';
+import { RefreshControl } from 'react-native';
 import MiniCard from '../../../Global/MiniCard';
 import DetailCard from '../../../Global/DetailCard';
 
-const ShowAllTab = ({navigation}) => {
+const ShowAllTab = ({ navigation }) => {
   const handelAttachedMedia = urll => {
     console.log(urll);
     setSelectedVideo(urll);
@@ -81,7 +81,12 @@ const ShowAllTab = ({navigation}) => {
         <ActivityIndicator size="small" color="#0000ff" />
       ) : (
         <FlatList
-          data={promises}
+          data={promises.filter(item => item.status === 'Completed' ||
+            item.status === 'Rejected' ||
+            item.status === 'AmountDue' ||
+            item.status === 'MarkedforCompletion' ||
+            item.status === 'Pending' ||
+            item.status === 'Accepted' && item.promiseType === 'GUARANTEE')}
           refreshControl={
             <RefreshControl
               refreshing={isLoading}
@@ -93,10 +98,10 @@ const ShowAllTab = ({navigation}) => {
             />
           }
           keyExtractor={item => item.promiseID.toString()} // Use a unique identifier as the key
-          renderItem={({item}) => (
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          renderItem={({ item }) => (
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               {showDetail == item.promiseID ? (
-                <TouchableOpacity onPress={()=>{
+                <TouchableOpacity onPress={() => {
                   setshowDetail('')
                 }}>
                   <DetailCard

@@ -12,6 +12,7 @@ import { useRecoilState } from 'recoil';
 import OtpInputs from 'react-native-otp-inputs';
 import { signup } from '../Network/SignUpApi';
 import LinearGradient from 'react-native-linear-gradient';
+import VerifyOTP from '../Network/Verification';
 
 const VerficationPage = ({ navigation }) => {
   const [isCodeSent, setIsCodeSent] = useState(false);
@@ -29,38 +30,37 @@ const VerficationPage = ({ navigation }) => {
   const [subscription, setSubscription] = useRecoilState(uSubscription);
 
 
-  const resendCode = () => {
-    // if (!isCodeSent) {
-    //   
-    //   setIsCodeSent(true);
+  const resendCode = async () => {
+    setResendCooldown(60)
+    const mail = emailID.toLowerCase();
+    let response = await VerifyOTP(mail)
 
-    // 
-    //   setResendCooldown(30);
-
-    //   
-    //   console.log('Code Sent', 'A verification code has been sent.');
-    // } else {
-
-    // }
+      try {
+        console.log("Forget password is hitted", response);
+        setCode(response.code);
+      }
+      catch{
+        console.log("Error in forgot password", error);
+      };
 
   };
 
   useEffect(() => {
     // Decrease the resend cooldown timer every second
     if (resendCooldown > 0) {
-      const timer = setTimeout(() => setResendCooldown(resendCooldown - 1), 1000);
+      const timer = setTimeout(() => setResendCooldown(resendCooldown - 1), 1500);
       return () => clearTimeout(timer);
     }
   }, [resendCooldown]);
 
   const verification = async () => {
     console.log("here", OutputCode, Code)
-    console.log(fName, lName, password, emailID,subscription, "here1")
+    console.log(fName, lName, password, emailID, subscription, "here1")
 
     if (OutputCode == Code) {
-      console.log(fName, lName, password, emailID,subscription, "here1")
+      console.log(fName, lName, password, emailID, subscription, "here1")
       const mail = emailID.toLowerCase();
-      let response = await signup(mail, password, fName, lName,subscription);
+      let response = await signup(mail, password, fName, lName, subscription);
       console.log(response, "hey")
       if (response == "Registered") {
         ToastAndroid.show('Registered Sucessfully!', ToastAndroid.LONG);
@@ -104,7 +104,7 @@ const VerficationPage = ({ navigation }) => {
             inputStyles={{ textAlign: 'center', fontSize: hp(3), color: '#000' }}
 
           />
-       
+
         </View>
         <View style={{ marginTop: hp(3) }}>
           <LinearGradient
@@ -115,7 +115,7 @@ const VerficationPage = ({ navigation }) => {
           >
             <TouchableOpacity
               onPress={() => verification()}
-              >
+            >
               <Text style={{ color: 'white' }}>Verify</Text>
             </TouchableOpacity>
           </LinearGradient>
@@ -123,9 +123,13 @@ const VerficationPage = ({ navigation }) => {
         <View>
 
 
-          <TouchableOpacity onPress={() => setResendCooldown(30)}>
-            <Text style={{ color: 'black', textAlign: 'center', marginTop: hp(2), fontWeight: '600', fontSize: 16 }}>Send code again   00:{resendCooldown}  </Text>
-          </TouchableOpacity>
+          {resendCooldown <= 0 ? (
+            <TouchableOpacity onPress={resendCode}>
+              <Text style={{ color: 'black', textAlign: 'center', marginTop: hp(2), fontWeight: '600', fontSize: 16 }}>Send code again</Text>
+            </TouchableOpacity>
+          ) : (
+            null
+          )}
 
         </View>
       </View>

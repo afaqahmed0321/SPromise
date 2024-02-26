@@ -1,4 +1,5 @@
 import { ToastAndroid } from 'react-native';
+
 export default FulfilledPromiseApi = async (promiseID, userNo) => {
 
     const url = `https://snappromise.com:8080/fulfilledPromise?promiseID=${promiseID}&userNo=${userNo}`;

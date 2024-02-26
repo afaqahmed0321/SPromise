@@ -51,7 +51,7 @@ const ShowAllTabPromiseReq = ({ navigation }) => {
     GetUserPromiseRequest(userN)
       .then(data => {
         setPromises(data);
-        console.log(promises, 'prooooooo');
+        console.log(data, 'prooooooo');
         setIsLoading(false);
       })
       .catch(error => {

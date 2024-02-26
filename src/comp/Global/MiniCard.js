@@ -299,10 +299,6 @@ const MiniCard = ({
                 ) : null}
               </View>
             </View>
-
-          
-
-
           </View>
         </LinearGradient>
       ) : null}

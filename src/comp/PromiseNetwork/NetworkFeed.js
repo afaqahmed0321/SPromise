@@ -50,6 +50,8 @@ const NetworkFeed = ({ navigation }) => {
   const [selectedNetworkUserFee, setSelectedNetworkUserFee] = useRecoilState(
     selectedNetworkUserFeed,
   );
+
+  const [allData, setAllData] = useState(selectedNetworkUserFee)
   const [isViewAll, setIsViewAll] = useState([]);
   const [refersh, setrefresh] = useState(false);
 
@@ -63,8 +65,13 @@ const NetworkFeed = ({ navigation }) => {
   const [like, setLike] = useState(false);
   const [isLike, setIsLike] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [visibility, setVisibility] = useState('Private');
+  const [visibilityy, setVisibilityy] = useState('Private');
   const [visible, setVisible] = useState('');
+
+  const privateData = selectedNetworkUserFee.filter(item => item.visibility === 'PRIVATE');
+  const publicData = selectedNetworkUserFee.filter(item => item.visibility === 'PUBLIC');
+  const networkonlyData = selectedNetworkUserFee.filter(item => item.visibility === 'NETWORKONLY');
+
 
   const handelNetworkFeedComp = async () => {
     const networkUserNo = userN;
@@ -73,7 +80,7 @@ const NetworkFeed = ({ navigation }) => {
     const resp = await axios.get(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=private`)
       .then((response) => {
         const data = response.data.promisesList; // Accessing the data property of the Axios response
-        console.log(data?.[0], "Network Feed");
+        console.log(data, "Network Feed");
         setIsLoading(false);
         return data;
       })
@@ -86,12 +93,12 @@ const NetworkFeed = ({ navigation }) => {
     console.log("this from fedback", resp);
   };
   const handleVisibilityChange = (visibilityOption) => {
-    setVisibility(visibilityOption);
+    setVisibilityy(visibilityOption);
   };
   const onRefresh = () => {
     setrefresh(!refersh);
   };
- 
+
 
   const handleSearch = () => {
     console.log("search");
@@ -109,12 +116,12 @@ const NetworkFeed = ({ navigation }) => {
     const PIDd = PID;
     const userNN = userN;
     console.log(userNN, "New UserNo")
-    
+
     const containsPromiseId = LikeA.includes(userNN);
 
     const Reac = containsPromiseId ? "UnLike" : "Like";
     console.log(containsPromiseId, "Reac");
-   
+
 
     const res = await PromiseReaction(userNN, PIDd, Reac);
     // console.log(res.code);
@@ -146,7 +153,7 @@ const NetworkFeed = ({ navigation }) => {
     }
   };
 
-  
+
   const renderItem = ({ item }) => {
     const userNN = userN;
     const setLike = item.promiseReactions;
@@ -280,7 +287,7 @@ const NetworkFeed = ({ navigation }) => {
               </Text>
             </>
           )}
-          
+
         </View>
         <View style={{ height: hp(10) }}>
           <Text
@@ -304,7 +311,7 @@ const NetworkFeed = ({ navigation }) => {
             alignItems: 'center',
             flexDirection: 'row',
           }}>
-         
+
         </View>
         {/* /// Comments Section */}
         <View style={{ marginLeft: wp(2) }}>
@@ -361,9 +368,9 @@ const NetworkFeed = ({ navigation }) => {
           {item.promiseComments && item.promiseComments.length > 2 && (
             <TouchableOpacity onPress={() => handleViewAllComments(item.promiseID)}>
               {isViewAll.includes(item.promiseID) ? (
-                <Text style={{ color: '#652D90',fontWeight: 'bold', marginLeft: 15, marginVertical: 10, }}>View Less</Text>
+                <Text style={{ color: '#652D90', fontWeight: 'bold', marginLeft: 15, marginVertical: 10, }}>View Less</Text>
               ) : (
-                <Text style={{ color: '#652D90',fontWeight: 'bold', marginLeft: 15, marginVertical: 10 }}>View All Comments</Text>
+                <Text style={{ color: '#652D90', fontWeight: 'bold', marginLeft: 15, marginVertical: 10 }}>View All Comments</Text>
               )}
             </TouchableOpacity>
           )}
@@ -386,7 +393,7 @@ const NetworkFeed = ({ navigation }) => {
               paddingLeft: wp(2.2),
               color: "black"
             }}></TextInput>
-        
+
 
           <TouchableOpacity
             style={{
@@ -426,12 +433,12 @@ const NetworkFeed = ({ navigation }) => {
           height: hp(8),
           flexDirection: 'row',
           alignItems: 'center',
-         
+
         }}>
-       
+
 
         <View style={{ width: wp(60) }}>
-         
+
 
           <TextInput
             placeholder="Search User"
@@ -443,7 +450,7 @@ const NetworkFeed = ({ navigation }) => {
               // Trigger search on text change
             }}
           />
-          
+
         </View>
         <TouchableOpacity
           onPress={handleSearch}
@@ -465,7 +472,7 @@ const NetworkFeed = ({ navigation }) => {
             <Text style={{ color: 'white', fontSize: 16, fontWeight: "600" }}> Search </Text>
           </View>
 
-          
+
         </TouchableOpacity>
 
       </View>
@@ -483,7 +490,7 @@ const NetworkFeed = ({ navigation }) => {
         <TouchableOpacity
           style={[
             styles.button,
-            visibility === 'Public' && styles.selectedButton,
+            visibilityy === 'Public' && styles.selectedButton,
           ]}
           onPress={() => handleVisibilityChange('Public')}>
           <Text style={styles.BtnText}>Public</Text>
@@ -492,7 +499,7 @@ const NetworkFeed = ({ navigation }) => {
         <TouchableOpacity
           style={[
             styles.button,
-            visibility === 'Private' && styles.selectedButton,
+            visibilityy === 'Private' && styles.selectedButton,
           ]}
           onPress={() => handleVisibilityChange('Private')}>
           <Text style={styles.BtnText}>Private</Text>
@@ -501,14 +508,15 @@ const NetworkFeed = ({ navigation }) => {
         <TouchableOpacity
           style={[
             styles.button,
-            visibility === 'Network' && styles.selectedButton,
+            visibilityy === 'Network' && styles.selectedButton,
           ]}
           onPress={() => handleVisibilityChange('Network')}>
           <Text style={styles.BtnText}>Network Only</Text>
         </TouchableOpacity>
 
       </View>
-      {visibility === "Private" ? (
+
+      {visibilityy === "Private" ? (
         <>
           {isLoading ? (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
@@ -516,6 +524,10 @@ const NetworkFeed = ({ navigation }) => {
             </View>
           ) : (
             <View style={{ marginVertical: 10, marginHorizontal: 10, marginBottom: 110 }}>
+            {console.log("this is private data", privateData)}
+            {console.log("this is public data", publicData)}
+            {console.log("this is network data", networkonlyData)}
+
               <FlatList
                 refreshControl={
                   <RefreshControl
@@ -527,8 +539,8 @@ const NetworkFeed = ({ navigation }) => {
                     titleColor="white" // iOS
                   />
                 }
-                data={searchText.length > 0 ? filteredData : selectedNetworkUserFee}
-              
+                data={searchText.length > 0 ? filteredData : privateData}
+
                 keyExtractor={item => item.promiseID.toString()}
                 renderItem={renderItem}
               />
@@ -536,7 +548,63 @@ const NetworkFeed = ({ navigation }) => {
           )}
         </>
       ) : (
-        null
+        <>
+          {visibilityy === "Public" ? (
+            <>
+              {isLoading ? (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+                  <ActivityIndicator size="small" color="#0000ff" />
+                </View>
+              ) : (
+                <View style={{ marginVertical: 10, marginHorizontal: 10, marginBottom: 110 }}>
+                  <FlatList
+                    refreshControl={
+                      <RefreshControl
+                        refreshing={isLoading}
+                        onRefresh={onRefresh}
+                        colors={['#E4A936', '#EE8347']} // Android
+                        tintColor="white" // iOS
+                        title="Refreshing..." // iOS
+                        titleColor="white" // iOS
+                      />
+                    }
+                    data={searchText.length > 0 ? filteredData : publicData}
+
+                    keyExtractor={item => item.promiseID.toString()}
+                    renderItem={renderItem}
+                  />
+                </View>
+              )}
+            </>
+          ) : (
+            <>
+              {isLoading ? (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+                  <ActivityIndicator size="small" color="#0000ff" />
+                </View>
+              ) : (
+                <View style={{ marginVertical: 10, marginHorizontal: 10, marginBottom: 110 }}>
+                  <FlatList
+                    refreshControl={
+                      <RefreshControl
+                        refreshing={isLoading}
+                        onRefresh={onRefresh}
+                        colors={['#E4A936', '#EE8347']} // Android
+                        tintColor="white" // iOS
+                        title="Refreshing..." // iOS
+                        titleColor="white" // iOS
+                      />
+                    }
+                    data={searchText.length > 0 ? filteredData : networkonlyData}
+
+                    keyExtractor={item => item.promiseID.toString()}
+                    renderItem={renderItem}
+                  />
+                </View>
+              )}
+            </>
+          )}
+        </>
       )
       }
     </View>

@@ -58,6 +58,7 @@ const ShowAllTabPTM = ({navigation}) => {
     PromisesToMeApi(userN)
       .then(data => {
         setPromises(data);
+        console.log(data, "pro");
         setIsLoading(false);
         console.log(data);
       })
@@ -94,7 +95,7 @@ const ShowAllTabPTM = ({navigation}) => {
               titleColor="white" // iOS
             />
           }
-          data={promises}
+          data={promises.filter(item => item.status === 'Completed' || item.status === 'Rejected' || item.status === 'AmountDue' ||  item.status === 'MarkedforCompletion' || item.status === 'Pending' || item.status === 'Accepted' && item.promiseType === 'GUARANTEE')}
           keyExtractor={item => item.promiseID.toString()} // Use a unique identifier as the key
           renderItem={({item}) => (
             <View style={{justifyContent: 'center', alignItems: 'center'}}>

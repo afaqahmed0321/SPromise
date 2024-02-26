@@ -14,10 +14,11 @@ import { signup } from '../Network/SignUpApi';
 import LinearGradient from 'react-native-linear-gradient';
 import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
+import PasswordVerification from '../Network/PasswordVerification';
 
 const EnterOTPScreen = ({ navigation }) => {
   const [isCodeSent, setIsCodeSent] = useState(false);
-  const [resendCooldown, setResendCooldown] = useState(0);
+  const [resendCooldown, setResendCooldown] = useState(30);
   const [Code, setCode] = useRecoilState(code);
   // const [Semail, setSemail] = useRecoilState(uemail);
   // const [Spassword, setSpassword] = useRecoilState(upassword);
@@ -32,23 +33,25 @@ const EnterOTPScreen = ({ navigation }) => {
   const route = useRoute();
   const receivedData = route.params?.code || {};
   const mail = emailID.toLowerCase();
-  const resendCode = async () => {
-    setResendCooldown(30)
 
-    await axios.get(`https://snappromise.com:8080/getOTP?emailID=${mail}&isForgot=${true}`)
-      .then((res) => {
-        console.log("Forget password is hitted", res);
-        setCode(res.data.code);
-      })
-      .catch((error) => {
-        console.log("Error in forgot password", error);
-      });
+  const resendCode = async () => {
+    setResendCooldown(60)
+
+    let response = await PasswordVerification(mail)
+
+      try {
+        console.log("Forget password is hitted", response);
+        setCode(response.code);
+      }
+      catch {
+        console.log("Error in forgot password");
+      };
 
   };
 
   useEffect(() => {
     if (resendCooldown > 0) {
-      const timer = setTimeout(() => setResendCooldown(resendCooldown - 1), 1000);
+      const timer = setTimeout(() => setResendCooldown(resendCooldown - 1), 1500);
       return () => clearTimeout(timer);
     }
   }, [resendCooldown]);
@@ -114,7 +117,7 @@ const EnterOTPScreen = ({ navigation }) => {
               <Text style={{ color: 'black', textAlign: 'center', marginTop: hp(2), fontWeight: '600', fontSize: 16 }}>Send code again</Text>
             </TouchableOpacity>
           ) : (
-            null
+            null 
           )}
 
         </View>
