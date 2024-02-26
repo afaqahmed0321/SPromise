@@ -112,7 +112,7 @@ const MiniCard = ({
           style={DashBoardStyling.MiniCard}>
           <View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-             
+
               <View
                 style={{
                   width: wp(13),
@@ -161,7 +161,7 @@ const MiniCard = ({
                 </Text>
               </View>
             </View>
-            
+
             <View style={DashBoardStyling.PromiseReward}>
               {guaranteedWithMoney ? (
                 <Text
@@ -178,7 +178,7 @@ const MiniCard = ({
                   ) : null}
                 </Text>
               ) : null}
-             
+
             </View>
           </View>
         </LinearGradient>
@@ -190,7 +190,7 @@ const MiniCard = ({
           style={DashBoardStyling.MiniCard}>
           <View style={{ paddingBottom: 20 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              
+
               <View
                 style={{
                   width: wp(13),
@@ -239,9 +239,9 @@ const MiniCard = ({
                 </Text>
               </View>
             </View>
-           
+
             <View style={{ paddingHorizontal: 15 }}>
-              
+
               <View style={[DashBoardStyling.PromiseReward, {
                 textAlign: 'center', justifyContent: 'center', alignItems: 'center',
               }]}>
@@ -256,8 +256,15 @@ const MiniCard = ({
                         fontSize: hp(2),
                       },
                     ]}>
-                    Guarantee: ${amount} {rewardPoints ? <Text >& {rewardPoints} pts</Text>
-                      : null}
+                    {amount > 0 ? (
+                      <>
+                        Guarantee: ${amount}
+                        {rewardPoints ? <Text >& {rewardPoints} pts</Text>
+                          : null}
+                      </>
+                    ) : (
+                      null
+                    )}
                   </Text>
                 ) : promisetype == 'COMMITMENT' ? (
                   <Text
@@ -270,8 +277,15 @@ const MiniCard = ({
                         fontSize: hp(2),
                       },
                     ]}>
-                    Commitment: ${amount} {rewardPoints ? <Text >& {rewardPoints} pts</Text>
+                    {amount > 0 ? (
+                      <>
+                    Commitment: ${amount}
+                     {rewardPoints ? <Text >& {rewardPoints} pts</Text>
                       : null}
+                      </>
+                    ):(
+                      null
+                    )}
                   </Text>
                 ) :
                   <Text

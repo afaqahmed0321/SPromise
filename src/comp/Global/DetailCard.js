@@ -480,10 +480,16 @@ const DetailCard = ({
                       fontSize: hp(1.8),
                     },
                   ]}>
+                  {amount > 0 ? (
+                    <>
                   Guarantee:$ {amount}{' '}
                   {rewardPoints ? (
                     <Text> & {rewardPoints} Reward Points</Text>
                   ) : null}
+                    </>
+                  ):(
+                    null
+                  )}
 
                 </Text>
               ) : promisetype == 'COMMITMENT' ? (
@@ -495,10 +501,16 @@ const DetailCard = ({
                       fontSize: hp(1.8),
                     },
                   ]}>
+                  {amount > 0 ? (
+                    <>
                   Commitment:$ {amount}{' '}
                   {rewardPoints ? (
                     <Text> & {rewardPoints} Reward Points</Text>
                   ) : null}
+                    </>
+                  ):(
+                    null
+                  )}
 
 
                   {actions.map((action, index) => {
