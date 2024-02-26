@@ -32,17 +32,17 @@ const PromiseStatusData = () => {
   return (
     <View style={styles.PromiseStatus}>
       <View>
-        <View style={{flexDirection:"row", justifyContent:"space-around", alignItems:"center", alignContent:"center", marginHorizontal:10,marginVertical:3}}>
+        <View style={{ flexDirection: "row", justifyContent: "space-around", alignItems: "center", alignContent: "center", marginHorizontal: 10, marginVertical: 3 }}>
           <View style={styles.bar}>
             <Text style={styles.barText}>Your Promisibility</Text>
           </View>
           <TouchableOpacity onPress={() => setRefresh(!refresh)}>
-            <View style={{ marginRight:15}}>
+            <View style={{ marginRight: 15 }}>
               <FontAw5
                 name="sync"
                 size={15}
                 color="#6650A4"
-                
+
               />
             </View>
           </TouchableOpacity>
@@ -56,7 +56,7 @@ const PromiseStatusData = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-          
+
             <View
               // style={{marginLeft: wp(-1), marginBottom:-40}}
               style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
@@ -70,7 +70,7 @@ const PromiseStatusData = () => {
                 innerRadius={50}
                 backgroundColor='#ee8347'
                 sections={[
-                  
+
                   {
                     percentage: userPromisbility,
                     color: '#73B6BF',
@@ -80,11 +80,7 @@ const PromiseStatusData = () => {
                 strokeCap={'butt'}
               />
               <View
-                style={{
-                  position: 'absolute',
-                  bottom: '43%',
-                  left: '46%',
-                }}
+                style={{ justifyContent: 'center', alignItems: 'center', marginVertical:"auto" }}
               >
                 {userPromisbility ? (
                   <Text style={{ fontSize: hp(2), color: '#652D90' }}> {parseInt(userPromisbility)}%</Text>
@@ -97,7 +93,7 @@ const PromiseStatusData = () => {
             </View>
           </View>
 
-          
+
         </View>
       </View>
     </View>

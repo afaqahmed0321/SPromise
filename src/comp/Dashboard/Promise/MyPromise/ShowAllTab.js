@@ -86,7 +86,7 @@ const ShowAllTab = ({ navigation }) => {
             item.status === 'AmountDue' ||
             item.status === 'MarkedforCompletion' ||
             item.status === 'Pending' ||
-            item.status === 'Accepted' && item.promiseType === 'GUARANTEE')}
+            item.status === 'Accepted')}
           refreshControl={
             <RefreshControl
               refreshing={isLoading}
