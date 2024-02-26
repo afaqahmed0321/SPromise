@@ -128,6 +128,7 @@ const PaymentScreens = ({ promiseID, userN, amount }) => {
             setCardInput(data);
           }}
         />
+        <View style={{flex:1, justifyContent:"center", alignItems:"center",  marginTop:hp(10)}}>
         <LinearGradient
           colors={['#E4A936', '#EE8347']}
           start={{ x: 0, y: 0 }}
@@ -138,6 +139,7 @@ const PaymentScreens = ({ promiseID, userN, amount }) => {
             <Text style={styles.LogInButton}>Pay now</Text>
           </TouchableOpacity>
         </LinearGradient>
+        </View>
       </View>
     </StripeProvider>
   );
@@ -147,29 +149,28 @@ const PaymentScreens = ({ promiseID, userN, amount }) => {
 const styles = StyleSheet.create({
   inputContainerStyle: {
     backgroundColor: '#fff',
-    borderRadius: 5
+    borderRadius: 5,
+    marginBottom: 10,
+    flexDirection: 'column', // Set flexDirection to 'column' for vertical alignment
+    marginBottom: 10,
   },
   inputStyle: {
     backgroundColor: '#222242',
     paddingLeft: 15,
     borderRadius: 5,
     color: '#fff',
-    flexDirection:"column",
   },
   labelStyle: {
     marginBottom: 5,
     fontSize: 12
   },
   lognBtn: {
-    width: wp(90),
+    width: wp(40),
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: wp(50),
     height: hp(7),
-    paddingHorizontal: 5,
-    borderRadius: 50,
-    paddingHorizontal: 5,
-    paddingVertical: 8,
+
   },
   LogInButton: {
     fontSize: 16, // Adjust as needed

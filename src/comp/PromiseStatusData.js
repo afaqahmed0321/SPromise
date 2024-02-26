@@ -58,19 +58,18 @@ const PromiseStatusData = () => {
             }}>
 
             <View
-              // style={{marginLeft: wp(-1), marginBottom:-40}}
-              style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                position: 'relative', // Added relative positioning
+              }}
             >
-              {
-                console.log("this is promisibility", userPromisbility)
-              }
               <Pie
                 radius={60}
                 innerRadius={50}
-                backgroundColor='#ee8347'
+                backgroundColor="#ee8347"
                 sections={[
-
                   {
                     percentage: userPromisbility,
                     color: '#73B6BF',
@@ -79,18 +78,27 @@ const PromiseStatusData = () => {
                 dividerSize={2}
                 strokeCap={'butt'}
               />
+              {/* Position the userPromisbility text */}
               <View
-                style={{ justifyContent: 'center', alignItems: 'center', marginVertical:"auto" }}
+                style={{
+                  position: 'absolute',
+                  top: '50%', // Place the text in the vertical center
+                  left: '50%', // Place the text in the horizontal center
+                  transform: [{ translateX: -15 }, { translateY: -10 }], // Offset for centering
+                }}
               >
                 {userPromisbility ? (
-                  <Text style={{ fontSize: hp(2), color: '#652D90' }}> {parseInt(userPromisbility)}%</Text>
+                  <Text style={{ fontSize: hp(2), color: '#652D90' }}>
+                    {parseInt(userPromisbility)}%
+                  </Text>
                 ) : (
-                  <Text style={{ fontSize: hp(2), marginLeft: wp(1), color: '#652D90' }}>
+                  <Text style={{ fontSize: hp(2), color: '#652D90' }}>
                     {parseInt(userPromisbility)}%
                   </Text>
                 )}
               </View>
             </View>
+
           </View>
 
 

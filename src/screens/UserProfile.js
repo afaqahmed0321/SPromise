@@ -478,7 +478,7 @@ const UserProfile = () => {
                       linkedInToggle
                         ? (setRemoveSLAModal(true),
                           setIstwitterRemoveAccount(true))
-                        : (setIsTwitterApiCall(true), TwitterCallHandel());
+                        : (setIsTwitterApiCall(false),  LinkDinallHandel());
                     }}
                   />
                 </View>
