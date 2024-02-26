@@ -6,6 +6,7 @@ import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { code, uNumber, uemail } from '../recoil/Users/GetUsers';
+import PasswordVerification from '../Network/PasswordVerification';
 
 const ForgetPasswordEmailScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -32,21 +33,23 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
         console.log("this is email", encodedEmail);
 
         await axios.get(`https://snappromise.com:8080/api/Users/getUsers?searchString=${mail}`)
+
         .then((response)=>{
             console.log("this is userNumber", response?.data?.users?.[0].userNo)
             setUserNumber(response?.data?.users?.[0].userNo)
         })
 
-        await axios.get(`https://snappromise.com:8080/getOTP?emailID=${encodedEmail}&isForgot=${true}`)
-            .then((res) => {
-                console.log("Forget password is hitted", res);
-                setCode(res.data.code);
+        let response = await PasswordVerification(mail)
+
+            try{
+                console.log("Forget password is hitted by verification page", response);
+                setCode(response.code);
                 navigation.navigate('EnterOTPScreen', { Code, email, userNumber });
                 setSemail(email);
-            })
-            .catch((error) => {
+            }
+            catch {
                 console.log("Error in forgot password", error);
-            });
+            };
     };
     
 

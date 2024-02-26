@@ -26,6 +26,8 @@ import {
   handleAcceptPromise,
   handleCompletePromise,
   handleFailPromise,
+  handleFailedPromiseApi,
+  handleFulfilledPromiseApi,
   handleRejectPromise,
 } from '../Dashboard/Promise/PromiseAction';
 import { commonStyles } from '../../Styling/buttons';
@@ -71,6 +73,30 @@ const DetailCard = ({
   const [markCompleted, setMarkCompleted] = useState(false);
   const [forName, setForName] = useState(false);
 
+  console.log(promiseeProfileImageUrl,
+    promisetype,
+    amount,
+    promiseeName,
+    promisorName,
+    date,
+    name,
+    promiseMediaURL,
+    ratingImpact,
+    promiseGoal,
+    "actionsssss",
+    actions,
+    promiseID,
+    userN,
+    tab,
+    guaranteedWithMoney,
+    alotRewardPoints,
+    rewardPoints,
+    refreshCallback,
+    style,
+    navigation,
+    jugaar,
+    "all dataaaaaa"
+  )
 
 
   const handelAttachedMedia = (urll) => {
@@ -110,7 +136,7 @@ const DetailCard = ({
               {isLoading && <ActivityIndicator size="large" color="white" />}
               <Video
                 source={{ uri: selectedVideo }}
-                style={{ width: '100%',  height: 240, display: isLoading ? 'none' : 'flex' }}
+                style={{ width: '100%', height: 240, display: isLoading ? 'none' : 'flex' }}
                 controls={true}
                 resizeMode="contain"
                 onLoadStart={handleLoadStart}
@@ -141,6 +167,7 @@ const DetailCard = ({
         promiseMediaURL,
         ratingImpact,
         promiseGoal,
+        "this is Actionssssssssssssssss",
         actions,
         promiseID,
         "this is userNumber",
@@ -153,6 +180,7 @@ const DetailCard = ({
         style,
         navigation,
         jugaar)}
+
       {tab == 'UserPromiseReq' || tab == 'ReqPromiseDashboard' ? (
         <LinearGradient
           colors={
@@ -191,7 +219,7 @@ const DetailCard = ({
                   marginLeft: wp(3),
                   width: wp(45),
                 }}>
-                <Text style={{ color: '#000', fontSize: hp(2) }}>{actions == 'Pay' ? promiseeName : promisorName ? promisorName : name}</Text>
+                <Text style={{ color: '#fff', fontSize: hp(2) }}>{actions == 'Pay' ? promiseeName : promisorName ? promisorName : name}</Text>
               </View>
               <View style={{ width: wp(8) }}>
                 <Entypo size={20} color="white" name="calendar" />
@@ -265,18 +293,16 @@ const DetailCard = ({
               {actions.map((action, index) => {
                 if (action === 'Accept') {
                   return (
-                    <>
-                      <TouchableOpacity
-                        style={commonStyles.ActionBtn}
-                        key={index}
-                        onPress={() => {
-                          handleAccept(promiseID, userN);
-                          console.log("my dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",promiseID, userN)
-                          refreshCallback();
-                        }}>
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    </>
+                    <TouchableOpacity
+                      style={commonStyles.ActionBtn}
+                      key={index}
+                      onPress={() => {
+                        handleAccept(promiseID, userN);
+                        refreshCallback();
+
+                      }}>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                    </TouchableOpacity>
                   );
                 } else if (action === 'Reject') {
                   return (
@@ -284,27 +310,25 @@ const DetailCard = ({
                       style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
                       key={index}
                       onPress={() => {
-                        handleReject(promiseID, userN);
+                        handleRejectPromise(promiseID, userN);
                         refreshCallback();
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
                   );
-                }
-                else if (action === 'Complete') {
+                } else if (action === 'Complete') {
                   return (
                     <TouchableOpacity
                       style={[commonStyles.ActionBtn]}
                       key={index}
                       onPress={() => {
                         handleCompletePromise(promiseID, userN);
-                        setrefresh(!refersh)
+                        refreshCallback();
                       }}>
-                      <Text>{action}</Text>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
                   );
-                }
-                else if (action === 'Fail') {
+                } else if (action === 'Fail') {
                   return (
                     <TouchableOpacity
                       style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
@@ -312,10 +336,33 @@ const DetailCard = ({
                       onPress={() => {
                         handleFailPromise(promiseID, userN);
                         refreshCallback();
-
-                        setrefresh(!refersh)
                       }}>
-                      <Text>{action}</Text>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                    </TouchableOpacity>
+                  );
+                }
+                else if (action === 'Fulfilled') {
+                  return (
+                    <TouchableOpacity
+                      style={[commonStyles.ActionBtn]}
+                      key={index}
+                      onPress={() => {
+                        handleFulfilledPromiseApi(promiseID, userN);
+                        refreshCallback();
+                      }}>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                    </TouchableOpacity>
+                  );
+                } else if (action === 'Failed') {
+                  return (
+                    <TouchableOpacity
+                      style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                      key={index}
+                      onPress={() => {
+                        handleFailedPromiseApi(promiseID, userN);
+                        refreshCallback();
+                      }}>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
                   );
                 }
@@ -327,12 +374,13 @@ const DetailCard = ({
                       onPress={() => {
                         setIsPaymentWebViewVisible(true);
                       }}>
-                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                      <Text style={{ color: "white" }}>{action}</Text>
                     </TouchableOpacity>
                   );
                 }
               })}
-              {actions.map((action, index) => {
+
+              {/* {actions.map((action, index) => {
                 if (action === 'Complete') {
                   return (
                     <TouchableOpacity
@@ -359,7 +407,7 @@ const DetailCard = ({
                     </TouchableOpacity>
                   );
                 }
-              })}
+              })} */}
             </View>
           </View>
         </LinearGradient>
@@ -436,6 +484,7 @@ const DetailCard = ({
                   {rewardPoints ? (
                     <Text> & {rewardPoints} Reward Points</Text>
                   ) : null}
+
                 </Text>
               ) : promisetype == 'COMMITMENT' ? (
                 <Text
@@ -450,6 +499,50 @@ const DetailCard = ({
                   {rewardPoints ? (
                     <Text> & {rewardPoints} Reward Points</Text>
                   ) : null}
+
+
+                  {actions.map((action, index) => {
+                if (action === 'Accept') {
+                  return (
+                    <TouchableOpacity
+                      style={commonStyles.ActionBtn}
+                      key={index}
+                      onPress={() => {
+                        handleAcceptPromise(promiseID, userN);
+                        refreshCallback();
+
+                      }}>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                    </TouchableOpacity>
+                  );
+                } else if (action === 'Reject') {
+                  return (
+                    <TouchableOpacity
+                      style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                      key={index}
+                      onPress={() => {
+                        handleRejectPromise(promiseID, userN);
+                        refreshCallback();
+                      }}>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                    </TouchableOpacity>
+                  );
+                }
+                else if (action == 'Pay') {
+                  return (
+                    <TouchableOpacity
+                      style={commonStyles.ActionBtn}
+                      key={index}
+                      onPress={() => {
+                        setIsPaymentWebViewVisible(true);
+                      }}>
+                      <Text style={{ color: "white" }}>{action}</Text>
+                    </TouchableOpacity>
+                  );
+                }
+              })}
+
+
                 </Text>
               ) : null}
             </View>
@@ -496,8 +589,8 @@ const DetailCard = ({
                       key={index}
                       onPress={() => {
                         handleAcceptPromise(promiseID, userN);
-                        console.log(promiseID, userN)
                         refreshCallback();
+
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -514,6 +607,55 @@ const DetailCard = ({
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
                   );
+                } else if (action === 'Complete') {
+                  return (
+                    <TouchableOpacity
+                      style={[commonStyles.ActionBtn]}
+                      key={index}
+                      onPress={() => {
+                        handleCompletePromise(promiseID, userN);
+                        refreshCallback();
+                      }}>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                    </TouchableOpacity>
+                  );
+                } else if (action === 'Fail') {
+                  return (
+                    <TouchableOpacity
+                      style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                      key={index}
+                      onPress={() => {
+                        handleFailPromise(promiseID, userN);
+                        refreshCallback();
+                      }}>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                    </TouchableOpacity>
+                  );
+                }
+                else if (action === 'Fulfilled') {
+                  return (
+                    <TouchableOpacity
+                      style={[commonStyles.ActionBtn]}
+                      key={index}
+                      onPress={() => {
+                        handleFulfilledPromiseApi(promiseID, userN);
+                        refreshCallback();
+                      }}>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                    </TouchableOpacity>
+                  );
+                } else if (action === 'Failed') {
+                  return (
+                    <TouchableOpacity
+                      style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                      key={index}
+                      onPress={() => {
+                        handleFailedPromiseApi(promiseID, userN);
+                        refreshCallback();
+                      }}>
+                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                    </TouchableOpacity>
+                  );
                 }
                 else if (action == 'Pay') {
                   return (
@@ -523,7 +665,7 @@ const DetailCard = ({
                       onPress={() => {
                         setIsPaymentWebViewVisible(true);
                       }}>
-                      <Text style={{color:"white"}}>{action}</Text>
+                      <Text style={{ color: "white" }}>{action}</Text>
                     </TouchableOpacity>
                   );
                 }
@@ -714,7 +856,7 @@ const DetailCard = ({
                       onPress={() => {
                         setIsPaymentWebViewVisible(true);
                       }}>
-                      <Text style={{color:"white"}}>{action}</Text>
+                      <Text style={{ color: "white" }}>{action}</Text>
                     </TouchableOpacity>
                   );
                 }
@@ -723,6 +865,7 @@ const DetailCard = ({
           </View>
         </LinearGradient>
       ) : null}
+
       <Modal
         animationType="slide"
         visible={isPaymentWebViewVisible}

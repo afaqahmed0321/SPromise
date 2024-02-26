@@ -54,6 +54,7 @@ const Ongoing = ({navigation}) => {
     MyPromisesApi(userN)
       .then(data => {
         setPromises(data);
+        console.log(data, "pro");
         setIsLoading(false);
       })
       .catch(error => {
@@ -75,7 +76,7 @@ const Ongoing = ({navigation}) => {
         <ActivityIndicator size="small" color="#0000ff" />
       ) : (
         <FlatList
-          data={promises.filter(item => item.status === 'AmountDue')}
+          data={promises.filter(item => item.status === 'AmountDue' || item.status === 'MarkedforCompletion')}
           refreshControl={
             <RefreshControl
               refreshing={isLoading}
