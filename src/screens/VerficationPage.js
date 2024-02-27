@@ -51,7 +51,10 @@ const VerficationPage = ({ navigation }) => {
       const timer = setTimeout(() => setResendCooldown(resendCooldown - 1), 1500);
       return () => clearTimeout(timer);
     }
-  }, [resendCooldown]);
+    setTimeout(() => {
+      setCode(null); 
+    }, 60000); 
+  }, [resendCooldown, resendCode]);
 
   const verification = async () => {
     console.log("here", OutputCode, Code)
