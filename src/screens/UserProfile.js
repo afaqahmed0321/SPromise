@@ -183,7 +183,7 @@ const UserProfile = () => {
   const LinkDinallHandel = async () => {
     setLinkDinResponse('');
     const LinkDinApiRes = await LinkDinApiCallLogin(userN);
-    console.log('LinkDinApiRes: ' + LinkDinApiRes);
+    console.log('LinkDinApiRessssss: ' + LinkDinApiRes);
     setLinkDinResponse(LinkDinApiRes);
     if (LinkDinApiRes !== '') {
       setIsWebView(true);
@@ -196,7 +196,7 @@ const UserProfile = () => {
       'User is already logged in, Automatically calling call handlers',
     );
     const twriterApiRes = await TwitterApiCallLogin(userN);
-    console.log(twriterApiRes, 'api call success');
+    console.log(twriterApiRes, 'api call success to twitter');
     setTwitterResponse(twriterApiRes);
     if (twriterApiRes !== '') {
       setIsWebView(true);
@@ -219,12 +219,10 @@ const UserProfile = () => {
   const apiCallLinkChceckRes = async () => {
     const response = await LinkDinApiCallToCheckData(userN);
     if (response == '400') {
-      // setXTogel(false)
       setLinkedInToggle(false);
 
       console.log('xtoggle is true');
     } else {
-      // setXTogel(true)
       setLinkedInToggle(true);
       console.log('xtoggle is False');
     }
@@ -447,11 +445,11 @@ const UserProfile = () => {
                     thumbOnStyle={{ backgroundColor: '#652D90' }}
                     size="small"
                     onToggle={() => {
-                     
+                          setXTogel(!xtoggle)
                       xtoggle
                         ? (setRemoveSLAModal(true),
-                          setIstwitterRemoveAccount(true),
-                          setXTogel(false))
+                          setIstwitterRemoveAccount(true)
+                          )
                         : // setRemoveSLAModal(true)
                         (setIsTwitterApiCall(true), TwitterCallHandel());
                      
@@ -474,7 +472,7 @@ const UserProfile = () => {
                     onToggle={() => {
                       setIsTwitterApiCall(false);
                       setLinkedInToggle(!linkedInToggle);
-                      LinkDinallHandel();
+                      // LinkDinallHandel();
                       linkedInToggle
                         ? (setRemoveSLAModal(true),
                           setIstwitterRemoveAccount(true))
@@ -483,7 +481,7 @@ const UserProfile = () => {
                   />
                 </View>
                 {/* //RemoveSoicalLinkApproval /> */}
-                <Modal
+                {/* <Modal
                   animationType="slide"
                   transparent={true}
                   style={{ height: hp(50), backgroundColor: 'red' }}
@@ -502,7 +500,7 @@ const UserProfile = () => {
                     blurType="light" // You can customize the blurType as needed
                     blurAmount={10} // You can adjust the blurAmount as needed
                   ></BlurView>
-                </Modal>
+                </Modal> */}
 
               
               </View>

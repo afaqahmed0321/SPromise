@@ -34,17 +34,18 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
 
         await axios.get(`https://snappromise.com:8080/api/Users/getUsers?searchString=${mail}`)
 
-            .then((response) => {
+            .then(async (response) => {
                 console.log("this is userrrrr", response?.data?.users?.[0].loginType)
                 setUserNumber(response?.data?.users?.[0].userNo)
                 if (response?.data?.users?.[0].loginType !== 'Manual') {
                     ToastAndroid.show('User has Logged in with Google', ToastAndroid.LONG);
         
                 } else {
-                    let response = PasswordVerification(mail)
+                    let response = await PasswordVerification(mail)
                     try {
                         console.log("Forget password is hitted by verification page", response);
-                        setCode(response.code);
+                        console.log("thisssssssss codeee", response);
+                        setCode(response);
                         navigation.navigate('EnterOTPScreen', { Code, email, userNumber });
                         setSemail(email);
                     }

@@ -5,7 +5,8 @@ const PasswordVerification = async (mail) => {
 
     try {
         const response = await axios.get(apiUrl);
-        return response.data;
+        console.log("tissssss ressspooonn", response.data.code)
+        return response.data.code;
     } catch (error) {
         console.error('Error fetching data:', error);
         return [];
