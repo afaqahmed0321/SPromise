@@ -46,6 +46,7 @@ const HomePageDataSection = () => {
   const [showDetail, setshowDetail] = useState('');
   const [onGoingPromises, setOnGoingPromises] = useRecoilState(onGoingPromisesListCard);
   const [forName, setForName] = useState(false);
+  const [timer, setTimer] = useState(true);
 
   const focus = useIsFocused();
   const [isLoading, setIsLoading] = useState(true);
@@ -59,7 +60,7 @@ const HomePageDataSection = () => {
       .then(data => {
         setPromises(data);
         // setIsLoading(false);
-        console.log(data, "active promises")
+        console.log(data, "active promises MyPromisesApi")
       })
       .catch(error => {
         console.error('Error fetching promises:', error);
@@ -70,7 +71,7 @@ const HomePageDataSection = () => {
       .then(data => {
         setpromisesToMe(data);
         // setIsLoading(false);
-        console.log(data, "active promises")
+        console.log(data, "active promises PromisesToMeApi" )
       })
       .catch(error => {
         console.error('Error fetching promises:', error);
@@ -82,7 +83,7 @@ const HomePageDataSection = () => {
       .then(data => {
         setPromisesReq(data);
         // setIsLoading(false);
-        console.log(data, "active promises")
+        console.log(data, "active promises GetPromiseRequestToUser")
       })
       .catch(error => {
         console.error('Error fetching promises:', error);
@@ -93,7 +94,7 @@ const HomePageDataSection = () => {
       .then(data => {
         setpromisesReqToMe(data);
         // setIsLoading(false);
-        console.log(data, "active promises")
+        console.log(data, "active promises GetUserPromiseRequest")
       })
       .catch(error => {
         console.error('Error fetching promises:', error);
@@ -110,6 +111,14 @@ const HomePageDataSection = () => {
     console.log("useEffect call")
     fetchData();
   }, [focus, refersh]);
+  
+  useEffect(() => {
+    console.log("useEffect call 2")
+    fetchData();
+    setTimeout(()=>{
+      setTimer(false);
+    },500)
+  },[timer]);
 
   const renderItem = ({ item, index }) => (
     <>
@@ -142,7 +151,7 @@ const HomePageDataSection = () => {
               tab={
                 'Home'
               }
-              jugaar="lpc"
+              jugaar="abc"
             />
           </View>
         </TouchableOpacity>
