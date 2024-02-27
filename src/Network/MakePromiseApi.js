@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { ToastAndroid } from 'react-native';
 
 const url = 'https://snappromise.com:8080/savePromise';
 
@@ -58,9 +57,7 @@ const MakePromiseApi = async (
     return response.data.code;
   } catch (error) {
     console.error('Error during API call:', error);
-    // Handle the error as needed
-    // Example: ToastAndroid.show('Failed to make promise', ToastAndroid.SHORT);
-  }
+}
 };
 
 export default MakePromiseApi;

@@ -15,16 +15,13 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import fetchUserData from '../Network/Users/GetUsers';
-import { TextInP } from '../Styling/TextInput';
 import { UserNo } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import { ismodalVisible, refreshPromiseNetwork } from '../recoil/Globel';
 import AddToMyNetwork from '../comp/MyNetwork/AddToMyNetwork';
-import { useFocusEffect } from '@react-navigation/native';
 import { useIsFocused } from '@react-navigation/native';
 import {
   IspromiseNetworkmodalVisible,
@@ -76,35 +73,6 @@ const PromiseNetwork = ({ navigation }) => {
     navigation.navigate('NetworkFeed');
   };
 
-  const toggleFavorite = () => {
-    // setIsFavorited(!isFavorited);
-  };
-
-  const handleRating = ratedValue => {
-    setRating(ratedValue);
-  };
-
-  const uniqueUserData = userData.filter(
-    (user, index, self) =>
-      index === self.findIndex(u => u.emailID === user.emailID),
-  );
-
-  const renderStars = maxRating => {
-    const stars = [];
-    for (let i = 1; i <= maxRating; i++) {
-      stars.push(
-        <TouchableOpacity key={i} onPress={() => handleRating(i)}>
-          <MaterialIcons
-            name={i <= rating ? 'star' : 'star-border'}
-            size={15}
-            color={i <= rating ? '#652D90' : '#A9A9A9'}
-          />
-        </TouchableOpacity>,
-      );
-    }
-    return stars;
-  };
-
   const fetchData = () => {
     fetchUserData(userN).then(data => {
       console.log(data, 'Network User: ');
@@ -112,14 +80,6 @@ const PromiseNetwork = ({ navigation }) => {
       setIsLoading(false);
     });
   };
-
-  //  useFocusEffect(
-
-  //     React.useCallback(() => {
-  //       fetchData();
-  //     }, [])
-  //   );
-
   useEffect(() => {
     fetchData();
   }, [focus, refreshnetwork]);
@@ -162,7 +122,7 @@ const PromiseNetwork = ({ navigation }) => {
             value={searchText}
             onChangeText={text => {
               setSearchText(text);
-              handleSearch(); // Trigger search on text change
+              handleSearch(); 
             }}
           />
 
@@ -208,7 +168,6 @@ const PromiseNetwork = ({ navigation }) => {
                 }}>
                 <View>
                   <Image
-                    // source={{uri:item.imageURL}}
                     source={
                       item.imageURL === ''
                         ? {
@@ -229,7 +188,6 @@ const PromiseNetwork = ({ navigation }) => {
                     <Text style={{ color: "black" }}>{item.networkUserName}</Text>
                   ) : null}
                 </View>
-                {/* <View style={styles.container}>{renderStars(5)}</View> */}
                 <View style={{}}>
                   <TouchableOpacity
                     style={{
@@ -250,7 +208,6 @@ const PromiseNetwork = ({ navigation }) => {
                     ) : (
                       <FontAwesome name="heart-o" size={15} color="#652D90" />
                     )}
-                    {/* </View> */}
                   </TouchableOpacity>
                 </View>
               </TouchableOpacity>

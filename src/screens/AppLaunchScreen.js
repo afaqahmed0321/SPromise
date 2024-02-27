@@ -5,7 +5,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import CustomButton from '../comp/Buttons';
 import { commonStyles } from '../Styling/buttons';
 import LinearGradient from 'react-native-linear-gradient';
 import { TextInP } from '../Styling/TextInput';

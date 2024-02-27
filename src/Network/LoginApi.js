@@ -99,10 +99,6 @@ export async function Sociallogin(email, socialLogin) {
     formData.append('socialLogIn', socialLogin);
 
     console.log("this form dataaaaa", formData);
-
-    // const response = await axiosInstance.post('/Login', formData, {
-    //   withCredentials: true,
-    // });
     const response = await fetch("https://snappromise.com:8080/Login", {
       method: 'POST',
       headers: headers,
@@ -114,6 +110,6 @@ export async function Sociallogin(email, socialLogin) {
     return data;
   } catch (error) {
     console.log("error before -222", error);
-    return -2; // Return custom error code for request failure
+    return -2;
   }
 }

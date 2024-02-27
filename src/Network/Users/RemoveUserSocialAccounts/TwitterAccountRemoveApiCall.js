@@ -1,5 +1,4 @@
 import axios from 'axios';
-// import { ToastAndroid } from 'react-native';
 
 const AccountRemovedApiCall = async (userN, Platform) => {
   const apiUrl = `https://snappromise.com:8080/api/Users/removeSocialMediaAccount?userNo=${userN}&socialPlatform=${Platform}`;
@@ -9,18 +8,10 @@ const AccountRemovedApiCall = async (userN, Platform) => {
   try {
     console.log('Try Case');
     const response = await axios.post(apiUrl);
-    
-    // Uncomment the following line if you want to see the entire response object in the console
-    // console.log('API Response:', response);
-
     console.log('Response Data:', response.data);
     return response.data.code;
   } catch (error) {
-    
-
     console.error('API Request Error:', error);
-    // Return an appropriate value or rethrow the error if needed
-    // return [];
   }
 };
 

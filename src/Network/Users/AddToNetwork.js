@@ -32,12 +32,10 @@ const AddUserNetwork = async (AddUserN,userN )=> {
         50,
       );
     } else {
-      // Handle other status codes or errors
       console.warn('Unexpected response code:', result.code);
     }
   } catch (error) {
     console.error('Error during API call:', error);
-    // Handle the error as needed
   }
 };
 

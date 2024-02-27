@@ -6,7 +6,7 @@ const addRemoveFavouriteAPi = async (Sn, Value) => {
     const apiUrl = `${apiLink}?serialNo=${Sn}&isFavourite=${Value}`;
 
     try {
-        const response = await axios.post(apiUrl);  // Corrected method name to post
+        const response = await axios.post(apiUrl);  
         console.log(response.data);
         return response.data;
     } catch (error) {

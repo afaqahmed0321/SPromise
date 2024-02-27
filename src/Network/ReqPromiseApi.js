@@ -1,5 +1,4 @@
 import { ToastAndroid } from 'react-native';
-import { PromiseType } from '../recoil/AddPromise';
 
 const url = 'https://snappromise.com:8080/savePromiseRequest';
 
@@ -14,12 +13,10 @@ const ReqPromiseApi = async (
   RatingImapect,
   LinkDin,
   Twitter,
-  startDate,
   status,
   paymentAmount,
   paymentStatus,
   PromiseReward,
-  PromiseStatus,
   visibility,
 ) => {
   const requestBody = {
@@ -34,7 +31,6 @@ const ReqPromiseApi = async (
     ratingImpact: RatingImapect,
     shareonLinkedIn: LinkDin,
     shareonTwitter: Twitter,
-    // "startDate": startDate,
     status: status,
     userPromisePayment: {
       PaymentStatus: paymentStatus,
@@ -83,7 +79,6 @@ const ReqPromiseApi = async (
 
   } catch (error) {
     console.error('Error during API call:', error);
-    // Handle the error as needed
   }
 };
 
