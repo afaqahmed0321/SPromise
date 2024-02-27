@@ -82,14 +82,20 @@ const PromiseStatusData = () => {
               <View
                 style={{
                   position: 'absolute',
-                  top: '50%', // Place the text in the vertical center
-                  left: '50%', // Place the text in the horizontal center
-                  transform: [{ translateX: -15 }, { translateY: -10 }], // Offset for centering
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 {userPromisbility ? (
                   <Text style={{ fontSize: hp(2), color: '#652D90' }}>
-                    {parseInt(userPromisbility)}%
+                    {/* {parseInt(userPromisbility)}% */}
+                    100%
+                    
                   </Text>
                 ) : (
                   <Text style={{ fontSize: hp(2), color: '#652D90' }}>

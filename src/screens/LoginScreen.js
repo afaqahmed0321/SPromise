@@ -94,6 +94,7 @@ const LoginScreen = ({ navigation }) => {
 
   async function onGoogleButtonPress() {
     console.log('here');
+    setIsLoading(true);
     await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
     await GoogleSignin.signOut();
 
@@ -211,56 +212,78 @@ const LoginScreen = ({ navigation }) => {
 
           }
         }
+        setIsLoading(false);
       })
       .catch(error => {
         console.log(error);
+        setIsLoading(false);
       });
   }
 
-  const LoginPress = async () => {
-    try {
-      if (Email == '') {
-        ToastAndroid.show('Please Enter Email', ToastAndroid.LONG);
-      } else if (Password == '') {
-        ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
-      } else {
-        setIsLoading(true); // Show the loading overlay
-        const mail = Email.toLowerCase();
-        let response = await login(mail, Password);
+const LoginPress = async () => {
+  try {
+    if (Email == '') {
+      ToastAndroid.show('Please Enter Email', ToastAndroid.LONG);
+    } else if (Password == '') {
+      ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
+    } else {
+      setIsLoading(true); // Show the loading overlay
+      const mail = Email.toLowerCase();
+      let response = await login(mail, Password);
 
-        console.log("login response complette", response);
+      console.log("login response complette", response);
 
-        const paymentStatus = response.paymentPending;
-        const userNumber = response.userNo;
+      const paymentStatus = response.paymentPending;
+      const userNumber = response.userNo;
 
-        console.log("this is payment status", paymentStatus);
-        console.log("this is userNumber", userNumber);
+      console.log("this is payment status", paymentStatus);
+      console.log("this is userNumber", userNumber);
 
-        setIsLoading(false); // Hide the loading overlay
-        if (response.message === 'Success') {
+      setIsLoading(false); // Hide the loading overlay
+      if (response.message === 'Success') {
 
-          if (!paymentStatus) {
-            setToken(response.token);
-            setUserN(response.userNo);
-            setemail(Email);
-            let resp = await fetchUser(Email);
-            console.log(resp.firstName + ' ' + resp.lastName, 'response');
-            await AsyncStorage.setItem('token', '');
-            await AsyncStorage.setItem('userNo', '');
-            await AsyncStorage.setItem('Email', '');
-            await AsyncStorage.setItem('Name', '');
-            await AsyncStorage.setItem('token', response.token);
-            await AsyncStorage.setItem('userNo', response.userNo);
-            await AsyncStorage.setItem('Email', Email);
-            await AsyncStorage.setItem(
-              'Name',
-              resp.firstName + ' ' + resp.lastName,
-            );
-            // navigation.navigate('HomeScreen')
+        if (!paymentStatus) {
+          setToken(response.token);
+          setUserN(response.userNo);
+          setemail(Email);
+          let resp = await fetchUser(Email);
+          console.log(resp.firstName + ' ' + resp.lastName, 'response');
+          await AsyncStorage.setItem('token', '');
+          await AsyncStorage.setItem('userNo', '');
+          await AsyncStorage.setItem('Email', '');
+          await AsyncStorage.setItem('Name', '');
+          await AsyncStorage.setItem('token', response.token);
+          await AsyncStorage.setItem('userNo', response.userNo);
+          await AsyncStorage.setItem('Email', Email);
+          await AsyncStorage.setItem(
+            'Name',
+            resp.firstName + ' ' + resp.lastName,
+          );
+          // navigation.navigate('HomeScreen')
+        } else {
+          try {
+
+            const response = await fetch(`https://snappromise.com:8080/getCustomerPortalURL?UserNo=${userNumber}`, {
+              method: 'GET',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+            });
+
+            const data = await response.json();
+            setFirstUrl(data.url);
+            console.log('Data from the serverrrrrr:', response.statusText);
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+          if (firstUrl) {
+
+            navigation.navigate('CustomWebView', { uri: firstUrl });
+
           } else {
             try {
-
-              const response = await fetch(`https://snappromise.com:8080/getCustomerPortalURL?UserNo=${userNumber}`, {
+              const response = await fetch(`https://snappromise.com:8080/getCheckOutURL`, {
                 method: 'GET',
                 headers: {
                   Accept: 'application/json',
@@ -269,137 +292,117 @@ const LoginScreen = ({ navigation }) => {
               });
 
               const data = await response.json();
-              setFirstUrl(data.url);
-              console.log('Data from the serverrrrrr:', response.statusText);
+              const updatedUrl = `${data.url}?prefilled_email=${Email}`;
+              setSecondUrl(updatedUrl);
+              console.log('Data from the server:', updatedUrl);
+
+              // Navigate inside the then block after setting the state
+              navigation.navigate('CustomWebView', { uri: updatedUrl });
             } catch (error) {
               console.error('Error fetching data:', error);
             }
-            if (firstUrl) {
-
-              navigation.navigate('CustomWebView', { uri: firstUrl });
-
-            } else {
-              try {
-                const response = await fetch(`https://snappromise.com:8080/getCheckOutURL`, {
-                  method: 'GET',
-                  headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                  },
-                });
-
-                const data = await response.json();
-                const updatedUrl = `${data.url}?prefilled_email=${Email}`;
-                setSecondUrl(updatedUrl);
-                console.log('Data from the server:', updatedUrl);
-
-                // Navigate inside the then block after setting the state
-                navigation.navigate('CustomWebView', { uri: updatedUrl });
-              } catch (error) {
-                console.error('Error fetching data:', error);
-              }
-
-            }
-
-
 
           }
 
 
-        } else if (
-          (response.message =
-            'Either you do not have permission or credentials are invalid.')
-        ) {
-          ToastAndroid.show(
-            'Either you do not have permission or credentials are invalid.',
-            ToastAndroid.LONG,
-          );
-        } else {
-          ToastAndroid.show('Please Try Again !', ToastAndroid.LONG);
+
         }
+
+
+      } else if (
+        (response.message =
+          'Either you do not have permission or credentials are invalid.')
+      ) {
+        ToastAndroid.show(
+          'Either you do not have permission or credentials are invalid.',
+          ToastAndroid.LONG,
+        );
+      } else {
+        ToastAndroid.show('Please Try Again !', ToastAndroid.LONG);
       }
-    } catch (error) {
-      console.error('Error in LoginPress:', error);
-      setIsLoading(false); // Hide the loading overlay in case of error
-      ToastAndroid.show('An error occurred. Please try again later.', ToastAndroid.LONG);
     }
-  };
+  } catch (error) {
+    console.error('Error in LoginPress:', error);
+    setIsLoading(false); // Hide the loading overlay in case of error
+    ToastAndroid.show('An error occurred. Please try again later.', ToastAndroid.LONG);
+  }
+};
 
-  const onChangeEmail = async text => {
-    // Update the Email state with the new text input
-    setEmail(text);
-  };
-  const onChangePassword = async text => {
-    setPassword(text);
-  };
-  const handleForgetPassword = () => {
-    navigation.navigate('ForgetPasswordEmailScreen');
-  };
-  return (
-    <SafeAreaView style={styles.mainC}>
-      {isLoading && <LoadingOverlay />}
+const onChangeEmail = async text => {
+  // Update the Email state with the new text input
+  setEmail(text);
+};
+const onChangePassword = async text => {
+  setPassword(text);
+};
+const handleForgetPassword = () => {
+  navigation.navigate('ForgetPasswordEmailScreen');
+};
+return (
+  <SafeAreaView style={styles.mainC}>
+    {isLoading && <LoadingOverlay />}
 
-      <LogoHeaderGlobel navigation={navigation} />
-      <View style={{ width: wp(90), marginTop: hp(8), marginLeft: hp(2) }}>
-        <Text style={Headings.InputH}>Log In</Text>
-        {/* <Text style={Headings.Input3}>Email</Text> */}
+    <LogoHeaderGlobel navigation={navigation} />
+    <View style={{ width: wp(90), marginTop: hp(8), marginLeft: hp(2) }}>
+      <Text style={Headings.InputH}>Log In</Text>
+      {/* <Text style={Headings.Input3}>Email</Text> */}
+      <TextInput
+        style={TextInP.Fileds}
+        value={Email}
+        onChangeText={text => onChangeEmail(text)}
+        placeholder="Enter your email here"
+        placeholderTextColor={'grey'}
+      />
+      {/* <Text style={Headings.Input3}>Password</Text> */}
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <TextInput
           style={TextInP.Fileds}
-          value={Email}
-          onChangeText={text => onChangeEmail(text)}
-          placeholder="Enter your email here"
+          placeholder="Enter your password here"
+          value={Password}
+          onChangeText={text => onChangePassword(text)}
+          secureTextEntry={!isPasswordVisible}
           placeholderTextColor={'grey'}
-        />
-        {/* <Text style={Headings.Input3}>Password</Text> */}
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <TextInput
-            style={TextInP.Fileds}
-            placeholder="Enter your password here"
-            value={Password}
-            onChangeText={text => onChangePassword(text)}
-            secureTextEntry={!isPasswordVisible}
-            placeholderTextColor={'grey'}
 
-          />
-          <TouchableOpacity
-            style={{ position: 'absolute', right: hp(2.1), top: hp(2.4), color: '#652D90' }}
-            onPress={togglePasswordVisibility}>
-            <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity onPress={() => navigation.navigate('ForgetPasswordEmailScreen')} style={{ alignItems: 'flex-end', }}>
-          <Text style={{ fontWeight: 'bold', color: '#000' }}>Forgot Password?</Text>
+        />
+        <TouchableOpacity
+          style={{ position: 'absolute', right: hp(2.1), top: hp(2.4), color: '#652D90' }}
+          onPress={togglePasswordVisibility}>
+          <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
         </TouchableOpacity>
       </View>
+      <TouchableOpacity onPress={() => navigation.navigate('ForgetPasswordEmailScreen')} style={{ alignItems: 'flex-end', }}>
+        <Text style={{ fontWeight: 'bold', color: '#000' }}>Forgot Password?</Text>
+      </TouchableOpacity>
+    </View>
 
-      <View style={{ marginTop: hp(3), alignItems: 'center' }}>
-        <View>
-          <LinearGradient
-            colors={['#E4A936', '#EE8347']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={commonStyles.lognBtn}
-          >
-            <TouchableOpacity onPress={() => LoginPress()}>
-              <Text style={TextInP.LogInButton}>Log In</Text>
-            </TouchableOpacity>
-          </LinearGradient>
-        </View>
-        <View style={{ marginTop: hp(2) }}>
-          <TouchableOpacity
-            onPress={onGoogleButtonPress}
-            style={commonStyles.SocialBtn}>
-            <Image
-              source={require('../source/google.png')} // Replace with the actual path to your local image
-              style={{ width: 24, height: 24, marginRight: wp(2) }} // Adjust the width and height as needed
-            />
-            <Text style={{ color: 'black' }}>Continue with Google</Text>
+    <View style={{ marginTop: hp(3), alignItems: 'center' }}>
+      <View>
+        <LinearGradient
+          colors={['#E4A936', '#EE8347']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={commonStyles.lognBtn}
+        >
+          <TouchableOpacity onPress={() => LoginPress()}>
+            <Text style={TextInP.LogInButton}>Log In</Text>
           </TouchableOpacity>
-
-        </View>
+        </LinearGradient>
       </View>
-    </SafeAreaView>
-  );
+      <View style={{ marginTop: hp(2) }}>
+        <TouchableOpacity
+          onPress={onGoogleButtonPress}
+          style={commonStyles.SocialBtn}>
+          <Image
+            source={require('../source/google.png')} // Replace with the actual path to your local image
+            style={{ width: 24, height: 24, marginRight: wp(2) }} // Adjust the width and height as needed
+          />
+          <Text style={{ color: 'black' }}>Continue with Google</Text>
+        </TouchableOpacity>
+
+      </View>
+    </View>
+  </SafeAreaView>
+);
 };
 
 export default LoginScreen;

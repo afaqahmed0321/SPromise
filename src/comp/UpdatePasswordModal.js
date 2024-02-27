@@ -52,14 +52,8 @@ const UpdatePasswordModal = () => {
           console.log(NewPass, 'New password');
           const res = await UpdatedPassword(userN, NewPass);
           console.log(res, 'Adapted password');
-          if (res === 200) {
-            ToastAndroid.showWithGravityAndOffset(
-              'Password updated successfully',
-              ToastAndroid.LONG,
-              ToastAndroid.BOTTOM,
-              25,
-              50,
-            );
+          if (res.status === 200) {
+            ToastAndroid.show('Password Change successfully', ToastAndroid.LONG);
             setIsDrawerV(false);
           }
         } else {
@@ -71,6 +65,7 @@ const UpdatePasswordModal = () => {
     } else {
        ToastAndroid.show('Old password does not match', ToastAndroid.LONG);
     }
+
   };
   
   
