@@ -11,7 +11,6 @@ import {
   FlatList,
   TextInput,
   TouchableOpacity,
-  Modal,
   Image,
   ActivityIndicator,
 } from 'react-native';
@@ -27,19 +26,12 @@ import {
 } from 'react-native-responsive-screen';
 import { ToastAndroid } from 'react-native';
 import { UserNo } from '../../recoil/AddPromise';
-import { useFocusEffect } from '@react-navigation/native';
 import { useIsFocused } from '@react-navigation/native';
 import Material from 'react-native-vector-icons/MaterialIcons';
-import Feather from 'react-native-vector-icons/Feather';
-import Evil from 'react-native-vector-icons/EvilIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import Ant from 'react-native-vector-icons/AntDesign';
 
-import { DashBoardStyling } from '../../Styling/DashBoard';
 import PromiseReaction from '../../Network/Users/NetworkFeed/PromiseReaction';
 import PromiseComment from '../../Network/Users/NetworkFeed/AddCommentAPI';
-import PromiseNetwork from '../../screens/PromiseNetwork';
-import NetWorkFeedApi from '../../Network/Users/NetworkFeed/NetworkFeedAPi';
 import axios from 'axios';
 import { RefreshControl } from 'react-native';
 
@@ -76,7 +68,6 @@ const NetworkFeed = ({ navigation }) => {
   const handelNetworkFeedComp = async () => {
     const networkUserNo = userN;
     console.log('UserNo is ', networkUserNo);
-    // const resp = NetWorkFeedApi(networkUserNo);
     const resp = await axios.get(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=private`)
       .then((response) => {
         const data = response.data.promisesList; // Accessing the data property of the Axios response
@@ -124,16 +115,11 @@ const NetworkFeed = ({ navigation }) => {
 
 
     const res = await PromiseReaction(userNN, PIDd, Reac);
-    // console.log(res.code);
     setrefresh(!refersh)
-    // setPromiseComments
   };
 
   const onHandelComment = async PID => {
     const userNN = userN;
-
-    // const commen = comment
-
     if (comment === '') {
       ToastAndroid.showWithGravityAndOffset(
         'Please enter comment',
@@ -143,7 +129,6 @@ const NetworkFeed = ({ navigation }) => {
         50,
       );
     }
-    // console.log(userNN, 'UserNO' + PID);
     else {
       const commen = comment;
       console.log('Api Calling');
@@ -166,13 +151,11 @@ const NetworkFeed = ({ navigation }) => {
         setIsViewAll([...isViewAll, promiseID])
 
       }
-      // setIsViewAll(promiseID);
     };
     const getTotalLikes = () => {
       return item.promiseReactions.length;
     };
 
-    // Function to handle like/unlike action
     const handleLikeAction = (promiseID) => {
       const isLiked = item.promiseReactions.includes(userN);
       const action = isLiked ? "Unlike" : "Like";
@@ -195,7 +178,7 @@ const NetworkFeed = ({ navigation }) => {
               alignItems: 'center',
               width: wp(23),
               height: hp(6),
-              borderRadius: wp(6.5), // Half of the width
+              borderRadius: wp(6.5),
               marginLeft: wp(2),
               marginTop: hp(1),
             }}>
@@ -211,7 +194,7 @@ const NetworkFeed = ({ navigation }) => {
               style={{
                 width: wp(13),
                 height: hp(6),
-                borderRadius: wp(6.5), // Half of the width
+                borderRadius: wp(6.5),
               }}
             />
             <View style={{ marginLeft: wp(3) }}>
@@ -302,18 +285,15 @@ const NetworkFeed = ({ navigation }) => {
             {item.promiseGoal}
           </Text>
         </View>
-        {/* //Like and Share Section  */}
         <View
           style={{
             marginLeft: wp(2),
-            // borderWidth: 1,
             justifyContent: 'space-evenly',
             alignItems: 'center',
             flexDirection: 'row',
           }}>
 
         </View>
-        {/* /// Comments Section */}
         <View style={{ marginLeft: wp(2) }}>
           {item.promiseComments && item.promiseComments.length > 0 ? (
             item.promiseComments
@@ -322,7 +302,6 @@ const NetworkFeed = ({ navigation }) => {
                 <View
                   key={comment.serialNo}
                   style={{
-                    // borderWidth: 1,
                     flexDirection: 'row',
                     alignItems: 'center',
                   }}>
@@ -352,7 +331,6 @@ const NetworkFeed = ({ navigation }) => {
                   </View>
                   <View
                     style={{
-                      // borderWidth: 1,
                       flexDirection: 'column',
                       width: wp(65),
                       marginLeft: wp(3),
@@ -375,12 +353,10 @@ const NetworkFeed = ({ navigation }) => {
             </TouchableOpacity>
           )}
         </View>
-        {/* Add Comment Section  */}
         <View style={{}}>
           <TextInput
             onChangeText={text => {
               setComment(text);
-              // console.log(text);
             }}
             placeholder="Add a comment"
             placeholderTextColor={"black"}
@@ -398,7 +374,6 @@ const NetworkFeed = ({ navigation }) => {
           <TouchableOpacity
             style={{
               width: wp(30),
-              // borderw: 1,
               height: hp(5),
               justifyContent: 'center',
               alignItems: 'center',
@@ -425,7 +400,6 @@ const NetworkFeed = ({ navigation }) => {
       style={{
         backgroundColor: '#E4EEE6',
         flex: 1,
-        // justifyContent: 'center',
         alignItems: 'center',
       }}>
       <View
@@ -447,7 +421,6 @@ const NetworkFeed = ({ navigation }) => {
             value={searchText}
             onChangeText={text => {
               setSearchText(text);
-              // Trigger search on text change
             }}
           />
 
@@ -479,7 +452,6 @@ const NetworkFeed = ({ navigation }) => {
       <View
         style={{
           marginTop: hp(1),
-          // borderWidth: wp(1),
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
@@ -524,9 +496,9 @@ const NetworkFeed = ({ navigation }) => {
             </View>
           ) : (
             <View style={{ marginVertical: 10, marginHorizontal: 10, marginBottom: 110 }}>
-            {console.log("this is private data", privateData)}
-            {console.log("this is public data", publicData)}
-            {console.log("this is network data", networkonlyData)}
+              {console.log("this is private data", privateData)}
+              {console.log("this is public data", publicData)}
+              {console.log("this is network data", networkonlyData)}
 
               <FlatList
                 refreshControl={
@@ -637,7 +609,6 @@ const styles = StyleSheet.create({
     paddingLeft: wp(4),
     paddingTop: wp(1),
     paddingBottom: wp(1),
-    // marginTop: wp(28)
   },
   containerr: {
     flexDirection: 'row',
@@ -646,7 +617,6 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 10,
-    // borderWidth: 1,
     borderColor: 'gray',
     borderRadius: 5,
     width: wp(28),

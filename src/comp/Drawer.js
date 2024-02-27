@@ -66,13 +66,6 @@ const Drawer = () => {
       </TouchableWithoutFeedback>
 
       <View style={styles.Main}>
-        {/* <TouchableOpacity
-          onPress={() => setIsDrawerV(false)}
-          style={{ marginLeft: wp(6), marginTop: hp(1) }}
-        >
-          <Fontisto color="#652D90" name="close" size={30} />
-        </TouchableOpacity> */}
-
         <TouchableOpacity style={styles.user}>
           <View
             style={{
@@ -104,7 +97,6 @@ const Drawer = () => {
               />
             </View>
             <View style={{ width: wp(58), marginLeft: wp(3) }}>
-              {/* <Text style={{ color: '#6650A4' }}>{name}</Text> */}
               <Text style={{ color: '#6650A4', width: wp(65) }}>{email}</Text>
             </View>
           </View>
@@ -125,46 +117,7 @@ const Drawer = () => {
           </View>
 
 
-          {/* <View>
-            <TouchableOpacity
-              style={styles.listContainer}
-              onPress={() => navigation.navigate('BraintreeDropInUI')}
-            >
-              <MaterialIcons
-                color="#652D90"
-                name="payments"
-                size={30}
-                style={{ marginTop: 8 }}
-              />
-              <Text style={[styles.TebText, { padding: 3 }]}>Payment Methods</Text>
-            </TouchableOpacity>
-          </View>
-
-          <TouchableOpacity
-            style={[styles.listContainer, { marginLeft: wp(1) }]}
-            onPress={() => navigation.navigate('TransactionsHistory')}
-          >
-
-            <FontAw5 color="#652D90" name="file-invoice-dollar" size={23} style={{ marginTop: 8 }} />
-            <Text style={styles.TebText}>  Transaction History</Text>
-          </TouchableOpacity>
-
-
-          <View>
-            <TouchableOpacity
-              style={styles.listContainer}
-              onPress={() => navigation.navigate('')}
-            >
-              <MaterialIcons
-                color="#652D90"
-                name="favorite"
-                size={30}
-                style={{ marginTop: 8 }}
-              />
-              <Text style={[styles.TebText, { padding: 3 }]}>Favorites</Text>
-            </TouchableOpacity>
-          </View> */}
-
+         
 
           <View>
             <TouchableOpacity
@@ -184,51 +137,6 @@ const Drawer = () => {
           </View>
 
 
-          {/* <View>
-            <TouchableOpacity
-              style={styles.listContainer}
-              onPress={() => navigation.navigate('')}
-            >
-              <MaterialIcons
-                color="#652D90"
-                name="equalizer"
-                size={30}
-                style={{ marginTop: 8 }}
-              />
-              <Text style={[styles.TebText, { padding: 3 }]}>Your Statistics</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View>
-            <TouchableOpacity
-              style={styles.listContainer}
-              onPress={() => navigation.navigate('')}
-            >
-              <MaterialIcons
-                color="#652D90"
-                name="help"
-                size={30}
-                style={{ marginTop: 8 }}
-              />
-              <Text style={[styles.TebText, { padding: 3 }]}>Help and FAQs</Text>
-            </TouchableOpacity>
-          </View>
-
-
-          <View>
-            <TouchableOpacity
-              style={styles.listContainer}
-              onPress={() => navigation.navigate('')}
-            >
-              <MaterialIcons
-                color="#652D90"
-                name="headphones"
-                size={30}
-                style={{ marginTop: 8 }}
-              />
-              <Text style={[styles.TebText, { padding: 3 }]}>Tech Support</Text>
-            </TouchableOpacity>
-          </View> */}
 
           <View>
             <TouchableOpacity
@@ -273,8 +181,6 @@ export default Drawer;
 const styles = StyleSheet.create({
   Main: {
     backgroundColor: '#E4EEE6',
-    // justifyContent: 'center',
-    // alignItems: 'center',
     width: wp(80),
     height: hp(100),
     borderRadius: 10,
@@ -283,8 +189,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
     elevation: 5,
-    // padding: 20,
-    // marginTop: hp(3)
   },
   user: {
     marginTop: hp(1),
@@ -301,7 +205,6 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     width: '100%',
-    // borderWidth: wp(.3),
     flexDirection: 'row',
     alignItems: 'center',
     height: hp(10),
@@ -315,6 +218,6 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'transparent', // You can set a semi-transparent color here
+    backgroundColor: 'transparent', 
   },
 });

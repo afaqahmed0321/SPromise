@@ -72,10 +72,6 @@ const NotificationCard = () => {
   const [noti, setNoti] = useRecoilState(NotificationData);
 
   const focus = useIsFocused();
-  // const [isLoading, setIsLoading] = useState(false)
-
-  // ===//
-
   const [selectedMedia, setSelectedMedia] = useRecoilState(selectMedia);
 
   const [selectitem, setSelectitem] = useState({});
@@ -114,11 +110,8 @@ const NotificationCard = () => {
   const notiMethod = noti.notificationMethod;
 
   const fetchPromise = async () => {
-    // console.log(noti.docNo)
     const docNo = noti.docNo;
 
-    // const notiMethod = noti.notificationMethodAction;
-    // const notiMethod = noti.notificationMethod;
     console.log(notiMethod);
     // setSelectitem(data);([]);
     if (notiMethod == 'Promise') {
@@ -143,7 +136,6 @@ const NotificationCard = () => {
           }
         })
         .catch(error => {
-          // console.error('Error fetching promise:', error);
         });
     } else if (notiMethod == 'RequestPromise') {
       console.log('Fetching Promise by Request', docNo);
@@ -186,7 +178,6 @@ const NotificationCard = () => {
 
   useEffect(() => {
     fetchPromise();
-    // }, [focus, selectitem]);
   }, [focus]);
   const handleCloseModal = () => {
     setIsModalV(false);
@@ -197,7 +188,6 @@ const NotificationCard = () => {
       <TouchableWithoutFeedback onPress={handleCloseModal}>
         <View style={styles.overlay}>
           <View style={{ height: hp(25) }}>
-            {/* <BlurView blurType="light" blurAmount={5} style={{ flex: 1 }}></BlurView> */}
           </View>
           <View>
             {isLoading ? (
@@ -469,10 +459,8 @@ const NotificationCard = () => {
                             });
                             console.log(Promiseze);
                             navigation.navigate('MakePromise');
-                            // setAmount(item.)
                           }}
                           style={{ marginLeft: wp(2) }}>
-                          {/* <Feather color="white" name="edit-2" size={17} /> */}
                         </TouchableOpacity>
                       </View>
                     </View>
@@ -481,8 +469,6 @@ const NotificationCard = () => {
               </View>
             )}
           </View>
-          {/* <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}>
-          </BlurView> */}
         </View>
       </TouchableWithoutFeedback>
     </>
@@ -513,9 +499,7 @@ const styles = StyleSheet.create({
   },
   DataSection: {
     width: wp(48),
-    // borderWidth: wp(0.3),
     height: hp(40),
-    // borderRadius: wp(4),
     backgroundColor: '#DDDFE2',
     borderTopRightRadius: wp(5),
     borderTopLeftRadius: wp(5),
@@ -525,7 +509,6 @@ const styles = StyleSheet.create({
 
   states: {
     width: wp(39),
-    // borderWidth: wp(0.3),
     height: hp(40),
     borderColor: 'red',
     flexDirection: 'colom',
@@ -534,15 +517,12 @@ const styles = StyleSheet.create({
 
   statesSecOne: {
     width: wp(42),
-    // borderWidth: wp(0.3),
     height: hp(21),
-    // borderColor: 'red',
     backgroundColor: '#DDDFE2',
     borderRadius: wp(5),
   },
   Card: {},
   btn: {
-    // width: wp(35),
     width: wp(20),
     height: hp(5),
     backgroundColor: '#32C35B',

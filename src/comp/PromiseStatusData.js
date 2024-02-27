@@ -78,7 +78,6 @@ const PromiseStatusData = () => {
                 dividerSize={2}
                 strokeCap={'butt'}
               />
-              {/* Position the userPromisbility text */}
               <View
                 style={{
                   position: 'absolute',
@@ -93,9 +92,7 @@ const PromiseStatusData = () => {
               >
                 {userPromisbility ? (
                   <Text style={{ fontSize: hp(2), color: '#652D90' }}>
-                    {/* {parseInt(userPromisbility)}% */}
                     100%
-                    
                   </Text>
                 ) : (
                   <Text style={{ fontSize: hp(2), color: '#652D90' }}>
@@ -119,12 +116,8 @@ export default PromiseStatusData;
 const styles = StyleSheet.create({
   PromiseStatus: {
     width: wp(90),
-    // borderWidth: wp(0.3),
     height: hp(21),
-    // borderColor: 'red',
-    // backgroundColor: '#DDDFE2',
     borderRadius: wp(5),
-    // borderWidth: 1,
   },
   bar: {
     height: hp(3),
