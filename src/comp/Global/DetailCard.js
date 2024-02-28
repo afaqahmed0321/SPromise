@@ -120,13 +120,13 @@ const DetailCard = ({
     const handleLoad = () => {
       setIsLoading(false);
     };
-    const handleCloseModal = () => {
-      setIsPaymentWebViewVisible(false);
-    };
+
 
     useEffect(()=>{
       DetailCard();
     },[actionState]);
+
+   
 
     return (
       <Modal
@@ -163,8 +163,10 @@ const DetailCard = ({
     );
   };
   const handleCloseModal = () => {
-    setIsPaymentWebViewVisible(false);
+    setIsPaymentWebViewVisible(!isPaymentWebViewVisible);
+    setActionState(!actionState);
   };
+
   return (
     <>
       {console.log("actionsss", promiseeProfileImageUrl,
@@ -518,8 +520,6 @@ const DetailCard = ({
                             </Text>
                           ) : null}
                         </>
-
-
                       </Text>
                     </>
                   ) : (
