@@ -88,7 +88,7 @@ const OngoingPTM = ({navigation}) => {
               titleColor="white" // iOS
             />
           }
-          data={promises.filter(item => item.status === 'AmountDue' ||  item.status === 'MarkedforCompletion' || item.status === 'Accepted')}
+          data={promises.filter(item => item.status === 'MarkedforCompletion' || item.status === 'Accepted')}
           keyExtractor={item => item.promiseID.toString()} // Use a unique identifier as the key
           renderItem={({item}) => (
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
