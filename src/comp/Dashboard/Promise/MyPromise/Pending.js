@@ -76,7 +76,7 @@ const Pending = ({navigation}) => {
         <ActivityIndicator size="small" color="#0000ff" />
       ) : (
         <FlatList
-          data={promises.filter(item => item.status === 'Pending')}
+          data={promises.filter(item => item.status === 'Pending' || item.status === 'AmountDue')}
           refreshControl={
             <RefreshControl
               refreshing={isLoading}
