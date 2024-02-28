@@ -496,14 +496,7 @@ const NetworkFeed = ({ navigation }) => {
           <Text style={styles.BtnText}>Public</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[
-            styles.button,
-            visibilityy === 'Private' && styles.selectedButton,
-          ]}
-          onPress={() => handleVisibilityChange('Private')}>
-          <Text style={styles.BtnText}>Private</Text>
-        </TouchableOpacity>
+      
 
         <TouchableOpacity
           style={[
@@ -512,6 +505,15 @@ const NetworkFeed = ({ navigation }) => {
           ]}
           onPress={() => handleVisibilityChange('Network')}>
           <Text style={styles.BtnText}>Network Only</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.button,
+            visibilityy === 'Private' && styles.selectedButton,
+          ]}
+          onPress={() => handleVisibilityChange('Private')}>
+          <Text style={styles.BtnText}>Private</Text>
         </TouchableOpacity>
 
       </View>

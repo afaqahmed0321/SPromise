@@ -56,7 +56,7 @@ const DashboardTopTabs = () => {
       <Tab.Screen name="Show All" component={isMyPromisesV ? ShowAllTab : ShowAllTabPTM } />
       <Tab.Screen name="Pending" component={isMyPromisesV ? Pending : PendingPTM } />
       <Tab.Screen name="Active" component={ isMyPromisesV ? Ongoing : OngoingPTM } />
-      <Tab.Screen name="Complete" component={ isMyPromisesV ? Complete : CompletePTM} />
+      <Tab.Screen name="Completed" component={ isMyPromisesV ? Complete : CompletePTM} />
       <Tab.Screen name="Failed" component={ isMyPromisesV ? Failed : FailedPTM } />
       {/* <Tab.Screen name="Tab3" component={Screen3} /> */}
     </Tab.Navigator>
@@ -96,7 +96,7 @@ const Dashboard = () => {
               colors={isMyPromisesV ? makeprmsbg1 : makeprmsbg2}
               style={styles.LinerC}>
               <Text style={{color: 'white', textAlign: 'center'}}>
-                Promises
+                 My Promises
               </Text>
             </LinearGradient>
           </TouchableOpacity>

@@ -255,7 +255,7 @@ const HomePageDataSection = () => {
         <View>
           <View style={{ flexDirection: "row", justifyContent: "space-around", alignItems: "center", alignContent: "center", marginHorizontal: 10, marginVertical: 3 }}>
             <View style={styles.bar}>
-              <Text style={styles.barText}>Active Promises</Text>
+              <Text style={styles.barText}>Ongoing Promises</Text>
             </View>
             <TouchableOpacity onPress={() => setrefresh(!refersh)}>
               <View style={{ marginRight: 15 }}>
