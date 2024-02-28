@@ -510,7 +510,9 @@ const NetworkFeed = ({ navigation }) => {
             styles.button,
             visibilityy === 'Public' && styles.selectedButton,
           ]}
-          onPress={() => handleVisibilityChange('Public')}>
+          onPress={() => {handleVisibilityChange('Public')
+          setIsLoading(true)
+          }}>
           <Text style={styles.BtnText}>Public</Text>
         </TouchableOpacity>
 
@@ -521,7 +523,8 @@ const NetworkFeed = ({ navigation }) => {
             styles.button,
             visibilityy === 'Network' && styles.selectedButton,
           ]}
-          onPress={() => handleVisibilityChange('Network')}>
+          onPress={() => {handleVisibilityChange('Network')
+          setIsLoading(true)}}>
           <Text style={styles.BtnText}>Network Only</Text>
         </TouchableOpacity>
 
@@ -530,7 +533,8 @@ const NetworkFeed = ({ navigation }) => {
             styles.button,
             visibilityy === 'Private' && styles.selectedButton,
           ]}
-          onPress={() => handleVisibilityChange('Private')}>
+          onPress={() => {handleVisibilityChange('Private')
+          setIsLoading(true)}}>
           <Text style={styles.BtnText}>Private</Text>
         </TouchableOpacity>
 
