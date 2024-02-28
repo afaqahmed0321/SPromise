@@ -43,7 +43,6 @@ import { selectedVideoR } from '../../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import { BlurView } from '@react-native-community/blur';
 import Video from 'react-native-video';
-
 const DetailCard = ({
   promiseeProfileImageUrl,
   promisetype,
@@ -121,6 +120,9 @@ const DetailCard = ({
     const handleLoad = () => {
       setIsLoading(false);
     };
+    const handleCloseModal = () => {
+      setIsPaymentWebViewVisible(false);
+    };
 
     useEffect(()=>{
       DetailCard();
@@ -160,7 +162,9 @@ const DetailCard = ({
 
     );
   };
-
+  const handleCloseModal = () => {
+    setIsPaymentWebViewVisible(false);
+  };
   return (
     <>
       {console.log("actionsss", promiseeProfileImageUrl,
@@ -250,20 +254,44 @@ const DetailCard = ({
                 <Text
                   style={[
                     {
-                      color: 'white',
-                      marginHorizontal: hp(2),
-                      fontSize: hp(2),
+                      color: 'black',
+                      marginHorizontal: hp(4),
+                      fontSize: hp(1.8),
+                      backgroundColor: "#e0e0e0",
+                      borderRadius: 50,
+                      paddingVertical: 5,
+                      paddingHorizontal: 10,
+                      marginHorizontal: 10
                     },
                   ]}>
-                  Commitment: ${amount} {alotRewardPoints ? (
-                    <Text> & {rewardPoints} Reward Points</Text>
+                  ${amount} {alotRewardPoints ? (
+                    <Text style={[
+                      {
+                        color: 'black',
+                        marginHorizontal: hp(4),
+                        fontSize: hp(1.8),
+                        backgroundColor: "#e0e0e0",
+                        borderRadius: 50,
+                        paddingVertical: 5,
+                        paddingHorizontal: 10,
+                        marginHorizontal: 10
+
+                      },
+                    ]}> & {rewardPoints}pts </Text>
                   ) : null}
                 </Text>
               ) : null}
             </View>
             {ratingImpact ? (
               <View>
-                <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} />
+                {/* <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} /> */}
+                <MaterialIcons
+                  name="stars"
+                  size={25}
+                  color='#652D90'
+                  style={{ marginLeft: 10 }}
+
+                />
               </View>
             ) : null}
 
@@ -390,35 +418,6 @@ const DetailCard = ({
                   );
                 }
               })}
-
-              {/* {actions.map((action, index) => {
-                if (action === 'Complete') {
-                  return (
-                    <TouchableOpacity
-                      style={[commonStyles.ActionBtn]}
-                      key={index}
-                      onPress={() =>
-                        handleCompletePromise(item.promiseID, userN)
-                      }>
-                      <Text>{action}</Text>
-                    </TouchableOpacity>
-                  );
-                } else if (action === 'Fail') {
-                  return (
-                    <TouchableOpacity
-                      style={[
-                        commonStyles.ActionBtn,
-                        { backgroundColor: 'red' },
-                      ]}
-                      key={index}
-                      onPress={() =>
-                        handleFailPromise(item.promiseID, userN)
-                      }>
-                      <Text>{action}</Text>
-                    </TouchableOpacity>
-                  );
-                }
-              })} */}
             </View>
           </View>
         </LinearGradient>
@@ -483,44 +482,97 @@ const DetailCard = ({
             <View style={DashBoardStyling.PromiseReward}>
 
               {promisetype == 'GUARANTEE' ? (
-                <Text
-                  style={[
-                    {
-                      color: 'white',
-                      marginHorizontal: hp(2),
-                      fontSize: hp(1.8),
-                    },
-                  ]}>
-                  {amount > 0 ? (
+                <>
+                  {amount ? (
                     <>
-                  Guarantee:$ {amount}{' '}
-                  {rewardPoints ? (
-                    <Text> & {rewardPoints} Reward Points</Text>
-                  ) : null}
+                      <Text
+                        style={[
+                          {
+                            color: 'black',
+                            marginHorizontal: hp(4),
+                            fontSize: hp(1.8),
+                            backgroundColor: "#e0e0e0",
+                            borderRadius: 50,
+                            paddingVertical: 5,
+                            paddingHorizontal: 10,
+                            marginHorizontal: 10
+
+                          },
+                        ]}>
+                        <>
+                          $ {amount}
+                          {rewardPoints ? (
+                            <Text style={[
+                              {
+                                color: 'black',
+                                marginHorizontal: hp(4),
+                                fontSize: hp(1.8),
+                                backgroundColor: "#e0e0e0",
+                                borderRadius: 50,
+                                paddingVertical: 5,
+                                paddingHorizontal: 10,
+                                marginHorizontal: 10
+
+                              },
+                            ]}>  {rewardPoints}pts
+                            </Text>
+                          ) : null}
+                        </>
+
+
+                      </Text>
                     </>
-                  ):(
+                  ) : (
                     null
                   )}
+                </>
 
-                </Text>
               ) : promisetype == 'COMMITMENT' ? (
                 <Text
                   style={[
                     {
-                      color: 'white',
-                      marginHorizontal: hp(2),
+                      color: 'black',
+                      marginHorizontal: hp(4),
                       fontSize: hp(1.8),
+                      backgroundColor: "#e0e0e0",
+                      borderRadius: 50,
+                      paddingVertical: 5,
+                      paddingHorizontal: 10,
+                      marginHorizontal: 10
+
                     },
                   ]}>
-                  {amount > 0 ? (
+                  {amount > 0 && (
                     <>
-                  Commitment:$ {amount}{' '}
-                  {rewardPoints ? (
-                    <Text> & {rewardPoints} Reward Points</Text>
-                  ) : null}
+                      $ {amount}
+                      {rewardPoints ? (
+                        <Text style={[
+                          {
+                            color: 'black',
+                            marginHorizontal: hp(4),
+                            fontSize: hp(1.8),
+                            backgroundColor: "#e0e0e0",
+                            borderRadius: 50,
+                            paddingVertical: 5,
+                            paddingHorizontal: 10,
+                            marginHorizontal: 10
+
+                          },
+                        ]}> & {rewardPoints}pts </Text>
+                      ) : <Text style={[
+                        {
+                          color: 'black',
+                          marginHorizontal: hp(4),
+                          fontSize: hp(1.8),
+                          backgroundColor: "#e0e0e0",
+                          borderRadius: 50,
+                          paddingVertical: 5,
+                          paddingHorizontal: 10,
+                          marginHorizontal: 10
+
+                        },
+                      ]}> & {rewardPoints}pts </Text>}
                     </>
-                  ):(
-                    null
                   )}
 
 
@@ -561,7 +613,13 @@ const DetailCard = ({
 
             {ratingImpact ? (
               <View>
-                <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} />
+                {/* <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} /> */}
+                <MaterialIcons
+                  name="stars"
+                  size={25}
+                  color='#652D90'
+                  style={{ marginLeft: 10 }}
+                />
               </View>
             ) : null}
 
@@ -753,28 +811,69 @@ const DetailCard = ({
                 <Text
                   style={[
                     {
-                      color: 'white',
+                      color: 'black',
                       marginHorizontal: hp(4),
                       fontSize: hp(1.8),
+                      backgroundColor: "#e0e0e0",
+                      borderRadius: 50,
+                      paddingVertical: 5,
+                      paddingHorizontal: 10,
+                      marginHorizontal: 25
+
                     },
                   ]}>
-                  Guarantee:$ {amount}{' '}
+                  {/* Guarantee: */}
+                  $ {amount}
                   {rewardPoints ? (
-                    <Text> & {rewardPoints} Reward Points</Text>
+                    <Text style={[
+                      {
+                        color: 'black',
+                        marginHorizontal: hp(4),
+                        fontSize: hp(1.8),
+                        backgroundColor: "#e0e0e0",
+                        borderRadius: 50,
+                        paddingVertical: 5,
+                        paddingHorizontal: 10,
+                        marginHorizontal: 10
+
+                      },
+                    ]}> & {rewardPoints}pts
+                      {/* Reward Points */}
+                    </Text>
                   ) : null}
                 </Text>
               ) : promisetype == 'COMMITMENT' ? (
                 <Text
                   style={[
                     {
-                      color: 'white',
+                      color: 'black',
                       marginHorizontal: hp(4),
                       fontSize: hp(1.8),
+                      backgroundColor: "#e0e0e0",
+                      borderRadius: 50,
+                      paddingVertical: 5,
+                      paddingHorizontal: 10,
+                      marginHorizontal: 25
+
                     },
                   ]}>
-                  Commitment:$ {amount}{' '}
+                  ${amount} {''}
                   {rewardPoints ? (
-                    <Text> & {rewardPoints} Reward Points</Text>
+                    <Text style={[
+                      {
+                        color: 'black',
+                        marginHorizontal: hp(4),
+                        fontSize: hp(1.8),
+                        backgroundColor: "#e0e0e0",
+                        borderRadius: 50,
+                        paddingVertical: 5,
+                        paddingHorizontal: 10,
+                        marginHorizontal: 20
+
+                      },
+                    ]}>
+                      & {rewardPoints}pts
+                    </Text>
                   ) : null}
                 </Text>
               ) : null}
@@ -782,7 +881,14 @@ const DetailCard = ({
 
             {ratingImpact ? (
               <View>
-                <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(4) }} />
+                {/* <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(4) }} /> */}
+                <MaterialIcons
+                  name="stars"
+                  size={25}
+                  color='#652D90'
+                  style={{ marginLeft: 30 }}
+
+                />
               </View>
             ) : null}
 
@@ -900,7 +1006,7 @@ const DetailCard = ({
             }}>
             <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
           </TouchableOpacity>
-          <PaymentScreens promiseID={promiseID} userN={userN} amount={amount} />
+          <PaymentScreens promiseID={promiseID} userN={userN} amount={amount} handleCloseModal={handleCloseModal} />
         </SafeAreaView>
       </Modal>
     </>

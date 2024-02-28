@@ -348,7 +348,7 @@ const MakePromise = ({ navigation }) => {
         <View style={{ width: wp(90), marginTop: hp(0.5) }}>
           <View style={styles.ToggelBox}>
             {makePromise ? (
-              <Text style={Headings.Input3}>Guaranted $</Text>
+              <Text style={Headings.Input3}>Guaranteed $</Text>
             ) : (
               <Text style={Headings.Input3}>Rewards $</Text>
             )}
