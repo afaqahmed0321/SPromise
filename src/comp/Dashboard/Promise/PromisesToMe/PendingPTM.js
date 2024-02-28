@@ -88,7 +88,7 @@ const PendingPTM = ({navigation}) => {
               titleColor="white" // iOS
             />
           }
-          data={promises.filter(item => item.status === 'Pending')}
+          data={promises.filter(item => item.status === 'Pending' || item.status === 'AmountDue')}
           keyExtractor={item => item.promiseID.toString()} // Use a unique identifier as the key
           renderItem={({item}) => (
             <View style={{justifyContent: 'center', alignItems: 'center'}}>

@@ -367,9 +367,8 @@ const MakePromise = ({ navigation }) => {
 
 
           </View>
-          {financial ? (
+          {financial && (
             <>
-
               <View
                 style={{
                   flexDirection: 'row',
@@ -385,9 +384,7 @@ const MakePromise = ({ navigation }) => {
                   style={{
                     height: hp(5),
                     color: '#000',
-                    // marginLeft: wp(18),
                     fontSize: hp(1.8),
-                    // borderWidth: hp(.1),
                     borderWidth: wp(0.6),
                     borderColor: '#652D90',
                     borderRadius: wp(10),
@@ -399,6 +396,7 @@ const MakePromise = ({ navigation }) => {
                   onChangeText={text => setAmount(text)}
                   keyboardType="phone-pad"
                 />
+                {!makePromise && (      
                 <TextInput
                   placeholder="Points"
                   placeholderTextColor="black"
@@ -406,9 +404,7 @@ const MakePromise = ({ navigation }) => {
                   style={{
                     height: hp(5),
                     color: '#000',
-                    // marginLeft: wp(18),
                     fontSize: hp(1.8),
-                    // borderWidth: hp(.1),
                     borderWidth: wp(0.6),
                     borderColor: '#652D90',
                     borderRadius: wp(10),
@@ -419,10 +415,11 @@ const MakePromise = ({ navigation }) => {
                   onChangeText={text => setRewardPoints(text)}
                   keyboardType="phone-pad"
                 />
+                )}
 
               </View>
             </>
-          ) : null}
+          )}
           <View
             style={{
               marginVertical: hp(2),

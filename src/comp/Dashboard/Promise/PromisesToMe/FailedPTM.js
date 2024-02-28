@@ -87,7 +87,7 @@ const FailedPTM = ({navigation}) => {
               titleColor="white" // iOS
             />
           }
-          data={promises.filter(item => item.status === 'Rejected')}
+          data={promises.filter(item => item.status === 'Rejected' || item.status === 'Failed')}
           keyExtractor={item => item.promiseID.toString()} // Use a unique identifier as the key
           renderItem={({item}) => (
             <View style={{justifyContent: 'center', alignItems: 'center'}}>

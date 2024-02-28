@@ -72,6 +72,8 @@ const DetailCard = ({
   const [isVideoModalVisible, setIsVideoModalVisible] = useState(false);
   const [markCompleted, setMarkCompleted] = useState(false);
   const [forName, setForName] = useState(false);
+  const [actionState, setActionState] = useState(true);
+
 
   console.log(promiseeProfileImageUrl,
     promisetype,
@@ -119,6 +121,10 @@ const DetailCard = ({
     const handleLoad = () => {
       setIsLoading(false);
     };
+
+    useEffect(()=>{
+      DetailCard();
+    },[actionState]);
 
     return (
       <Modal
@@ -299,7 +305,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleAccept(promiseID, userN);
                         refreshCallback();
-
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -312,6 +318,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleRejectPromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -324,6 +331,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleCompletePromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -336,6 +344,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleFailPromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -349,6 +358,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleFulfilledPromiseApi(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -361,6 +371,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleFailedPromiseApi(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -522,7 +533,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleAcceptPromise(promiseID, userN);
                         refreshCallback();
-
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -535,6 +546,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleRejectPromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -590,7 +602,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleAcceptPromise(promiseID, userN);
                         refreshCallback();
-
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -603,6 +615,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleRejectPromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -615,6 +628,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleCompletePromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -627,6 +641,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleFailPromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -640,6 +655,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleFulfilledPromiseApi(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -652,6 +668,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleFailedPromiseApi(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -807,7 +824,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleAcceptPromise(promiseID, userN);
                         refreshCallback();
-
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -820,6 +837,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleRejectPromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -832,6 +850,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleCompletePromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -844,6 +863,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleFailPromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -886,6 +906,8 @@ const DetailCard = ({
     </>
   );
 };
+
+
 const styles = StyleSheet.create({
   left: {
     width: wp(33),
