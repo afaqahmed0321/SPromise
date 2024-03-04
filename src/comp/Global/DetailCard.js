@@ -37,6 +37,9 @@ import { selectedVideoR } from '../../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import { BlurView } from '@react-native-community/blur';
 import Video from 'react-native-video';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+
 const DetailCard = ({
   promiseeProfileImageUrl,
   promisetype,
