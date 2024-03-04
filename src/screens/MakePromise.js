@@ -305,7 +305,7 @@ const MakePromise = ({ navigation }) => {
         <View style={{ width: wp(90), marginTop: hp(0.5) }}>
           <View style={styles.ToggelBox}>
             {makePromise ? (
-              <Text style={Headings.Input3}>Guaranted $</Text>
+              <Text style={Headings.Input3}>Guaranteed $</Text>
             ) : (
               <Text style={Headings.Input3}>Rewards $</Text>
             )}
@@ -324,9 +324,8 @@ const MakePromise = ({ navigation }) => {
 
 
           </View>
-          {financial ? (
+          {financial && (
             <>
-
               <View
                 style={{
                   flexDirection: 'row',
@@ -353,6 +352,7 @@ const MakePromise = ({ navigation }) => {
                   onChangeText={text => setAmount(text)}
                   keyboardType="phone-pad"
                 />
+                {!makePromise && (      
                 <TextInput
                   placeholder="Points"
                   placeholderTextColor="black"
@@ -371,10 +371,11 @@ const MakePromise = ({ navigation }) => {
                   onChangeText={text => setRewardPoints(text)}
                   keyboardType="phone-pad"
                 />
+                )}
 
               </View>
             </>
-          ) : null}
+          )}
           <View
             style={{
               marginVertical: hp(2),

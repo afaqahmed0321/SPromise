@@ -57,7 +57,7 @@ const Ongoing = ({navigation}) => {
         <ActivityIndicator size="small" color="#0000ff" />
       ) : (
         <FlatList
-          data={promises.filter(item => item.status === 'AmountDue' || item.status === 'MarkedforCompletion' || item.status === 'Accepted' )}
+          data={promises.filter(item => item.status === 'MarkedforCompletion' || item.status === 'Accepted' )}
           refreshControl={
             <RefreshControl
               refreshing={isLoading}

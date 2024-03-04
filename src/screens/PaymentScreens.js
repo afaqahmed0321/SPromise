@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+
+import { View, Text, TouchableOpacity, Alert, StyleSheet, ToastAndroid } from 'react-native';
 import { CreditCardInput } from 'react-native-credit-card-input';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import {  STRIPE_PUBLIC_KEY, Secret_key } from '../comp/Payment/helper';
 import axios from 'axios';
+import LoadingOverlay from '../comp/Global/LoadingOverlay';
 
 const CURRENCY = 'USD';
 var CARD_TOKEN = null;
@@ -42,22 +44,26 @@ function subscribeUser(creditCardToken) {
   });
 };
 
-const PaymentScreens = ({ promiseID, userN, amount }) => {
+const PaymentScreens = ({ promiseID, userN, amount,handleCloseModal }) => {
   console.log("this is pro id", promiseID)
   const [CardInput, setCardInput] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
 
   const onSubmit = async () => {
 
     if (CardInput.valid == false || typeof CardInput.valid == "undefined") {
-      alert('Invalid Credit Card');
+      ToastAndroid.show('Invalid Credit Card', ToastAndroid.LONG);
+
       return false;
     }
 
     let creditCardToken;
     try {
+      setIsLoading(true);
       creditCardToken = await getCreditCardToken(CardInput);
       if (creditCardToken.error) {
-        alert("creditCardToken error");
+        ToastAndroid.show('creditCardToken error', ToastAndroid.LONG);
+
         return;
       }
     } catch (e) {
@@ -66,13 +72,17 @@ const PaymentScreens = ({ promiseID, userN, amount }) => {
     }
     const { error } = await subscribeUser(creditCardToken);
     if (error) {
-      alert(error)
+      ToastAndroid.show(error, ToastAndroid.LONG);
+
     } else {
 
       let pament_data = await charges();
       console.log('pament_data', pament_data);
       if (pament_data.status == 'succeeded') {
-        alert("Payment Successfully");
+        setIsLoading(false);
+        ToastAndroid.show('Payment Successfull.', ToastAndroid.LONG);
+        handleCloseModal();
+
         const sourseID = pament_data?.source?.id;
         console.log("this is id for send new funcion", sourseID);
 
@@ -89,7 +99,8 @@ const PaymentScreens = ({ promiseID, userN, amount }) => {
           });
       }
       else {
-        alert('Payment failed');
+        setIsLoading(false);
+        ToastAndroid.show('Payment Failed.', ToastAndroid.LONG);
       }
     }
   };
@@ -117,6 +128,8 @@ const PaymentScreens = ({ promiseID, userN, amount }) => {
   };
   return (
     <StripeProvider publishableKey={STRIPE_PUBLIC_KEY}>
+      {isLoading && <LoadingOverlay />}
+
       <View>
         <CreditCardInput
           inputContainerStyle={styles.inputContainerStyle}
@@ -128,17 +141,17 @@ const PaymentScreens = ({ promiseID, userN, amount }) => {
             setCardInput(data);
           }}
         />
-        <View style={{flex:1, justifyContent:"center", alignItems:"center",  marginTop:hp(10)}}>
-        <LinearGradient
-          colors={['#E4A936', '#EE8347']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={styles.lognBtn}
-        >
-          <TouchableOpacity onPress={onSubmit}>
-            <Text style={styles.LogInButton}>Pay now</Text>
-          </TouchableOpacity>
-        </LinearGradient>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center", marginTop: hp(10) }}>
+          <LinearGradient
+            colors={['#E4A936', '#EE8347']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.lognBtn}
+          >
+            <TouchableOpacity onPress={onSubmit}>
+              <Text style={styles.LogInButton}>Pay now</Text>
+            </TouchableOpacity>
+          </LinearGradient>
         </View>
       </View>
     </StripeProvider>

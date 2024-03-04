@@ -112,7 +112,7 @@ const Drawer = () => {
                 navigation.navigate('UserProfile');
               }}
             >
-              <Text style={[styles.TebText, { padding: 1 }]}>Your Account</Text>
+              <Text style={[styles.TebText, { padding: 1 }]}>User Profile</Text>
             </TouchableOpacity>
           </View>
 

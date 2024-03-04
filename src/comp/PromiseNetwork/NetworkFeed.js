@@ -60,15 +60,17 @@ const NetworkFeed = ({ navigation }) => {
   const [visibilityy, setVisibilityy] = useState('Private');
   const [visible, setVisible] = useState('');
 
-  const privateData = selectedNetworkUserFee.filter(item => item.visibility === 'PRIVATE');
-  const publicData = selectedNetworkUserFee.filter(item => item.visibility === 'PUBLIC');
-  const networkonlyData = selectedNetworkUserFee.filter(item => item.visibility === 'NETWORKONLY');
+  const privateData = selectedNetworkUserFee?.filter(item => item.visibility === 'PRIVATE');
+  const publicData = selectedNetworkUserFee?.filter(item => item.visibility === 'PUBLIC');
+  const networkonlyData = selectedNetworkUserFee?.filter(item => item.visibility === 'NETWORK');
 
 
-  const handelNetworkFeedComp = async () => {
+  const handelNetworkFeedComp = async (visibilityy) => {
     const networkUserNo = userN;
     console.log('UserNo is ', networkUserNo);
-    const resp = await axios.get(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=private`)
+
+    // const resp = NetWorkFeedApi(networkUserNo);
+    const resp = await axios.get(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${visibilityy}`)
       .then((response) => {
         const data = response.data.promisesList; // Accessing the data property of the Axios response
         console.log(data, "Network Feed");
@@ -83,8 +85,25 @@ const NetworkFeed = ({ navigation }) => {
     setSelectedNetworkUserFee(resp);
     console.log("this from fedback", resp);
   };
-  const handleVisibilityChange = (visibilityOption) => {
+
+  const handleVisibilityChange = async (visibilityOption) => {
+    const networkUserNo = userN;
     setVisibilityy(visibilityOption);
+    const resp = await axios.get(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${visibilityOption}`)
+      .then((response) => {
+        const data = response.data.promisesList;
+        setIsLoading(false);
+        console.log("thiss isss Feeed dataaa", resp);
+        return data;
+
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.error('Error fetching data:', error);
+        return null;
+      })
+    setSelectedNetworkUserFee(resp);
+    console.log("this from fedback", resp);
   };
   const onRefresh = () => {
     setrefresh(!refersh);
@@ -99,8 +118,9 @@ const NetworkFeed = ({ navigation }) => {
     setFilteredData(filtered);
 
   };
+
   useEffect(() => {
-    handelNetworkFeedComp();
+    handelNetworkFeedComp(visibilityy);
   }, [focus, refersh]);
 
   const onHandelReaction = async (PID, LikeA) => {
@@ -464,8 +484,22 @@ const NetworkFeed = ({ navigation }) => {
             styles.button,
             visibilityy === 'Public' && styles.selectedButton,
           ]}
-          onPress={() => handleVisibilityChange('Public')}>
+          onPress={() => {handleVisibilityChange('Public')
+          setIsLoading(true)
+          }}>
           <Text style={styles.BtnText}>Public</Text>
+        </TouchableOpacity>
+
+      
+
+        <TouchableOpacity
+          style={[
+            styles.button,
+            visibilityy === 'Network' && styles.selectedButton,
+          ]}
+          onPress={() => {handleVisibilityChange('Network')
+          setIsLoading(true)}}>
+          <Text style={styles.BtnText}>Network Only</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -473,17 +507,9 @@ const NetworkFeed = ({ navigation }) => {
             styles.button,
             visibilityy === 'Private' && styles.selectedButton,
           ]}
-          onPress={() => handleVisibilityChange('Private')}>
+          onPress={() => {handleVisibilityChange('Private')
+          setIsLoading(true)}}>
           <Text style={styles.BtnText}>Private</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.button,
-            visibilityy === 'Network' && styles.selectedButton,
-          ]}
-          onPress={() => handleVisibilityChange('Network')}>
-          <Text style={styles.BtnText}>Network Only</Text>
         </TouchableOpacity>
 
       </View>

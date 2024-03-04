@@ -67,7 +67,7 @@ const CompletePTM = ({ navigation }) => {
               titleColor="white" // iOS
             />
           }
-          data={promises.filter(item => item.status === 'Completed' || item.status === 'Accepted')}
+          data={promises.filter(item => item.status === 'Completed')}
           keyExtractor={item => item.promiseID.toString()} // Use a unique identifier as the key
           renderItem={({ item }) => (
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
