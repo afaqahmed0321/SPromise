@@ -8,15 +8,12 @@ import {
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
-// import EvilIcon from 'react-native-vector-icons/EvilIcons';
-
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 
 
 const LogoHeaderGlobel = () => {
   const navigation = useNavigation();
 
-  // Function to handle the back button press
   const handleBack = () => {
     navigation.goBack();
   };
@@ -25,11 +22,6 @@ const LogoHeaderGlobel = () => {
     <View style={{ alignItems: 'center' }}>
       {navigation.canGoBack() && (
         <TouchableOpacity style={{ position: 'absolute', left: wp(3), top: hp(1.5) }} onPress={handleBack}>
-          {/* <EvilIcon
-            name="arrow-left"
-            size={40}
-            color="black"
-          /> */}
          <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
 
         </TouchableOpacity>

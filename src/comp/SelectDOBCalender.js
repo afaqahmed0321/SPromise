@@ -1,5 +1,5 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {Calendar, LocaleConfig} from 'react-native-calendars'; // for Date
+import {StyleSheet,  View, TouchableOpacity} from 'react-native';
+import {Calendar} from 'react-native-calendars'; // for Date
 import React, {useState} from 'react';
 import Font from 'react-native-vector-icons/Fontisto';
 import {
@@ -7,21 +7,11 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useRecoilState} from 'recoil';
-import {
-  promiseType,
-  promiseAmounnt,
-  deadline,
-  MakeaPromise,
-  startDate,
-  isStartDateModalV,
-  isEndDateModalV,
-} from '../../../recoil/AddPromise';
+
 import { DobDate, isDOBModalV } from '../recoil/Users/GetUsers';
 const DOBModal = () => {
   const [startDateMV, setStartDateMV] = useRecoilState(isDOBModalV);
   const [selectStartDate, setselectStartDate] = useState(true);
-  // const [endDateMV, setEndDateMV] = useRecoilState(isEndDateModalV)
-  // const [deadlinedate, setDeadLinedate] = useRecoilState(deadline);
   const [startDa, setStartDate] = useRecoilState(DobDate);
   return (
     <View

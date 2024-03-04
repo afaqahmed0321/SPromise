@@ -7,7 +7,6 @@ const fetchUser = async (email) => {
 
   try {
     const response = await axios.get(apiUrl);
-    // console.log(response.data,"searching user")
     if(response.data.users==null)
     {
       return "User Does not Exist";

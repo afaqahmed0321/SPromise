@@ -39,7 +39,6 @@ export async function UpdateProfileApi(
     "role": "",
     "gender": gende,
     "loginType": "",
-    // "imageURL": "",
     "idToken": "",
     "socialLogin": socialLogi
   };
@@ -66,7 +65,6 @@ export async function UpdateProfileApi(
       return data;
     } else {
       return data.description;
-      console.log("try is completed");
     }
   } catch (error) {
     console.log("i am catch error". error);

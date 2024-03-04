@@ -1,4 +1,3 @@
-// api.js
 
 import axios from 'axios';
 
@@ -10,6 +9,6 @@ export const GetPaymentToken = () => {
   })
   .then(response => response.data)
   .catch(error => {
-    throw error; // You can handle errors or throw them for the calling code to handle
+    throw error; 
   });
 };

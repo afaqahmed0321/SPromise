@@ -14,7 +14,6 @@ const GetVideoSize = async () => {
       }
     );
     const res = response.data
-    // console.log(res, " GetAllowedVideoFormats Api response");
     if (res.code == 200) {
         return res.appSettings
     }

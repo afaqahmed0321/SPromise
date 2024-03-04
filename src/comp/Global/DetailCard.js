@@ -2,7 +2,6 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList,
   Image,
   TouchableOpacity,
   Modal,
@@ -10,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -19,9 +18,7 @@ import { DashBoardStyling } from '../../Styling/DashBoard';
 import LinearGradient from 'react-native-linear-gradient';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { Headings } from '../../Styling/Headings';
-import EvilIcon from 'react-native-vector-icons/Feather';
 import { format } from 'date-fns';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   handleAcceptPromise,
   handleCompletePromise,
@@ -31,13 +28,10 @@ import {
   handleRejectPromise,
 } from '../Dashboard/Promise/PromiseAction';
 import { commonStyles } from '../../Styling/buttons';
-import WebView from 'react-native-webview';
 import {
   handleAccept,
-  handleReject,
 } from '../Dashboard/ReqPromiseDashBoard/Action';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
-import PaymentScreen from '../../screens/PaymentScreenNotUsed';
 import PaymentScreens from '../../screens/PaymentScreens';
 import { selectedVideoR } from '../../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
@@ -112,14 +106,13 @@ const DetailCard = ({
 
   const VideoModal = ({ isVisible, toggleModal, videoUrl }) => {
     const [isLoading, setIsLoading] = useState(true);
-
     const handleLoadStart = () => {
       setIsLoading(true);
     };
-
     const handleLoad = () => {
       setIsLoading(false);
     };
+
 
 
     useEffect(()=>{

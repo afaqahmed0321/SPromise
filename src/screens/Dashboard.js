@@ -1,19 +1,12 @@
-/* The code is importing necessary components and libraries from React Native and other files. It is
-defining a top tab navigator using `createMaterialTopTabNavigator` from the
-`@react-navigation/material-top-tabs` library. The top tab navigator has multiple screens/components
-such as `ShowAllTab`, `Pending`, `Ongoing`, `Complete`, and `Failed`. The `Dashboard` component
-renders a view with two buttons for switching between "My Promises" and "Promises to Me". Depending
-on the selected button, it renders the corresponding screens/components using the `DashboardTopTabs`
-component. The styles are defined using `StyleSheet.create`. */
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {RecoilState, useRecoilState} from 'recoil';
-import {MakeaPromise, deadline, startDate} from '../recoil/AddPromise';
+import { useRecoilState} from 'recoil';
+import {deadline, startDate} from '../recoil/AddPromise';
 
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -38,18 +31,18 @@ const DashboardTopTabs = () => {
     <Tab.Navigator
     tabBarOptions={{
 
-      activeTintColor: 'blue', // Color of the active tab label
+      activeTintColor: 'blue', 
       inactiveTintColor: 'gray', 
       
       labelStyle: {
-        fontSize: hp(1.1), // Font size of the tab label
-        fontWeight: 'bold', // Font weight of the tab label
+        fontSize: hp(1.1), 
+        fontWeight: 'bold', 
       },
       tabStyle: {
-        backgroundColor: 'white', // Background color of the tab
+        backgroundColor: 'white', 
       },
       indicatorStyle: {
-        backgroundColor: 'blue', // Color of the indicator line
+        backgroundColor: 'blue',
       },
     }}
     >
@@ -58,7 +51,6 @@ const DashboardTopTabs = () => {
       <Tab.Screen name="Active" component={ isMyPromisesV ? Ongoing : OngoingPTM } />
       <Tab.Screen name="Completed" component={ isMyPromisesV ? Complete : CompletePTM} />
       <Tab.Screen name="Failed" component={ isMyPromisesV ? Failed : FailedPTM } />
-      {/* <Tab.Screen name="Tab3" component={Screen3} /> */}
     </Tab.Navigator>
   );
 };
@@ -66,8 +58,6 @@ const DashboardTopTabs = () => {
 const Dashboard = () => {
   
   const [isMyPromisesV, setIsMyPromisesV] = useRecoilState(showMyPromises);
-  // const [isMyPromisesV, setisMyPromisesV] = useState(true);
-
   const makeprmsbg2 = ['#E4A936', '#EE8347'];
   const makeprmsbg1 = ['#EB6F1F', '#AA8F3C'];
   const rqstprmsbg2 = ['#73B6BF', '#2E888C'];
@@ -81,7 +71,6 @@ const Dashboard = () => {
         <View
           style={{
             flexDirection: 'row',
-            // justifyContent: 'space-between',
             justifyContent: 'space-around',
             alignItems: 'center',
             height: hp(5),
@@ -131,7 +120,6 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
   },
   LinerC: {
-        // flex: 1,
         width: wp(45),
         justifyContent: 'center',
         alignItems: 'center',

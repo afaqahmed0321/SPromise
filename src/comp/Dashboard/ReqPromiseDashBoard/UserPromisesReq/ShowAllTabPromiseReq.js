@@ -2,15 +2,11 @@ import { format } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import {
   View,
-  Text,
   FlatList,
   StyleSheet,
   TouchableOpacity,
-  Image,
   ActivityIndicator,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import Entypo from 'react-native-vector-icons/Entypo';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -19,19 +15,12 @@ import { useRecoilState } from 'recoil';
 import { useIsFocused } from '@react-navigation/native';
 import GetUserPromiseRequest from '../../../../Network/Dashboard/PromiseReq/GetUserPromiseReq';
 import { UserNo, selectedVideoR } from '../../../../recoil/AddPromise';
-import { Headings } from '../../../../Styling/Headings';
-import { commonStyles } from '../../../../Styling/buttons';
-import { DashBoardStyling } from '../../../../Styling/DashBoard';
 import { RefreshControl } from 'react-native';
 import MiniCard from '../../../Global/MiniCard';
 import DetailCard from '../../../Global/DetailCard';
 
 const ShowAllTabPromiseReq = ({ navigation }) => {
-  const handelAttachedMedia = urll => {
-    console.log(urll);
-    setSelectedVideo(urll);
-    navigation.navigate('Player');
-  };
+
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
   const [promises, setPromises] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -46,8 +35,7 @@ const ShowAllTabPromiseReq = ({ navigation }) => {
   const focus = useIsFocused();
   console.log(userN, 'usern');
   useEffect(() => {
-    // Fetch data from the API using MyPromisesApi
-    // console.log("aniqa here ")
+
     GetUserPromiseRequest(userN)
       .then(data => {
         setPromises(data);
@@ -58,7 +46,6 @@ const ShowAllTabPromiseReq = ({ navigation }) => {
         console.error('Error fetching promises:', error);
         setIsLoading(false);
       });
-    // }, [focus]);
   }, [focus, refersh]);
 
   return (
@@ -125,7 +112,6 @@ const ShowAllTabPromiseReq = ({ navigation }) => {
 const styles = StyleSheet.create({
   mainContainer: {
     width: wp(90),
-    // borderWidth: wp(0.3),
     height: hp(40),
     flexDirection: 'row',
   },
@@ -145,9 +131,7 @@ const styles = StyleSheet.create({
   },
   DataSection: {
     width: wp(48),
-    // borderWidth: wp(0.3),
     height: hp(40),
-    // borderRadius: wp(4),
     backgroundColor: '#DDDFE2',
     borderTopRightRadius: wp(5),
     borderTopLeftRadius: wp(5),
@@ -157,7 +141,6 @@ const styles = StyleSheet.create({
 
   states: {
     width: wp(39),
-    // borderWidth: wp(0.3),
     height: hp(40),
     borderColor: 'red',
     flexDirection: 'colom',
@@ -166,19 +149,14 @@ const styles = StyleSheet.create({
 
   statesSecOne: {
     width: wp(42),
-    // borderWidth: wp(0.3),
     height: hp(21),
-    // borderColor: 'red',
     backgroundColor: '#DDDFE2',
     borderRadius: wp(5),
   },
   Card: {
     width: wp(90),
-    // borderWidth: wp(0.5),
     height: hp(23),
-    // borderWidth: wp(0.5),
     marginTop: hp(0.7),
-    // marginLeft: hp(0.8),
     borderRadius: wp(5),
     alignItems: 'center',
   },

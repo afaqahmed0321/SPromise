@@ -86,7 +86,6 @@ const UpdatePasswordModal = () => {
         justifyContent: 'center',
         borderWidth: 0.5,
         width: wp(90),
-        // alignSelf: 'center',
         borderRadius: wp(2),
         borderColor: '#652D90',
         backgroundColor: 'white',

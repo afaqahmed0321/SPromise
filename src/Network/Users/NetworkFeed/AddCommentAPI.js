@@ -11,7 +11,6 @@ const PromiseComment = async (userNN,PID,commen)=> {
     "comment": commen
   };
 
-  // console.log(requestBody,"requestBodyMakePromiseApi")
 
   try {
     let result = await fetch(url, {

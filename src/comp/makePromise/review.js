@@ -36,7 +36,6 @@ import { commonStyles } from '../../Styling/buttons';
 import SelectPromise from './SelectPromisee';
 import MakePromiseApi from '../../Network/MakePromiseApi';
 import ReqPromiseApi from '../../Network/ReqPromiseApi';
-import PromiseNetwork from '../../screens/PromiseNetwork';
 import { ToastAndroid } from 'react-native';
 import GetUserData from '../../Network/Users/GetUserData';
 import LoadingOverlay from '../Global/LoadingOverlay';
@@ -68,28 +67,27 @@ const Review = ({ navigation }) => {
     const status = 'Pending';
     const paymentAmount = financial ? amount : '0';
     const paymentStatus = 'Pending';
-    // const PromiseReward = rewardPointState ? rewardPoints : null;
     const PromiseReward = financial ? rewardPoints : null;
     const visibility = mNtoggle ? 'PUBLIC' : 'PRIVATE';
 
     console.log("Data before sending",
-    expiryDate,
-    IsTimeBound,
-    promiseGoal,
-    promiseMediaU,
-    PromiseID,
-    promiseType,
-    promisee,
-    promisor,
-    RatingImapect,
-    LinkDin,
-    Twitter,
-    startDate,
-    status,
-    amount,
-    paymentStatus,
-    PromiseReward,
-    visibility, )
+      expiryDate,
+      IsTimeBound,
+      promiseGoal,
+      promiseMediaU,
+      PromiseID,
+      promiseType,
+      promisee,
+      promisor,
+      RatingImapect,
+      LinkDin,
+      Twitter,
+      startDate,
+      status,
+      amount,
+      paymentStatus,
+      PromiseReward,
+      visibility,)
 
     try {
       const prom = await MakePromiseApi(
@@ -129,19 +127,12 @@ const Review = ({ navigation }) => {
     catch (error) {
       console.error('Error making promise:', error);
     } finally {
-      setIsLoading(false); // Set loading state to false after API call is completed
+      setIsLoading(false);
     }
-
-
-    // const promiseDate = isTimeB ? promidate : dateString;
-
-    // const promiseType = financial ? 'PAYMENT' : 'Reward';
-
-    // const ExpiryDate = deadlinedate
 
     const userNo = Promiseze.userNo;
 
-    
+
   };
 
   const handelReqPromiseApi = async () => {
@@ -219,8 +210,6 @@ const Review = ({ navigation }) => {
     useRecoilState(selectedReqPromiseId);
   const [editPromiseReq, setEditPromiseReq] = useRecoilState(EditPromiseReq);
 
-  // const currentDate = new Date();
-
   const currentDate = new Date();
   const dateString = currentDate.toISOString();
 
@@ -241,27 +230,27 @@ const Review = ({ navigation }) => {
     setUserData(data);
 
     const linkedinResp = await axios.get(`https://snappromise.com:8080/api/Users/checkLinkedIn?userNo=${userN}`)
-    .then((res)=>{
-      console.log("linkedIn",res)
-      setLinkedInCode(res?.data?.code)
-    })
-    .catch((err)=>{
-      return err
-    })
+      .then((res) => {
+        console.log("linkedIn", res)
+        setLinkedInCode(res?.data?.code)
+      })
+      .catch((err) => {
+        return err
+      })
 
     const twitterCode = await axios.get(`https://snappromise.com:8080/api/Users/checkTwitter?userNo=${userN}`)
-    .then((res)=>{
-      console.log("Twitter",res)
-      setTwitterCode(res?.data?.code)
-    })
-    .catch((err)=>{
-      return err
-    })
+      .then((res) => {
+        console.log("Twitter", res)
+        setTwitterCode(res?.data?.code)
+      })
+      .catch((err) => {
+        return err
+      })
   }
 
   useEffect(() => {
     getUser();
-  },[])
+  }, [])
 
   return (
     <ScrollView>
@@ -286,9 +275,8 @@ const Review = ({ navigation }) => {
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-              
+
                 <Image
-                  // source={{uri:item.imageURL}}
                   source={
                     Promiseze?.imageURL === ''
                       ? {
@@ -306,7 +294,6 @@ const Review = ({ navigation }) => {
                 <View style={{ width: wp(65), marginLeft: wp(3) }}>
                   <Text style={{ color: 'white' }}>
                     {Promiseze?.firstName} {Promiseze?.lastName}
-                    {/* {Promiseze.networkUserName} */}
                   </Text>
                   <Text style={{ color: 'white', width: wp(65) }}>
                     {Promiseze?.emailID}
@@ -321,12 +308,9 @@ const Review = ({ navigation }) => {
 
           <Modal
             animationType="slide"
-            // transparent={true}
             visible={modalVisible}
             onRequestClose={() => setModalVisible(false)}>
             <SelectPromise />
-
-            {/* <PromiseNetwork/> */}
           </Modal>
 
           <View style={{ marginVertical: hp(1) }}>
@@ -348,7 +332,7 @@ const Review = ({ navigation }) => {
                             <Text
                               style={[
                                 Headings.h3ForReviewpage,
-                                { marginVertical: hp(0.5),fontSize:18 },
+                                { marginVertical: hp(0.5), fontSize: 18 },
                               ]}>
                               Promise Amount
                             </Text>
@@ -359,11 +343,11 @@ const Review = ({ navigation }) => {
                         </>
                       ) : (
                         <>
-                        <View>
+                          <View>
                             <Text
                               style={[
                                 Headings.h3ForReviewpage,
-                                { marginVertical: hp(0.5),fontSize:18 },
+                                { marginVertical: hp(0.5), fontSize: 18 },
                               ]}>
                               Reward Amount
                             </Text>
@@ -379,7 +363,7 @@ const Review = ({ navigation }) => {
                       {
                         rewardPoints ? (
                           <View>
-                            <Text style={[Headings.h3ForReviewpage, {fontSize:18}]}>
+                            <Text style={[Headings.h3ForReviewpage, { fontSize: 18 }]}>
                               Reward Points
                             </Text>
                             <Text style={[Headings.h3ForReviewpage, {}]}>{rewardPoints}</Text>
@@ -400,10 +384,9 @@ const Review = ({ navigation }) => {
                       style={{
                         marginVertical: hp(0.5),
                         flexDirection: '',
-                        // alignItems: 'center',
                         paddingVertical: 5
                       }}>
-                      <Text style={[Headings.h3ForReviewpage,{fontSize:18}]}>
+                      <Text style={[Headings.h3ForReviewpage, { fontSize: 18 }]}>
                         Completion Date{' '}
                       </Text>
                       <Text style={[Headings.h3ForReviewpage, { marginTop: 5 }]}>{deadlinedate}</Text>
@@ -412,14 +395,11 @@ const Review = ({ navigation }) => {
                   </>
                 ) : null}
               </View>
-
-
-           
               {isRating ? (
                 <View style={{}}>
                   <View>
                     <Text
-                      style={[Headings.h3ForReviewpage, { marginVertical: hp(1),fontSize:18 }]}>
+                      style={[Headings.h3ForReviewpage, { marginVertical: hp(1), fontSize: 18 }]}>
                       Rating will Imapct
                     </Text>
                   </View>
@@ -428,10 +408,10 @@ const Review = ({ navigation }) => {
               ) : null}
 
               <View style={{}}>
-                <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5,fontSize:18 }]}>Promise Statement</Text>
+                <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: 18 }]}>Promise Statement</Text>
                 <View style={{ height: hp(8), width: wp(80) }}>
                   <View style={[styles.generatedBox, { padding: 0, margin: 0 }]}>
-                   
+
                     <Text style={{ color: '#FFFFFF' }}> {generatedTexts} </Text>
                   </View>
                 </View>
@@ -443,51 +423,50 @@ const Review = ({ navigation }) => {
             <Text style={Headings.Input3}>Also share on </Text>
             <View>
               {/* <Text>Facebook</Text> */}
-              {twitterCode ===400 ?(
+              {twitterCode === 400 ? (
                 null
-              ):(
+              ) : (
                 <View style={styles.Social}>
-                <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
-                  Twitter
-                </Text>
-                <ToggleSwitch
-                  isOn={fbtoggle}
-                  style={{ marginRight: wp(5) }}
-                  onColor="#FFFFFF"
-                  offColor="#FFFFFF"
-                  thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
-                  thumbOnStyle={{ backgroundColor: '#652D90' }}
-                  size="small"
-                  onToggle={() => {
-                    fbtoggle ? setFBTogel(false) : setFBTogel(true);
-                  }}
-                />
-              </View>
+                  <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
+                    Twitter
+                  </Text>
+                  <ToggleSwitch
+                    isOn={fbtoggle}
+                    style={{ marginRight: wp(5) }}
+                    onColor="#FFFFFF"
+                    offColor="#FFFFFF"
+                    thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
+                    thumbOnStyle={{ backgroundColor: '#652D90' }}
+                    size="small"
+                    onToggle={() => {
+                      fbtoggle ? setFBTogel(false) : setFBTogel(true);
+                    }}
+                  />
+                </View>
               )}
 
-             
-            {LinkedInCode === 400 ? (
-              null
-            ):(
-              <View style={styles.Social}>
-                <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
-                  {/* Instagram */}
-                  LinkedIn
-                </Text>
-                <ToggleSwitch
-                  isOn={Igtoggle}
-                  style={{ marginRight: wp(5) }}
-                  onColor="#FFFFFF"
-                  offColor="#FFFFFF"
-                  thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
-                  thumbOnStyle={{ backgroundColor: '#652D90' }}
-                  size="small"
-                  onToggle={() => {
-                    Igtoggle ? setIgTogel(false) : setIgTogel(true);
-                  }}
-                />
-              </View>
-            )}
+
+              {LinkedInCode === 400 ? (
+                null
+              ) : (
+                <View style={styles.Social}>
+                  <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
+                    LinkedIn
+                  </Text>
+                  <ToggleSwitch
+                    isOn={Igtoggle}
+                    style={{ marginRight: wp(5) }}
+                    onColor="#FFFFFF"
+                    offColor="#FFFFFF"
+                    thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
+                    thumbOnStyle={{ backgroundColor: '#652D90' }}
+                    size="small"
+                    onToggle={() => {
+                      Igtoggle ? setIgTogel(false) : setIgTogel(true);
+                    }}
+                  />
+                </View>
+              )}
 
               <View style={styles.Social}>
                 <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>Share</Text>
@@ -528,7 +507,7 @@ const Review = ({ navigation }) => {
           <View style={{ marginTop: hp(2.5) }}>
             <TouchableOpacity
               onPress={Promiseze ? (makePromise ? handlePromiseApi : handelReqPromiseApi) : null}
-              disabled={!Promiseze} // Disable the button if Promiseze is null or undefined
+              disabled={!Promiseze}
               style={[commonStyles.lognBtn, { opacity: Promiseze ? 1 : 0.5 }]}>
               <LinearGradient
                 colors={!makePromise ? bgBtnrqstprms : bgBtnmakeprms}

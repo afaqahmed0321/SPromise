@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+
 import { View, Text, TouchableOpacity, Alert, StyleSheet, ToastAndroid } from 'react-native';
 import { CreditCardInput } from 'react-native-credit-card-input';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { StripeProvider } from '@stripe/stripe-react-native';
-import { Auth_Token, STRIPE_PUBLIC_KEY, Secret_key } from '../comp/Payment/helper';
+import {  STRIPE_PUBLIC_KEY, Secret_key } from '../comp/Payment/helper';
 import axios from 'axios';
 import LoadingOverlay from '../comp/Global/LoadingOverlay';
 
@@ -163,7 +164,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 5,
     marginBottom: 10,
-    flexDirection: 'column', // Set flexDirection to 'column' for vertical alignment
+    flexDirection: 'column', 
     marginBottom: 10,
   },
   inputStyle: {
@@ -185,8 +186,8 @@ const styles = StyleSheet.create({
 
   },
   LogInButton: {
-    fontSize: 16, // Adjust as needed
-    fontWeight: 'bold', // or 'normal', '600', '700', etc.
+    fontSize: 16, 
+    fontWeight: 'bold', 
     color: 'white',
   }
 });

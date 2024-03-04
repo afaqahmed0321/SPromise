@@ -6,12 +6,12 @@ const GetUserData = async (userN) => {
 
   try {
     const response = await axios.get(apiUrl);
-    const data = response.data; // Accessing the data property of the Axios response
+    const data = response.data; 
     console.log(data);
     return data;
   } catch (error) {
     console.error('Error fetching data:', error);
-    return null; // Returning null in case of an error, you can adjust this as needed
+    return null; 
   }
 };
 

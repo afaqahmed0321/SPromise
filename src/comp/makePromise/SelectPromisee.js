@@ -19,10 +19,7 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {TextInP} from '../Styling/TextInput';
 import {useRecoilState} from 'recoil';
-
-import {useFocusEffect} from '@react-navigation/native';
 import {
   isSelectModalVisible,
   selectedPromisee,
