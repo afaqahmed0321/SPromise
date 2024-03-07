@@ -18,11 +18,8 @@ import {
 const StartModal = () => {
   const [startDateMV, setStartDateMV] = useRecoilState(isStartDateModalV)
   const [selectStartDate, setselectStartDate] = useState(true);
-  // const [endDateMV, setEndDateMV] = useRecoilState(isEndDateModalV)
-  // const [deadlinedate, setDeadLinedate] = useRecoilState(deadline);
   const [startDa, setStartDate] = useRecoilState(startDate);
 
-    // Get the current date in the format required by the Calendar component
     const currentDate = new Date();
     const currentDateString = currentDate.toISOString().split('T')[0];
 

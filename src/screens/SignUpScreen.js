@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   ToastAndroid,
   ScrollView,
-  ActivityIndicator
 } from 'react-native';
 import React, { useState } from 'react';
 import {
@@ -18,7 +17,6 @@ import { Headings } from '../Styling/Headings';
 import { TextInP } from '../Styling/TextInput';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import { commonStyles } from '../Styling/buttons';
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
 import { signup, Socialsignup } from '../Network/SignUpApi';
@@ -28,8 +26,6 @@ import { code, uemail, ufName, ulName, upassword, uSubscription } from '../recoi
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import fetchUser from '../Network/Users/GetUser';
-import { Sociallogin } from '../Network/LoginApi';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { token, UserNo } from '../recoil/AddPromise';
 import LinearGradient from 'react-native-linear-gradient';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -85,7 +81,6 @@ const SignUpScreen = ({ navigation }) => {
   const handleSignup = async () => {
     try {
       const isValidEmail = (email) => {
-        // Email validation using regular expression
         const emailRegex = /\S+@\S+\.\S+/;
         return emailRegex.test(email.toLowerCase());
       };
@@ -118,10 +113,7 @@ const SignUpScreen = ({ navigation }) => {
         return;
       }
 
-      // Set isLoading to true when starting the signup process
       setIsLoading(true);
-
-      // If all validations pass, proceed with the signup process
       const mail = emailID.toLowerCase();
       let response = await VerifyOTP(mail);
 
@@ -134,27 +126,16 @@ const SignUpScreen = ({ navigation }) => {
         setslname(lName)
         setSSubscription(subscription)
         console.log("near navigate")
-        // Navigate to the verification page
         navigation.navigate('VerficationPage');
       } else {
         ToastAndroid.show('Something went wrong!', ToastAndroid.LONG);
       }
     } catch (error) {
       console.error('Signup Error:', error);
-      // Handle signup errors here...
     } finally {
-      // Set isLoading to false when the signup process completes, regardless of success or failure
       setIsLoading(false);
     }
   };
-
-
-
-
-
-
-  // Google Auth 
-
 
   async function onGoogleButtonPress() {
     setIsLoading(true);
@@ -177,22 +158,6 @@ const SignUpScreen = ({ navigation }) => {
         console.log(responses, "hey response from social signup API")
 
         if (responses == "Registered") {
-          // let response = await Sociallogin(user.user.email, true,)
-          // if (response.message === 'Success') {
-          //   setToken(response.token)
-          //   setUserN(response.userNo)
-          //   setemail(user.user.email)
-          //   let resp = await fetchUser(user.user.email)
-
-          //   console.log(resp.firstName + " " + resp.lastName, "response")
-          //   await AsyncStorage.setItem("token", response.token)
-          //   await AsyncStorage.setItem("userNo", response.userNo)
-          //   await AsyncStorage.setItem("Email", user.user.email)
-          //   await AsyncStorage.setItem("Name", resp.firstName + " " + resp.lastName)
-
-          //   // navigation.navigate('HomeScreen')
-
-          // }
           ToastAndroid.show('Registered Sucessfully!', ToastAndroid.LONG);
           navigation.navigate('LoginScreen')
         }
@@ -202,211 +167,161 @@ const SignUpScreen = ({ navigation }) => {
         }
       }
       else {
-        // let response = await Sociallogin(user.user.email, true)
-        // if (response.message === 'Success') {
-        //   setToken(response.token)
-        //   setUserN(response.userNo)
-        //   setemail(user.user.email)
-        //   let resp = await fetchUser(user.user.email)
-
-        //   console.log(resp.firstName + " " + resp.lastName, "response")
-        //   await AsyncStorage.setItem("token", response.token)
-        //   await AsyncStorage.setItem("userNo", response.userNo)
-        //   await AsyncStorage.setItem("Email", user.user.email)
-        //   await AsyncStorage.setItem("Name", resp.firstName + " " + resp.lastName)
-
-        //   navigation.navigate('HomeScreen')
-
-        // }
         ToastAndroid.show('User is already registered...!', ToastAndroid.LONG);
-        setIsLoading(false); // Hide the loading overlay
+        setIsLoading(false);
 
       }
     })
       .catch((error) => {
         console.log(error)
-        setIsLoading(false); // Hide the loading overlay
+        setIsLoading(false);
 
       });
 
-}
+  }
 
+  const handleFNameChange = (text) => {
+    const formattedText = text.replace(/[^a-zA-Z]/g, '');
+    setFName(formattedText);
+  };
 
+  const handleLNameChange = (text) => {
+    const formattedText = text.replace(/[^a-zA-Z]/g, '');
+    setLName(formattedText);
+  };
 
+  return (
+    <View style={styles.mainC}>
+      {isLoading && <LoadingOverlay />}
 
-// /
+      <ScrollView>
+        <LogoHeaderGlobel navigation={navigation} />
 
-
-const handleFNameChange = (text) => {
-  // Replace any non-alphabetic characters with an empty string
-  const formattedText = text.replace(/[^a-zA-Z]/g, '');
-  setFName(formattedText);
-};
-
-const handleLNameChange = (text) => {
-  // Replace any non-alphabetic characters with an empty string
-  const formattedText = text.replace(/[^a-zA-Z]/g, '');
-  setLName(formattedText);
-};
-
-return (
-  <View style={styles.mainC}>
-    {isLoading && <LoadingOverlay />}
-
-    <ScrollView>
-      <LogoHeaderGlobel navigation={navigation} />
-
-      <View style={{ width: wp(90), marginLeft: hp(2) }}>
-        <Text style={Headings.InputH}>Sign Up</Text>
-        <View>
+        <View style={{ width: wp(90), marginLeft: hp(2) }}>
+          <Text style={Headings.InputH}>Sign Up</Text>
           <View>
-            {/* <Text style={Headings.Input3}>Fist Name</Text> */}
-            <TextInput
-              style={TextInP.Fileds}
-              placeholder="First Name"
-              value={fName}
-              onChangeText={handleFNameChange}
-              placeholderTextColor={'black'}
-            />
-          </View>
-
-          <View>
-            {/* <Text style={Headings.Input3}>Last Name</Text> */}
-            <TextInput
-              style={TextInP.Fileds}
-              placeholder="Last Name"
-              value={lName}
-              onChangeText={handleLNameChange}
-              placeholderTextColor={'black'}
-
-            />
-          </View>
-        </View>
-        {/* <Text style={Headings.Input3}>Email</Text> */}
-        <TextInput
-          style={TextInP.Fileds}
-          placeholder="Email"
-          value={emailID}
-          onChangeText={setEmail}
-          placeholderTextColor={'black'}
-        />
-        {/* <Text style={Headings.Input3}>Create Password</Text> */}
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <TextInput
-            style={TextInP.Fileds}
-            placeholder="*******"
-            onChangeText={setPassword}
-            value={password}
-            secureTextEntry={!isPasswordVisible}
-            placeholderTextColor={'black'}
-
-          />
-          <TouchableOpacity
-            style={{ position: 'absolute', right: hp(2.1), top: hp(2.4) }}
-            onPress={togglePasswordVisibility}>
-            <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
-          </TouchableOpacity>
-        </View>
-        {/* <Text style={Headings.Input3}>Confirm Password</Text> */}
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <TextInput
-            style={TextInP.Fileds}
-            placeholder="*******"
-            onChangeText={setConfirmPassword}
-            value={Confirmpassword}
-            secureTextEntry={!isCPasswordVisible}
-            placeholderTextColor={'black'}
-
-          />
-          <TouchableOpacity
-            style={{ position: 'absolute', right: hp(2.1), top: hp(2.4) }}
-            onPress={toggleCPasswordVisibility}>
-            <Icon name={isCPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
-          </TouchableOpacity>
-
-        </View>
-
-        <View>
-          {/* <Text style={Headings.Input3}>Subscription</Text> */}
-
-          <DropDownPicker
-            open={open}
-            value={subscription}
-            items={items}
-            setOpen={setOpen}
-            setValue={setSubscription}
-            setItems={setItems}
-            style={[TextInP.Fileds, { borderRadius: open ? wp(6) : wp(50) }]}
-            placeholder="Subscription"
-            placeholderStyle={{ color: '#000' }}
-            dropDownContainerStyle={{ backgroundColor: '#F6E2FF', borderRadius: open ? wp(6) : wp(50), height: hp(12), borderColor: 'transparent', paddingLeft: 8, }}
-          />
-          {open && (
             <View>
-              {items.map((item) => (
-                <TouchableOpacity
-                  key={item.value}
-                  onPress={() => handleDropdownSelect(item)}
-                >
-                  <Text>
-                    {item.label}
-                    {item.value === value && <Icon name="checkmark" size={20} />}
-                  </Text>
-                </TouchableOpacity>
-              ))}
+              <TextInput
+                style={TextInP.Fileds}
+                placeholder="First Name"
+                value={fName}
+                onChangeText={handleFNameChange}
+                placeholderTextColor={'black'}
+              />
             </View>
-          )}
 
-
-        </View>
-
-      </View>
-
-      <View style={{ marginTop: hp(2), alignItems: 'center' }}>
-        <View>
-          <LinearGradient
-            colors={['#73B6BF', '#2E888C']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={commonStyles.SignUpBtn}
-          >
+            <View>
+              <TextInput
+                style={TextInP.Fileds}
+                placeholder="Last Name"
+                value={lName}
+                onChangeText={handleLNameChange}
+                placeholderTextColor={'black'}
+              />
+            </View>
+          </View>
+          <TextInput
+            style={TextInP.Fileds}
+            placeholder="Email"
+            value={emailID}
+            onChangeText={setEmail}
+            placeholderTextColor={'black'}
+          />
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TextInput
+              style={TextInP.Fileds}
+              placeholder="*******"
+              onChangeText={setPassword}
+              value={password}
+              secureTextEntry={!isPasswordVisible}
+              placeholderTextColor={'black'}
+            />
             <TouchableOpacity
-              // onPress={() => navigation.navigate('VerficationPage')}
-              onPress={() => handleSignup()}
-            >
-              <Text style={TextInP.SignInButton}>Create Account</Text>
+              style={{ position: 'absolute', right: hp(2.1), top: hp(2.4) }}
+              onPress={togglePasswordVisibility}>
+              <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
             </TouchableOpacity>
-          </LinearGradient>
+          </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TextInput
+              style={TextInP.Fileds}
+              placeholder="*******"
+              onChangeText={setConfirmPassword}
+              value={Confirmpassword}
+              secureTextEntry={!isCPasswordVisible}
+              placeholderTextColor={'black'}
+            />
+            <TouchableOpacity
+              style={{ position: 'absolute', right: hp(2.1), top: hp(2.4) }}
+              onPress={toggleCPasswordVisibility}>
+              <Icon name={isCPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <DropDownPicker
+              open={open}
+              value={subscription}
+              items={items}
+              setOpen={setOpen}
+              setValue={setSubscription}
+              setItems={setItems}
+              style={[TextInP.Fileds, { borderRadius: open ? wp(6) : wp(50) }]}
+              placeholder="Subscription"
+              placeholderStyle={{ color: '#000' }}
+              dropDownContainerStyle={{ backgroundColor: '#F6E2FF', borderRadius: open ? wp(6) : wp(50), height: hp(12), borderColor: 'transparent', paddingLeft: 8, }}
+            />
+            {open && (
+              <View>
+                {items.map((item) => (
+                  <TouchableOpacity
+                    key={item.value}
+                    onPress={() => handleDropdownSelect(item)}
+                  >
+                    <Text>
+                      {item.label}
+                      {item.value === value && <Icon name="checkmark" size={20} />}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+          </View>
         </View>
-
-        <View style={{ marginTop: hp(3), paddingBottom: 20 }}>
-
-          <View style={commonStyles.container}>
-            <View style={commonStyles.line} />
-            <Text style={commonStyles.text}>Or Register With</Text>
-            <View style={commonStyles.line} />
+        <View style={{ marginTop: hp(2), alignItems: 'center' }}>
+          <View>
+            <LinearGradient
+              colors={['#73B6BF', '#2E888C']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={commonStyles.SignUpBtn}
+            >
+              <TouchableOpacity
+                onPress={() => handleSignup()}
+              >
+                <Text style={TextInP.SignInButton}>Create Account</Text>
+              </TouchableOpacity>
+            </LinearGradient>
           </View>
 
+          <View style={{ marginTop: hp(3), paddingBottom: 20 }}>
 
-
-          {/* //Google Auth by AB */}
-          <TouchableOpacity onPress={onGoogleButtonPress} style={commonStyles.SocialBtn}>
-            <Image
-              source={require('../source/google.png')} // Replace with the actual path to your local image
-              style={{ width: 24, height: 24, marginRight: wp(2) }} // Adjust the width and height as needed
-            />
-            <Text style={{ color: 'black' }}>Continue with Google</Text>
-          </TouchableOpacity>
-
-
-
+            <View style={commonStyles.container}>
+              <View style={commonStyles.line} />
+              <Text style={commonStyles.text}>Or Register With</Text>
+              <View style={commonStyles.line} />
+            </View>
+            <TouchableOpacity onPress={onGoogleButtonPress} style={commonStyles.SocialBtn}>
+              <Image
+                source={require('../source/google.png')} // Replace with the actual path to your local image
+                style={{ width: 24, height: 24, marginRight: wp(2) }} // Adjust the width and height as needed
+              />
+              <Text style={{ color: 'black' }}>Continue with Google</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-
-    </ScrollView>
-
-  </View>
-);
+      </ScrollView>
+    </View>
+  );
 };
 
 export default SignUpScreen;

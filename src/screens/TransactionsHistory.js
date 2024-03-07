@@ -1,6 +1,6 @@
 import React from 'react';
 import TransactionItem from '../comp/Transactions/TransactionItem';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
 
 const TransactionsHistory = () => {
@@ -14,7 +14,6 @@ const TransactionsHistory = () => {
 
   return (
     <TouchableOpacity>
-
       <View>
         {transactionsHistory.map((transaction) => (
           <TransactionItem
@@ -24,7 +23,7 @@ const TransactionsHistory = () => {
             payment={transaction.payment}
             paymentColor={
               Number(transaction.payment.replace(/\$/g, '')) < 0 ? 'red' : 'green'
-            } // Passing paymentColor
+            } 
           />
         ))}
       </View>

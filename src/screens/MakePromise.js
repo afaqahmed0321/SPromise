@@ -7,18 +7,13 @@ import {
   TextInput,
   Modal,
   ScrollView,
-  Switch,
-  Alert,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { Calendar, LocaleConfig } from 'react-native-calendars'; // for Date
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import Buttons from '../comp/makePromise/Buttons';
 import LinearGradient from 'react-native-linear-gradient';
-
 import { useRecoilState } from 'recoil';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 import {
@@ -46,16 +41,13 @@ import PromiseStatement from '../comp/makePromise/PromiseStatement';
 import PromiseButtons from '../comp/makePromise/Buttons';
 import { commonStyles } from '../Styling/buttons';
 import StartModal from '../comp/makePromise/Calender/StartModal';
-import EndDateModal from '../comp/makePromise/Calender/EndDateModal';
 import { useIsFocused } from '@react-navigation/native';
 import ToggleSwitch from 'toggle-switch-react-native';
 import { ToastAndroid } from 'react-native';
 
 
 const MakePromise = ({ navigation }) => {
-  // const [isChecked, setIsChecked] = useState(false);
   const [financial, setFinancial] = useRecoilState(promiseType);
-  // const [financial, setFinancial] = useState(false);
   const [isChecked1, setIsChecked1] = useState(istimeBoundCheckBox1);
   const [isChecked2, setIsChecked2] = useState(istimeBoundCheckBox2);
   const [deadlinedate, setDeadLinedate] = useRecoilState(deadline);
@@ -73,25 +65,8 @@ const MakePromise = ({ navigation }) => {
   const [startDateMV, setStartDateMV] = useRecoilState(isStartDateModalV);
   const [endDateMV, setEndDateMV] = useRecoilState(isEndDateModalV);
   const currentDate = new Date();
-
-  // const [guranted, setGuranted] = useState(Guaranteed);
-
-  // const [isChecked, setIsChecked] = useState(false);
-  // const [financial, setFinancial] = useRecoilState(Guaranteed);
-  // const [isEnabled, setIsEnabled] = useState(promiseType);
   const [isRating, setIsRating] = useRecoilState(RatingImapect);
-
   const [rewardPointState, setRewardPointState] = useRecoilState(RewardPointsState);
-
-  // const toggleSwitch = () => {
-  //   // setIsEnabled(!isEnabled); // Toggle the value of isEnabled
-  //   isEnabled ? setIsEnabled(false) : setIsEnabled(true);
-  //   isEnabled ? setFinancial(true) :  setFinancial(false)
-  //   setTimeout(function() {
-  //     console.log("Timeout completed!", );
-  //     console.log(financial, isEnabled);
-  //   }, 1500);
-  // };
 
   const bgBtnmakeprms = ['#E4A936', '#EE8347'];
   const bgBtnrqstprms = ['#73B6BF', '#2E888C'];
@@ -110,12 +85,6 @@ const MakePromise = ({ navigation }) => {
     setrewardCheck(true);
   };
 
-  const handelFin = () => {
-    setrewardCheck(false);
-    setpaymentCheck(true);
-    setFinancial(true);
-    setPreward('0');
-  };
 
   const toggleCheckBox2 = () => {
     setIsChecked1(false);
@@ -124,13 +93,6 @@ const MakePromise = ({ navigation }) => {
   };
 
   useEffect(() => {
-    // fetchData()
-    // setpaymentCheck(false)
-    // setrewardCheck(false)
-    // setAmount('')
-    // setIsChecked1(false)
-    // setIsChecked2(false)
-    // setSelectedPromisee({})
     console.log(promiseType,"promise type")
   }, [focus]);
 
@@ -139,13 +101,11 @@ const MakePromise = ({ navigation }) => {
 
   const handleTextChange = (text) => {
     setPromiseStatement(text);
-    // Handle text change as needed in the parent component
     console.log('Promise statement changed:', text);
   };
 
   const handleNextButtonPress = () => {
     if (isTimeB) {
-      // Compilation date is mandatory
       if (!startDa) {
         ToastAndroid.showWithGravityAndOffset(
           'Please select compilation date',
@@ -155,7 +115,6 @@ const MakePromise = ({ navigation }) => {
           50,
         );
       } else {
-        // Proceed to the next step
         const promiseText = promiseStatement;
         if (!promiseText || promiseText.trim() === '') {
           ToastAndroid.showWithGravityAndOffset(
@@ -181,7 +140,6 @@ const MakePromise = ({ navigation }) => {
         }
       }
     } else {
-      // Proceed to the next step without checking compilation date
       const promiseText = promiseStatement;
       if (!promiseText || promiseText.trim() === '') {
         ToastAndroid.showWithGravityAndOffset(
@@ -275,7 +233,6 @@ const MakePromise = ({ navigation }) => {
               </Text>
             </View>
           </View>
-          {/* Select Date  */}
 
           <View
             style={{
@@ -377,7 +334,6 @@ const MakePromise = ({ navigation }) => {
                   justifyContent: 'center',
                   gap: 8
                 }}>
-                {/* <Text style={Headings.Input3}>Amount</Text> */}
                 <TextInput
                   placeholder="Amount"
                   value={amount}
@@ -441,7 +397,6 @@ const MakePromise = ({ navigation }) => {
                 size="small"
                 onToggle={() => {
                   setIsRating(!isRating);
-                  // console.log(!isRating, 'Changed');
                 }}
               />
 
@@ -449,15 +404,10 @@ const MakePromise = ({ navigation }) => {
             </View>
           </View>
           <View>
-            {/* BCircel Box */}
-
-            {/* Promise Statement  */}
-
-            <View>
+           <View>
               <PromiseStatement onTextChange={handleTextChange} />
             </View>
           </View>
-          {/* End  */}
 
           <TouchableOpacity
             onPress={handleNextButtonPress}
@@ -477,7 +427,6 @@ const MakePromise = ({ navigation }) => {
             </LinearGradient>
           </TouchableOpacity>
 
-          {/* </LinearGradient> */}
         </View>
       </ScrollView>
     </View>
@@ -492,7 +441,6 @@ const styles = StyleSheet.create({
     height: hp(14),
     justifyContent: 'center',
     alignItems: 'center',
-    // borderWidth: 1,
   },
   ImageStyle: {
     width: hp(9),
@@ -548,8 +496,6 @@ const styles = StyleSheet.create({
     borderWidth: wp(0.6),
     borderColor: '#652D90',
     borderRadius: wp(10),
-    // width: wp(30),
-    // height: hp(4),
     fontSize: hp(1.3),
     marginLeft: wp(2),
     height: hp(5),
@@ -560,9 +506,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // borderWidth: 1,
     width: wp(90),
     height: hp(7),
-    // marginTop: wp(3),
   },
 });

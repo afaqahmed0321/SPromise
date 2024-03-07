@@ -9,7 +9,6 @@ const getUserPromisbility = async (userN) => {
     return response.data.promisibility;
 
   } catch (error) {
-    // Handle error
     console.error('Error:', error);
   }
 };

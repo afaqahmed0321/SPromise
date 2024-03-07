@@ -10,7 +10,6 @@ import { Auth_Token, STRIPE_PUBLIC_KEY, Secret_key } from '../comp/Payment/helpe
 
 const PaymentScreen = ({ promiseID, userN }) => {
   console.log("this is promise IDDDDDD", promiseID);
-  // console.log("this is Auth Token", Auth_Token);
 
   const [CardInput, setCardInput] = useState({});
   const [paymentIntent, setPaymentIntent] = useState('');
@@ -32,12 +31,10 @@ const PaymentScreen = ({ promiseID, userN }) => {
                 type: 'Card',
                 card: {
                     number: '4242424242424242',
-                    expMonth: '12', // Replace with the actual expiration month
-                    expYear: '2023', // Replace with the actual expiration year
-                    cvc: '123',
+                    expMonth: '12',                     expYear: '2023',                    cvc: '123',
                 },
                 billingDetails: {
-                    name: 'Afaq Ahmed', // Replace with the actual cardholder's name
+                    name: 'Afaq Ahmed', 
                 },
             });
     
@@ -59,13 +56,7 @@ const PaymentScreen = ({ promiseID, userN }) => {
   return (
     <StripeProvider publishableKey={STRIPE_PUBLIC_KEY}>
       <View>
-        {/* <CardField
-                postalCodeEnabled={false}
-                placeholder={{
-                    number: '4242 4242 4242 4242',
-                }}
-                onChange={(card) => setCardDetails(card)}
-            /> */}
+      
         <CreditCardInput
           inputContainerStyle={styles.inputContainerStyle}
           inputStyle={styles.inputStyle}
@@ -119,8 +110,8 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   LogInButton: {
-    fontSize: 16, // Adjust as needed
-    fontWeight: 'bold', // or 'normal', '600', '700', etc.
+    fontSize: 16, 
+    fontWeight: 'bold', 
     color: 'white',
   }
 });

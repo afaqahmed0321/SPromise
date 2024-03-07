@@ -1,21 +1,14 @@
 import {
   StyleSheet,
-  Text,
   View,
   TouchableOpacity,
   Image,
-  TextInput,
-  ScrollView,
   Modal,
   SafeAreaView,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import Notifications from './Notifications';
-
 import { useRecoilState } from 'recoil';
-
 import { isLeftDrawerV } from '../recoil/HomeScreenStates';
-
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -24,14 +17,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { TextInP } from '../Styling/TextInput';
-import { Headings } from '../Styling/Headings';
 import HomePageDataSection from '../comp/HomePageDataSection';
 import Drawer from '../comp/Drawer';
 import { UserNo, token } from '../recoil/AddPromise';
-import HomeCarousel from '../comp/HomeCarousel';
-import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
-import { BlurView } from '@react-native-community/blur';
 import GetVideoSize from '../Network/GetVideoSize';
 import GetAllowedVideoFormats from '../Network/GetVideoFarmats';
 import { AllowedVideoFormatsState, AllowedVideoSizeState } from '../recoil/Globel';
@@ -45,8 +33,6 @@ const HomeScreen = ({ navigation }) => {
   const [VideoSize, setVideoSize] = useRecoilState(AllowedVideoSizeState);
 
   const fetchAppSettings = async () => {
-    //    setVideoFarmats([])
-    // setVideoSize(null)
     const getVideoSize = await GetVideoSize();
     const vSiz = getVideoSize[0]?.value || '';
     console.log(vSiz, "Video size")
@@ -64,8 +50,6 @@ const HomeScreen = ({ navigation }) => {
   }
 
   useEffect(() => {
-    // setVideoFarmats(null)
-    // setVideoSize(null)
     fetchAppSettings();
   }, []);
 
@@ -74,8 +58,6 @@ const HomeScreen = ({ navigation }) => {
       style={{
         backgroundColor: '#e4eee6',
         height: '100%',
-        // alignItems: 'center',
-        // justifyContent: 'center',
       }}>
       <View style={{}}>
         <View style={{ marginTop: hp(1), marginLeft: wp(1), flexDirection: 'row', justifyContent: 'space-between', marginBottom: hp(2), alignItems: 'center' }}>
@@ -91,13 +73,8 @@ const HomeScreen = ({ navigation }) => {
             transparent={true}
             visible={isDrawerV}
             onRequestClose={() => setIsDrawerV(false)}>
-
             <Drawer />
-
           </Modal>
-
-          {/*  */}
-
           <View style={styles.LogoC}>
             <Image
               source={require('../source/mainLogo.jpg')}
@@ -114,9 +91,6 @@ const HomeScreen = ({ navigation }) => {
           </TouchableOpacity>
 
         </View>
-
-
-        {/* Status Sections */}
         <View style={{ marginTop: hp(3) }}>
           <HomePageDataSection />
           <View style={{ marginRight: wp(2) }}>
@@ -139,8 +113,6 @@ const styles = StyleSheet.create({
   LogoC: {
     width: hp(6),
     height: hp(6),
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
   ImageStyle: {
     width: hp(6),
@@ -151,7 +123,6 @@ const styles = StyleSheet.create({
   bar: {
     height: hp(3),
     width: '100%',
-    // justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: hp(1),
@@ -163,7 +134,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   HomeCarousel: {
-    // width: wp(70),
     height: hp(25),
     justifyContent: 'center',
     alignItems: 'center',
@@ -175,7 +145,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.18,
     shadowRadius: 1.0,
     elevation: 1,
-    // width:wp(95)
   },
   SearchInpF: {
     backgroundColor: '#D6D5D5',

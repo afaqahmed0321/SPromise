@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, ToastAndroid } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, ToastAndroid } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel'
 import { Headings } from '../Styling/Headings'
@@ -10,20 +10,14 @@ import { commonStyles } from '../Styling/buttons'
 import { code, uemail, ufName, ulName, upassword } from '../recoil/Users/GetUsers';
 import { useRecoilState } from 'recoil';
 import OtpInputs from 'react-native-otp-inputs';
-import { signup } from '../Network/SignUpApi';
 import LinearGradient from 'react-native-linear-gradient';
 import { useRoute } from '@react-navigation/native';
-import axios from 'axios';
 import PasswordVerification from '../Network/PasswordVerification';
 
 const EnterOTPScreen = ({ navigation }) => {
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(30);
   const [Code, setCode] = useRecoilState(code);
-  // const [Semail, setSemail] = useRecoilState(uemail);
-  // const [Spassword, setSpassword] = useRecoilState(upassword);
-  // const [Sfname, setSfname] = useRecoilState(ufName);
-  // const [slname, setslname] = useRecoilState(ulName);
   const [fName, setFName] = useRecoilState(ufName);
   const [lName, setLName] = useRecoilState(ulName);
   const [emailID, setEmail] = useRecoilState(uemail);
@@ -72,18 +66,12 @@ const EnterOTPScreen = ({ navigation }) => {
       ToastAndroid.show('OTP is incorrect, Please try again', ToastAndroid.LONG);
     }
   }
-  const verifyOTP = () => {
-    // Add logic to verify the entered OTP
-    navigation.navigate('EnterNewPasswordScreen');
-
-  };
   return (
     <View style={{ flex: 1 }}>
       <LogoHeaderGlobel navigation={navigation} />
 
       <View style={{
         width: wp(90), marginTop: hp(1), marginLeft: hp(2),
-        //  borderWidth:wp(1)
       }}>
         <Text style={Headings.h1} >
           Please check your email

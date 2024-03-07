@@ -5,16 +5,13 @@ import RejectPromiseRequestApi from "../../../Network/Dashboard/PromiseReq/Actio
 
 
 
-export const handleAccept = async(promiseID, userN) => {
-    // console.log(`Accept button pressed for promise ID: ${promiseID}`)
-    // console.log(`UserNo: ${userN}`)
+export const handleAccept = async (promiseID, userN) => {
+  const res = await AcceptPromiseRequestApi(promiseID, userN)
 
-   const res = await AcceptPromiseRequestApi(promiseID, userN)
-    
-  };
-  
-  export const handleReject = async(promiseID, userN) => {
-    console.log(promiseID, userN, "Rejecting")
-   const res = await RejectPromiseRequestApi(promiseID, userN)
-    
-  };
+};
+
+export const handleReject = async (promiseID, userN) => {
+  console.log(promiseID, userN, "Rejecting")
+  const res = await RejectPromiseRequestApi(promiseID, userN)
+
+};

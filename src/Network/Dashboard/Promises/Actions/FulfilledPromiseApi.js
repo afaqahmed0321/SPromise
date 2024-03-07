@@ -24,7 +24,6 @@ export default FulfilledPromiseApi = async (promiseID, userNo) => {
           50,
         );
       } else {
-        // Handle other status codes or errors
         console.warn('Unexpected response code:', data);
       }
   

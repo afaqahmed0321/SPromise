@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import React, { useState } from 'react';
 import {
   widthPercentageToDP as wp,
@@ -8,7 +8,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import {
   MakeaPromise,
   promiseAmounnt,
-  deadline,
   startDate,
   promiseStatement,
   promiseType,
@@ -19,9 +18,7 @@ import {
 } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import { Headings } from '../Styling/Headings';
-import PromiseStatement from '../comp/makePromise/PromiseStatement';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { commonStyles } from '../Styling/buttons';
 
 const SnapPromiseVerification = ({ navigation }) => {
   const bgBtnmakeprms = ['#E4A936', '#EE8347'];
@@ -44,7 +41,6 @@ const SnapPromiseVerification = ({ navigation }) => {
 
   return (
     <View style={{ backgroundColor: '#E4EEE6', flex: 1, alignItems: 'center' }}>
-      {/* Logo */}
       <View style={{ height: hp(30), height: hp(22) }}>
         <View style={styles.m}>
           <View style={styles.LogoC}>
@@ -65,7 +61,6 @@ const SnapPromiseVerification = ({ navigation }) => {
         </View>
       </View>
 
-      {/* Verfication  */}
       <View>
         <LinearGradient
           colors={makePromise ? bgBtnmakeprms : bgBtnrqstprms}
@@ -86,7 +81,6 @@ const SnapPromiseVerification = ({ navigation }) => {
             )}
           </View>
 
-          {/* <View style={styles.profilePic}> */}
           <Image
             source={
               Promiseze.imageURL === ''
@@ -95,16 +89,9 @@ const SnapPromiseVerification = ({ navigation }) => {
                 }
                 : { uri: Promiseze.imageURL }
             }
-            // style={{
-            //   width: wp(13),
-            //   height: hp(6),
-            //   borderRadius: wp(6.5), // Half of the width
-            //   marginLeft: wp(2),
-            //   marginTop: hp(1),
-            // }}
+
             style={styles.profilePic}
           />
-          {/* </View> */}
           <Text style={[Headings.h3ForReviewpage, { fontSize: 18 }]}>
             {Promiseze.firstName} {Promiseze.lastName}
           </Text>
@@ -133,7 +120,6 @@ const SnapPromiseVerification = ({ navigation }) => {
                     <Text
                       style={[
                         Headings.h3ForReviewpage, { fontSize: 18 }
-                        // {marginVertical: hp(0.5)},
                       ]}>
                       Promise Amount{' '}
                     </Text>
@@ -141,7 +127,6 @@ const SnapPromiseVerification = ({ navigation }) => {
                     <Text
                       style={[
                         Headings.h3ForReviewpage,
-                        // {marginVertical: hp(0.5)},
                       ]}>
                       Promise Amount:{' '}
                     </Text>
@@ -153,12 +138,6 @@ const SnapPromiseVerification = ({ navigation }) => {
                     $ {amount}.00
                   </Text>
                 </View>
-                {/* {rewardPoints ? (
-                  <Text
-                    style={[Headings.h3ForReviewpage, {}]}>
-                    {' '} & {rewardPoints} Reward Points
-                  </Text>
-                ) : null} */}
               </View>
             ) : null}
           </View>
@@ -177,18 +156,12 @@ const SnapPromiseVerification = ({ navigation }) => {
               <Text style={Headings.h3ForReviewpage}> {deadlinedate}</Text>
             </View>
           ) : null}
-
-
-
-
-
           {isRating ?
             (
               <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: hp(.5) }}>
                 <Text style={[Headings.h3ForReviewpage, { marginVertical: hp(.5) }]}>Rating will impact</Text>
               </View>) : null
           }
-
           <Text style={[Headings.h3ForReviewpage, { fontSize: 18 }]}>Promise Statement</Text>
           <View style={{ height: hp(7), width: wp(80) }}>
             <View style={styles.generatedBox}>
@@ -197,7 +170,6 @@ const SnapPromiseVerification = ({ navigation }) => {
                 style={[
                   {
                     textAlign: 'center',
-                    // marginTop: hp(1.5),
                     color: '#FFFFFF',
                     fontSize: hp(1.8),
                     marginHorizontal: wp(4),
@@ -243,7 +215,6 @@ const styles = StyleSheet.create({
     marginVertical: hp(1.5),
     width: wp(22),
     height: hp(11),
-    // backgroundColor: '#888888',
     borderRadius: wp(11),
   },
   generatedBox: {
@@ -275,7 +246,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.18,
     shadowRadius: 1.0,
-
     elevation: 1,
   },
 });
