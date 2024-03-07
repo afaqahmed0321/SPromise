@@ -93,6 +93,7 @@ const PromiseStatusData = () => {
                 {userPromisbility ? (
                   <Text style={{ fontSize: hp(2), color: '#652D90' }}>
                     {parseInt(userPromisbility)}%
+
                   </Text>
                 ) : (
                   <Text style={{ fontSize: hp(2), color: '#652D90' }}>
