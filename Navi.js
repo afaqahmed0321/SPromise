@@ -131,7 +131,7 @@ function HomeScreenn() {
           tabBarIcon: ({ color, size }) => (
             <FontAw name="handshake-simple" color={color} size={size} light />
           ),
-          title: 'Ongoing Promises',
+          title: 'Promises',
         }}
       />
       <Tab.Screen

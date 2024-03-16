@@ -13,10 +13,12 @@ const ReqPromiseApi = async (
   RatingImapect,
   LinkDin,
   Twitter,
+  startDate,
   status,
   paymentAmount,
   paymentStatus,
   PromiseReward,
+  PromiseStatus,
   visibility,
 ) => {
   const requestBody = {
