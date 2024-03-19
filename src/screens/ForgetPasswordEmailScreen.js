@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ToastAndroid } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet,ToastAndroid } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
@@ -15,7 +15,6 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
     const [userNumber, setUserNumber] = useRecoilState(uNumber);
 
     const validateEmail = (email) => {
-        // Regular expression for email validation
         const regex = /\S+@\S+\.\S+/;
         return regex.test(email);
     };

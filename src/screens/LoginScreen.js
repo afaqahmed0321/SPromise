@@ -16,21 +16,15 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { Headings } from '../Styling/Headings';
-import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import { TextInP } from '../Styling/TextInput';
 import {
   useRecoilState,
-  useRecoilValue,
-  useRecoilValueLoadable,
-  useSetRecoilState,
 } from 'recoil';
 import auth from '@react-native-firebase/auth';
 import {
   GoogleSignin,
-  statusCodes,
 } from '@react-native-google-signin/google-signin';
 import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
-import ForgetPasswordEmailScreen from './ForgetPasswordEmailScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { commonStyles } from '../Styling/buttons';
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
@@ -39,9 +33,7 @@ import { UserNo, token } from '../recoil/AddPromise';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { uemail } from '../recoil/Users/GetUsers';
 import fetchUser from '../Network/Users/GetUser';
-import { signup, Socialsignup } from '../Network/SignUpApi';
 import LoadingOverlay from '../comp/Global/LoadingOverlay';
-import WebView from 'react-native-webview';
 
 const LoginScreen = ({ navigation }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -61,11 +53,9 @@ const LoginScreen = ({ navigation }) => {
   GoogleSignin.configure({
     webClientId:
       '297781393287-082ioneo7rm34l59ia7qd027vspk82vd.apps.googleusercontent.com',
-    // iosClientId: '',
   });
 
   async function onFacebookButtonPress() {
-    // Attempt login with permissions
     const result = await LoginManager.logInWithPermissions([
       'public_profile',
       'email',
@@ -75,19 +65,16 @@ const LoginScreen = ({ navigation }) => {
       throw 'User cancelled the login process';
     }
 
-    // Once signed in, get the users AccessToken
     const data = await AccessToken.getCurrentAccessToken();
 
     if (!data) {
       throw 'Something went wrong obtaining access token';
     }
 
-    // Create a Firebase credential with the AccessToken
     const facebookCredential = auth.FacebookAuthProvider.credential(
       data.accessToken,
     );
 
-    // Sign-in the user with the credential
     return auth().signInWithCredential(facebookCredential);
   }
 
@@ -112,36 +99,6 @@ const LoginScreen = ({ navigation }) => {
 
         if (person == 'User Does not Exist') {
 
-          // let responses = await Sociallogin(
-          //   user.user.email,
-          //   true,
-          // );
-          // console.log(responses, 'hey');
-          // if (responses == 'This user is already registered!') {
-          //   let response = await Sociallogin(user.user.email, true);
-          //   console.log(response, 'Login Response from Google ifff');
-
-          //   if (response.message === 'Success') {
-          //     setToken(response.token);
-          //     setUserN(response.userNo);
-          //     setemail(user.user.email);
-          //     let resp = await fetchUser(user.user.email);
-
-          //     console.log(resp.firstName + ' ' + resp.lastName, 'response');
-          //     await AsyncStorage.setItem('token', response.token);
-          //     await AsyncStorage.setItem('userNo', response.userNo);
-          //     await AsyncStorage.setItem('Email', user.user.email);
-          //     await AsyncStorage.setItem('Name', user.user.displayName,
-
-          //     );
-
-          //     navigation.navigate('HomeScreen')
-          //   }
-          //   ToastAndroid.show('Registered Sucessfully!', ToastAndroid.LONG);
-          //   navigation.navigate('LoginScreen')
-          // } else {
-          //   ToastAndroid.show(responses, ToastAndroid.LONG);
-          // }
           ToastAndroid.show('User does not exist', ToastAndroid.LONG);
 
         } else {
@@ -202,7 +159,6 @@ const LoginScreen = ({ navigation }) => {
                   setSecondUrl(updatedUrl);
                   console.log('Data from the server:', updatedUrl);
 
-                  // Navigate inside the then block after setting the state
                   navigation.navigate('CustomWebView', { uri: updatedUrl });
                 } catch (error) {
                   console.error('Error fetching data:', error);
@@ -227,7 +183,7 @@ const LoginPress = async () => {
     } else if (Password == '') {
       ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
     } else {
-      setIsLoading(true); // Show the loading overlay
+      setIsLoading(true); 
       const mail = Email.toLowerCase();
       let response = await login(mail, Password);
 
@@ -239,7 +195,7 @@ const LoginPress = async () => {
       console.log("this is payment status", paymentStatus);
       console.log("this is userNumber", userNumber);
 
-      setIsLoading(false); // Hide the loading overlay
+      setIsLoading(false); 
       if (response.message === 'Success') {
 
         if (!paymentStatus) {
@@ -259,7 +215,6 @@ const LoginPress = async () => {
             'Name',
             resp.firstName + ' ' + resp.lastName,
           );
-          // navigation.navigate('HomeScreen')
         } else {
           try {
 
@@ -296,19 +251,12 @@ const LoginPress = async () => {
               setSecondUrl(updatedUrl);
               console.log('Data from the server:', updatedUrl);
 
-              // Navigate inside the then block after setting the state
               navigation.navigate('CustomWebView', { uri: updatedUrl });
             } catch (error) {
               console.error('Error fetching data:', error);
             }
-
           }
-
-
-
         }
-
-
       } else if (
         (response.message =
           'Either you do not have permission or credentials are invalid.')
@@ -323,20 +271,16 @@ const LoginPress = async () => {
     }
   } catch (error) {
     console.error('Error in LoginPress:', error);
-    setIsLoading(false); // Hide the loading overlay in case of error
+    setIsLoading(false); 
     ToastAndroid.show('An error occurred. Please try again later.', ToastAndroid.LONG);
   }
 };
 
 const onChangeEmail = async text => {
-  // Update the Email state with the new text input
   setEmail(text);
 };
 const onChangePassword = async text => {
   setPassword(text);
-};
-const handleForgetPassword = () => {
-  navigation.navigate('ForgetPasswordEmailScreen');
 };
 return (
   <SafeAreaView style={styles.mainC}>
@@ -345,7 +289,6 @@ return (
     <LogoHeaderGlobel navigation={navigation} />
     <View style={{ width: wp(90), marginTop: hp(8), marginLeft: hp(2) }}>
       <Text style={Headings.InputH}>Log In</Text>
-      {/* <Text style={Headings.Input3}>Email</Text> */}
       <TextInput
         style={TextInP.Fileds}
         value={Email}
@@ -353,7 +296,6 @@ return (
         placeholder="Enter your email here"
         placeholderTextColor={'grey'}
       />
-      {/* <Text style={Headings.Input3}>Password</Text> */}
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <TextInput
           style={TextInP.Fileds}

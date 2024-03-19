@@ -1,11 +1,11 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {RecoilState, useRecoilState} from 'recoil';
+import { useRecoilState} from 'recoil';
 import {
   MakeaPromise,
   RewardPoints,
@@ -22,7 +22,6 @@ const PromiseButtons = () => {
   const [promidate, setPromidate] = useRecoilState(startDate);
 
   useEffect(() => {
-    // Reset data when makePromise state changes
     if (!makePromise) {
       setDeadLinedate('');
       setPromidate('');
@@ -43,7 +42,6 @@ const PromiseButtons = () => {
         <TouchableOpacity
           onPress={() => {
             setMakePromise(true);
-            // No need to reset data here
           }}
           style={{width: '50%'}}>
           <LinearGradient

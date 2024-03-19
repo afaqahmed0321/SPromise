@@ -4,14 +4,12 @@ import CompletePromiseApi from "../../../Network/Dashboard/Promises/Actions/Comp
 import FailPromiseApi from "../../../Network/Dashboard/Promises/Actions/FailPromiseApi";
 import RejectPromiseApi from "../../../Network/Dashboard/Promises/Actions/RejectPromiseApi";
 import FulfilledPromiseApi from "../../../Network/Dashboard/Promises/Actions/FulfilledPromiseApi";
-import { useNavigation } from '@react-navigation/native';
 import FailedPromiseApi from "../../../Network/Dashboard/Promises/Actions/FailedPromiseApi";
 
 
 
 export const handleAcceptPromise = async(promiseID, userN) => {
     console.log(`Accept button pressed for promise ID: ${promiseID}`)
-    // console.log(`UserNo: ${userN}`)
    const res = await AcceptPromiseApi(promiseID, userN)
   };
   
@@ -41,7 +39,4 @@ export const handleAcceptPromise = async(promiseID, userN) => {
    const res = await FailPromiseApi(promiseID, userN)
     
   };
-  // export const handelViewAttachedMedia = async() => {
-   
-  // };
-
+ 

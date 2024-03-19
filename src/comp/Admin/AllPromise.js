@@ -8,7 +8,4 @@ const AllPromise = () => {
     </View>
   )
 }
-
 export default AllPromise
-
-const styles = StyleSheet.create({})

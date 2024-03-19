@@ -1,44 +1,25 @@
-import {format} from 'date-fns';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
-  Text,
   FlatList,
   StyleSheet,
   TouchableOpacity,
-  Image,
   ActivityIndicator,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import Entypo from 'react-native-vector-icons/Entypo';
-import MyPromisesApi from '../../../../Network/Dashboard/Promises/MyPromisesApi/MyPromisesApi';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Headings} from '../../../../Styling/Headings';
 import PromisesToMeApi from '../../../../Network/Dashboard/Promises/PromisesToMeApi/PromisesToMeApi';
-import {useRecoilState} from 'recoil';
-import {UserNo, selectedVideoR} from '../../../../recoil/AddPromise';
-import {useIsFocused} from '@react-navigation/native';
-import {commonStyles} from '../../../../Styling/buttons';
-import {
-  handleAcceptPromise,
-  handleCompletePromise,
-  handleFailPromise,
-  handleRejectPromise,
-} from '../PromiseAction';
-import {DashBoardStyling} from '../../../../Styling/DashBoard';
-import {RefreshControl} from 'react-native';
+import { useRecoilState } from 'recoil';
+import { UserNo, selectedVideoR } from '../../../../recoil/AddPromise';
+import { useIsFocused } from '@react-navigation/native';
+import { RefreshControl } from 'react-native';
 import MiniCard from '../../../Global/MiniCard';
 import DetailCard from '../../../Global/DetailCard';
 
-const ShowAllTabPTM = ({navigation}) => {
-  const handelAttachedMedia = urll => {
-    console.log(urll);
-    setSelectedVideo(urll);
-    navigation.navigate('Player');
-  };
+const ShowAllTabPTM = ({ navigation }) => {
+
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
   const [promises, setPromises] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -53,8 +34,6 @@ const ShowAllTabPTM = ({navigation}) => {
   };
 
   useEffect(() => {
-    // Fetch data from the API using MyPromisesApi
-    // setIsLoading(true);
     PromisesToMeApi(userN)
       .then(data => {
         setPromises(data);
@@ -70,10 +49,8 @@ const ShowAllTabPTM = ({navigation}) => {
       setPromises([]);
     };
   }, [focus, refersh]);
-  // }, [refersh]);
 
   return (
-    // <View style={{flex: 1, backgroundColor: '#E4EEE6'}}>
     <View
       style={{
         flex: 1,
@@ -95,10 +72,10 @@ const ShowAllTabPTM = ({navigation}) => {
               titleColor="white" // iOS
             />
           }
-          data={promises.filter(item => item.status === 'Completed' || item.status === 'Rejected' || item.status === 'AmountDue' ||  item.status === 'MarkedforCompletion' || item.status === 'Pending' || item.status === 'Accepted')}
+          data={promises.filter(item => item.status === 'Completed' || item.status === 'Rejected' || item.status === 'AmountDue' || item.status === 'MarkedforCompletion' || item.status === 'Pending' || item.status === 'Accepted')}
           keyExtractor={item => item.promiseID.toString()} // Use a unique identifier as the key
-          renderItem={({item}) => (
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          renderItem={({ item }) => (
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               {showDetail == item.promiseID ? (
                 <TouchableOpacity onPress={() => setshowDetail('')}>
                   <DetailCard
@@ -133,7 +110,7 @@ const ShowAllTabPTM = ({navigation}) => {
                 </TouchableOpacity>
               )}
             </View>
-           
+
           )}
         />
       )}
@@ -144,7 +121,6 @@ const ShowAllTabPTM = ({navigation}) => {
 const styles = StyleSheet.create({
   mainContainer: {
     width: wp(90),
-    // borderWidth: wp(0.3),
     height: hp(40),
     flexDirection: 'row',
   },
@@ -164,9 +140,7 @@ const styles = StyleSheet.create({
   },
   DataSection: {
     width: wp(48),
-    // borderWidth: wp(0.3),
     height: hp(40),
-    // borderRadius: wp(4),
     backgroundColor: '#DDDFE2',
     borderTopRightRadius: wp(5),
     borderTopLeftRadius: wp(5),
@@ -176,7 +150,6 @@ const styles = StyleSheet.create({
 
   states: {
     width: wp(39),
-    // borderWidth: wp(0.3),
     height: hp(40),
     borderColor: 'red',
     flexDirection: 'colom',
@@ -185,18 +158,14 @@ const styles = StyleSheet.create({
 
   statesSecOne: {
     width: wp(42),
-    // borderWidth: wp(0.3),
     height: hp(21),
-    // borderColor: 'red',
     backgroundColor: '#DDDFE2',
     borderRadius: wp(5),
   },
   Card: {
     width: wp(90),
     height: hp(27),
-    // borderWidth: wp(0.5),
     marginTop: hp(0.7),
-    // marginLeft: hp(0.8),
     borderRadius: wp(5),
     alignItems: 'center',
   },

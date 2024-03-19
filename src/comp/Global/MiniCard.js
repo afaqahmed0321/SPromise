@@ -2,14 +2,13 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList,
   Image,
   TouchableOpacity,
   Modal,
   TouchableWithoutFeedback,
   ActivityIndicator,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -19,7 +18,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { Headings } from '../../Styling/Headings';
 import { format } from 'date-fns';
-import { showMyPromises } from '../../recoil/Dashboard/dashBoard'
 import { useRecoilState } from 'recoil';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 import { selectedVideoR } from '../../recoil/AddPromise';
@@ -295,7 +293,6 @@ const MiniCard = ({
                         marginHorizontal: hp(2),
                         fontWeight: 'bold',
                         fontSize: 18,
-                        //  fontWeight: 'bold',
                         fontSize: hp(2),
                       },
                     ]}>
@@ -308,7 +305,6 @@ const MiniCard = ({
                     <FontAw5 color="#652D90" name="youtube" size={23} style={{ marginHorizontal: hp(2) }} />
                     <VideoModal />
 
-                    {/* <Text style={{ color: 'blue' }}>Attacheddd File</Text> */}
                   </TouchableOpacity>
                 ) : null}
               </View>
@@ -327,7 +323,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   left: {
-    // flex: 1,
     width: wp(33),
     justifyContent: 'center',
     alignItems: 'center',
@@ -338,7 +333,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   right: {
-    // flex: 1,
     width: wp(30),
     justifyContent: 'center',
     alignItems: 'center',
@@ -347,7 +341,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(10, 0, 0, 0.5)', // Semi-transparent black
+    backgroundColor: 'rgba(10, 0, 0, 0.5)',
   },
 });
 

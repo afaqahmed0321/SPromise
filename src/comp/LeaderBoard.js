@@ -5,15 +5,12 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { PlayerData } from '../Data/Data';
-import { useFocusEffect } from '@react-navigation/native';
 import TopUsers from '../Network/Users/TopUsers';
 import { UserNo } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import { ToastAndroid } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
-import { defaultImageURL } from '../source/UserProfile';
 import LinearGradient from 'react-native-linear-gradient';
-import Pie from 'react-native-pie';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 
 
@@ -68,13 +65,7 @@ const LeaderBoard = () => {
   };
   
 
-  // useFocusEffect(
 
-  //   React.useCallback(() => {
-
-  //     fetchTopUs();
-  //   }, [])
-  // );
   useEffect(() => {
     fetchTopUs();
   }, [focus, refresh]);
@@ -89,13 +80,11 @@ const LeaderBoard = () => {
       style={{
         width: '95%',
         height: hp(4.5),
-        // backgroundColor: '#3c6bf5',
         opacity: 0.7,
         borderRadius: wp(4),
         marginTop: hp(0.5),
         flexDirection: 'row',
         alignSelf: 'center',
-        // justifyContent: 'space-between',
         alignItems: 'center',
       }}
     >
@@ -105,7 +94,6 @@ const LeaderBoard = () => {
       </View>
       <View>
         <Image
-          // source={{uri:item.imageURL}}
           source={
             item.imageURL === ''
               ? {
@@ -131,7 +119,6 @@ const LeaderBoard = () => {
           colors={['#E4A936', '#EE8347']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          // style={TextInP.lognBtn}
           style={{ backgroundColor: '#EE8347', borderRadius: 50, paddingVertical: 3, paddingHorizontal: 5 }}
         >
           <Text style={{ color: 'black', fontSize: 11 }}>{item.promisability}%</Text>
@@ -145,46 +132,44 @@ const LeaderBoard = () => {
       <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", alignContent: "center", marginVertical: 3 }}>
         <Text style={styles.barText}>Leader Board</Text>
         <TouchableOpacity onPress={() => setRefresh(!refresh)}>
-            <View style={{ marginRight:15}}>
-              <FontAw5
-                name="sync"
-                size={15}
-                color="#6650A4"
-                
-              />
-            </View>
-          </TouchableOpacity>
+          <View style={{ marginRight: 15 }}>
+            <FontAw5
+              name="sync"
+              size={15}
+              color="#6650A4"
+            />
           </View>
-
-        <FlatList
-          data={topUserList}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => item.userNo.toString()}
-        />
+        </TouchableOpacity>
       </View>
-      );
+      <FlatList
+        data={topUserList}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => item.userNo.toString()}
+      />
+    </View>
+  );
 };
 
-      export default LeaderBoard;
+export default LeaderBoard;
 
-      const styles = StyleSheet.create({
-      
-        bar: {
-        height: hp(4),
-      width: '100%',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      flexDirection: 'row',
+const styles = StyleSheet.create({
+
+  bar: {
+    height: hp(4),
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
 
   },
-      barText: {
-        fontSize: hp(1.5),
-      marginRight: wp(1.4),
-      color: '#652D90',
-      fontWeight: 'bold',
-      marginLeft: wp(1.5),
-      marginVertical: 5,
-      paddingLeft: wp(2),
-      paddingVertical: hp(.2)
+  barText: {
+    fontSize: hp(1.5),
+    marginRight: wp(1.4),
+    color: '#652D90',
+    fontWeight: 'bold',
+    marginLeft: wp(1.5),
+    marginVertical: 5,
+    paddingLeft: wp(2),
+    paddingVertical: hp(.2)
   },
 });

@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {ToastAndroid} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ToastAndroid } from 'react-native';
 import Ion from 'react-native-vector-icons/Ionicons';
 import Font from 'react-native-vector-icons/Fontisto';
 
@@ -17,13 +17,13 @@ import {
 } from 'react-native-responsive-screen';
 import Feather from 'react-native-vector-icons/Feather';
 import fetchUser from '../../Network/Users/GetUser';
-import {commonStyles} from '../../Styling/buttons';
+import { commonStyles } from '../../Styling/buttons';
 import InviteUser from '../../Network/Users/InviteUser';
 import AddUserNetwork from '../../Network/Users/AddToNetwork';
-import {UserNo} from '../../recoil/AddPromise';
-import {useRecoilState} from 'recoil';
-import {ismodalVisible, refreshPromiseNetwork} from '../../recoil/Globel';
-import {BlurView} from '@react-native-community/blur';
+import { UserNo } from '../../recoil/AddPromise';
+import { useRecoilState } from 'recoil';
+import { ismodalVisible, refreshPromiseNetwork } from '../../recoil/Globel';
+import { BlurView } from '@react-native-community/blur';
 
 const AddToMyNetwork = () => {
   const [userFound, setUserFound] = useState(null);
@@ -54,11 +54,9 @@ const AddToMyNetwork = () => {
             );
             setUserFound(false);
             setIsLoading(false);
-            // setSearching(false);
           } else {
             setUserFound(true);
             setIsLoading(false);
-            // setSearching(false);
             setUserData(data);
           }
         })
@@ -112,44 +110,35 @@ const AddToMyNetwork = () => {
 
   return (
     <>
-      {/* <View style={{height: hp(25), borderWidth:1}}> */}
       <BlurView
-        style={{height: hp(25),}}
+        style={{ height: hp(25), }}
         blurType="light" // You can customize the blurType as needed
         blurAmount={10} // You can adjust the blurAmount as needed
       ></BlurView>
       {/* </View> */}
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <BlurView
-          style={{flex: 1}}
+          style={{ flex: 1 }}
           blurType="light" // You can customize the blurType as needed
           blurAmount={10} // You can adjust the blurAmount as needed
         ></BlurView>
         <View
           style={{
-            // width: wp(100),
             height: hp(40),
             backgroundColor: '#E4EEE6',
-            // justifyContent: 'center',
             alignItems: 'center',
             borderWidth: 0.5,
             width: wp(90),
             alignSelf: 'center',
             borderRadius: wp(2),
             borderColor: '#652D90',
-            // marginHorizontal:wp(3),
-            // height: hp(58),
-            // marginTop: hp(20),
-            // backgroundColor:'white',
-           
-           
           }}>
           <TouchableOpacity
-            style={{position: 'absolute', top: hp(1), right: wp(3)}}
+            style={{ position: 'absolute', top: hp(1), right: wp(3) }}
             onPress={() => setMmodalVisible(false)}>
             <Font color="#652D90" name="close" size={30} />
           </TouchableOpacity>
-          <View style={{width: wp(79), marginTop: hp(8)}}>
+          <View style={{ width: wp(79), marginTop: hp(8) }}>
             <TextInput
               style={styles.SearchInpF}
               placeholder="Search User"
@@ -160,28 +149,28 @@ const AddToMyNetwork = () => {
               }}></TextInput>
             <TouchableOpacity
               onPress={SearchUser}
-              style={{position: 'absolute', right: hp(1.8), top: hp(1.8)}}>
+              style={{ position: 'absolute', right: hp(1.8), top: hp(1.8) }}>
               <Feather name="search" size={20} color="#8250A6" />
             </TouchableOpacity>
           </View>
-          <View style={{height: hp(8), marginTop: hp(2)}}>
+          <View style={{ height: hp(8), marginTop: hp(2) }}>
             {userData && userData.emailID && (
               <View>
-                <Text style={{color:"black"}}>Email: {userData.emailID}</Text>
-                <Text  style={{color:"black"}}>
+                <Text style={{ color: "black" }}>Email: {userData.emailID}</Text>
+                <Text style={{ color: "black" }}>
                   Name: {userData.firstName} {userData.lastName}
                 </Text>
               </View>
             )}
           </View>
-          <View style={{marginBottom: hp(2)}}></View>
+          <View style={{ marginBottom: hp(2) }}></View>
           {isLoading ? (
             <ActivityIndicator size="small" color="#0000ff" />
           ) : !searching ? null : userFound ? (
             <TouchableOpacity
               style={styles.SignBtn}
               onPress={handelAddtoNetwork}>
-              <Text  style={{color:"white"}}>Add to network</Text>
+              <Text style={{ color: "white" }}>Add to network</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
@@ -192,13 +181,13 @@ const AddToMyNetwork = () => {
           )}
         </View>
         <BlurView
-          style={{flex: 1}}
+          style={{ flex: 1 }}
           blurType="light" // You can customize the blurType as needed
           blurAmount={10} // You can adjust the blurAmount as needed
         ></BlurView>
       </View>
       <BlurView
-        style={{ height:hp(30)}}
+        style={{ height: hp(30) }}
         blurType="light" // You can customize the blurType as needed
         blurAmount={10} // You can adjust the blurAmount as needed
       ></BlurView>
@@ -250,7 +239,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.18,
     shadowRadius: 1.0,
-
     elevation: 1,
   },
 });

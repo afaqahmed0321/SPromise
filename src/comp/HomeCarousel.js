@@ -47,14 +47,12 @@ const HomeCarousel = () => {
     return (
       <View style={styles.slide}>
         <Image style={styles.image} source={{uri: item.imageUri}} />
-        {/* <Text style={styles.title}>{item.title}</Text> */}
       </View>
     );
   };
 
   return (
     <View style={{borderWidth: wp(.5)}}>
-      {/* <Text>HomeCarousel</Text> */}
       <Carousel
         ref={c => {
           this._carousel = c;
@@ -75,7 +73,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
     borderRadius: 10,
-    // margin: wp(10),
     width: wp(90),
     borderWidth: hp(.5)
    
@@ -87,7 +84,6 @@ const styles = StyleSheet.create({
   image: {
    
     height: hp(40),
-    // borderRadius: wp(30)
     width: wp(90),
   },
 });

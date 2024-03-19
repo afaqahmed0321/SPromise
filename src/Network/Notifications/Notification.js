@@ -8,10 +8,8 @@ const fetchNotification = async (userN) => {
   let user;
   while (!user) {
     user = await AsyncStorage.getItem("userNo");
-    // console.log(user, "user in getonging", userN);
   }
   const apiUrl = 'https://snappromise.com:8080/getUserNotifications?userNo='+user;
-  // console.log(userN)
   try {
     const response = await axios.get(apiUrl);
     console.log(response.data.notificationsList)

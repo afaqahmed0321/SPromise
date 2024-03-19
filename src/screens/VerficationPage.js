@@ -15,13 +15,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import VerifyOTP from '../Network/Verification';
 
 const VerficationPage = ({ navigation }) => {
-  const [isCodeSent, setIsCodeSent] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(0);
   const [Code, setCode] = useRecoilState(code);
-  // const [Semail, setSemail] = useRecoilState(uemail);
-  // const [Spassword, setSpassword] = useRecoilState(upassword);
-  // const [Sfname, setSfname] = useRecoilState(ufName);
-  // const [slname, setslname] = useRecoilState(ulName);
   const [fName, setFName] = useRecoilState(ufName);
   const [lName, setLName] = useRecoilState(ulName);
   const [emailID, setEmail] = useRecoilState(uemail);
@@ -35,25 +30,22 @@ const VerficationPage = ({ navigation }) => {
     const mail = emailID.toLowerCase();
     let response = await VerifyOTP(mail)
 
-      try {
-        console.log("Forget password is hitted", response);
-        setCode(response.code);
-      }
-      catch{
-        console.log("Error in forgot password", error);
-      };
-
+    try {
+      console.log("Forget password is hitted", response);
+      setCode(response.code);
+    }
+    catch {
+      console.log("Error in forgot password", error);
+    };
   };
-
   useEffect(() => {
-    // Decrease the resend cooldown timer every second
     if (resendCooldown > 0) {
       const timer = setTimeout(() => setResendCooldown(resendCooldown - 1), 1500);
       return () => clearTimeout(timer);
     }
     setTimeout(() => {
-      setCode(null); 
-    }, 60000); 
+      setCode(null);
+    }, 60000);
   }, [resendCooldown, resendCode]);
 
   const verification = async () => {
@@ -72,25 +64,19 @@ const VerficationPage = ({ navigation }) => {
       }
       else {
         ToastAndroid.show(response, ToastAndroid.LONG);
-
       }
-
     }
     else {
       console.log("here2")
-
       ToastAndroid.show('OTP is incorrect, Please try again', ToastAndroid.LONG);
 
     }
   }
-
-
   return (
     <View style={{ backgroundColor: '#e4eee6', flex: 1 }}>
       <LogoHeaderGlobel />
       <View style={{
         width: wp(90), marginTop: hp(1), marginLeft: hp(2),
-        //  borderWidth:wp(1)
       }}>
         <Text style={Headings.h1} >
           Please check your email
@@ -105,9 +91,7 @@ const VerficationPage = ({ navigation }) => {
             handleChange={(code) => setOutputCode(code)}
             numberOfInputs={4}
             inputStyles={{ textAlign: 'center', fontSize: hp(3), color: '#000' }}
-
           />
-
         </View>
         <View style={{ marginTop: hp(3) }}>
           <LinearGradient
@@ -124,8 +108,6 @@ const VerficationPage = ({ navigation }) => {
           </LinearGradient>
         </View>
         <View>
-
-
           {resendCooldown <= 0 ? (
             <TouchableOpacity onPress={resendCode}>
               <Text style={{ color: 'black', textAlign: 'center', marginTop: hp(2), fontWeight: '600', fontSize: 16 }}>Send code again</Text>

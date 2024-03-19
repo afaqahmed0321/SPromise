@@ -1,37 +1,26 @@
-import {format} from 'date-fns';
-import React, {useEffect, useState} from 'react';
+import { format } from 'date-fns';
+import React, { useEffect, useState } from 'react';
 import {
   View,
-  Text,
   FlatList,
   StyleSheet,
   TouchableOpacity,
-  Image,
   ActivityIndicator,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import Entypo from 'react-native-vector-icons/Entypo';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useRecoilState} from 'recoil';
-import {useIsFocused} from '@react-navigation/native';
+import { useRecoilState } from 'recoil';
+import { useIsFocused } from '@react-navigation/native';
 import GetUserPromiseRequest from '../../../../Network/Dashboard/PromiseReq/GetUserPromiseReq';
-import {UserNo, selectedVideoR} from '../../../../recoil/AddPromise';
-import {Headings} from '../../../../Styling/Headings';
-import {commonStyles} from '../../../../Styling/buttons';
-import {DashBoardStyling} from '../../../../Styling/DashBoard';
-import {RefreshControl} from 'react-native';
+import { UserNo, selectedVideoR } from '../../../../recoil/AddPromise';
+import { RefreshControl } from 'react-native';
 import DetailCard from '../../../Global/DetailCard';
 import MiniCard from '../../../Global/MiniCard';
 
-const PendingPromiseReq = ({navigation}) => {
-  const handelAttachedMedia = urll => {
-    console.log(urll);
-    setSelectedVideo(urll);
-    navigation.navigate('Player');
-  };
+const PendingPromiseReq = ({ navigation }) => {
+
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
   const [promises, setPromises] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -45,23 +34,18 @@ const PendingPromiseReq = ({navigation}) => {
   };
 
   useEffect(() => {
-    // Fetch data from the API using MyPromisesApi
     GetUserPromiseRequest(userN)
       .then(data => {
         setPromises(data);
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", data)
-
         setIsLoading(false);
       })
       .catch(error => {
         console.error('Error fetching promises:', error);
         setIsLoading(false);
       });
-    // }, [focus]);
   }, [focus, refersh]);
 
   return (
-    // <View style={{flex: 1, backgroundColor: '#FFE4BB'}}>
     <View
       style={{
         flex: 1,
@@ -85,8 +69,8 @@ const PendingPromiseReq = ({navigation}) => {
           }
           data={promises.filter(item => item.status === 'Pending')}
           keyExtractor={item => item.promiseID.toString()} // Use a unique identifier as the key
-          renderItem={({item}) => (
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          renderItem={({ item }) => (
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               {showDetail == item.promiseID ? (
                 <TouchableOpacity onPress={() => setshowDetail('')}>
                   <DetailCard
@@ -124,7 +108,7 @@ const PendingPromiseReq = ({navigation}) => {
                 </TouchableOpacity>
               )}
             </View>
-           
+
           )}
         />
       )}
@@ -135,7 +119,6 @@ const PendingPromiseReq = ({navigation}) => {
 const styles = StyleSheet.create({
   mainContainer: {
     width: wp(90),
-    // borderWidth: wp(0.3),
     height: hp(40),
     flexDirection: 'row',
   },
@@ -155,9 +138,7 @@ const styles = StyleSheet.create({
   },
   DataSection: {
     width: wp(48),
-    // borderWidth: wp(0.3),
     height: hp(40),
-    // borderRadius: wp(4),
     backgroundColor: '#DDDFE2',
     borderTopRightRadius: wp(5),
     borderTopLeftRadius: wp(5),
@@ -167,7 +148,6 @@ const styles = StyleSheet.create({
 
   states: {
     width: wp(39),
-    // borderWidth: wp(0.3),
     height: hp(40),
     borderColor: 'red',
     flexDirection: 'colom',
@@ -176,19 +156,14 @@ const styles = StyleSheet.create({
 
   statesSecOne: {
     width: wp(42),
-    // borderWidth: wp(0.3),
     height: hp(21),
-    // borderColor: 'red',
     backgroundColor: '#DDDFE2',
     borderRadius: wp(5),
   },
   Card: {
     width: wp(90),
-    // borderWidth: wp(0.5),
     height: hp(23),
-    // borderWidth: wp(0.5),
     marginTop: hp(0.7),
-    // marginLeft: hp(0.8),
     borderRadius: wp(5),
     alignItems: 'center',
   },

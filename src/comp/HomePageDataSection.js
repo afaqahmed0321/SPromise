@@ -5,7 +5,6 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import { format } from 'date-fns';
 import React, { useEffect, useState } from 'react';
@@ -21,8 +20,6 @@ import PromiseStatusData from './PromiseStatusData';
 import LeaderBoard from './LeaderBoard';
 import { useRecoilState } from 'recoil';
 import { UserNo } from '../recoil/AddPromise';
-import { useFocusEffect } from '@react-navigation/native';
-import fetchOnGoingPromises from '../Network/Users/GetOnGoingPromises';
 import { useIsFocused } from '@react-navigation/native';
 import DetailCard from './Global/DetailCard';
 import { onGoingPromisesListCard } from '../recoil/Dashboard/dashBoard';
@@ -54,12 +51,10 @@ const HomePageDataSection = () => {
   const fetchData = async () => {
     console.log("Fetch data call")
 
-    // setPromises();
     setIsLoading(true);
     await MyPromisesApi(userN)
       .then(data => {
         setPromises(data);
-        // setIsLoading(false);
         console.log(data, "active promises MyPromisesApi")
       })
       .catch(error => {
@@ -70,7 +65,6 @@ const HomePageDataSection = () => {
     await PromisesToMeApi(userN)
       .then(data => {
         setpromisesToMe(data);
-        // setIsLoading(false);
         console.log(data, "active promises PromisesToMeApi" )
       })
       .catch(error => {
@@ -82,7 +76,6 @@ const HomePageDataSection = () => {
     await GetPromiseRequestToUser(userN)
       .then(data => {
         setPromisesReq(data);
-        // setIsLoading(false);
         console.log(data, "active promises GetPromiseRequestToUser")
       })
       .catch(error => {
@@ -93,7 +86,6 @@ const HomePageDataSection = () => {
     await GetUserPromiseRequest(userN)
       .then(data => {
         setpromisesReqToMe(data);
-        // setIsLoading(false);
         console.log(data, "active promises GetUserPromiseRequest")
       })
       .catch(error => {
@@ -291,8 +283,6 @@ export default HomePageDataSection;
 const styles = StyleSheet.create({
   mainContainer: {
     width: wp(90),
-    // borderWidth: wp(0.3),
-    // height: hp(40),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -315,24 +305,17 @@ const styles = StyleSheet.create({
     color: '#652D90',
     fontWeight: 'bold',
     paddingLeft: wp(2),
-    // paddingRight: wp(2)
   },
   DataSection: {
     width: wp(90),
-    // borderWidth: wp(0.3),
     height: hp(30),
-    // borderRadius: wp(4),
     backgroundColor: '#DDDFE2',
     borderRadius: wp(5),
-    // borderTopLeftRadius: wp(5),
-    // borderTopWidth: wp(.6),
-    // borderColor:'#652D90',
     marginTop: hp(3),
   },
 
   states: {
     width: wp(39),
-    // borderWidth: wp(0.3),
     height: hp(40),
     borderColor: 'red',
     flexDirection: 'colom',
@@ -341,19 +324,14 @@ const styles = StyleSheet.create({
 
   statesSecOne: {
     width: wp(90),
-    // borderWidth: wp(0.3),
     height: hp(21),
-    // borderColor: 'red',
     backgroundColor: '#DDDFE2',
     borderRadius: wp(5),
   },
   Card: {
     width: '95%',
-    // borderWidth: wp(0.5),
     height: hp(6),
-    // borderWidth: wp(0.5),
     marginTop: hp(0.7),
-    // marginLeft: hp(0.8),
     borderRadius: wp(5),
   },
 });

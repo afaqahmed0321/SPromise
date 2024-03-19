@@ -13,11 +13,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-// import EvilIcon from 'react-native-vector-icons/EvilIcons';
-import { Headings } from '../Styling/Headings';
 import { UserNo } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
-import { useFocusEffect } from '@react-navigation/native';
 import fetchNotification from '../Network/Notifications/Notification';
 import { useIsFocused } from '@react-navigation/native';
 import {
@@ -31,7 +28,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Notifications = ({ navigation }) => {
-  const [rating, setRating] = useState(0);
   const [notilist, setNotificationList] = useState([]);
   const [userN, setUserN] = useRecoilState(UserNo);
   const focus = useIsFocused();
@@ -40,28 +36,22 @@ const Notifications = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [refersh, setrefresh] = useState(false);
   const [viewedNotifications, setViewedNotifications] = useState([]);
-  // Other state variables...
   useEffect(() => {
-    // Retrieve viewed notifications from AsyncStorage
     AsyncStorage.getItem('viewedNotifications').then((value) => {
       if (value) {
         setViewedNotifications(JSON.parse(value));
       }
     });
   }, []);
-  // Function to handle viewing a notification
   const handleViewNotification = (item) => {
     setNoti(item);
     setIsModalV(true);
-    // Add the viewed notification's identifier to the list
     setViewedNotifications([...viewedNotifications, item.docNo]);
-    // Store updated viewed notifications list in AsyncStorage
     AsyncStorage.setItem(
       'viewedNotifications',
       JSON.stringify([...viewedNotifications, item.docNo])
     );
   };
-  // Filter out viewed notifications from the list
   const filteredNotifications = notilist.filter(
     (item) => !viewedNotifications.includes(item.docNo)
   );
@@ -99,22 +89,16 @@ const Notifications = ({ navigation }) => {
               width: '100%',
               borderRadius: wp(50),
             },
-          ]}>
-          {/* <Text style={{color: 'white', textAlign: 'center'}}>Next</Text> */}
-
-          {/* <Text>{item.userName}</Text> */}
-          <View
+          ]}><View
             style={{
               width: wp(90),
               height: hp(7),
-              // backgroundColor: '#FFE4BB',
               borderRadius: wp(9),
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
             }}>
             <Image
-              // source={{uri:item.imageURL}}
               source={
                 item.imageURL === ''
                   ? {
@@ -127,12 +111,10 @@ const Notifications = ({ navigation }) => {
                 height: hp(6),
                 borderRadius: wp(12) / 2,
                 borderColor: '#F99C68',
-                // borderWidth: wp(.5),
                 position: 'absolute',
                 left: wp(1.2),
               }}
             />
-            {/* </View> */}
             <Text style={{ marginLeft: wp(11), color: 'black', width: wp(70) }}>
               {item.description}
             </Text>
@@ -143,7 +125,6 @@ const Notifications = ({ navigation }) => {
   );
 
   const fetchNoti = async () => {
-    // setPromises();
     await fetchNotification(userN)
       .then(data => {
         setNotificationList(data);
@@ -179,7 +160,6 @@ const Notifications = ({ navigation }) => {
           style={{
             flex: 1,
             backgroundColor: '#E4EEE6',
-            // borderTopWidth: hp(0.2),
             justifyContent: 'center',
             alignItems: 'center',
           }}>
@@ -188,10 +168,10 @@ const Notifications = ({ navigation }) => {
               <RefreshControl
                 refreshing={isLoading}
                 onRefresh={onRefresh}
-                colors={['#E4A936', '#EE8347']} // Android
-                tintColor="white" // iOS
-                title="Refreshing..." // iOS
-                titleColor="white" // iOS
+                colors={['#E4A936', '#EE8347']} 
+                tintColor="white" 
+                title="Refreshing..." 
+                titleColor="white" 
               />
             }
             data={filteredNotifications}
@@ -238,7 +218,6 @@ const styles = StyleSheet.create({
     width: wp(48),
     borderWidth: wp(0.3),
     height: hp(40),
-    // borderRadius: wp(4),
     backgroundColor: '#DDDFE2',
   },
 
@@ -253,19 +232,14 @@ const styles = StyleSheet.create({
 
   statesSecOne: {
     width: wp(42),
-    // borderWidth: wp(0.3),
     height: hp(20),
-    // borderColor: 'red',
     backgroundColor: '#DDDFE2',
     borderRadius: wp(5),
   },
   Card: {
     width: wp(100),
-    // borderWidth: wp(0.5),
     height: hp(15),
-    // borderWidth: wp(0.5),
     marginTop: hp(0.7),
-    // marginLeft: hp(0.8),
     borderRadius: wp(5),
   },
 });

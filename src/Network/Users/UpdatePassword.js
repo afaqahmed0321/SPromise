@@ -10,13 +10,12 @@ const UpdatedPassword = async (userN, NewPass) => {
       {
         method: 'POST',
         headers: {
-          'Accept': 'text/plain', // Change to 'application/json'
+          'Accept': 'text/plain', 
         },
       }
     );
     return response
   } catch (error) {
-    // Handle fetch error
     console.error('Error updating password:', error.message);
   }
 };

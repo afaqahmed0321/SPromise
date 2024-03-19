@@ -1,28 +1,18 @@
-import {format} from 'date-fns';
 import React, {useEffect, useState} from 'react';
 import {
   View,
-  Text,
   FlatList,
   StyleSheet,
   TouchableOpacity,
-  Image,
   ActivityIndicator,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import Entypo from 'react-native-vector-icons/Entypo';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import Feather from 'react-native-vector-icons/Feather';
-// import {Headings} from '../../../Styling/Headings';
-
 import {useRecoilState} from 'recoil';
-// import { UserNo } from '../../../recoil/AddPromise';
 import {useIsFocused} from '@react-navigation/native';
 import GetPromiseRequestToUser from '../../../../Network/Dashboard/PromiseReq/GetPromiseReqToUser';
-import {Headings} from '../../../../Styling/Headings';
 import {
   EditPromiseReq,
   IsTimeBound,
@@ -43,11 +33,7 @@ import {
   selectedReqPromiseId,
   selectedVideoR,
   startDate,
-  upDatePromiseReq,
 } from '../../../../recoil/AddPromise';
-// import {UserNo, selectedVideoR} from '../../../../recoil/AddPromise';
-import {commonStyles} from '../../../../Styling/buttons';
-import {DashBoardStyling} from '../../../../Styling/DashBoard';
 import {RefreshControl} from 'react-native';
 import MiniCard from '../../../Global/MiniCard';
 import DetailCard from '../../../Global/DetailCard';
@@ -72,15 +58,7 @@ const FailedPRTM = ({navigation}) => {
 
   const [isChecked1, setIsChecked1] = useState(istimeBoundCheckBox1);
   const [isChecked2, setIsChecked2] = useState(istimeBoundCheckBox2);
-
   const [generatedTexts, setGeneratedTexts] = useRecoilState(promiseStatement);
-  // const [makePromise, setMakePromise] = useRecoilState(MakeaPromise);
-
-  const handelAttachedMedia = urll => {
-    console.log(urll);
-    setSelectedVideo(urll);
-    navigation.navigate('Player');
-  };
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
   const [promises, setPromises] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
