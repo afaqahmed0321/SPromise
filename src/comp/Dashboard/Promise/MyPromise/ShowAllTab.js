@@ -105,7 +105,7 @@ const ShowAllTab = ({ navigation }) => {
                   setshowDetail('')
                 }}>
                   <DetailCard
-                    promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+                    promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
                     name={item.promiseeName}
@@ -126,7 +126,7 @@ const ShowAllTab = ({ navigation }) => {
               ) : (
                 <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
                   <MiniCard
-                    promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+                    promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     promisetype={item.promiseType}
                     rewardPoints={item.rewardPoints}
                     amount={item.paymentAmount}

@@ -91,7 +91,7 @@ const Failed = ({navigation}) => {
               {showDetail == item.promiseID ? (
                 <TouchableOpacity onPress={() => setshowDetail('')}>
                   <DetailCard
-                    promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+                    promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
                     name={item.promiseeName}

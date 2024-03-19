@@ -133,9 +133,10 @@ const CompletePRTM = ({navigation}) => {
           renderItem={({item}) => (
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
               {showDetail == item.promiseID ? (
+                console.log("iteeeeemmmmmmmmm",item),
                 <TouchableOpacity onPress={() => setshowDetail('')}>
                   <DetailCard
-                    promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+                    promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
                     name={item.promisorName}
@@ -156,7 +157,7 @@ const CompletePRTM = ({navigation}) => {
               ) : (
                 <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
                   <MiniCard
-                    promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+                    promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     promisetype={item.promiseType}
                     rewardPoints={item.rewardPoints}
                     amount={item.paymentAmount}

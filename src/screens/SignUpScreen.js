@@ -137,7 +137,7 @@ const SignUpScreen = ({ navigation }) => {
         // Navigate to the verification page
         navigation.navigate('VerficationPage');
       } else {
-        ToastAndroid.show('Something went wrong!', ToastAndroid.LONG);
+        ToastAndroid.show('User Already Exists!', ToastAndroid.LONG);
       }
     } catch (error) {
       console.error('Signup Error:', error);

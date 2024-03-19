@@ -142,7 +142,7 @@ const ShowAllTabPRTM = ({navigation}) => {
               {showDetail == item.promiseID ? (
                 <TouchableOpacity onPress={() => setshowDetail('')}>
                   <DetailCard
-                    promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+                    promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
                     name={item.promisorName}
@@ -163,7 +163,7 @@ const ShowAllTabPRTM = ({navigation}) => {
               ) : (
                 <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
                   <MiniCard
-                    promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+                    promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     promisetype={item.promiseType}
                     rewardPoints={item.rewardPoints}
                     amount={item.paymentAmount}

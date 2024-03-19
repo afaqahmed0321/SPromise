@@ -133,7 +133,7 @@ const HomePageDataSection = () => {
           <View style={{ flex: 1, marginHorizontal: 10, paddingHorizontal: 10 }} >
             {console.log(item,"bharwy")}
             <DetailCard
-              promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+              promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
               promisetype={item.promiseType}
               amount={item.paymentAmount}
               promiseeName={item.promiseeName}

@@ -89,7 +89,7 @@ const ShowAllTabPromiseReq = ({ navigation }) => {
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               {showDetail == item.promiseID ?
                 <TouchableOpacity onPress={() => setshowDetail('')}>
-                  <DetailCard promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+                  <DetailCard promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
                     name={item.promiseeName}
@@ -100,12 +100,14 @@ const ShowAllTabPromiseReq = ({ navigation }) => {
                     promiseID={item.promiseID}
                     refreshCallback={onRefresh}
                     userN={userN} tab={"UserPromiseReq"} guaranteedWithMoney={item.guaranteedWithMoney}
-                    alotRewardPoints={item.alotRewardPoints} rewardPoints={item.rewardPoints} />
+                    alotRewardPoints={item.alotRewardPoints} rewardPoints={item.rewardPoints}
+                    
+                    />
                 </TouchableOpacity>
                 :
                 <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
 
-                  <MiniCard promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+                  <MiniCard promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     promisetype={item.promiseType}
                     rewardPoints={item.rewardPoints}
                     amount={item.paymentAmount}
