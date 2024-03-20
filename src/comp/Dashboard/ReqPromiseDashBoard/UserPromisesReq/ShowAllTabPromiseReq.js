@@ -81,14 +81,16 @@ const ShowAllTabPromiseReq = ({ navigation }) => {
                     amount={item.paymentAmount}
                     name={item.promiseeName}
                     date={item.expiryDate}
-                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+                    promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
 
                     ratingImpact={item.ratingImpact} promiseGoal={item.promiseGoal}
                     actions={item.actions}
                     promiseID={item.promiseID}
                     refreshCallback={onRefresh}
                     userN={userN} tab={"UserPromiseReq"} guaranteedWithMoney={item.guaranteedWithMoney}
-                    alotRewardPoints={item.alotRewardPoints} rewardPoints={item.rewardPoints} />
+                    alotRewardPoints={item.alotRewardPoints} rewardPoints={item.rewardPoints}
+
+                  />
                 </TouchableOpacity>
                 :
                 <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
@@ -99,8 +101,8 @@ const ShowAllTabPromiseReq = ({ navigation }) => {
                     amount={item.paymentAmount}
                     name={item.promiseeName}
                     date={item.expiryDate}
-                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
- tab={"UserPromiseReq"} guaranteedWithMoney={item.guaranteedWithMoney} />
+                    promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+                    tab={"UserPromiseReq"} guaranteedWithMoney={item.guaranteedWithMoney} />
                 </TouchableOpacity>
               }
             </View>

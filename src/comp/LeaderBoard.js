@@ -23,13 +23,34 @@ const LeaderBoard = () => {
   const focus = useIsFocused();
 
   const fetchTopUs = async () => {
+    // Fetch top users
     await TopUsers(userN)
       .then(data => {
-        setTopUserList(data.slice(0, 4));
-        console.log("Tooop user data", data.slice(0, 5));
-        if (data.description === 'No data found.') {
+        // Check if data is available
+        if (data && data.length > 0) {
+          // Remove duplicate users based on lowercase first names
+          const uniqueUsers = Array.from(new Set(data.map(user => user.firstName.toLowerCase()))).map(name => {
+            return data.find(user => user.firstName.toLowerCase() === name);
+          });
+  
+          // Set the top user list, limiting to 4 users
+          setTopUserList(uniqueUsers.slice(0, 4));
+  
+          console.log("Top user data", uniqueUsers.slice(0, 5));
+  
+          if (uniqueUsers.length === 0) {
+            ToastAndroid.showWithGravityAndOffset(
+              'There are no top users',
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+              25,
+              50,
+            );
+          }
+        } else {
+          // Handle case where no data is found
           ToastAndroid.showWithGravityAndOffset(
-            'There is no top user',
+            'There are no top users',
             ToastAndroid.LONG,
             ToastAndroid.BOTTOM,
             25,
@@ -38,10 +59,11 @@ const LeaderBoard = () => {
         }
       })
       .catch(error => {
-        console.error('Error fetching promises:', error);
+        console.error('Error fetching top users:', error);
         setIsLoading(false);
       });
   };
+  
 
 
   useEffect(() => {
