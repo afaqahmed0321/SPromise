@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -39,13 +39,12 @@ import { BlurView } from '@react-native-community/blur';
 import Video from 'react-native-video';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-
 const DetailCard = ({
+  promisorName,
   promiseeProfileImageUrl,
   promisetype,
   amount,
   promiseeName,
-  promisorName,
   date,
   name,
   promiseMediaURL,
@@ -118,11 +117,11 @@ const DetailCard = ({
 
 
 
-    useEffect(()=>{
-      DetailCard();
-    },[actionState]);
+    useEffect(() => {
+      // DetailCard();
+    }, [actionState]);
 
-   
+
 
     return (
       <Modal
@@ -165,7 +164,8 @@ const DetailCard = ({
 
   return (
     <>
-      {console.log("actionsss", promiseeProfileImageUrl,
+      {console.log("actionsss",
+        promiseeProfileImageUrl,
         promisetype,
         amount,
         promiseeName,
@@ -573,34 +573,34 @@ const DetailCard = ({
 
 
                   {actions.map((action, index) => {
-                if (action === 'Accept') {
-                  return (
-                    <TouchableOpacity
-                      style={commonStyles.ActionBtn}
-                      key={index}
-                      onPress={() => {
-                        handleAcceptPromise(promiseID, userN);
-                        refreshCallback();
-                        setActionState(!actionState);
-                      }}>
-                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                    </TouchableOpacity>
-                  );
-                } else if (action === 'Reject') {
-                  return (
-                    <TouchableOpacity
-                      style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                      key={index}
-                      onPress={() => {
-                        handleRejectPromise(promiseID, userN);
-                        refreshCallback();
-                        setActionState(!actionState);
-                      }}>
-                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                    </TouchableOpacity>
-                  );
-                }
-              })}
+                    if (action === 'Accept') {
+                      return (
+                        <TouchableOpacity
+                          style={commonStyles.ActionBtn}
+                          key={index}
+                          onPress={() => {
+                            handleAcceptPromise(promiseID, userN);
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      );
+                    } else if (action === 'Reject') {
+                      return (
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                          key={index}
+                          onPress={() => {
+                            handleRejectPromise(promiseID, userN);
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      );
+                    }
+                  })}
 
 
                 </Text>

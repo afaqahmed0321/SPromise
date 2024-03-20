@@ -78,7 +78,8 @@ const Complete = ({ navigation }) => {
                     amount={item.paymentAmount}
                     name={item.promiseeName}
                     date={item.expiryDate}
-                    promiseMediaURL={item.promiseMediaURL}
+                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+
                     ratingImpact={item.ratingImpact}
                     promiseGoal={item.promiseGoal}
                     actions={item.actions}
@@ -100,7 +101,8 @@ const Complete = ({ navigation }) => {
                     amount={item.paymentAmount}
                     name={item.promiseeName}
                     date={item.expiryDate}
-                    promiseMediaURL={item.promiseMediaURL}
+                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+
                     tab={'Promise'}
                   />
                 </TouchableOpacity>

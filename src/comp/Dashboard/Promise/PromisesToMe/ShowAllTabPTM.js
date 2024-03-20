@@ -84,7 +84,8 @@ const ShowAllTabPTM = ({ navigation }) => {
                     amount={item.paymentAmount}
                     name={item.promisorName}
                     date={item.expiryDate}
-                    promiseMediaURL={item.promiseMediaURL}
+                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+
                     ratingImpact={item.ratingImpact}
                     promiseGoal={item.promiseGoal}
                     actions={item.actions}
@@ -104,7 +105,8 @@ const ShowAllTabPTM = ({ navigation }) => {
                     amount={item.paymentAmount}
                     name={item.promisorName}
                     date={item.expiryDate}
-                    promiseMediaURL={item.promiseMediaURL}
+                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+
                     tab={'PromisestoMe'}
                   />
                 </TouchableOpacity>

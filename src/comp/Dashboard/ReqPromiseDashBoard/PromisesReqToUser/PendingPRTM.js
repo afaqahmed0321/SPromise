@@ -95,62 +95,64 @@ const PendingPRTM = ({ navigation }) => {
         <ActivityIndicator size="small" color="#0000ff" />
       ) : (
         <>
-        {console.log("item array", promises)}
-        <FlatList
-          refreshControl={
-            <RefreshControl
-              refreshing={isLoading}
-              onRefresh={onRefresh}
-              colors={['#E4A936', '#EE8347']} // Android
-              tintColor="white" // iOS
-              title="Refreshing..." // iOS
-              titleColor="white" // iOS
-            />
-          }
-          data={promises.filter(item => item.status === 'Pending')}
-          keyExtractor={item => item.promiseID.toString()} // Use a unique identifier as the key
-          renderItem={({item}) => (
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
-              {showDetail == item.promiseID ? (
-                <TouchableOpacity onPress={() => setshowDetail('')}>
-                  <DetailCard
-                    promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
-                    promisetype={item.promiseType}
-                    amount={item.paymentAmount}
-                    name={item.promisorName}
-                    date={item.expiryDate}
-                    promiseMediaURL={item.promiseMediaURL}
-                    ratingImpact={item.ratingImpact}
-                    promiseGoal={item.promiseGoal}
-                    actions={item.actions}
-                    promiseID={item.promiseID}
-                    refreshCallback={onRefresh}
-                    userN={userN}
-                    tab={'ReqPromiseDashboard'}
-                    guaranteedWithMoney={item.guaranteedWithMoney}
-                    alotRewardPoints={item.alotRewardPoints}
-                    rewardPoints={item.rewardPoints}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
-                  <MiniCard
-                    promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
-                    promisetype={item.promiseType}
-                    rewardPoints={item.rewardPoints}
-                    amount={item.paymentAmount}
-                    name={item.promisorName}
-                    date={item.expiryDate}
-                    promiseMediaURL={item.promiseMediaURL}
-                    tab={'ReqPromiseDashboard'}
-                    guaranteedWithMoney={item.guaranteedWithMoney}
-                  />
-                </TouchableOpacity>
-              )}
-            </View>
-           
-          )}
-        />
+          {console.log("item array", promises)}
+          <FlatList
+            refreshControl={
+              <RefreshControl
+                refreshing={isLoading}
+                onRefresh={onRefresh}
+                colors={['#E4A936', '#EE8347']} // Android
+                tintColor="white" // iOS
+                title="Refreshing..." // iOS
+                titleColor="white" // iOS
+              />
+            }
+            data={promises.filter(item => item.status === 'Pending')}
+            keyExtractor={item => item.promiseID.toString()} // Use a unique identifier as the key
+            renderItem={({ item }) => (
+              <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                {showDetail == item.promiseID ? (
+                  <TouchableOpacity onPress={() => setshowDetail('')}>
+                    <DetailCard
+                      promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
+                      promisetype={item.promiseType}
+                      amount={item.paymentAmount}
+                      name={item.promisorName}
+                      date={item.expiryDate}
+                                          promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+
+                      ratingImpact={item.ratingImpact}
+                      promiseGoal={item.promiseGoal}
+                      actions={item.actions}
+                      promiseID={item.promiseID}
+                      refreshCallback={onRefresh}
+                      userN={userN}
+                      tab={'ReqPromiseDashboard'}
+                      guaranteedWithMoney={item.guaranteedWithMoney}
+                      alotRewardPoints={item.alotRewardPoints}
+                      rewardPoints={item.rewardPoints}
+                    />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
+                    <MiniCard
+                      promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
+                      promisetype={item.promiseType}
+                      rewardPoints={item.rewardPoints}
+                      amount={item.paymentAmount}
+                      name={item.promisorName}
+                      date={item.expiryDate}
+                                          promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+
+                      tab={'ReqPromiseDashboard'}
+                      guaranteedWithMoney={item.guaranteedWithMoney}
+                    />
+                  </TouchableOpacity>
+                )}
+              </View>
+
+            )}
+          />
         </>
       )}
     </View>
