@@ -118,7 +118,7 @@ const DetailCard = ({
 
 
     useEffect(() => {
-      DetailCard();
+      // DetailCard();
     }, [actionState]);
 
 
