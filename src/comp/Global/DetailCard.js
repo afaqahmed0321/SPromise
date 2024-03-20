@@ -2,7 +2,6 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList,
   Image,
   TouchableOpacity,
   Modal,
@@ -10,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -19,9 +18,7 @@ import { DashBoardStyling } from '../../Styling/DashBoard';
 import LinearGradient from 'react-native-linear-gradient';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { Headings } from '../../Styling/Headings';
-import EvilIcon from 'react-native-vector-icons/Feather';
 import { format } from 'date-fns';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   handleAcceptPromise,
   handleCompletePromise,
@@ -31,25 +28,23 @@ import {
   handleRejectPromise,
 } from '../Dashboard/Promise/PromiseAction';
 import { commonStyles } from '../../Styling/buttons';
-import WebView from 'react-native-webview';
 import {
   handleAccept,
-  handleReject,
 } from '../Dashboard/ReqPromiseDashBoard/Action';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
-import PaymentScreen from '../../screens/PaymentScreenNotUsed';
 import PaymentScreens from '../../screens/PaymentScreens';
 import { selectedVideoR } from '../../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import { BlurView } from '@react-native-community/blur';
 import Video from 'react-native-video';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const DetailCard = ({
+  promisorName,
   promiseeProfileImageUrl,
   promisetype,
   amount,
   promiseeName,
-  promisorName,
   date,
   name,
   promiseMediaURL,
@@ -72,6 +67,8 @@ const DetailCard = ({
   const [isVideoModalVisible, setIsVideoModalVisible] = useState(false);
   const [markCompleted, setMarkCompleted] = useState(false);
   const [forName, setForName] = useState(false);
+  const [actionState, setActionState] = useState(true);
+
 
   console.log(promiseeProfileImageUrl,
     promisetype,
@@ -111,14 +108,20 @@ const DetailCard = ({
 
   const VideoModal = ({ isVisible, toggleModal, videoUrl }) => {
     const [isLoading, setIsLoading] = useState(true);
-
     const handleLoadStart = () => {
       setIsLoading(true);
     };
-
     const handleLoad = () => {
       setIsLoading(false);
     };
+
+
+
+    useEffect(() => {
+      DetailCard();
+    }, [actionState]);
+
+
 
     return (
       <Modal
@@ -154,10 +157,15 @@ const DetailCard = ({
 
     );
   };
+  const handleCloseModal = () => {
+    setIsPaymentWebViewVisible(!isPaymentWebViewVisible);
+    setActionState(!actionState);
+  };
 
   return (
     <>
-      {console.log("actionsss", promiseeProfileImageUrl,
+      {console.log("actionsss",
+        promiseeProfileImageUrl,
         promisetype,
         amount,
         promiseeName,
@@ -244,20 +252,44 @@ const DetailCard = ({
                 <Text
                   style={[
                     {
-                      color: 'white',
-                      marginHorizontal: hp(2),
-                      fontSize: hp(2),
+                      color: 'black',
+                      marginHorizontal: hp(4),
+                      fontSize: hp(1.8),
+                      backgroundColor: "#e0e0e0",
+                      borderRadius: 50,
+                      paddingVertical: 5,
+                      paddingHorizontal: 10,
+                      marginHorizontal: 10
                     },
                   ]}>
-                  Commitment: ${amount} {alotRewardPoints ? (
-                    <Text> & {rewardPoints} Reward Points</Text>
+                  ${amount} {alotRewardPoints ? (
+                    <Text style={[
+                      {
+                        color: 'black',
+                        marginHorizontal: hp(4),
+                        fontSize: hp(1.8),
+                        backgroundColor: "#e0e0e0",
+                        borderRadius: 50,
+                        paddingVertical: 5,
+                        paddingHorizontal: 10,
+                        marginHorizontal: 10
+
+                      },
+                    ]}> & {rewardPoints}pts </Text>
                   ) : null}
                 </Text>
               ) : null}
             </View>
             {ratingImpact ? (
               <View>
-                <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} />
+                {/* <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} /> */}
+                <MaterialIcons
+                  name="stars"
+                  size={25}
+                  color='#652D90'
+                  style={{ marginLeft: 10 }}
+
+                />
               </View>
             ) : null}
 
@@ -299,7 +331,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleAccept(promiseID, userN);
                         refreshCallback();
-
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -312,6 +344,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleRejectPromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -324,6 +357,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleCompletePromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -336,6 +370,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleFailPromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -349,6 +384,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleFulfilledPromiseApi(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -361,6 +397,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleFailedPromiseApi(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -379,35 +416,6 @@ const DetailCard = ({
                   );
                 }
               })}
-
-              {/* {actions.map((action, index) => {
-                if (action === 'Complete') {
-                  return (
-                    <TouchableOpacity
-                      style={[commonStyles.ActionBtn]}
-                      key={index}
-                      onPress={() =>
-                        handleCompletePromise(item.promiseID, userN)
-                      }>
-                      <Text>{action}</Text>
-                    </TouchableOpacity>
-                  );
-                } else if (action === 'Fail') {
-                  return (
-                    <TouchableOpacity
-                      style={[
-                        commonStyles.ActionBtn,
-                        { backgroundColor: 'red' },
-                      ]}
-                      key={index}
-                      onPress={() =>
-                        handleFailPromise(item.promiseID, userN)
-                      }>
-                      <Text>{action}</Text>
-                    </TouchableOpacity>
-                  );
-                }
-              })} */}
             </View>
           </View>
         </LinearGradient>
@@ -449,7 +457,7 @@ const DetailCard = ({
                   marginLeft: wp(3),
                   width: wp(45),
                 }}>
-                <Text style={{ color: 'white', fontSize: hp(2) }}>{actions == 'Pay' ? promiseeName : promisorName ? promisorName : name}</Text>
+                <Text style={{ color: 'white', fontSize: hp(2) }}>{actions === 'Pay' ? promiseeName : promisorName ? promisorName : name}</Text>
               </View>
               <View style={{ width: wp(8) }}>
                 <Entypo size={25} color="white" name="calendar" />
@@ -472,75 +480,127 @@ const DetailCard = ({
             <View style={DashBoardStyling.PromiseReward}>
 
               {promisetype == 'GUARANTEE' ? (
-                <Text
-                  style={[
-                    {
-                      color: 'white',
-                      marginHorizontal: hp(2),
-                      fontSize: hp(1.8),
-                    },
-                  ]}>
-                  {amount > 0 ? (
+                <>
+                  {amount ? (
                     <>
-                  Guarantee:$ {amount}{' '}
-                  {rewardPoints ? (
-                    <Text> & {rewardPoints} Reward Points</Text>
-                  ) : null}
+                      <Text
+                        style={[
+                          {
+                            color: 'black',
+                            marginHorizontal: hp(4),
+                            fontSize: hp(1.8),
+                            backgroundColor: "#e0e0e0",
+                            borderRadius: 50,
+                            paddingVertical: 5,
+                            paddingHorizontal: 10,
+                            marginHorizontal: 10
+
+                          },
+                        ]}>
+                        <>
+                          $ {amount}
+                          {rewardPoints ? (
+                            <Text style={[
+                              {
+                                color: 'black',
+                                marginHorizontal: hp(4),
+                                fontSize: hp(1.8),
+                                backgroundColor: "#e0e0e0",
+                                borderRadius: 50,
+                                paddingVertical: 5,
+                                paddingHorizontal: 10,
+                                marginHorizontal: 10
+
+                              },
+                            ]}>  {rewardPoints}pts
+                            </Text>
+                          ) : null}
+                        </>
+                      </Text>
                     </>
-                  ):(
+                  ) : (
                     null
                   )}
+                </>
 
-                </Text>
               ) : promisetype == 'COMMITMENT' ? (
                 <Text
                   style={[
                     {
-                      color: 'white',
-                      marginHorizontal: hp(2),
+                      color: 'black',
+                      marginHorizontal: hp(4),
                       fontSize: hp(1.8),
+                      backgroundColor: "#e0e0e0",
+                      borderRadius: 50,
+                      paddingVertical: 5,
+                      paddingHorizontal: 10,
+                      marginHorizontal: 10
+
                     },
                   ]}>
-                  {amount > 0 ? (
+                  {amount > 0 && (
                     <>
-                  Commitment:$ {amount}{' '}
-                  {rewardPoints ? (
-                    <Text> & {rewardPoints} Reward Points</Text>
-                  ) : null}
+                      $ {amount}
+                      {rewardPoints ? (
+                        <Text style={[
+                          {
+                            color: 'black',
+                            marginHorizontal: hp(4),
+                            fontSize: hp(1.8),
+                            backgroundColor: "#e0e0e0",
+                            borderRadius: 50,
+                            paddingVertical: 5,
+                            paddingHorizontal: 10,
+                            marginHorizontal: 10
+
+                          },
+                        ]}> & {rewardPoints}pts </Text>
+                      ) : <Text style={[
+                        {
+                          color: 'black',
+                          marginHorizontal: hp(4),
+                          fontSize: hp(1.8),
+                          backgroundColor: "#e0e0e0",
+                          borderRadius: 50,
+                          paddingVertical: 5,
+                          paddingHorizontal: 10,
+                          marginHorizontal: 10
+
+                        },
+                      ]}> & {rewardPoints}pts </Text>}
                     </>
-                  ):(
-                    null
                   )}
 
 
                   {actions.map((action, index) => {
-                if (action === 'Accept') {
-                  return (
-                    <TouchableOpacity
-                      style={commonStyles.ActionBtn}
-                      key={index}
-                      onPress={() => {
-                        handleAcceptPromise(promiseID, userN);
-                        refreshCallback();
-
-                      }}>
-                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                    </TouchableOpacity>
-                  );
-                } else if (action === 'Reject') {
-                  return (
-                    <TouchableOpacity
-                      style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                      key={index}
-                      onPress={() => {
-                        handleRejectPromise(promiseID, userN);
-                        refreshCallback();
-                      }}>
-                      <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                    </TouchableOpacity>
-                  );
-                }
-              })}
+                    if (action === 'Accept') {
+                      return (
+                        <TouchableOpacity
+                          style={commonStyles.ActionBtn}
+                          key={index}
+                          onPress={() => {
+                            handleAcceptPromise(promiseID, userN);
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      );
+                    } else if (action === 'Reject') {
+                      return (
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                          key={index}
+                          onPress={() => {
+                            handleRejectPromise(promiseID, userN);
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      );
+                    }
+                  })}
 
 
                 </Text>
@@ -549,7 +609,13 @@ const DetailCard = ({
 
             {ratingImpact ? (
               <View>
-                <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} />
+                {/* <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} /> */}
+                <MaterialIcons
+                  name="stars"
+                  size={25}
+                  color='#652D90'
+                  style={{ marginLeft: 10 }}
+                />
               </View>
             ) : null}
 
@@ -590,7 +656,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleAcceptPromise(promiseID, userN);
                         refreshCallback();
-
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -603,6 +669,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleRejectPromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -615,6 +682,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleCompletePromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -627,6 +695,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleFailPromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -640,6 +709,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleFulfilledPromiseApi(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -652,6 +722,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleFailedPromiseApi(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -736,28 +807,69 @@ const DetailCard = ({
                 <Text
                   style={[
                     {
-                      color: 'white',
+                      color: 'black',
                       marginHorizontal: hp(4),
                       fontSize: hp(1.8),
+                      backgroundColor: "#e0e0e0",
+                      borderRadius: 50,
+                      paddingVertical: 5,
+                      paddingHorizontal: 10,
+                      marginHorizontal: 25
+
                     },
                   ]}>
-                  Guarantee:$ {amount}{' '}
+                  {/* Guarantee: */}
+                  $ {amount}
                   {rewardPoints ? (
-                    <Text> & {rewardPoints} Reward Points</Text>
+                    <Text style={[
+                      {
+                        color: 'black',
+                        marginHorizontal: hp(4),
+                        fontSize: hp(1.8),
+                        backgroundColor: "#e0e0e0",
+                        borderRadius: 50,
+                        paddingVertical: 5,
+                        paddingHorizontal: 10,
+                        marginHorizontal: 10
+
+                      },
+                    ]}> & {rewardPoints}pts
+                      {/* Reward Points */}
+                    </Text>
                   ) : null}
                 </Text>
               ) : promisetype == 'COMMITMENT' ? (
                 <Text
                   style={[
                     {
-                      color: 'white',
+                      color: 'black',
                       marginHorizontal: hp(4),
                       fontSize: hp(1.8),
+                      backgroundColor: "#e0e0e0",
+                      borderRadius: 50,
+                      paddingVertical: 5,
+                      paddingHorizontal: 10,
+                      marginHorizontal: 25
+
                     },
                   ]}>
-                  Commitment:$ {amount}{' '}
+                  ${amount} {''}
                   {rewardPoints ? (
-                    <Text> & {rewardPoints} Reward Points</Text>
+                    <Text style={[
+                      {
+                        color: 'black',
+                        marginHorizontal: hp(4),
+                        fontSize: hp(1.8),
+                        backgroundColor: "#e0e0e0",
+                        borderRadius: 50,
+                        paddingVertical: 5,
+                        paddingHorizontal: 10,
+                        marginHorizontal: 20
+
+                      },
+                    ]}>
+                      & {rewardPoints}pts
+                    </Text>
                   ) : null}
                 </Text>
               ) : null}
@@ -765,7 +877,14 @@ const DetailCard = ({
 
             {ratingImpact ? (
               <View>
-                <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(4) }} />
+                {/* <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(4) }} /> */}
+                <MaterialIcons
+                  name="stars"
+                  size={25}
+                  color='#652D90'
+                  style={{ marginLeft: 30 }}
+
+                />
               </View>
             ) : null}
 
@@ -807,7 +926,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleAcceptPromise(promiseID, userN);
                         refreshCallback();
-
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -820,6 +939,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleRejectPromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -832,6 +952,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleCompletePromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -844,6 +965,7 @@ const DetailCard = ({
                       onPress={() => {
                         handleFailPromise(promiseID, userN);
                         refreshCallback();
+                        setActionState(!actionState);
                       }}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
@@ -880,12 +1002,14 @@ const DetailCard = ({
             }}>
             <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
           </TouchableOpacity>
-          <PaymentScreens promiseID={promiseID} userN={userN} amount={amount} />
+          <PaymentScreens promiseID={promiseID} userN={userN} amount={amount} handleCloseModal={handleCloseModal} />
         </SafeAreaView>
       </Modal>
     </>
   );
 };
+
+
 const styles = StyleSheet.create({
   left: {
     width: wp(33),
