@@ -75,12 +75,13 @@ const OngoingPromiseReq = ({ navigation }) => {
               {showDetail == item.promiseID ? (
                 <TouchableOpacity onPress={() => setshowDetail('')}>
                   <DetailCard
-                    promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+                    promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
                     name={item.promiseeName}
                     date={item.expiryDate}
-                    promiseMediaURL={item.promiseMediaURL}
+                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+
                     ratingImpact={item.ratingImpact}
                     promiseGoal={item.promiseGoal}
                     actions={item.actions}
@@ -96,13 +97,14 @@ const OngoingPromiseReq = ({ navigation }) => {
               ) : (
                 <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
                   <MiniCard
-                    promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+                    promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     promisetype={item.promiseType}
                     rewardPoints={item.rewardPoints}
                     amount={item.paymentAmount}
                     name={item.promiseeName}
                     date={item.expiryDate}
-                    promiseMediaURL={item.promiseMediaURL}
+                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+
                     tab={'UserPromiseReq'}
                     guaranteedWithMoney={item.guaranteedWithMoney}
                   />

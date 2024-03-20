@@ -69,6 +69,7 @@ const PromiseStatement = ({ onTextChange }) => {
       const selectedFileType = result.assets[0].type;
       if (selectedFileSize <= maxSizeInBytes) {
         setSelectedVideo(result.assets[0].uri);
+        handelUpload();
       }
       else {
         alert(
@@ -92,6 +93,7 @@ const PromiseStatement = ({ onTextChange }) => {
 
       if (selectedFileSize <= maxSizeInBytes) {
         setSelectedVideo(result.assets[0].uri);
+        handelUpload();
       } else {
         alert(`Selected file size exceeds. Please choose a smaller file.`);
       }

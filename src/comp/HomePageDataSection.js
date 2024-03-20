@@ -123,15 +123,15 @@ const HomePageDataSection = () => {
             setshowDetail('');
           }}>
           <View style={{ flex: 1, marginHorizontal: 10, paddingHorizontal: 10 }} >
-            {console.log(item,"bharwy")}
             <DetailCard
-              promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+              promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
               promisetype={item.promiseType}
               amount={item.paymentAmount}
               promiseeName={item.promiseeName}
               promisorName={item.promisorName}
               date={item.expiryDate}
-              promiseMediaURL={item.promiseMediaURL}
+                                  promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+
               ratingImpact={item.ratingImpact}
               promiseGoal={item.promiseGoal}
               actions={item.actions}
@@ -167,11 +167,11 @@ const HomePageDataSection = () => {
                     }}>
                     <Image
                       source={
-                        item.promiseeProfileImageUrl === ''
+                        item?.promiseeProfileImageUrl === ''
                           ? {
                             uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
                           }
-                          : { uri: item.promiseeProfileImageUrl }
+                          : { uri: item?.promiseeProfileImageUrl }
                       }
                       style={{
                         width: wp(8),

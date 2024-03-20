@@ -113,12 +113,13 @@ const FailedPRTM = ({navigation}) => {
               {showDetail == item.promiseID ? (
                 <TouchableOpacity onPress={() => setshowDetail('')}>
                   <DetailCard
-                    promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+                    promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
                     name={item.promisorName}
                     date={item.expiryDate}
-                    promiseMediaURL={item.promiseMediaURL}
+                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+
                     ratingImpact={item.ratingImpact}
                     promiseGoal={item.promiseGoal}
                     actions={item.actions}
@@ -134,13 +135,14 @@ const FailedPRTM = ({navigation}) => {
               ) : (
                 <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
                   <MiniCard
-                    promiseeProfileImageUrl={item.promiseeProfileImageUrl}
+                    promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     promisetype={item.promiseType}
                     rewardPoints={item.rewardPoints}
                     amount={item.paymentAmount}
                     name={item.promisorName}
                     date={item.expiryDate}
-                    promiseMediaURL={item.promiseMediaURL}
+                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+
                     tab={'ReqPromiseDashboard'}
                     guaranteedWithMoney={item.guaranteedWithMoney}
                   />

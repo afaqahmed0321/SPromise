@@ -35,6 +35,8 @@ import {
   Guaranteed,
   RewardPoints,
   RewardPointsState,
+  selectedMedia,
+  selectMedia,
 } from '../recoil/AddPromise';
 import { Headings } from '../Styling/Headings';
 import PromiseStatement from '../comp/makePromise/PromiseStatement';
@@ -67,6 +69,9 @@ const MakePromise = ({ navigation }) => {
   const currentDate = new Date();
   const [isRating, setIsRating] = useRecoilState(RatingImapect);
   const [rewardPointState, setRewardPointState] = useRecoilState(RewardPointsState);
+  const [selectedMediaURI, setSelectedMediaURI] = useRecoilState(selectedMedia);
+  const [selectedVideo, setSelectedVideo] = useRecoilState(selectMedia);
+
 
   const bgBtnmakeprms = ['#E4A936', '#EE8347'];
   const bgBtnrqstprms = ['#73B6BF', '#2E888C'];
@@ -115,10 +120,11 @@ const MakePromise = ({ navigation }) => {
           50,
         );
       } else {
+        
         const promiseText = promiseStatement;
-        if (!promiseText || promiseText.trim() === '') {
+        if ((!promiseText || promiseText.trim() === '') && !selectedVideo) {
           ToastAndroid.showWithGravityAndOffset(
-            'Promise statement cannot be empty',
+            'Please attach video or write promise statement',
             ToastAndroid.LONG,
             ToastAndroid.BOTTOM,
             25,
@@ -141,9 +147,11 @@ const MakePromise = ({ navigation }) => {
       }
     } else {
       const promiseText = promiseStatement;
-      if (!promiseText || promiseText.trim() === '') {
+      console.log("selected media from parent", selectedVideo, "textttttt". promiseText)
+
+      if ((!promiseText || promiseText.trim() === '') && !selectedVideo) {
         ToastAndroid.showWithGravityAndOffset(
-          'Promise statement cannot be empty',
+          'Please attach video or write promise statement',
           ToastAndroid.LONG,
           ToastAndroid.BOTTOM,
           25,
