@@ -160,6 +160,9 @@ const AddToMyNetwork = () => {
                 <Text style={{ color: "black" }}>
                   Name: {userData.firstName} {userData.lastName}
                 </Text>
+                <Text style={{ color: "black" }}>
+                  Promisibility: {userData.promisibility}
+                </Text>
               </View>
             )}
           </View>
