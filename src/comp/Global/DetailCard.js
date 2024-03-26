@@ -314,6 +314,37 @@ const DetailCard = ({
                 </Text>
               </View>
             </View>
+
+            <View style={DashBoardStyling.PromiseGoal}>
+              {actions.map((action, index) => {
+                if (action === 'Accept') {
+                  return (
+                    <>
+                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either accept or reject this promise</Text>
+                    </>
+                  );
+                } else if (action === 'Fulfilled') {
+                  return (
+                    <>
+                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either Fulfill or Fail this promise</Text>
+                    </>
+                  );
+                } else if (action === 'Pay') {
+                  return (
+                    <>
+                      <Text style={{ color: "white", paddingLeft: 13 }}>Pay the amount to complete this promise</Text>
+                    </>
+                  );
+                } else if (action === 'Complete') {
+                  return (
+                    <>
+                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either accept or reject this promise</Text>
+                    </>
+                  );
+                }
+              })}
+            </View>
+
             <View
               style={{
                 flexDirection: 'row',
@@ -573,32 +604,64 @@ const DetailCard = ({
 
 
                   {actions.map((action, index) => {
-                    if (action === 'Accept') {
-                      return (
-                        <TouchableOpacity
-                          style={commonStyles.ActionBtn}
-                          key={index}
-                          onPress={() => {
-                            handleAcceptPromise(promiseID, userN);
-                            refreshCallback();
-                            setActionState(!actionState);
-                          }}>
-                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                        </TouchableOpacity>
-                      );
-                    } else if (action === 'Reject') {
-                      return (
-                        <TouchableOpacity
-                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                          key={index}
-                          onPress={() => {
-                            handleRejectPromise(promiseID, userN);
-                            refreshCallback();
-                            setActionState(!actionState);
-                          }}>
-                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                        </TouchableOpacity>
-                      );
+                    {
+                      <View style={DashBoardStyling.PromiseGoal}>
+                        {actions.map((action, index) => {
+                          if (action === 'Accept') {
+                            return (
+                              <>
+                                <Text style={{ color: "white", paddingLeft: 13 }}>You can either accept or reject this promise</Text>
+                              </>
+                            );
+                          } else if (action === 'Fulfilled') {
+                            return (
+                              <>
+                                <Text style={{ color: "white", paddingLeft: 13 }}>You can either Fulfill or Fail this promise</Text>
+                              </>
+                            );
+                          } else if (action === 'Pay') {
+                            return (
+                              <>
+                                <Text style={{ color: "white", paddingLeft: 13 }}>Pay the amount to complete this promise</Text>
+                              </>
+                            );
+                          } else if (action === 'Complete') {
+                            return (
+                              <>
+                                <Text style={{ color: "white", paddingLeft: 13 }}>You can either accept or reject this promise</Text>
+                              </>
+                            );
+                          }
+                        })}
+                      </View>
+
+                      if (action === 'Accept') {
+                        return (
+                          <TouchableOpacity
+                            style={commonStyles.ActionBtn}
+                            key={index}
+                            onPress={() => {
+                              handleAcceptPromise(promiseID, userN);
+                              refreshCallback();
+                              setActionState(!actionState);
+                            }}>
+                            <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                          </TouchableOpacity>
+                        );
+                      } else if (action === 'Reject') {
+                        return (
+                          <TouchableOpacity
+                            style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                            key={index}
+                            onPress={() => {
+                              handleRejectPromise(promiseID, userN);
+                              refreshCallback();
+                              setActionState(!actionState);
+                            }}>
+                            <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                          </TouchableOpacity>
+                        );
+                      }
                     }
                   })}
 
@@ -640,6 +703,37 @@ const DetailCard = ({
                 </Text>
               </View>
             </View>
+
+            <View style={DashBoardStyling.PromiseGoal}>
+              {actions.map((action, index) => {
+                if (action === 'Accept') {
+                  return (
+                    <>
+                      <Text style={{color:"white", paddingLeft: 13}}>You can either accept or reject this promise</Text>
+                    </>
+                  );
+                } else if(action === 'Fulfilled'){
+                  return (
+                    <>
+                      <Text style={{color:"white", paddingLeft: 13}}>You can either Fulfill or Fail this promise</Text>
+                    </>
+                  );
+                } else if (action === 'Pay'){
+                  return (
+                    <>
+                      <Text style={{color:"white", paddingLeft: 13}}>Pay the amount to complete this promise</Text>
+                    </>
+                  );
+                } else if(action === 'Complete'){
+                  return (
+                    <>
+                      <Text style={{color:"white", paddingLeft: 13}}>You can either accept or reject this promise</Text>
+                    </>
+                  );
+                }
+              })}
+            </View>
+
             <View
               style={{
                 flexDirection: 'row',
@@ -910,6 +1004,37 @@ const DetailCard = ({
                 </Text>
               </View>
             </View>
+
+            <View style={DashBoardStyling.PromiseGoal}>
+              {actions.map((action, index) => {
+                if (action === 'Accept') {
+                  return (
+                    <>
+                      <Text style={{color:"white", paddingLeft: 13}}>You can either accept or reject this promise</Text>
+                    </>
+                  );
+                } else if(action === 'Fulfilled'){
+                  return (
+                    <>
+                      <Text style={{color:"white", paddingLeft: 13}}>You can either Fulfill or Fail this promise</Text>
+                    </>
+                  );
+                } else if (action === 'Pay'){
+                  return (
+                    <>
+                      <Text style={{color:"white", paddingLeft: 13}}>Pay the amount to complete this promise</Text>
+                    </>
+                  );
+                } else if(action === 'Complete'){
+                  return (
+                    <>
+                      <Text style={{color:"white", paddingLeft: 13}}>You can either accept or reject this promise</Text>
+                    </>
+                  );
+                }
+              })}
+            </View>
+
             <View
               style={{
                 flexDirection: 'row',

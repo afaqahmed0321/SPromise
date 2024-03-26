@@ -82,7 +82,7 @@ const ShowAllTab = ({ navigation }) => {
                   setshowDetail('')
                 }}>
                   <DetailCard
-                    promiseeProfileImageUrl= {item?.promiseeProfileImageUrl ? item?.promiseeProfileImageUrl : null}
+                    promiseeProfileImageUrl={item.promiseeProfileImageUrl}
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
                     name={item.promiseeName}
