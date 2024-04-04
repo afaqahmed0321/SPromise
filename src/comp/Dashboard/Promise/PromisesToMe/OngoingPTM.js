@@ -75,12 +75,15 @@ const OngoingPTM = ({ navigation }) => {
                 <TouchableOpacity onPress={() => setshowDetail('')}>
                   <DetailCard
                     promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
+                    isTimeBound={item?.isTimeBound}
+
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
                     name={item.promisorName}
                     date={item.expiryDate}
-                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
-
+                    promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+                    promiseeName={item?.promiseeName}
+                    promisorName={item.promisorName}
                     ratingImpact={item.ratingImpact}
                     promiseGoal={item.promiseGoal}
                     actions={item.actions}
@@ -95,12 +98,14 @@ const OngoingPTM = ({ navigation }) => {
                 <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
                   <MiniCard
                     promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
+                    isTimeBound={item?.isTimeBound}
+
                     promisetype={item.promiseType}
                     rewardPoints={item.rewardPoints}
                     amount={item.paymentAmount}
                     name={item.promisorName}
                     date={item.expiryDate}
-                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+                    promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
 
                     tab={'PromisestoMe'}
                   />

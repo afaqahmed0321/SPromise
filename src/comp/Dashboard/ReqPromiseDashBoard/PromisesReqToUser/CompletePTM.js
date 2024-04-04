@@ -110,16 +110,19 @@ const CompletePRTM = ({ navigation }) => {
           renderItem={({ item }) => (
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               {showDetail == item.promiseID ? (
-                console.log("iteeeeemmmmmmmmm",item),
+                console.log("iteeeeemmmmmmmmm", item),
                 <TouchableOpacity onPress={() => setshowDetail('')}>
                   <DetailCard
                     promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
+                    isTimeBound={item?.isTimeBound}
+
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
                     name={item.promisorName}
                     date={item.expiryDate}
-                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
-
+                    promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+                    promisorName={item.promisorName}
+                    promiseeName={item?.promiseeName}
                     ratingImpact={item.ratingImpact}
                     promiseGoal={item.promiseGoal}
                     actions={item.actions}
@@ -136,12 +139,14 @@ const CompletePRTM = ({ navigation }) => {
                 <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
                   <MiniCard
                     promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
+                    isTimeBound={item?.isTimeBound}
+
                     promisetype={item.promiseType}
                     rewardPoints={item.rewardPoints}
                     amount={item.paymentAmount}
                     name={item.promisorName}
                     date={item.expiryDate}
-                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+                    promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
 
                     tab={'ReqPromiseDashboard'}
                     guaranteedWithMoney={item.guaranteedWithMoney}

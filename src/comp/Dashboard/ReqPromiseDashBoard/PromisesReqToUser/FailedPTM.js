@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   FlatList,
@@ -10,8 +10,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useRecoilState} from 'recoil';
-import {useIsFocused} from '@react-navigation/native';
+import { useRecoilState } from 'recoil';
+import { useIsFocused } from '@react-navigation/native';
 import GetPromiseRequestToUser from '../../../../Network/Dashboard/PromiseReq/GetPromiseReqToUser';
 import {
   EditPromiseReq,
@@ -34,11 +34,11 @@ import {
   selectedVideoR,
   startDate,
 } from '../../../../recoil/AddPromise';
-import {RefreshControl} from 'react-native';
+import { RefreshControl } from 'react-native';
 import MiniCard from '../../../Global/MiniCard';
 import DetailCard from '../../../Global/DetailCard';
 
-const FailedPRTM = ({navigation}) => {
+const FailedPRTM = ({ navigation }) => {
   const [selectedMedia, setSelectedMedia] = useRecoilState(selectMedia);
 
   const [amount, setAmount] = useRecoilState(promiseAmounnt);
@@ -108,17 +108,21 @@ const FailedPRTM = ({navigation}) => {
           }
           data={promises.filter(item => item.status === 'Rejected')}
           keyExtractor={item => item.promiseID.toString()} // Use a unique identifier as the key
-          renderItem={({item}) => (
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          renderItem={({ item }) => (
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               {showDetail == item.promiseID ? (
                 <TouchableOpacity onPress={() => setshowDetail('')}>
                   <DetailCard
                     promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
+                    isTimeBound={item?.isTimeBound}
+
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
                     name={item.promisorName}
                     date={item.expiryDate}
-                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+                    promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+                    promisorName={item.promisorName}
+                    promiseeName={item?.promiseeName}
 
                     ratingImpact={item.ratingImpact}
                     promiseGoal={item.promiseGoal}
@@ -136,12 +140,14 @@ const FailedPRTM = ({navigation}) => {
                 <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
                   <MiniCard
                     promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
+                    isTimeBound={item?.isTimeBound}
+
                     promisetype={item.promiseType}
                     rewardPoints={item.rewardPoints}
                     amount={item.paymentAmount}
                     name={item.promisorName}
                     date={item.expiryDate}
-                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+                    promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
 
                     tab={'ReqPromiseDashboard'}
                     guaranteedWithMoney={item.guaranteedWithMoney}
@@ -149,7 +155,7 @@ const FailedPRTM = ({navigation}) => {
                 </TouchableOpacity>
               )}
             </View>
-          
+
           )}
         />
       )}

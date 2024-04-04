@@ -1,5 +1,5 @@
-import {format} from 'date-fns';
-import React, {useEffect, useState} from 'react';
+import { format } from 'date-fns';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   FlatList,
@@ -12,15 +12,15 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useRecoilState} from 'recoil';
-import {UserNo, selectedVideoR} from '../../../../recoil/AddPromise';
-import {useIsFocused} from '@react-navigation/native';
-import {RefreshControl} from 'react-native';
+import { useRecoilState } from 'recoil';
+import { UserNo, selectedVideoR } from '../../../../recoil/AddPromise';
+import { useIsFocused } from '@react-navigation/native';
+import { RefreshControl } from 'react-native';
 import DetailCard from '../../../Global/DetailCard';
 import MiniCard from '../../../Global/MiniCard';
 
-const Failed = ({navigation}) => {
-  
+const Failed = ({ navigation }) => {
+
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
   const [promises, setPromises] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -68,18 +68,21 @@ const Failed = ({navigation}) => {
             />
           }
           keyExtractor={item => item.promiseID.toString()} // Use a unique identifier as the key
-          renderItem={({item}) => (
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          renderItem={({ item }) => (
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               {showDetail == item.promiseID ? (
                 <TouchableOpacity onPress={() => setshowDetail('')}>
                   <DetailCard
                     promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
+                    isTimeBound={item?.isTimeBound}
+
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
                     name={item.promiseeName}
                     date={item.expiryDate}
-                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
-
+                    promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+                    promiseeName={item?.promiseeName}
+                    promisorName={item.promisorName}
                     ratingImpact={item.ratingImpact}
                     promiseGoal={item.promiseGoal}
                     actions={item.actions}
@@ -96,12 +99,14 @@ const Failed = ({navigation}) => {
                 <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
                   <MiniCard
                     promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
+                    isTimeBound={item?.isTimeBound}
+
                     promisetype={item.promiseType}
                     rewardPoints={item.rewardPoints}
                     amount={item.paymentAmount}
                     name={item.promiseeName}
                     date={item.expiryDate}
-                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+                    promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
 
                     tab={'Promise'}
                   />

@@ -65,7 +65,7 @@ const HomePageDataSection = () => {
     await PromisesToMeApi(userN)
       .then(data => {
         setpromisesToMe(data);
-        console.log(data, "active promises PromisesToMeApi" )
+        console.log(data, "active promises PromisesToMeApi")
       })
       .catch(error => {
         console.error('Error fetching promises:', error);
@@ -103,19 +103,19 @@ const HomePageDataSection = () => {
     console.log("useEffect call")
     fetchData();
   }, [focus, refersh]);
-  
+
   useEffect(() => {
     console.log("useEffect call 2")
     fetchData();
-    setTimeout(()=>{
+    setTimeout(() => {
       setTimer(false);
-    },500)
-  },[timer]);
+    }, 500)
+  }, [timer]);
 
   const renderItem = ({ item, index }) => (
     <>
-    {item.actions == 'Pay' && setForName(true)}
-    {console.log("itemsss", item)}
+      {item.actions == 'Pay' && setForName(true)}
+      {console.log("itemsss", item)}
       {showDetail == item.promiseID ? (
         <TouchableOpacity
           style={{ justifyContent: 'center', alignItems: 'center', }}
@@ -125,13 +125,14 @@ const HomePageDataSection = () => {
           <View style={{ flex: 1, marginHorizontal: 10, paddingHorizontal: 10 }} >
             <DetailCard
               promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
+              isTimeBound={item?.isTimeBound}
+
               promisetype={item.promiseType}
               amount={item.paymentAmount}
-              promiseeName={item.promiseeName}
+              promiseeName={item?.promiseeName}
               promisorName={item.promisorName}
               date={item.expiryDate}
-                                  promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
-
+              promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
               ratingImpact={item.ratingImpact}
               promiseGoal={item.promiseGoal}
               actions={item.actions}
@@ -191,8 +192,8 @@ const HomePageDataSection = () => {
                         Headings.Input6,
                         { marginLeft: wp(0.7), color: 'white', marginTop: wp(1) },
                       ]}>
-                        {item.actions == 'Pay' ? item?.promiseeName : item?.promisorName}
-                      {}
+                      {item.actions == 'Pay' ? item?.promiseeName : item?.promisorName}
+                      { }
                     </Text>
                   </View>
 
@@ -267,7 +268,7 @@ const HomePageDataSection = () => {
             ...promisesToMe.filter(item => item.status === 'AmountDue'),
             ...promisesReq.filter(item => item.status === 'AmountDue'),
             ...promisesReqToMe.filter(item => item.status === 'AmountDue'),
-          ]} 
+          ]}
           renderItem={renderItem}
           keyExtractor={(item, index) => item.promiseID.toString()}
           style={{ marginBottom: hp(.2) }}

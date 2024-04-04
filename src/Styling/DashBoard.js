@@ -23,7 +23,9 @@ export const DashBoardStyling = StyleSheet.create({
     borderRadius: 32,
 
   },
-  PromiseGoal:{width: wp(75), height: hp(5),},
+  PromiseGoal:{width: wp(75), height: hp(5)},
+  PromiseGoal1:{width: wp(75), height: hp(5), paddingHorizontal:15},
+
   PromiseReward:{
     justifyContent: 'flex-start',
     alignItems:'flex-start',

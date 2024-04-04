@@ -19,7 +19,7 @@ import MiniCard from '../../../Global/MiniCard';
 import DetailCard from '../../../Global/DetailCard';
 
 const ShowAllTab = ({ navigation }) => {
- 
+
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
   const [promises, setPromises] = useState([]);
 
@@ -34,7 +34,7 @@ const ShowAllTab = ({ navigation }) => {
     setrefresh(!refersh);
   };
   useEffect(() => {
-   
+
     MyPromisesApi(userN)
       .then(data => {
         setPromises(data);
@@ -87,16 +87,20 @@ const ShowAllTab = ({ navigation }) => {
                     amount={item.paymentAmount}
                     name={item.promiseeName}
                     date={item.expiryDate}
+                    promisorName={item.promisorName}
                     promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
                     ratingImpact={item.ratingImpact}
                     promiseGoal={item.promiseGoal}
                     actions={item.actions}
                     promiseID={item.promiseID}
                     refreshCallback={onRefresh}
+                    promiseeName={item?.promiseeName}
                     rewardPoints={item.rewardPoints}
                     userN={userN}
                     tab={'Promise'}
                     navigation={navigation}
+                    isTimeBound={item?.isTimeBound}
+
 
                   />
                 </TouchableOpacity>
@@ -104,12 +108,14 @@ const ShowAllTab = ({ navigation }) => {
                 <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
                   <MiniCard
                     promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
+                    isTimeBound={item?.isTimeBound}
+
                     promisetype={item.promiseType}
                     rewardPoints={item.rewardPoints}
                     amount={item.paymentAmount}
                     name={item.promiseeName}
                     date={item.expiryDate}
-                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+                    promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
 
                     tab={'Promise'}
                   />
