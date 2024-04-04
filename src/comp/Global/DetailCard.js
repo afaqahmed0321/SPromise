@@ -7,7 +7,8 @@ import {
   Modal,
   SafeAreaView,
   TouchableWithoutFeedback,
-  ActivityIndicator
+  ActivityIndicator,
+  TextInput
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import {
@@ -44,6 +45,7 @@ const DetailCard = ({
   promiseeProfileImageUrl,
   promisetype,
   amount,
+  isTimeBound,
   promiseeName,
   date,
   name,
@@ -68,7 +70,27 @@ const DetailCard = ({
   const [markCompleted, setMarkCompleted] = useState(false);
   const [forName, setForName] = useState(false);
   const [actionState, setActionState] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [textareaValue, setTextareaValue] = useState('');
 
+  const handleCompletePromiseWithModal = (promiseID, userN) => {
+    // Additional logic to handle complete promise with modal
+    setIsModalVisible(true);
+  };
+
+  const handleTextareaChange = (text) => {
+    setTextareaValue(text);
+  };
+
+  const handleCompleteAction = () => {
+    handleCompletePromise(promiseID, userN, textareaValue);
+    refreshCallback();
+    setActionState(!actionState);
+    setIsModalVisible(false); // Close the modal after completing
+  };
+
+  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", promiseeName,
+    promisorName,)
 
   console.log(promiseeProfileImageUrl,
     promisetype,
@@ -164,6 +186,9 @@ const DetailCard = ({
 
   return (
     <>
+      {console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", promiseeName,
+        promisorName,)}
+
       {console.log("actionsss",
         promiseeProfileImageUrl,
         promisetype,
@@ -227,25 +252,50 @@ const DetailCard = ({
                   marginLeft: wp(3),
                   width: wp(45),
                 }}>
-                <Text style={{ color: '#fff', fontSize: hp(2) }}>{actions == 'Pay' ? promiseeName : promisorName ? promisorName : name}</Text>
+                <Text style={{ color: '#fff', fontSize: hp(2) }}>{actions == 'Pay' ? promisorName : name}</Text>
               </View>
-              <View style={{ width: wp(8) }}>
-                <Entypo size={20} color="white" name="calendar" />
-              </View>
+              {isTimeBound ? (
+                <>
 
-              <View>
-                <Text
-                  style={[
-                    Headings.Input6,
-                    {
-                      marginLeft: wp(0.7),
-                      color: 'white',
-                      marginTop: wp(0.3),
-                    },
-                  ]}>
-                  {format(new Date(date), 'dd/MM/yyyy')}
-                </Text>
-              </View>
+                  <View style={{ width: wp(8) }}>
+                    <Entypo size={20} color="white" name="calendar" />
+                  </View>
+
+                  <View>
+                    <Text
+                      style={[
+                        Headings.Input6,
+                        {
+                          marginLeft: wp(0.7),
+                          color: 'white',
+                          marginTop: wp(0.3),
+                        },
+                      ]}>
+                      {format(new Date(date), 'dd/MM/yyyy')}
+                    </Text>
+                  </View>
+                </>
+              ) : (
+                null
+              )}
+
+            </View>
+            <View>
+              <Text style={[
+                {
+                  color: 'black',
+                  marginHorizontal: hp(1.2),
+                  fontSize: hp(1.8),
+                  backgroundColor: "#e0e0e0",
+                  borderRadius: 50,
+                  paddingVertical: 5,
+                  paddingHorizontal: 10,
+                  width: "auto"
+
+                },
+              ]}>
+                {promiseeName} is promising to {promisorName}
+              </Text>
             </View>
             <View style={DashBoardStyling.PromiseReward}>
               {guaranteedWithMoney ? (
@@ -283,13 +333,21 @@ const DetailCard = ({
             {ratingImpact ? (
               <View>
                 {/* <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} /> */}
-                <MaterialIcons
-                  name="stars"
-                  size={25}
-                  color='#652D90'
-                  style={{ marginLeft: 10 }}
+                <Text style={[
+                  {
+                    color: 'black',
+                    marginHorizontal: hp(1.2),
+                    fontSize: hp(1.8),
+                    backgroundColor: "#e0e0e0",
+                    borderRadius: 50,
+                    paddingVertical: 5,
+                    paddingHorizontal: 10,
+                    width: 145
 
-                />
+                  },
+                ]}>
+                  Rating Will Impact
+                </Text>
               </View>
             ) : null}
 
@@ -386,7 +444,7 @@ const DetailCard = ({
                       style={[commonStyles.ActionBtn]}
                       key={index}
                       onPress={() => {
-                        handleCompletePromise(promiseID, userN);
+                        // handleCompletePromise(promiseID, userN);
                         refreshCallback();
                         setActionState(!actionState);
                       }}>
@@ -488,25 +546,51 @@ const DetailCard = ({
                   marginLeft: wp(3),
                   width: wp(45),
                 }}>
-                <Text style={{ color: 'white', fontSize: hp(2) }}>{actions === 'Pay' ? promiseeName : promisorName ? promisorName : name}</Text>
+                <Text style={{ color: 'white', fontSize: hp(2) }}>{actions === 'Pay' ? promiseeName : name}</Text>
               </View>
-              <View style={{ width: wp(8) }}>
-                <Entypo size={25} color="white" name="calendar" />
-              </View>
+              {isTimeBound ? (
+                <>
 
-              <View>
-                <Text
-                  style={[
-                    Headings.Input6,
-                    {
-                      marginLeft: wp(0),
-                      color: 'white',
-                      marginTop: wp(0.3),
-                    },
-                  ]}>
-                  {format(new Date(date), 'dd/MM/yyyy')}
-                </Text>
-              </View>
+                  <View style={{ width: wp(8) }}>
+                    <Entypo size={25} color="white" name="calendar" />
+                  </View>
+
+                  <View>
+                    <Text
+                      style={[
+                        Headings.Input6,
+                        {
+                          marginLeft: wp(0),
+                          color: 'white',
+                          marginTop: wp(0.3),
+                        },
+                      ]}>
+                      {format(new Date(date), 'dd/MM/yyyy')}
+                    </Text>
+                  </View>
+                </>
+              ) : (
+                null
+              )}
+              
+
+            </View>
+            <View>
+              <Text style={[
+                {
+                  color: 'black',
+                  marginHorizontal: hp(1.2),
+                  fontSize: hp(1.8),
+                  backgroundColor: "#e0e0e0",
+                  borderRadius: 50,
+                  paddingVertical: 5,
+                  paddingHorizontal: 10,
+                  width: "auto"
+
+                },
+              ]}>
+                {promisorName} is promising to {promiseeName}
+              </Text>
             </View>
             <View style={DashBoardStyling.PromiseReward}>
 
@@ -673,12 +757,21 @@ const DetailCard = ({
             {ratingImpact ? (
               <View>
                 {/* <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} /> */}
-                <MaterialIcons
-                  name="stars"
-                  size={25}
-                  color='#652D90'
-                  style={{ marginLeft: 10 }}
-                />
+                <Text style={[
+                  {
+                    color: 'black',
+                    marginHorizontal: hp(1.2),
+                    fontSize: hp(1.8),
+                    backgroundColor: "#e0e0e0",
+                    borderRadius: 50,
+                    paddingVertical: 5,
+                    paddingHorizontal: 10,
+                    width: 145
+
+                  },
+                ]}>
+                  Rating Will Impact
+                </Text>
               </View>
             ) : null}
 
@@ -709,29 +802,31 @@ const DetailCard = ({
                 if (action === 'Accept') {
                   return (
                     <>
-                      <Text style={{color:"white", paddingLeft: 13}}>You can either accept or reject this promise</Text>
+                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either accept or reject this promise</Text>
                     </>
                   );
-                } else if(action === 'Fulfilled'){
+                } else if (action === 'Fulfilled') {
                   return (
                     <>
-                      <Text style={{color:"white", paddingLeft: 13}}>You can either Fulfill or Fail this promise</Text>
+                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either Fulfill or Fail this promise</Text>
                     </>
                   );
-                } else if (action === 'Pay'){
+                } else if (action === 'Pay') {
                   return (
                     <>
-                      <Text style={{color:"white", paddingLeft: 13}}>Pay the amount to complete this promise</Text>
+                      <Text style={{ color: "white", paddingLeft: 13 }}>Pay the amount to complete this promise</Text>
                     </>
                   );
-                } else if(action === 'Complete'){
+                } else if (action === 'Complete') {
                   return (
                     <>
-                      <Text style={{color:"white", paddingLeft: 13}}>You can either accept or reject this promise</Text>
+                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either accept or reject this promise</Text>
                     </>
                   );
+
                 }
               })}
+
             </View>
 
             <View
@@ -769,18 +864,27 @@ const DetailCard = ({
                     </TouchableOpacity>
                   );
                 } else if (action === 'Complete') {
+                  // return (
+                  //   <TouchableOpacity
+                  //     style={[commonStyles.ActionBtn]}
+                  //     key={index}
+                  //     onPress={() => {
+                  //       handleCompletePromise(promiseID, userN);
+                  //       refreshCallback();
+                  //       setActionState(!actionState);
+                  //     }}>
+                  //     <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                  //   </TouchableOpacity>
+                  // );
                   return (
                     <TouchableOpacity
                       style={[commonStyles.ActionBtn]}
                       key={index}
-                      onPress={() => {
-                        handleCompletePromise(promiseID, userN);
-                        refreshCallback();
-                        setActionState(!actionState);
-                      }}>
+                      onPress={() => handleCompletePromiseWithModal(promiseID, userN)}>
                       <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     </TouchableOpacity>
                   );
+
                 } else if (action === 'Fail') {
                   return (
                     <TouchableOpacity
@@ -835,6 +939,34 @@ const DetailCard = ({
                   );
                 }
               })}
+              <Modal visible={isModalVisible} transparent={true}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                  <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%' }}>
+                    <TextInput
+                      multiline
+                      numberOfLines={4}
+                      placeholder="Enter your completion message..."
+                      value={textareaValue}
+                      onChangeText={handleTextareaChange}
+                      style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 5, marginBottom: 10, color: "black" }}
+                    />
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <TouchableOpacity
+                        style={{ backgroundColor: '#32C35B', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginRight: 5 }}
+                        onPress={handleCompleteAction}>
+                        <Text style={{ color: 'white', fontWeight: 'bold' }}>Complete</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={{ backgroundColor: 'red', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginLeft: 5 }}
+                        onPress={() => setIsModalVisible(false)}>
+                        <Text style={{ color: 'white', fontWeight: 'bold' }}>Close</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </Modal>
+
+
             </View>
           </View>
         </LinearGradient>
@@ -878,6 +1010,9 @@ const DetailCard = ({
                 }}>
                 <Text style={{ color: 'white', fontSize: hp(2), marginLeft: 15 }}>{actions == 'Pay' ? promiseeName : promisorName ? promisorName : name}</Text>
               </View>
+             {isTimeBound ? (
+              <>
+              
               <View style={{ width: wp(8) }}>
                 <Entypo size={20} color="white" name="calendar" />
               </View>
@@ -895,6 +1030,10 @@ const DetailCard = ({
                   {format(new Date(date), 'dd/MM/yyyy')}
                 </Text>
               </View>
+              </>
+             ):(
+              null
+             )}
             </View>
             <View style={DashBoardStyling.PromiseReward}>
               {promisetype == 'GUARANTEE' ? (
@@ -972,13 +1111,21 @@ const DetailCard = ({
             {ratingImpact ? (
               <View>
                 {/* <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(4) }} /> */}
-                <MaterialIcons
-                  name="stars"
-                  size={25}
-                  color='#652D90'
-                  style={{ marginLeft: 30 }}
+                <Text style={[
+                  {
+                    color: 'black',
+                    marginHorizontal: hp(3),
+                    fontSize: hp(1.8),
+                    backgroundColor: "#e0e0e0",
+                    borderRadius: 50,
+                    paddingVertical: 5,
+                    paddingHorizontal: 10,
+                    width: 145
 
-                />
+                  },
+                ]}>
+                  Rating Will Impact
+                </Text>
               </View>
             ) : null}
 
@@ -1005,30 +1152,30 @@ const DetailCard = ({
               </View>
             </View>
 
-            <View style={DashBoardStyling.PromiseGoal}>
+            <View style={DashBoardStyling.PromiseGoal1}>
               {actions.map((action, index) => {
                 if (action === 'Accept') {
                   return (
                     <>
-                      <Text style={{color:"white", paddingLeft: 13}}>You can either accept or reject this promise</Text>
+                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either accept or reject this promise</Text>
                     </>
                   );
-                } else if(action === 'Fulfilled'){
+                } else if (action === 'Fulfilled') {
                   return (
                     <>
-                      <Text style={{color:"white", paddingLeft: 13}}>You can either Fulfill or Fail this promise</Text>
+                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either Fulfill or Fail this promise</Text>
                     </>
                   );
-                } else if (action === 'Pay'){
+                } else if (action === 'Pay') {
                   return (
                     <>
-                      <Text style={{color:"white", paddingLeft: 13}}>Pay the amount to complete this promise</Text>
+                      <Text style={{ color: "white", paddingLeft: 13 }}>Pay the amount to complete this promise</Text>
                     </>
                   );
-                } else if(action === 'Complete'){
+                } else if (action === 'Complete') {
                   return (
                     <>
-                      <Text style={{color:"white", paddingLeft: 13}}>You can either accept or reject this promise</Text>
+                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either accept or reject this promise</Text>
                     </>
                   );
                 }

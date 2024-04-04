@@ -123,11 +123,15 @@ const ShowAllTabPRTM = ({ navigation }) => {
                 <TouchableOpacity onPress={() => setshowDetail('')}>
                   <DetailCard
                     promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
+                    isTimeBound={item?.isTimeBound}
+
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
                     name={item.promisorName}
                     date={item.expiryDate}
-                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+                    promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+                    promisorName={item.promisorName}
+                    promiseeName={item?.promiseeName}
 
                     ratingImpact={item.ratingImpact}
                     promiseGoal={item.promiseGoal}
@@ -145,12 +149,15 @@ const ShowAllTabPRTM = ({ navigation }) => {
                 <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
                   <MiniCard
                     promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
+                    isTimeBound={item?.isTimeBound}
+
                     promisetype={item.promiseType}
                     rewardPoints={item.rewardPoints}
                     amount={item.paymentAmount}
                     name={item.promisorName}
                     date={item.expiryDate}
                     promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+
                     isTimeBound = {item?.isTimeBound}
                     tab={'ReqPromiseDashboard'}
                     guaranteedWithMoney={item.guaranteedWithMoney}

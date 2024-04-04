@@ -1,6 +1,6 @@
 import { ToastAndroid } from 'react-native';
-export default CompletePromiseApi = async (promiseID, userNo) => {
-    const url = `https://snappromise.com:8080/completePromise?promiseID=${promiseID}&userNo=${userNo}`;
+export default CompletePromiseApi = async (promiseID, userNo, note) => {
+    const url = `https://snappromise.com:8080/completePromise?promiseID=${promiseID}&userNo=${userNo}&note=${note}`;
   
     try {
       const response = await fetch(url, {

@@ -125,9 +125,11 @@ const HomePageDataSection = () => {
           <View style={{ flex: 1, marginHorizontal: 10, paddingHorizontal: 10 }} >
             <DetailCard
               promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
+              isTimeBound={item?.isTimeBound}
+
               promisetype={item.promiseType}
               amount={item.paymentAmount}
-              promiseeName={item.promiseeName}
+              promiseeName={item?.promiseeName}
               promisorName={item.promisorName}
               date={item.expiryDate}
               promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
