@@ -133,6 +133,7 @@ const HomePageDataSection = () => {
               promisorName={item.promisorName}
               date={item.expiryDate}
               promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+
               ratingImpact={item.ratingImpact}
               promiseGoal={item.promiseGoal}
               actions={item.actions}
@@ -205,19 +206,27 @@ const HomePageDataSection = () => {
                       marginLeft: wp(17),
                     }}>
                     <View style={{ flexDirection: 'row' }}>
-                      <View>
-                        <Entypo size={18} color="white" name="calendar" />
-                      </View>
 
-                      <View style={{ alignSelf: 'center', marginHorizontal: 2 }}>
-                        <Text
-                          style={[
-                            Headings.Input6,
-                            { color: 'white', textAlign: 'center' },
-                          ]}>
-                          {format(new Date(item.expiryDate), 'dd/MM/yyyy')}
-                        </Text>
-                      </View>
+                      {item?.isTimeBound ? (
+                        <>
+                          <View>
+                            <Entypo size={18} color="white" name="calendar" />
+                          </View>
+
+                          <View style={{ alignSelf: 'center', marginHorizontal: 2 }}>
+                            <Text
+                              style={[
+                                Headings.Input6,
+                                { color: 'white', textAlign: 'center' },
+                              ]}>
+                              {format(new Date(item.expiryDate), 'dd/MM/yyyy')}
+                            </Text>
+                          </View>
+                        </>
+                      ) : (
+                        null
+                      )}
+
                     </View>
                   </View>
                 </View>

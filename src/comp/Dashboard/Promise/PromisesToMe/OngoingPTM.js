@@ -107,6 +107,7 @@ const OngoingPTM = ({ navigation }) => {
                     date={item.expiryDate}
                     promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
 
+                    isTimeBound = {item?.isTimeBound}
                     tab={'PromisestoMe'}
                   />
                 </TouchableOpacity>

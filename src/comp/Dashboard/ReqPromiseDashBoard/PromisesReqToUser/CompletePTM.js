@@ -148,6 +148,7 @@ const CompletePRTM = ({ navigation }) => {
                     date={item.expiryDate}
                     promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
 
+                    isTimeBound = {item?.isTimeBound}
                     tab={'ReqPromiseDashboard'}
                     guaranteedWithMoney={item.guaranteedWithMoney}
                   />

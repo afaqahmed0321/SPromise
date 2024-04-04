@@ -13,12 +13,40 @@ const ReqPromiseApi = async (
   RatingImapect,
   LinkDin,
   Twitter,
+  startDate,
   status,
   paymentAmount,
   paymentStatus,
   PromiseReward,
+  PromiseStatus,
   visibility,
 ) => {
+
+  console.log("before call appi in review",
+    {
+      expiryDate: expiryDate,
+      isTimeBound: IsTimeBound,
+      promiseGoal: promiseGoal,
+      promiseMediaURL: promiseMediaU,
+      promiseRequestID: '00000000-0000-0000-0000-000000000000',
+      promiseType: promiseType,
+      promisee: promisee,
+      promisor: promisor,
+      ratingImpact: RatingImapect,
+      shareonLinkedIn: LinkDin,
+      shareonTwitter: Twitter,
+      status: status,
+      userPromisePayment: {
+        PaymentStatus: paymentStatus,
+        paymentAmount: paymentAmount,
+      },
+      userPromiseReward:
+        PromiseReward !== null ? { rewardPoints: PromiseReward } : null,
+
+      visibility: visibility,
+    }
+  )
+
   const requestBody = {
     expiryDate: expiryDate,
     isTimeBound: IsTimeBound,
@@ -63,8 +91,8 @@ const ReqPromiseApi = async (
         ToastAndroid.BOTTOM,
         25,
         50,
-        );
-        return results.code;
+      );
+      return results.code;
     } else {
       ToastAndroid.showWithGravityAndOffset(
         'Unexpected Error',

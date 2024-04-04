@@ -185,9 +185,29 @@ const PromiseNetwork = ({ navigation }) => {
                 </View>
                 <View style={{ width: wp(49), marginLeft: wp(3) }}>
                   {item.networkUserName !== '' ? (
-                    <Text style={{ color: "black" }}>{item.networkUserName}</Text>
+                    <Text style={{ color: "black" }}>{item.networkUserName}
+                    
+                    </Text>
                   ) : null}
+
+                  <Text style={[
+                      {
+                        color: 'black',
+                        // marginHorizontal: hp(2),
+                        fontSize: hp(1.8),
+                        // backgroundColor: "#e0e0e0",
+                        borderRadius: 50,
+                        // paddingVertical: 5,
+                        // paddingHorizontal: 10,
+                        // marginHorizontal: 10
+
+                      },
+                    ]}>Promisibility {item.promisibility ? `${item.promisibility}%` : "0%"}
+                    </Text>
                 </View>
+
+
+
                 <View style={{}}>
                   <TouchableOpacity
                     style={{

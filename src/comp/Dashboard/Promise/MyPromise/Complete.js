@@ -108,6 +108,7 @@ const Complete = ({ navigation }) => {
                     date={item.expiryDate}
                     promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
 
+                    isTimeBound = {item?.isTimeBound}
                     tab={'Promise'}
                   />
                 </TouchableOpacity>
