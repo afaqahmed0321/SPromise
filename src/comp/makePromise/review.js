@@ -151,10 +151,32 @@ const Review = ({ navigation }) => {
     const status = 'Pending';
     const paymentAmount = financial ? amount : 0;
     const paymentStatus = 'Pending';
-    // const PromiseReward = rewardPointState ? rewardPoints : null;
     const PromiseReward = financial ? rewardPoints : 0;
     const PromiseStatus = 'Pending';
     const visibility = mNtoggle ? 'PUBLIC' : 'PRIVATE';
+
+    console.log("before sending to API",
+      {
+        expiryDate: expiryDate,
+        IsTimeBound: IsTimeBound,
+        promiseGoal: promiseGoal,
+        promiseMediaU: promiseMediaU,
+        promiseType: promiseType,
+        promisee: promisee,
+        promisor: promisor,
+        RatingImapect: RatingImapect,
+        LinkDin: LinkDin,
+        Twitter: Twitter,
+        startDate: startDate,
+        status: status,
+        paymentAmount: paymentAmount,
+        paymentStatus: paymentStatus,
+        PromiseReward: PromiseReward,
+        PromiseStatus: PromiseStatus,
+        visibility: visibility,
+
+      }
+    )
 
     const prom = await ReqPromiseApi(
       expiryDate,

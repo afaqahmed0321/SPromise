@@ -34,6 +34,7 @@ const MiniCard = ({
   tab,
   guaranteedWithMoney,
   rewardPoints,
+  isTimeBound,
 }) => {
 
   const [markCompleted, setMarkCompleted] = useState(false);
@@ -141,23 +142,29 @@ const MiniCard = ({
                 }}>
                 <Text style={{ color: 'white', fontSize: hp(2), fontWeight: 'bold', }}>{name}</Text>
               </View>
-              <View style={{ width: wp(8) }}>
-                <Entypo size={20} color="white" name="calendar" />
-              </View>
+              {isTimeBound ? (
+                <>
+                  <View style={{ width: wp(8) }}>
+                    <Entypo size={25} color="white" name="calendar" />
+                  </View>
 
-              <View>
-                <Text
-                  style={[
-                    Headings.Input6,
-                    {
-                      marginLeft: wp(0.7),
-                      color: 'white',
-                      marginTop: wp(0.3),
-                    },
-                  ]}>
-                  {format(new Date(date), 'dd/MM/yyyy')}
-                </Text>
-              </View>
+                  <View>
+                    <Text
+                      style={[
+                        Headings.Input6,
+                        {
+                          marginLeft: wp(0),
+                          color: 'white',
+                          marginTop: wp(0.3),
+                        },
+                      ]}>
+                      {format(new Date(date), 'dd/MM/yyyy')}
+                    </Text>
+                  </View>
+                </>
+              ) : (
+                null
+              )}
             </View>
 
             <View style={DashBoardStyling.PromiseReward}>
@@ -212,6 +219,7 @@ const MiniCard = ({
                   }}
                 />
               </View>
+              
               <View
                 style={{
                   marginLeft: wp(3),
@@ -219,23 +227,31 @@ const MiniCard = ({
                 }}>
                 <Text style={{ color: 'white', fontSize: hp(2), fontWeight: 'bold', }}>{name}</Text>
               </View>
-              <View style={{ width: wp(8) }}>
-                <Entypo size={25} color="white" name="calendar" />
-              </View>
 
-              <View>
-                <Text
-                  style={[
-                    Headings.Input6,
-                    {
-                      marginLeft: wp(0),
-                      color: 'white',
-                      marginTop: wp(0.3),
-                    },
-                  ]}>
-                  {format(new Date(date), 'dd/MM/yyyy')}
-                </Text>
-              </View>
+              {isTimeBound ? (
+                <>
+                  <View style={{ width: wp(8) }}>
+                    <Entypo size={25} color="white" name="calendar" />
+                  </View>
+
+                  <View>
+                    <Text
+                      style={[
+                        Headings.Input6,
+                        {
+                          marginLeft: wp(0),
+                          color: 'white',
+                          marginTop: wp(0.3),
+                        },
+                      ]}>
+                      {format(new Date(date), 'dd/MM/yyyy')}
+                    </Text>
+                  </View>
+                </>
+              ) : (
+                null
+              )}
+
             </View>
 
             <View style={{ paddingHorizontal: 15 }}>
@@ -277,11 +293,11 @@ const MiniCard = ({
                     ]}>
                     {amount > 0 ? (
                       <>
-                    Commitment: ${amount}
-                     {rewardPoints ? <Text >& {rewardPoints} pts</Text>
-                      : null}
+                        Commitment: ${amount}
+                        {rewardPoints ? <Text >& {rewardPoints} pts</Text>
+                          : null}
                       </>
-                    ):(
+                    ) : (
                       null
                     )}
                   </Text>
