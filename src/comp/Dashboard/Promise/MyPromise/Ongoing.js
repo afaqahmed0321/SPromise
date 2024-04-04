@@ -103,8 +103,8 @@ const Ongoing = ({navigation}) => {
                     amount={item.paymentAmount}
                     name={item.promiseeName}
                     date={item.expiryDate}
-                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
-
+                    promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+                    isTimeBound = {item?.isTimeBound}
                     tab={'Promise'}
                   />
                 </TouchableOpacity>

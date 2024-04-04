@@ -19,7 +19,7 @@ export const DashBoardStyling = StyleSheet.create({
     // height: hp(12),
     marginTop: hp(1.4),
     borderRadius: wp(2),
-    alignItems: 'center',
+    alignItems: '',
     borderRadius: 32,
 
   },

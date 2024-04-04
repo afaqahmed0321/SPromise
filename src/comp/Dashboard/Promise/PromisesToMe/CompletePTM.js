@@ -100,8 +100,8 @@ const CompletePTM = ({ navigation }) => {
                     amount={item.paymentAmount}
                     name={item.promisorName}
                     date={item.expiryDate}
-                                        promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
-
+                    promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
+                    isTimeBound = {item?.isTimeBound}
                     tab={'PromisestoMe'}
                   />
                 </TouchableOpacity>

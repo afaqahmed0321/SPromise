@@ -130,7 +130,7 @@ const LeaderBoard = () => {
   return (
     <View style={{ height: hp(20), }}>
       <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", alignContent: "center", marginVertical: 3 }}>
-        <Text style={styles.barText}>Leader Board</Text>
+        <Text style={styles.barText}>Rating Board</Text>
         <TouchableOpacity onPress={() => setRefresh(!refresh)}>
           <View style={{ marginRight: 15 }}>
             <FontAw5
