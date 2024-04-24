@@ -28,6 +28,7 @@ import MyPromisesApi from '../Network/Dashboard/Promises/MyPromisesApi/MyPromise
 import PromisesToMeApi from '../Network/Dashboard/Promises/PromisesToMeApi/PromisesToMeApi';
 import GetPromiseRequestToUser from '../Network/Dashboard/PromiseReq/GetPromiseReqToUser';
 import GetUserPromiseRequest from '../Network/Dashboard/PromiseReq/GetUserPromiseReq';
+import RewardPoints from './RewardPoints';
 
 data = PlayerData;
 

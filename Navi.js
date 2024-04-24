@@ -49,6 +49,7 @@ import ForgetPasswordEmailScreen from './src/screens/ForgetPasswordEmailScreen';
 import NetworkFeed from './src/comp/PromiseNetwork/NetworkFeed';
 import PaymentScreens from './src/screens/PaymentScreens';
 import CustomWebView from './src/screens/CustomWebView';
+import Rewards from './src/screens/Rewards';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -349,6 +350,11 @@ const Auth = () => {
               <Stack.Screen
                 name="PromiseNetwork"
                 component={PromiseNetwork}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Rewards"
+                component={Rewards}
                 options={{ headerShown: false }}
               />
               <Stack.Screen

@@ -21,21 +21,44 @@ import {
 
 import { useNavigation } from '@react-navigation/native';
 import { isLeftDrawerV } from '../recoil/HomeScreenStates';
-import { token } from '../recoil/AddPromise';
+import { UserNo, token } from '../recoil/AddPromise';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { uemail } from '../recoil/Users/GetUsers';
 import { BlurView } from '@react-native-community/blur';
+import ChangeSubscriptionModal from './ChangeSubscriptionModal';
+import updateSubscriptionType from '../Network/Users/updateSubscriptionType';
 
 const Drawer = () => {
   const [isDrawerV, setIsDrawerV] = useRecoilState(isLeftDrawerV);
   const [Token, setToken] = useRecoilState(token);
   const [email, setemail] = useRecoilState(uemail);
   const [name, setname] = useState('');
+  const [userN, setUserN] = useRecoilState(UserNo);
+
   const navigation = useNavigation();
 
   useEffect(() => {
     getitem();
   }, []);
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleSubscriptionChange = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleConfirmSubscriptionChange = async () => {
+    const response = await updateSubscriptionType(userN, 'Paid');
+    console.log("response for subscription type", response);
+    if(response.status == 200){
+      logout();
+    }
+  };
+
 
   const getitem = async () => {
     let Name = await AsyncStorage.getItem('Name');
@@ -47,14 +70,14 @@ const Drawer = () => {
   const logout = async () => {
     console.log('Logging Out');
     try {
-        await AsyncStorage.clear();
-        setToken('');
-        setIsDrawerV(false);
-        console.log('AsyncStorage cleared successfully');
+      await AsyncStorage.clear();
+      setToken('');
+      setIsDrawerV(false);
+      console.log('AsyncStorage cleared successfully');
     } catch (error) {
-        console.error('Error clearing AsyncStorage:', error);
+      console.error('Error clearing AsyncStorage:', error);
     }
-};
+  };
 
   const handleOverlayPress = () => {
     setIsDrawerV(false);
@@ -117,14 +140,15 @@ const Drawer = () => {
           </View>
 
 
-         
+
 
           <View>
             <TouchableOpacity
               style={styles.listContainer}
-              onPress={() => {navigation.navigate('Notifications')
-              setIsDrawerV(false);
-            }}
+              onPress={() => {
+                navigation.navigate('Notifications')
+                setIsDrawerV(false);
+              }}
             >
               <MaterialIcons
                 color="#652D90"
@@ -141,8 +165,10 @@ const Drawer = () => {
           <View>
             <TouchableOpacity
               style={styles.listContainer}
-              onPress={() => {navigation.navigate('PromiseNetwork')
-              setIsDrawerV(false);}}
+              onPress={() => {
+                navigation.navigate('PromiseNetwork')
+                setIsDrawerV(false);
+              }}
             >
               <MaterialIcons
                 color="#652D90"
@@ -151,6 +177,48 @@ const Drawer = () => {
                 style={{ marginTop: 8 }}
               />
               <Text style={[styles.TebText, { padding: 3 }]}>My Network</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View>
+            <TouchableOpacity
+              style={styles.listContainer}
+              onPress={() => {
+                navigation.navigate('Rewards')
+                setIsDrawerV(false);
+              }}
+            >
+              <MaterialIcons
+                color="#652D90"
+                name="stars"
+                size={30}
+                style={{ marginTop: 8 }}
+              />
+              <Text style={[styles.TebText, { padding: 3 }]}>Rewards</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View>
+            <TouchableOpacity
+              style={styles.listContainer}
+              onPress={handleSubscriptionChange}
+            >
+              <MaterialIcons
+                color="#652D90"
+                name="credit-card"
+                size={30}
+                style={{ marginTop: 8 }}
+              />
+              <Text style={[styles.TebText, { padding: 3 }]}>Change Subscription</Text>
+              {isModalVisible ? (
+                <ChangeSubscriptionModal
+                  onClose={handleCloseModal}
+                  onConfirm={handleConfirmSubscriptionChange}
+                />
+              ) : (
+                null
+              )
+              }
             </TouchableOpacity>
           </View>
 
@@ -218,6 +286,6 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'transparent', 
+    backgroundColor: 'transparent',
   },
 });

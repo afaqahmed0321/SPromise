@@ -38,75 +38,105 @@ const AddToMyNetwork = () => {
   );
 
   const SearchUser = async () => {
-    if (email == '') {
-      ToastAndroid.show('Please Enter Email', ToastAndroid.LONG);
-    } else {
-      setIsLoading(true);
-      setSearching(true);
-      const mail = email.toLowerCase();
-      const res = await fetchUser(mail)
-        .then(data => {
-          console.log(data, 'data');
-          if (data == 'User Does not Exist') {
-            ToastAndroid.show(
-              'User Does not Exist! Please click Invite to send Invitation',
-              ToastAndroid.LONG,
-            );
+    if (email === '') {
+        ToastAndroid.show('Please enter an email address', ToastAndroid.LONG);
+        setSearching(false);
+        setUserFound(null);
+        return;
+    }
+
+    setIsLoading(true);
+    setSearching(true);
+    const mail = email.toLowerCase();
+
+    try {
+        const data = await fetchUser(mail);
+        console.log(data, 'data');
+        setIsLoading(false);
+
+        if (data === 'User Does not Exist') {
             setUserFound(false);
-            setIsLoading(false);
-          } else {
+            // Automatically call handelInviteUser if the user does not exist
+            handelInviteUser();
+        } else {
             setUserFound(true);
-            setIsLoading(false);
             setUserData(data);
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching daa:', error);
-          reject(error);
-        });
+            // Delay calling handelAddtoNetwork by 3 seconds
+            setTimeout(async () => {
+                await handelAddtoNetwork();
+            }, 3000); // Delay of 3 seconds (3000 milliseconds)
+        }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        ToastAndroid.show('Error fetching user data.', ToastAndroid.LONG);
+        setIsLoading(false);
+        setSearching(false);
     }
-  };
+};
 
-  const handelAddtoNetwork = async () => {
-    const AddUserN = await userData.userNo;
-    const UserEmailID = await userData.emailID;
+  
 
-    console.log(userData);
-    if (!AddUserN) {
-      ToastAndroid.showWithGravityAndOffset(
-        'Please enter the email address and search the user',
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        25,
-        50,
-      );
-    } else {
-      const AddUserN = userData.userNo;
-      const UserEmailID = userData.emailID;
-      console.log(AddUserN);
-      const res = await AddUserNetwork(AddUserN, userN);
-      setrefreshnetwork(!refreshnetwork);
-    }
-  };
+
+
+  // const handelAddtoNetwork = async () => {
+  //   const AddUserN = await userData.userNo;
+  //   const UserEmailID = await userData.emailID;
+
+  //   console.log(userData);
+  //   if (!AddUserN) {
+  //     ToastAndroid.showWithGravityAndOffset(
+  //       'Please enter the email address and search the user',
+  //       ToastAndroid.LONG,
+  //       ToastAndroid.BOTTOM,
+  //       25,
+  //       50,
+  //     );
+  //   } else {
+  //     const AddUserN = userData.userNo;
+  //     const UserEmailID = userData.emailID;
+  //     console.log(AddUserN);
+  //     const res = await AddUserNetwork(AddUserN, userN);
+  //     setrefreshnetwork(!refreshnetwork);
+  //   }
+  // };
   const handelInviteUser = async () => {
     if (email == '') {
       ToastAndroid.show('Please enter email address', ToastAndroid.LONG);
     } else {
       const res = await InviteUser(email).then(data => {
-        ToastAndroid.showWithGravityAndOffset(
-          'An invite has been sent to ' + email,
+        ToastAndroid.show(
+          'User Does not Exist! Invite has been send',
           ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-          25,
-          50,
         );
       });
     }
   };
+  const handelAddtoNetwork = async () => {
+    
+    const AddUserN = userData.userNo;
 
-  useEffect(() => {
-    setSearching(false);
-  }, [email]);
+    try {
+      const res = AddUserNetwork(AddUserN, userN);
+      // ToastAndroid.show('User added to network successfully', ToastAndroid.LONG);
+      setrefreshnetwork(!refreshnetwork);
+    } catch (error) {
+      console.error('Error adding user to network:', error);
+      ToastAndroid.show('Error adding user to network.', ToastAndroid.LONG);
+    }
+  };
+
+ useEffect(() => {
+    // Define a function to set searching to false after 10 seconds
+    const timeoutId = setTimeout(() => {
+        setSearching(false);
+        handelAddtoNetwork();
+    }, 3000); // 10 seconds delay
+
+    // Cleanup function to clear the timeout when the component unmounts or when dependencies change
+    return () => {
+        clearTimeout(timeoutId);
+    };
+}, [email, refreshnetwork]);
 
   return (
     <>
@@ -170,17 +200,13 @@ const AddToMyNetwork = () => {
           {isLoading ? (
             <ActivityIndicator size="small" color="#0000ff" />
           ) : !searching ? null : userFound ? (
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.SignBtn}
               onPress={handelAddtoNetwork}>
               <Text style={{ color: "white" }}>Add to network</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           ) : (
-            <TouchableOpacity
-              style={styles.InviteBtn}
-              onPress={handelInviteUser}>
-              <Text>Invite</Text>
-            </TouchableOpacity>
+            null
           )}
         </View>
         <BlurView

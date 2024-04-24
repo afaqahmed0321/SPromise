@@ -76,7 +76,18 @@ const PromiseNetwork = ({ navigation }) => {
   const fetchData = () => {
     fetchUserData(userN).then(data => {
       console.log(data, 'Network User: ');
-      setUserData(data);
+      // Remove duplicates based on serialNo
+      const uniqueData = [];
+      const seenSerialNos = new Set();
+      
+      data.forEach(item => {
+        if (!seenSerialNos.has(item.networkUserNo)) {
+          uniqueData.push(item);
+          seenSerialNos.add(item.networkUserNo);
+        }
+      });
+  
+      setUserData(uniqueData);
       setIsLoading(false);
     });
   };

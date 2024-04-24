@@ -285,6 +285,7 @@ const DetailCard = ({
                 {
                   color: 'black',
                   marginHorizontal: hp(1.2),
+                  marginTop: hp(1.2),
                   fontSize: hp(1.8),
                   backgroundColor: "#e0e0e0",
                   borderRadius: 50,
@@ -580,6 +581,7 @@ const DetailCard = ({
                 {
                   color: 'black',
                   marginHorizontal: hp(1.2),
+                  marginTop: hp(1.2),
                   fontSize: hp(1.8),
                   backgroundColor: "#e0e0e0",
                   borderRadius: 50,
