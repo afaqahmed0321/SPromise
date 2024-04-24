@@ -1,4 +1,4 @@
-package com.snappromise;
+package com.snappromise1;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

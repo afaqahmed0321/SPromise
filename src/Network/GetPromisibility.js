@@ -5,8 +5,8 @@ const getUserPromisbility = async (userN) => {
     const response = await axios.get(`https://snappromise.com:8080/api/Users/getUserPromisbility?userNo=${userN}`
     );
 
-    console.log('Response:', response.data.promisibility);
-    return response.data.promisibility;
+    console.log('Response:', response.data.rewardPoints);
+    return response.data;
 
   } catch (error) {
     console.error('Error:', error);

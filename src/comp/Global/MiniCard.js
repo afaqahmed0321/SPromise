@@ -178,8 +178,8 @@ const MiniCard = ({
                       fontSize: hp(2),
                     },
                   ]}>
-                  Commitment: ${amount}  {rewardPoints ? (
-                    <Text> & {rewardPoints} Reward Points</Text>
+                  Commitment: ${amount} &nbsp;  {rewardPoints ? (
+                    <Text> & {rewardPoints}Reward Points</Text>
                   ) : null}
                 </Text>
               ) : null}
@@ -293,8 +293,8 @@ const MiniCard = ({
                     ]}>
                     {amount > 0 ? (
                       <>
-                        Commitment: ${amount}
-                        {rewardPoints ? <Text >& {rewardPoints} pts</Text>
+                        Commitment: ${amount} &nbsp;
+                        {rewardPoints ? <Text >& {rewardPoints}pts</Text>
                           : null}
                       </>
                     ) : (
@@ -312,7 +312,7 @@ const MiniCard = ({
                         fontSize: hp(2),
                       },
                     ]}>
-                    {rewardPoints ? <Text style={{}}>Reward: ${amount} & {rewardPoints} Pts</Text>
+                    {rewardPoints ? <Text style={{}}>Reward: ${amount} & {rewardPoints}Pts</Text>
                       : null}
                   </Text>}
                 {promiseMediaURL ? (
