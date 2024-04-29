@@ -15,10 +15,9 @@ export const TextInP = StyleSheet.create({
     // borderTopWidth:1,
     borderColor: 'transparent',
     borderCurve:'',
-    color: "#000",
+    color: "grey",
     // borderColor:'#652D90'
-    placeholderTextColor:"#000"
-  
+    placeholderTextColor:'grey'
   },
   EmailFiled: {
     marginVertical: hp(1),
