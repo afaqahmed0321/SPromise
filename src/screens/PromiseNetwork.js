@@ -31,6 +31,7 @@ import {
 import NetWorkFeedApi from '../Network/Users/NetworkFeed/NetworkFeedAPi';
 import EvilIcon from 'react-native-vector-icons/FontAwesome5';
 import addRemoveFavouriteAPi from '../Network/Users/AddRemoveFavApi';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const PromiseNetwork = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
@@ -98,7 +99,6 @@ const PromiseNetwork = ({ navigation }) => {
     navigation.goBack();
   }
   return (
-
     <View style={{ backgroundColor: '#E4EEE6', flex: 1 }} >
       <View style={{ height: hp(7), flexDirection: 'row', alignItems: 'center' }}>
         {navigation.canGoBack() && (
@@ -164,6 +164,8 @@ const PromiseNetwork = ({ navigation }) => {
           <ActivityIndicator size="small" color="#652D90" />
         </View>
       ) : (
+        <ScrollView>
+
         <FlatList
           data={searchText.length > 0 ? filteredData : userData}
           keyExtractor={item => item.serialNo.toString()}
@@ -245,6 +247,7 @@ const PromiseNetwork = ({ navigation }) => {
             </View>
           )}
         />
+        </ScrollView>
       )}
     </View>
   );

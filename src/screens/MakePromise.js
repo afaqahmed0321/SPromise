@@ -50,6 +50,7 @@ import { ToastAndroid } from 'react-native';
 
 const MakePromise = ({ navigation }) => {
   const [financial, setFinancial] = useRecoilState(promiseType);
+  const [type, setType] = useRecoilState(promiseType)
   const [isChecked1, setIsChecked1] = useState(istimeBoundCheckBox1);
   const [isChecked2, setIsChecked2] = useState(istimeBoundCheckBox2);
   const [deadlinedate, setDeadLinedate] = useRecoilState(deadline);
@@ -98,7 +99,7 @@ const MakePromise = ({ navigation }) => {
   };
 
   useEffect(() => {
-    console.log(promiseType,"promise type")
+    console.log(promiseType, "promise type")
   }, [focus]);
 
 
@@ -120,7 +121,9 @@ const MakePromise = ({ navigation }) => {
           50,
         );
       } else {
-        
+
+
+
         const promiseText = promiseStatement;
         if ((!promiseText || promiseText.trim() === '') && !selectedVideo) {
           ToastAndroid.showWithGravityAndOffset(
@@ -144,23 +147,51 @@ const MakePromise = ({ navigation }) => {
             50,
           );
         }
-      }
-    } else {
-      const promiseText = promiseStatement;
-      console.log("selected media from parent", selectedVideo, "textttttt". promiseText)
 
-      if ((!promiseText || promiseText.trim() === '') && !selectedVideo) {
-        ToastAndroid.showWithGravityAndOffset(
-          'Please attach video or write promise statement',
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-          25,
-          50,
-        );
-      } else {
-        navigation.navigate('Review');
-        console.log('Reward points', rewardPoints);
+
       }
+    }
+    else {
+
+      if (financial && (amount > 0 || rewardPoints > 0) || !financial) {
+        
+        const promiseText = promiseStatement;
+        console.log("selected media from parent", selectedVideo, "textttttt".promiseText)
+
+        if ((!promiseText || promiseText.trim() === '') && !selectedVideo) {
+          ToastAndroid.showWithGravityAndOffset(
+            'Please attach video or write promise statement',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        } else {
+
+          navigation.navigate('Review');
+          console.log('Reward points', rewardPoints);
+        }
+      } else  {
+        if(makePromise){
+          ToastAndroid.showWithGravityAndOffset(
+            'Please enter amount',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        }else {
+          console.log("prommmtype", financial);
+          ToastAndroid.showWithGravityAndOffset(
+            'Please enter amount or reward point',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        }
+      } 
+
     }
   };
 
@@ -360,25 +391,25 @@ const MakePromise = ({ navigation }) => {
                   onChangeText={text => setAmount(text)}
                   keyboardType="phone-pad"
                 />
-                {!makePromise && (      
-                <TextInput
-                  placeholder="Points"
-                  placeholderTextColor="black"
-                  value={rewardPoints}
-                  style={{
-                    height: hp(5),
-                    color: '#000',
-                    fontSize: hp(1.8),
-                    borderWidth: wp(0.6),
-                    borderColor: '#652D90',
-                    borderRadius: wp(10),
-                    width: wp(30),
-                    borderRadius: wp(5),
-                    textAlign: "center"
-                  }}
-                  onChangeText={text => setRewardPoints(text)}
-                  keyboardType="phone-pad"
-                />
+                {!makePromise && (
+                  <TextInput
+                    placeholder="Points"
+                    placeholderTextColor="black"
+                    value={rewardPoints}
+                    style={{
+                      height: hp(5),
+                      color: '#000',
+                      fontSize: hp(1.8),
+                      borderWidth: wp(0.6),
+                      borderColor: '#652D90',
+                      borderRadius: wp(10),
+                      width: wp(30),
+                      borderRadius: wp(5),
+                      textAlign: "center"
+                    }}
+                    onChangeText={text => setRewardPoints(text)}
+                    keyboardType="phone-pad"
+                  />
                 )}
 
               </View>
@@ -412,7 +443,7 @@ const MakePromise = ({ navigation }) => {
             </View>
           </View>
           <View>
-           <View>
+            <View>
               <PromiseStatement onTextChange={handleTextChange} />
             </View>
           </View>
