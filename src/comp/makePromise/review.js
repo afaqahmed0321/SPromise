@@ -40,6 +40,7 @@ import { ToastAndroid } from 'react-native';
 import GetUserData from '../../Network/Users/GetUserData';
 import LoadingOverlay from '../Global/LoadingOverlay';
 import axios from 'axios';
+import { RadioButton } from 'react-native-paper';
 
 const Review = ({ navigation }) => {
   const [Promiseze, setSelectedPromisee] = useRecoilState(selectedPromisee);
@@ -112,11 +113,18 @@ const Review = ({ navigation }) => {
       console.log("prommmmmm", prom);
       if (prom === 100) {
         console.log("running in make promise at line 96");
+        ToastAndroid.showWithGravityAndOffset(
+          'Promise created successfully.',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
         navigation.navigate('SnapPromiseVerification');
       } else {
         console.log("error in make promise at line 96");
         ToastAndroid.showWithGravityAndOffset(
-          'Buy Subscription to make more promises',
+          'Please select promisee first',
           ToastAndroid.LONG,
           ToastAndroid.BOTTOM,
           25,
@@ -507,20 +515,19 @@ const Review = ({ navigation }) => {
               </View>
               {shareToggel ? (
                 <View style={styles.Social}>
-                  <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
-                    Public or Network only
-                  </Text>
-                  <ToggleSwitch
-                    isOn={mNtoggle}
-                    style={{ marginRight: wp(5) }}
-                    onColor="#FFFFFF"
-                    offColor="#FFFFFF"
-                    thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
-                    thumbOnStyle={{ backgroundColor: '#652D90' }}
-                    size="small"
-                    onToggle={() => {
-                      mNtoggle ? setMNTogel(false) : setMNTogel(true);
-                    }}
+                  <Text style={Headings.Input5}>Public</Text>
+                  <RadioButton.Android
+                    value="public"
+                    status={mNtoggle === 'public' ? 'checked' : 'unchecked'}
+                    onPress={() => setMNTogel('public')}
+                    color="#652D90"
+                  />
+                  <Text style={Headings.Input5}>Network only</Text>
+                  <RadioButton.Android
+                    value="network"
+                    status={mNtoggle === 'network' ? 'checked' : 'unchecked'}
+                    onPress={() => setMNTogel('network')}
+                    color="#652D90"
                   />
                 </View>
               ) : null}

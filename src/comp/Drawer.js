@@ -176,7 +176,7 @@ const Drawer = () => {
                 size={30}
                 style={{ marginTop: 8 }}
               />
-              <Text style={[styles.TebText, { padding: 3 }]}>My Network</Text>
+              <Text style={[styles.TebText, { padding: 3 }]}>Promise Network</Text>
             </TouchableOpacity>
           </View>
 
