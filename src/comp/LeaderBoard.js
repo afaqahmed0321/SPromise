@@ -38,25 +38,26 @@ const LeaderBoard = () => {
   
           console.log("Top user data", uniqueUsers.slice(0, 5));
   
-          if (uniqueUsers.length === 0) {
-            ToastAndroid.showWithGravityAndOffset(
-              'There are no top users',
-              ToastAndroid.LONG,
-              ToastAndroid.BOTTOM,
-              25,
-              50,
-            );
-          }
-        } else {
-          // Handle case where no data is found
-          ToastAndroid.showWithGravityAndOffset(
-            'There are no top users',
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50,
-          );
-        }
+          // if (uniqueUsers.length === 0) {
+          //   ToastAndroid.showWithGravityAndOffset(
+          //     'There are no top users',
+          //     ToastAndroid.LONG,
+          //     ToastAndroid.BOTTOM,
+          //     25,
+          //     50,
+          //   );
+          // }
+        } 
+        // else {
+        //   // Handle case where no data is found
+        //   ToastAndroid.showWithGravityAndOffset(
+        //     'There are no top users',
+        //     ToastAndroid.LONG,
+        //     ToastAndroid.BOTTOM,
+        //     25,
+        //     50,
+        //   );
+        // }
       })
       .catch(error => {
         console.error('Error fetching top users:', error);
