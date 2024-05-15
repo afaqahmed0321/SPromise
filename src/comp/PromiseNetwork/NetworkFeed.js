@@ -1,9 +1,3 @@
-/**
- * The NetworkFeed function is a React Native component that displays a feed of promises made by users
- * in a network, allows users to react to promises and add comments, and includes search and filter
- * functionality.
- * @returns The NetworkFeed component is being returned.
- */
 import {
   StyleSheet,
   Text,
@@ -57,7 +51,7 @@ const NetworkFeed = ({ navigation }) => {
   const [like, setLike] = useState(false);
   const [isLike, setIsLike] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [visibilityy, setVisibilityy] = useState('Private');
+  const [visibilityy, setVisibilityy] = useState('Public');
   const [visible, setVisible] = useState('');
 
   const privateData = selectedNetworkUserFee?.filter(item => item.visibility === 'PRIVATE');
@@ -68,11 +62,9 @@ const NetworkFeed = ({ navigation }) => {
   const handelNetworkFeedComp = async (visibilityy) => {
     const networkUserNo = userN;
     console.log('UserNo is ', networkUserNo);
-
-    // const resp = NetWorkFeedApi(networkUserNo);
     const resp = await axios.get(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${visibilityy}`)
       .then((response) => {
-        const data = response.data.promisesList; // Accessing the data property of the Axios response
+        const data = response.data.promisesList; 
         console.log(data, "Network Feed");
         setIsLoading(false);
         return data;
@@ -80,7 +72,7 @@ const NetworkFeed = ({ navigation }) => {
       .catch((error) => {
         setIsLoading(false);
         console.error('Error fetching data:', error);
-        return null; // Returning null in case of an error, you can adjust this as needed
+        return null; 
       })
     setSelectedNetworkUserFee(resp);
     console.log("this from fedback", resp);
@@ -254,65 +246,104 @@ const NetworkFeed = ({ navigation }) => {
             <Text style={{ color: 'grey', fontWeight: 'bold', fontSize: hp(2), marginLeft: -12 }}>({getTotalLikes()})</Text>
           </TouchableOpacity>
         </View>
+
+
         <View style={{ marginLeft: wp(2) }}>
-          {item.promiseType == 'GUARANTEE' ? (
-            <Text
-              style={[
+
+          <View>
+            <Text style={[
+              {
+                color: 'black',
+                marginHorizontal: hp(1.2),
+                marginTop: hp(1.2),
+                fontSize: hp(1.8),
+                backgroundColor: "#e0e0e0",
+                borderRadius: 50,
+                paddingVertical: 5,
+                paddingHorizontal: 10,
+                width: 55
+
+              },
+            ]}>
+              ${item.paymentAmount}
+            </Text>
+          </View>
+          {item.rewardPoints > 0 && (
+            <View>
+              <Text style={[
                 {
-                  color: '#652D90',
-                  fontWeight: 'bold',
-                  fontSize: hp(2.3),
+                  color: 'black',
+                  marginHorizontal: hp(1.2),
+                  marginTop: hp(1.2),
+                  fontSize: hp(1.8),
+                  backgroundColor: "#e0e0e0",
+                  borderRadius: 50,
+                  paddingVertical: 5,
+                  paddingHorizontal: 10,
+                  width: 85
+
                 },
               ]}>
-              Amount: {item.paymentAmount}$
-            </Text>
-          ) : (
-            <>
-              <Text
-                style={[
-                  {
-                    color: '#652D90',
-                    fontWeight: 'bold',
-                    fontSize: hp(2.3),
-                  },
-                ]}>
-                Amount: {item.paymentAmount}$
+                {item.rewardPoints}pts
               </Text>
-              <Text
-                style={[
-                  {
-                    color: '#652D90',
-                    fontWeight: 'bold',
-                    fontSize: hp(2.3),
-                  },
-                ]}>
-                Reward: +{item.rewardPoints} pts
+            </View>
+          )}
+          {item.ratingImpact != null && (
+            <View>
+              <Text style={[
+                {
+                  color: 'black',
+                  marginHorizontal: hp(1.2),
+                  marginTop: hp(1.2),
+                  fontSize: hp(1.8),
+                  backgroundColor: "#e0e0e0",
+                  borderRadius: 50,
+                  paddingVertical: 5,
+                  paddingHorizontal: 10,
+                  width: 140
+
+                },
+              ]}>
+                Rating will impact
               </Text>
-            </>
+            </View>
+          )}
+          {item.displayStatus != null && (
+            <View>
+              <Text style={[
+                {
+                  color: 'black',
+                  marginHorizontal: hp(1.2),
+                  marginTop: hp(1.2),
+                  fontSize: hp(1.8),
+                  backgroundColor: "#e0e0e0",
+                  borderRadius: 50,
+                  paddingVertical: 5,
+                  paddingHorizontal: 10,
+                  width: 105
+
+                },
+              ]}>
+                {item.displayStatus}
+              </Text>
+            </View>
           )}
 
         </View>
-        <View style={{ height: hp(10) }}>
+
+
+        <View >
           <Text
             style={[
               {
                 color: '#652D90',
                 fontWeight: 'bold',
-                fontSize: hp(1.6),
+                fontSize: hp(1.9),
                 textAlign: 'center',
               },
             ]}>
             {item.promiseGoal}
           </Text>
-        </View>
-        <View
-          style={{
-            marginLeft: wp(2),
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
-            flexDirection: 'row',
-          }}>
-
         </View>
         <View style={{ marginLeft: wp(2) }}>
           {item.promiseComments && item.promiseComments.length > 0 ? (
@@ -484,21 +515,24 @@ const NetworkFeed = ({ navigation }) => {
             styles.button,
             visibilityy === 'Public' && styles.selectedButton,
           ]}
-          onPress={() => {handleVisibilityChange('Public')
-          setIsLoading(true)
+          onPress={() => {
+            handleVisibilityChange('Public')
+            setIsLoading(true)
           }}>
           <Text style={styles.BtnText}>Public</Text>
         </TouchableOpacity>
 
-      
+
 
         <TouchableOpacity
           style={[
             styles.button,
             visibilityy === 'Network' && styles.selectedButton,
           ]}
-          onPress={() => {handleVisibilityChange('Network')
-          setIsLoading(true)}}>
+          onPress={() => {
+            handleVisibilityChange('Network')
+            setIsLoading(true)
+          }}>
           <Text style={styles.BtnText}>Network Only</Text>
         </TouchableOpacity>
 
@@ -507,8 +541,10 @@ const NetworkFeed = ({ navigation }) => {
             styles.button,
             visibilityy === 'Private' && styles.selectedButton,
           ]}
-          onPress={() => {handleVisibilityChange('Private')
-          setIsLoading(true)}}>
+          onPress={() => {
+            handleVisibilityChange('Private')
+            setIsLoading(true)
+          }}>
           <Text style={styles.BtnText}>Private</Text>
         </TouchableOpacity>
 
@@ -594,7 +630,6 @@ const NetworkFeed = ({ navigation }) => {
                       />
                     }
                     data={searchText.length > 0 ? filteredData : networkonlyData}
-
                     keyExtractor={item => item.promiseID.toString()}
                     renderItem={renderItem}
                   />

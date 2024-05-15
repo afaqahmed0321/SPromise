@@ -17,7 +17,7 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import fetchUserData from '../Network/Users/GetUsers';
+import fetchUserData, { removeUserNetwork } from '../Network/Users/GetUsers';
 import { UserNo } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import { ismodalVisible, refreshPromiseNetwork } from '../recoil/Globel';
@@ -31,6 +31,7 @@ import {
 import NetWorkFeedApi from '../Network/Users/NetworkFeed/NetworkFeedAPi';
 import EvilIcon from 'react-native-vector-icons/FontAwesome5';
 import addRemoveFavouriteAPi from '../Network/Users/AddRemoveFavApi';
+import axios from 'axios';
 
 const PromiseNetwork = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
@@ -91,12 +92,22 @@ const PromiseNetwork = ({ navigation }) => {
       setIsLoading(false);
     });
   };
+  
+  function removeNetworkUser(SerialNo){
+    console.log("this is serial no", SerialNo)
+    removeUserNetwork(SerialNo).then(data => {
+      console.log("removed");
+    })
+  }
+
   useEffect(() => {
     fetchData();
   }, [focus, refreshnetwork]);
   const handleBack = () => {
     navigation.goBack();
   }
+
+
   return (
 
     <View style={{ backgroundColor: '#E4EEE6', flex: 1 }} >
@@ -170,7 +181,7 @@ const PromiseNetwork = ({ navigation }) => {
           renderItem={({ item }) => (
             <View>
               <TouchableOpacity
-                onPress={() => handelNetworkFeedComp(item.networkUserNo)}
+                // onPress={() => handelNetworkFeedComp(item.networkUserNo)}
                 style={{
                   flexDirection: 'row',
                   marginVertical: hp(1),
@@ -225,7 +236,7 @@ const PromiseNetwork = ({ navigation }) => {
                       padding: 0.2,
                       borderRadius: 50,
                       position: 'absolute',
-                      marginLeft: wp(20)
+                      marginLeft: wp(15)
                     }}
                     onPress={() => {
                       const Value = item.isFavourite ? false : true;
@@ -239,6 +250,23 @@ const PromiseNetwork = ({ navigation }) => {
                     ) : (
                       <FontAwesome name="heart-o" size={15} color="#652D90" />
                     )}
+
+                  </TouchableOpacity>
+                </View>
+                <View style={{}}>
+                  <TouchableOpacity
+                    style={{
+                      padding: 0.2,
+                      borderRadius: 50,
+                      position: 'absolute',
+                      marginLeft: wp(20)
+                    }}
+                    
+                    onPress={() => {
+                      console.log("item data", item)
+                      removeNetworkUser(item.serialNo)
+                    }}>
+                    <FontAwesome name="trash" size={15} color="#652D90" />
                   </TouchableOpacity>
                 </View>
               </TouchableOpacity>

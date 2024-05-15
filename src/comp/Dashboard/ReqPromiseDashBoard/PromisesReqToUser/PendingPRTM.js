@@ -115,7 +115,8 @@ const PendingPRTM = ({ navigation }) => {
                   <TouchableOpacity onPress={() => setshowDetail('')}>
                     <DetailCard
                       promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
-                    isTimeBound={item?.isTimeBound}
+                      isTimeBound={item?.isTimeBound}
+                      displayStatus={item?.displayStatus}
 
                       promisetype={item.promiseType}
                       amount={item.paymentAmount}
@@ -123,7 +124,7 @@ const PendingPRTM = ({ navigation }) => {
                       date={item.expiryDate}
                       promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
                       promisorName={item.promisorName}
-                    promiseeName={item?.promiseeName}
+                      promiseeName={item?.promiseeName}
 
                       ratingImpact={item.ratingImpact}
                       promiseGoal={item.promiseGoal}
@@ -141,7 +142,7 @@ const PendingPRTM = ({ navigation }) => {
                   <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
                     <MiniCard
                       promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
-                    isTimeBound={item?.isTimeBound}
+                      isTimeBound={item?.isTimeBound}
 
                       promisetype={item.promiseType}
                       rewardPoints={item.rewardPoints}
@@ -150,7 +151,6 @@ const PendingPRTM = ({ navigation }) => {
                       date={item.expiryDate}
                       promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
 
-                      isTimeBound = {item?.isTimeBound}
                       tab={'ReqPromiseDashboard'}
                       guaranteedWithMoney={item.guaranteedWithMoney}
                     />
