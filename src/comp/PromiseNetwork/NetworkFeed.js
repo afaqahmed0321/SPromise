@@ -51,6 +51,7 @@ const NetworkFeed = ({ navigation }) => {
   );
   const [like, setLike] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const [visibilityy, setVisibilityy] = useState('Private');
   const [dateRange, setDateRange] = useState({ firstDate: '', secondDate: '' });
   const [selectedRange, setRange] = useState({});
@@ -246,65 +247,104 @@ const NetworkFeed = ({ navigation }) => {
             <Text style={{ color: 'grey', fontWeight: 'bold', fontSize: hp(2), marginLeft: -12 }}>({getTotalLikes()})</Text>
           </TouchableOpacity>
         </View>
+
+
         <View style={{ marginLeft: wp(2) }}>
-          {item.promiseType == 'GUARANTEE' ? (
-            <Text
-              style={[
+
+          <View>
+            <Text style={[
+              {
+                color: 'black',
+                marginHorizontal: hp(1.2),
+                marginTop: hp(1.2),
+                fontSize: hp(1.8),
+                backgroundColor: "#e0e0e0",
+                borderRadius: 50,
+                paddingVertical: 5,
+                paddingHorizontal: 10,
+                width: 55
+
+              },
+            ]}>
+              ${item.paymentAmount}
+            </Text>
+          </View>
+          {item.rewardPoints > 0 && (
+            <View>
+              <Text style={[
                 {
-                  color: '#652D90',
-                  fontWeight: 'bold',
-                  fontSize: hp(2.3),
+                  color: 'black',
+                  marginHorizontal: hp(1.2),
+                  marginTop: hp(1.2),
+                  fontSize: hp(1.8),
+                  backgroundColor: "#e0e0e0",
+                  borderRadius: 50,
+                  paddingVertical: 5,
+                  paddingHorizontal: 10,
+                  width: 85
+
                 },
               ]}>
-              Amount: {item.paymentAmount}$
-            </Text>
-          ) : (
-            <>
-              <Text
-                style={[
-                  {
-                    color: '#652D90',
-                    fontWeight: 'bold',
-                    fontSize: hp(2.3),
-                  },
-                ]}>
-                Amount: {item.paymentAmount}$
+                {item.rewardPoints}pts
               </Text>
-              <Text
-                style={[
-                  {
-                    color: '#652D90',
-                    fontWeight: 'bold',
-                    fontSize: hp(2.3),
-                  },
-                ]}>
-                Reward: +{item.rewardPoints} pts
+            </View>
+          )}
+          {item.ratingImpact != null && (
+            <View>
+              <Text style={[
+                {
+                  color: 'black',
+                  marginHorizontal: hp(1.2),
+                  marginTop: hp(1.2),
+                  fontSize: hp(1.8),
+                  backgroundColor: "#e0e0e0",
+                  borderRadius: 50,
+                  paddingVertical: 5,
+                  paddingHorizontal: 10,
+                  width: 140
+
+                },
+              ]}>
+                Rating will impact
               </Text>
-            </>
+            </View>
+          )}
+          {item.displayStatus != null && (
+            <View>
+              <Text style={[
+                {
+                  color: 'black',
+                  marginHorizontal: hp(1.2),
+                  marginTop: hp(1.2),
+                  fontSize: hp(1.8),
+                  backgroundColor: "#e0e0e0",
+                  borderRadius: 50,
+                  paddingVertical: 5,
+                  paddingHorizontal: 10,
+                  width: 105
+
+                },
+              ]}>
+                {item.displayStatus}
+              </Text>
+            </View>
           )}
 
         </View>
-        <View style={{ height: hp(10) }}>
+
+
+        <View >
           <Text
             style={[
               {
                 color: '#652D90',
                 fontWeight: 'bold',
-                fontSize: hp(1.6),
+                fontSize: hp(1.9),
                 textAlign: 'center',
               },
             ]}>
             {item.promiseGoal}
           </Text>
-        </View>
-        <View
-          style={{
-            marginLeft: wp(2),
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
-            flexDirection: 'row',
-          }}>
-
         </View>
         <View style={{ marginLeft: wp(2) }}>
           {item.promiseComments && item.promiseComments.length > 0 ? (
@@ -419,6 +459,7 @@ const NetworkFeed = ({ navigation }) => {
           onPress={handleNextButtonPress}
           style={[commonStyles.lognBtn, { marginBottom: hp(4), backgroundColor: '#DDDDDD', padding: 10, borderRadius: 5 }]}>
           <Text style={{ color: 'black', textAlign: 'center', fontSize: 16 }}>Filter</Text>
+
         </TouchableOpacity>
 
             {isLoading ? (
@@ -514,6 +555,7 @@ const NetworkFeed = ({ navigation }) => {
       </View>
 
     </>
+
   );
 };
 

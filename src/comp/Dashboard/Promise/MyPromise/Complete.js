@@ -75,6 +75,7 @@ const Complete = ({ navigation }) => {
                   <DetailCard
                     promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     isTimeBound={item?.isTimeBound}
+                    displayStatus = {item?.displayStatus}
 
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
@@ -107,8 +108,6 @@ const Complete = ({ navigation }) => {
                     name={item.promiseeName}
                     date={item.expiryDate}
                     promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
-
-                    isTimeBound = {item?.isTimeBound}
                     tab={'Promise'}
                   />
                 </TouchableOpacity>

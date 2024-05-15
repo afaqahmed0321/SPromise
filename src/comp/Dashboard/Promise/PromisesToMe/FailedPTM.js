@@ -66,7 +66,7 @@ const FailedPTM = ({ navigation }) => {
               titleColor="white" // iOS
             />
           }
-          data={promises.filter(item => item.status === 'Rejected' || item.status === 'Failed')}
+          data={promises.filter(item => item.status === 'Rejected' || item.status === 'Failed' || item.status === 'Canceled')}
           keyExtractor={item => item.promiseID.toString()} // Use a unique identifier as the key
           renderItem={({ item }) => (
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -75,6 +75,7 @@ const FailedPTM = ({ navigation }) => {
                   <DetailCard
                     promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     isTimeBound={item?.isTimeBound}
+                    displayStatus = {item?.displayStatus}
 
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
@@ -105,8 +106,6 @@ const FailedPTM = ({ navigation }) => {
                     name={item.promisorName}
                     date={item.expiryDate}
                     promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
-
-                    isTimeBound = {item?.isTimeBound}
                     tab={'PromisestoMe'}
                   />
                 </TouchableOpacity>

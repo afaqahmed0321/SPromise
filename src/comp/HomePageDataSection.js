@@ -127,7 +127,7 @@ const HomePageDataSection = () => {
             <DetailCard
               promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
               isTimeBound={item?.isTimeBound}
-
+              displayStatus = {item?.displayStatus}
               promisetype={item.promiseType}
               amount={item.paymentAmount}
               promiseeName={item?.promiseeName}

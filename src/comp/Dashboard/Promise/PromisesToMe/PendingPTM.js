@@ -75,7 +75,6 @@ const PendingPTM = ({ navigation }) => {
                   <DetailCard
                     promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     isTimeBound={item?.isTimeBound}
-
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
                     name={item.promisorName}
@@ -89,6 +88,8 @@ const PendingPTM = ({ navigation }) => {
                     promiseID={item.promiseID}
                     refreshCallback={onRefresh}
                     rewardPoints={item.rewardPoints}
+                    displayStatus={item?.displayStatus}
+
                     userN={userN}
                     tab={'PromisestoMe'}
                   />
@@ -105,8 +106,6 @@ const PendingPTM = ({ navigation }) => {
                     name={item.promisorName}
                     date={item.expiryDate}
                     promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
-
-                    isTimeBound = {item?.isTimeBound}
                     tab={'PromisestoMe'}
                   />
                 </TouchableOpacity>

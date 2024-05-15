@@ -76,7 +76,7 @@ const CompletePromiseReq = ({ navigation }) => {
                   <DetailCard
                     promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
                     isTimeBound={item?.isTimeBound}
-
+                    displayStatus = {item?.displayStatus}
                     promisetype={item.promiseType}
                     amount={item.paymentAmount}
                     name={item.promiseeName}
@@ -109,7 +109,6 @@ const CompletePromiseReq = ({ navigation }) => {
                     date={item.expiryDate}
                     promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
 
-                    isTimeBound = {item?.isTimeBound}
                     tab={'UserPromiseReq'}
                     guaranteedWithMoney={item.guaranteedWithMoney}
                   />

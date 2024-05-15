@@ -51,6 +51,7 @@ const DashboardTopTabs = () => {
       <Tab.Screen name="Active" component={ isMyPromisesV ? Ongoing : OngoingPTM } />
       <Tab.Screen name="Completed" component={ isMyPromisesV ? Complete : CompletePTM} />
       <Tab.Screen name="Failed" component={ isMyPromisesV ? Failed : FailedPTM } />
+      
     </Tab.Navigator>
   );
 };
