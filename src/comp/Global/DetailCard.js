@@ -62,7 +62,8 @@ const DetailCard = ({
   refreshCallback,
   style,
   navigation,
-  jugaar
+  jugaar,
+  displayStatus
 }) => {
   const [isPaymentWebViewVisible, setIsPaymentWebViewVisible] = useState(false);
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
@@ -186,9 +187,6 @@ const DetailCard = ({
 
   return (
     <>
-      {console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", promiseeName,
-        promisorName,)}
-
       {console.log("actionsss",
         promiseeProfileImageUrl,
         promisetype,
@@ -351,6 +349,30 @@ const DetailCard = ({
                 </Text>
               </View>
             ) : null}
+
+            {displayStatus ? (
+              <View>
+                {/* <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} /> */}
+                <Text style={[
+                  {
+                    color: 'black',
+                    marginHorizontal: hp(1.2),
+                    marginTop : hp(1.2),
+                    fontSize: hp(1.8),
+                    backgroundColor: "#e0e0e0",
+                    borderRadius: 50,
+                    paddingVertical: 5,
+                    paddingHorizontal: 10,
+                    width: 120
+
+                  },
+                ]}>
+                  {displayStatus}
+                </Text>
+              </View>
+            ) : null}
+
+            
 
             {promiseMediaURL ? (
               <TouchableOpacity
@@ -758,7 +780,6 @@ const DetailCard = ({
 
             {ratingImpact ? (
               <View>
-                {/* <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} /> */}
                 <Text style={[
                   {
                     color: 'black',
@@ -769,10 +790,30 @@ const DetailCard = ({
                     paddingVertical: 5,
                     paddingHorizontal: 10,
                     width: 145
-
                   },
                 ]}>
                   Rating Will Impact
+                </Text>
+              </View>
+            ) : null}
+
+            {displayStatus ? (
+              <View>
+                <Text style={[
+                  {
+                    color: 'black',
+                    marginHorizontal: hp(1.2),
+                    marginTop : hp(1.2),
+                    fontSize: hp(1.8),
+                    backgroundColor: "#e0e0e0",
+                    borderRadius: 50,
+                    paddingVertical: 5,
+                    paddingHorizontal: 10,
+                    width: 120
+
+                  },
+                ]}>
+                  {displayStatus}
                 </Text>
               </View>
             ) : null}
@@ -1127,6 +1168,28 @@ const DetailCard = ({
                   },
                 ]}>
                   Rating Will Impact
+                </Text>
+              </View>
+            ) : null}
+
+            {displayStatus ? (
+              <View>
+                {/* <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} /> */}
+                <Text style={[
+                  {
+                    color: 'black',
+                    marginHorizontal: hp(1.2),
+                    marginTop : hp(1.2),
+                    fontSize: hp(1.8),
+                    backgroundColor: "#e0e0e0",
+                    borderRadius: 50,
+                    paddingVertical: 5,
+                    paddingHorizontal: 10,
+                    width: 100,
+
+                  },
+                ]}>
+                  {displayStatus}
                 </Text>
               </View>
             ) : null}
