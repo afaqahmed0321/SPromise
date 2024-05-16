@@ -73,6 +73,10 @@ export const startDate = atom({
   key: 'StartDate',
   default: 'Select Date',
 });
+export const endtDate = atom({
+  key: 'EndDate',
+  default: 'Select Date',
+});
 // export const PromiseType = atom({
 //   key: 'PromiseType',
 //   default: '0',

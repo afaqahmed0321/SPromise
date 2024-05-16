@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
+  Modal,
+  SafeAreaView,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -21,18 +23,18 @@ import {
 import { ToastAndroid } from 'react-native';
 import { UserNo } from '../../recoil/AddPromise';
 import { useIsFocused } from '@react-navigation/native';
-import Material from 'react-native-vector-icons/MaterialIcons';
 import Ant from 'react-native-vector-icons/AntDesign';
-
 import PromiseReaction from '../../Network/Users/NetworkFeed/PromiseReaction';
 import PromiseComment from '../../Network/Users/NetworkFeed/AddCommentAPI';
 import axios from 'axios';
 import { RefreshControl } from 'react-native';
+import { commonStyles } from '../../Styling/buttons';
+import DateRangePicker from 'rn-select-date-range';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const NetworkFeed = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState([]);
-  const [promiseComments, setPromiseComments] = useState([]);
   const [selectedNetworkUserFee, setSelectedNetworkUserFee] = useRecoilState(
     selectedNetworkUserFeed,
   );
@@ -40,92 +42,86 @@ const NetworkFeed = ({ navigation }) => {
   const [allData, setAllData] = useState(selectedNetworkUserFee)
   const [isViewAll, setIsViewAll] = useState([]);
   const [refersh, setrefresh] = useState(false);
-
+  const [isModalV, setIsModalV] = useState(false)
   const focus = useIsFocused();
   const [userN, setUserN] = useRecoilState(UserNo);
-  const [networkUser, setNetworkUser] = useState('');
   const [comment, setComment] = useState('');
   const [isnetworkModalVi, setIsnetworkModVi] = useRecoilState(
     IspromiseNetworkmodalVisible,
   );
   const [like, setLike] = useState(false);
-  const [isLike, setIsLike] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [visibilityy, setVisibilityy] = useState('Public');
-  const [visible, setVisible] = useState('');
 
-  const privateData = selectedNetworkUserFee?.filter(item => item.visibility === 'PRIVATE');
-  const publicData = selectedNetworkUserFee?.filter(item => item.visibility === 'PUBLIC');
-  const networkonlyData = selectedNetworkUserFee?.filter(item => item.visibility === 'NETWORK');
+  const [visibilityy, setVisibilityy] = useState('Private');
+  const [dateRange, setDateRange] = useState({ firstDate: '', secondDate: '' });
+  const [selectedRange, setRange] = useState({});
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const [selectedItem, setSelectedItem] = useState("Public");
+  const [items, setItems] = useState([
+    { label: 'Public', value: 'Public' },
+    { label: 'Private', value: 'Private' },
+    { label: 'Network Only', value: 'Network' },
+  ]);
+  const [openStatusDropdown, setOpenStatusDropdown] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState("All");
+  const [statusItems, setStatusItems] = useState([
+    { label: 'All', value: 'All' },
+    { label: 'Not In Effect', value: 'NotInEffect' },
+    { label: 'In Effect', value: 'InEffect' },
+    { label: 'Completed', value: 'Completed' },
+    { label: 'Failed', value: 'Failed' },
+    { label: 'Rejected', value: 'Rejected' },
+  ]);
+  const myAllData = selectedNetworkUserFee
+  
 
-
-  const handelNetworkFeedComp = async (visibilityy) => {
+  const handelNetworkFeedComp = async () => {
     const networkUserNo = userN;
-    console.log('UserNo is ', networkUserNo);
-    const resp = await axios.get(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${visibilityy}`)
-      .then((response) => {
-        const data = response.data.promisesList; 
-        console.log(data, "Network Feed");
-        setIsLoading(false);
-        return data;
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        console.error('Error fetching data:', error);
-        return null; 
-      })
-    setSelectedNetworkUserFee(resp);
-    console.log("this from fedback", resp);
+    console.log('UserNo is ', networkUserNo, "visibility: ",selectedItem,"Status: ",selectedStatus, "First Date: ",selectedRange.firstDate, "Last date: ", selectedRange.secondDate );
+  
+    try {
+      const response = await fetch(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${selectedItem}&${selectedStatus == "All" ? '' : "&status="}${selectedStatus}&fromDate=${selectedRange.firstDate}&toDate=${selectedRange.secondDate}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      console.log(data, "Network Feed");
+      setIsLoading(false);
+      setFilteredData(data.promisesList);
+      return data.promisesList;
+    } catch (error) {
+      setIsLoading(false);
+      console.error('Error fetching data:', error);
+      return null;
+    }
   };
-
-  const handleVisibilityChange = async (visibilityOption) => {
-    const networkUserNo = userN;
-    setVisibilityy(visibilityOption);
-    const resp = await axios.get(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${visibilityOption}`)
-      .then((response) => {
-        const data = response.data.promisesList;
-        setIsLoading(false);
-        console.log("thiss isss Feeed dataaa", resp);
-        return data;
-
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        console.error('Error fetching data:', error);
-        return null;
-      })
-    setSelectedNetworkUserFee(resp);
-    console.log("this from fedback", resp);
+  
+  const handleSubmit = () => {
+    handelNetworkFeedComp();
+    closeModal();
   };
   const onRefresh = () => {
     setrefresh(!refersh);
   };
 
-
-  const handleSearch = () => {
-    console.log("search");
-    const filtered = selectedNetworkUserFee.filter(item =>
-      item.promisorName.toLowerCase().includes(searchText.toLowerCase())
-    );
-    setFilteredData(filtered);
-
-  };
-
   useEffect(() => {
-    handelNetworkFeedComp(visibilityy);
+    handelNetworkFeedComp();
   }, [focus, refersh]);
 
   const onHandelReaction = async (PID, LikeA) => {
     const PIDd = PID;
     const userNN = userN;
     console.log(userNN, "New UserNo")
-
     const containsPromiseId = LikeA.includes(userNN);
-
     const Reac = containsPromiseId ? "UnLike" : "Like";
     console.log(containsPromiseId, "Reac");
-
-
     const res = await PromiseReaction(userNN, PIDd, Reac);
     setrefresh(!refersh)
   };
@@ -150,7 +146,14 @@ const NetworkFeed = ({ navigation }) => {
     }
   };
 
-
+  const handleNextButtonPress = () => {
+    console.log("modal open")
+    setIsModalV(true);
+  };
+  const closeModal = () => {
+    console.log("modal close")
+    setIsModalV(false);
+  };
   const renderItem = ({ item }) => {
     const userNN = userN;
     const setLike = item.promiseReactions;
@@ -161,7 +164,6 @@ const NetworkFeed = ({ navigation }) => {
       }
       else {
         setIsViewAll([...isViewAll, promiseID])
-
       }
     };
     const getTotalLikes = () => {
@@ -173,6 +175,7 @@ const NetworkFeed = ({ navigation }) => {
       const action = isLiked ? "Unlike" : "Like";
       onHandelReaction(promiseID, item.promiseReactions, action);
     };
+
     return (
       <View
         style={{
@@ -216,8 +219,6 @@ const NetworkFeed = ({ navigation }) => {
               </Text>
             </View>
           </View>
-
-
           <TouchableOpacity
             onPress={() => {
               const PID = item.promiseID;
@@ -447,212 +448,126 @@ const NetworkFeed = ({ navigation }) => {
     );
   };
   return (
-    <View
-      style={{
-        backgroundColor: '#E4EEE6',
-        flex: 1,
-        alignItems: 'center',
-      }}>
+    <>
       <View
         style={{
-          height: hp(8),
-          flexDirection: 'row',
+          backgroundColor: '#E4EEE6',
+          flex: 1,
           alignItems: 'center',
-
-        }}>
-
-
-        <View style={{ width: wp(60) }}>
-
-
-          <TextInput
-            placeholder="Search User"
-            placeholderTextColor={"grey"}
-            style={styles.SearchInpF}
-            value={searchText}
-            onChangeText={text => {
-              setSearchText(text);
-            }}
-          />
-
-        </View>
-        <TouchableOpacity
-          onPress={handleSearch}
-          style={{
-            height: hp(5),
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginLeft: wp(2),
-            borderRadius: wp(10),
-            width: wp(30),
-            backgroundColor: '#6650A4',
-            justifyContent: 'center',
-            marginTop: wp(0)
-
-          }}>
-
-          <Material name="search" size={20} color="white" />
-          <View style={{ marginLeft: wp(1.5) }}>
-            <Text style={{ color: 'white', fontSize: 16, fontWeight: "600" }}> Search </Text>
-          </View>
-
-
-        </TouchableOpacity>
-
-      </View>
-      <View
-        style={{
-          marginTop: hp(1),
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: wp(84),
-          backgroundColor: '#cebdff',
-          borderRadius: wp(10),
         }}>
         <TouchableOpacity
-          style={[
-            styles.button,
-            visibilityy === 'Public' && styles.selectedButton,
-          ]}
-          onPress={() => {
-            handleVisibilityChange('Public')
-            setIsLoading(true)
-          }}>
-          <Text style={styles.BtnText}>Public</Text>
+          onPress={handleNextButtonPress}
+          style={[commonStyles.lognBtn, { marginBottom: hp(4), backgroundColor: '#DDDDDD', padding: 10, borderRadius: 5 }]}>
+          <Text style={{ color: 'black', textAlign: 'center', fontSize: 16 }}>Filter</Text>
+
         </TouchableOpacity>
 
+            {isLoading ? (
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+                <ActivityIndicator size="small" color="#0000ff" />
+              </View>
+            ) : (
+              <View style={{ marginVertical: 10, marginHorizontal: 10, marginBottom: 110 }}>
+                
 
-
-        <TouchableOpacity
-          style={[
-            styles.button,
-            visibilityy === 'Network' && styles.selectedButton,
-          ]}
-          onPress={() => {
-            handleVisibilityChange('Network')
-            setIsLoading(true)
-          }}>
-          <Text style={styles.BtnText}>Network Only</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.button,
-            visibilityy === 'Private' && styles.selectedButton,
-          ]}
-          onPress={() => {
-            handleVisibilityChange('Private')
-            setIsLoading(true)
-          }}>
-          <Text style={styles.BtnText}>Private</Text>
-        </TouchableOpacity>
-
-      </View>
-
-      {visibilityy === "Private" ? (
-        <>
-          {isLoading ? (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-              <ActivityIndicator size="small" color="#0000ff" />
-            </View>
-          ) : (
-            <View style={{ marginVertical: 10, marginHorizontal: 10, marginBottom: 110 }}>
-              {console.log("this is private data", privateData)}
-              {console.log("this is public data", publicData)}
-              {console.log("this is network data", networkonlyData)}
-
-              <FlatList
-                refreshControl={
-                  <RefreshControl
-                    refreshing={isLoading}
-                    onRefresh={onRefresh}
-                    colors={['#E4A936', '#EE8347']} // Android
-                    tintColor="white" // iOS
-                    title="Refreshing..." // iOS
-                    titleColor="white" // iOS
-                  />
-                }
-                data={searchText.length > 0 ? filteredData : privateData}
-
-                keyExtractor={item => item.promiseID.toString()}
-                renderItem={renderItem}
+                <FlatList
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={isLoading}
+                      onRefresh={onRefresh}
+                      colors={['#E4A936', '#EE8347']} 
+                      tintColor="white" 
+                      title="Refreshing..." 
+                      titleColor="white" 
+                    />
+                  }
+                  data={filteredData}
+                  keyExtractor={item => item.promiseID.toString()}
+                  renderItem={renderItem}
+                />
+              </View>
+            )}
+        
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isModalV}
+          onRequestClose={closeModal}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalText}>Select Date Range:</Text>
+              <View>
+                <SafeAreaView>
+                  <View style={styles.container}>
+                    <DateRangePicker
+                      onSelectDateRange={(range) => {
+                        setRange(range);
+                      }}
+                      blockSingleDateSelection={true}
+                      responseFormat="YYYY-MM-DD"
+                      selectedDateContainerStyle={styles.selectedDateContainerStyle}
+                      selectedDateStyle={styles.selectedDateStyle}
+                    />
+                  </View>
+                </SafeAreaView>
+              </View>
+              <Text style={styles.text}>
+                Selected Range: {selectedRange.firstDate} - {selectedRange.secondDate}
+              </Text>
+              <DropDownPicker
+                open={openDropdown}
+                value={selectedItem}
+                items={items}
+                setOpen={setOpenDropdown}
+                setValue={setSelectedItem}
+                setItems={setItems}
+                containerStyle={styles.dropdownContainer}
+                style={styles.dropdown}
+                dropDownContainerStyle={styles.dropdownList}
+                onValueChange={(value) => setSelectedItem(value)}
               />
-            </View>
-          )}
-        </>
-      ) : (
-        <>
-          {visibilityy === "Public" ? (
-            <>
-              {isLoading ? (
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                  <ActivityIndicator size="small" color="#0000ff" />
-                </View>
-              ) : (
-                <View style={{ marginVertical: 10, marginHorizontal: 10, marginBottom: 110 }}>
-                  <FlatList
-                    refreshControl={
-                      <RefreshControl
-                        refreshing={isLoading}
-                        onRefresh={onRefresh}
-                        colors={['#E4A936', '#EE8347']} // Android
-                        tintColor="white" // iOS
-                        title="Refreshing..." // iOS
-                        titleColor="white" // iOS
-                      />
-                    }
-                    data={searchText.length > 0 ? filteredData : publicData}
+              <DropDownPicker
+                open={openStatusDropdown}
+                value={selectedStatus}
+                items={statusItems}
+                setOpen={setOpenStatusDropdown}
+                setValue={setSelectedStatus}
+                setItems={setStatusItems}
+                placeholder="Select Status"
+                containerStyle={styles.dropdownContainer}
+              />
 
-                    keyExtractor={item => item.promiseID.toString()}
-                    renderItem={renderItem}
-                  />
+              <View style={styles.buttonsGroup}>
+                <View>
+                  <TouchableOpacity onPress={closeModal} style={styles.button}>
+                    <Text style={styles.BtnText}>Close</Text>
+                  </TouchableOpacity>
                 </View>
-              )}
-            </>
-          ) : (
-            <>
-              {isLoading ? (
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                  <ActivityIndicator size="small" color="#0000ff" />
+                <View>
+                  <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+                    <Text style={styles.BtnText}>Apply</Text>
+                  </TouchableOpacity>
                 </View>
-              ) : (
-                <View style={{ marginVertical: 10, marginHorizontal: 10, marginBottom: 110 }}>
-                  <FlatList
-                    refreshControl={
-                      <RefreshControl
-                        refreshing={isLoading}
-                        onRefresh={onRefresh}
-                        colors={['#E4A936', '#EE8347']} // Android
-                        tintColor="white" // iOS
-                        title="Refreshing..." // iOS
-                        titleColor="white" // iOS
-                      />
-                    }
-                    data={searchText.length > 0 ? filteredData : networkonlyData}
-                    keyExtractor={item => item.promiseID.toString()}
-                    renderItem={renderItem}
-                  />
-                </View>
-              )}
-            </>
-          )}
-        </>
-      )
-      }
-    </View>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
+
+    </>
+
   );
 };
 
 export default NetworkFeed;
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: wp(26),
-  },
+  // container: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   width: wp(26),
+  // },
 
   CiBox: {
     backgroundColor: 'grey',
@@ -697,4 +612,79 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: '600'
   },
+
+  closeButton: {
+    color: 'blue',
+    fontSize: 16,
+    marginTop: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  dateRangeContainer: {
+    width: '100%', // Full width of the modal content
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  dateRangePicker: {
+    width: '100%', // Full width of the container
+  },
+  dropdownContainer: {
+    zIndex: 1,
+    width: '80%',
+    marginBottom: 10,
+  },
+  dropdown: {
+    backgroundColor: '#fafafa',
+  },
+  dropdownList: {
+    backgroundColor: '#fafafa',
+  },
+  button: {
+    marginTop: 10,
+    padding: 10,
+    borderColor: 'gray',
+    borderRadius: 5,
+    width: wp(28),
+    justifyContent: 'center',
+    textAlign: 'center',
+    backgroundColor: '#6650A4', // Button background color
+  },
+  BtnText: {
+    textAlign: 'center',
+    color: "white",
+    fontWeight: '600'
+  },
+  selectedDateContainerStyle: {
+    height: 35,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "blue",
+  },
+  text: {
+
+    fontSize: 14,
+    marginBottom: 10,
+    color: 'grey'
+  },
+  buttonsGroup: {
+    paddingTop: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  }
 });
