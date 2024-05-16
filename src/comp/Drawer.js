@@ -27,12 +27,17 @@ import { uemail } from '../recoil/Users/GetUsers';
 import { BlurView } from '@react-native-community/blur';
 import ChangeSubscriptionModal from './ChangeSubscriptionModal';
 import updateSubscriptionType from '../Network/Users/updateSubscriptionType';
+import WebView from 'react-native-webview';
+import axios from 'axios';
 
 const Drawer = () => {
   const [isDrawerV, setIsDrawerV] = useRecoilState(isLeftDrawerV);
   const [Token, setToken] = useRecoilState(token);
   const [email, setemail] = useRecoilState(uemail);
+  const [subscription, setSubscription] = useState();
   const [name, setname] = useState('');
+  const [subURL, setSubURL] = useState('');
+
   const [userN, setUserN] = useRecoilState(UserNo);
 
   const navigation = useNavigation();
@@ -47,14 +52,25 @@ const Drawer = () => {
     setIsModalVisible(true);
   };
 
+  const manageSubscription = async ()=> {
+
+   const response =  await axios.get(`https://snappromise.com:8080/getCustomerPortalURL?UserNo=${userN}`)
+   .then((response)=>{
+    navigation.navigate('CustomWebView', { uri: response.data.url });
+
+    setSubURL(response.data.url);
+   }).catch((err)=>{
+    console.log("this is error", err);
+   })
+  }
+
   const handleCloseModal = () => {
     setIsModalVisible(false);
   };
 
   const handleConfirmSubscriptionChange = async () => {
     const response = await updateSubscriptionType(userN, 'Paid');
-    console.log("response for subscription type", response);
-    if(response.status == 200){
+    if (response.status == 200) {
       logout();
     }
   };
@@ -63,8 +79,10 @@ const Drawer = () => {
   const getitem = async () => {
     let Name = await AsyncStorage.getItem('Name');
     let Email = await AsyncStorage.getItem('Email');
+    let Subscription = await AsyncStorage.getItem('Subscription');
     setemail(Email);
     setname(Name);
+    setSubscription(Subscription);
   };
 
   const logout = async () => {
@@ -87,7 +105,6 @@ const Drawer = () => {
       <TouchableWithoutFeedback onPress={handleOverlayPress}>
         <View style={styles.overlay} />
       </TouchableWithoutFeedback>
-
       <View style={styles.Main}>
         <TouchableOpacity style={styles.user}>
           <View
@@ -138,7 +155,7 @@ const Drawer = () => {
               <Text style={[styles.TebText, { padding: 1 }]}>User Profile</Text>
             </TouchableOpacity>
           </View>
-          
+
           <View>
             <TouchableOpacity
               style={styles.listContainer}
@@ -156,8 +173,6 @@ const Drawer = () => {
               <Text style={[styles.TebText, { padding: 3 }]}>Notifications</Text>
             </TouchableOpacity>
           </View>
-
-
 
           <View>
             <TouchableOpacity
@@ -195,29 +210,56 @@ const Drawer = () => {
             </TouchableOpacity>
           </View>
 
-          <View>
-            <TouchableOpacity
-              style={styles.listContainer}
-              onPress={handleSubscriptionChange}
-            >
-              <MaterialIcons
-                color="#652D90"
-                name="credit-card"
-                size={30}
-                style={{ marginTop: 8 }}
-              />
-              <Text style={[styles.TebText, { padding: 3 }]}>Change Subscription</Text>
-              {isModalVisible ? (
-                <ChangeSubscriptionModal
-                  onClose={handleCloseModal}
-                  onConfirm={handleConfirmSubscriptionChange}
+          {subscription !== 'Paid' ? (
+            <View>
+              <TouchableOpacity
+                style={styles.listContainer}
+                onPress={handleSubscriptionChange}
+              >
+                <MaterialIcons
+                  color="#652D90"
+                  name="credit-card"
+                  size={30}
+                  style={{ marginTop: 8 }}
                 />
-              ) : (
-                null
-              )
-              }
-            </TouchableOpacity>
-          </View>
+                <Text style={[styles.TebText, { padding: 3 }]}>Change Subscription</Text>
+                {isModalVisible ? (
+                  <ChangeSubscriptionModal
+                    onClose={handleCloseModal}
+                    onConfirm={handleConfirmSubscriptionChange}
+                  />
+                ) : (
+                  null
+                )
+                }
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View>
+              <TouchableOpacity
+                style={styles.listContainer}
+                onPress={manageSubscription}
+              >
+                <MaterialIcons
+                  color="#652D90"
+                  name="credit-card"
+                  size={30}
+                  style={{ marginTop: 8 }}
+                />
+                <Text style={[styles.TebText, { padding: 3 }]}>Manage Subscription</Text>
+                {isModalVisible ? (
+                  <ChangeSubscriptionModal
+                    onClose={handleCloseModal}
+                    onConfirm={handleConfirmSubscriptionChange}
+                  />
+                ) : (
+                  null
+                )
+                }
+              </TouchableOpacity>
+            </View>
+          )}
+
 
           <View>
             <TouchableOpacity

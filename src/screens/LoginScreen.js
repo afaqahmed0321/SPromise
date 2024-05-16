@@ -80,7 +80,6 @@ const LoginScreen = ({ navigation }) => {
 
 
   async function onGoogleButtonPress() {
-    console.log('here');
     setIsLoading(true);
     await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
     await GoogleSignin.signOut();
@@ -91,23 +90,12 @@ const LoginScreen = ({ navigation }) => {
     const user_sign_in = auth().signInWithCredential(googleCredential);
     user_sign_in
       .then(async user => {
-        console.log(user.user.photoURL, 'aniqa Photo Url');
-
         let person = await fetchUser(user.user.email);
-
-        console.log(person, 'aniqa Person');
-
         if (person == 'User Does not Exist') {
-
           ToastAndroid.show('User does not exist', ToastAndroid.LONG);
-
         } else {
-          console.log("this is user emaillll", user?.user?.email)
           const mail = user?.user?.email.toLowerCase();
           let response = await Sociallogin(mail, true);
-
-          console.log('Login Response from Google', response);
-
           const paymentStatus = response.paymentPending;
           const userNumber = response.userNo;
 
@@ -117,8 +105,6 @@ const LoginScreen = ({ navigation }) => {
               setUserN(response.userNo);
               setemail(user.user.email);
               let resp = await fetchUser(user.user.email);
-
-              console.log(resp.firstName + ' ' + resp.lastName, 'response');
               await AsyncStorage.setItem('token', response.token);
               await AsyncStorage.setItem('userNo', response.userNo);
               await AsyncStorage.setItem('Email', user.user.email);
@@ -137,12 +123,10 @@ const LoginScreen = ({ navigation }) => {
 
                 const data = await response.json();
                 setFirstUrl(data.url);
-                console.log('Data from the serverrrrrr:', response.statusText);
               } catch (error) {
                 console.error('Error fetching data:', error);
               }
               if (firstUrl) {
-                console.log("first URL is running");
                 navigation.navigate('CustomWebView', { uri: firstUrl });
 
               } else {
@@ -157,8 +141,6 @@ const LoginScreen = ({ navigation }) => {
                   const data = await response.json();
                   const updatedUrl = `${data.url}?prefilled_email=${mail}`;
                   setSecondUrl(updatedUrl);
-                  console.log('Data from the server:', updatedUrl);
-
                   navigation.navigate('CustomWebView', { uri: updatedUrl });
                 } catch (error) {
                   console.error('Error fetching data:', error);
@@ -186,15 +168,9 @@ const LoginPress = async () => {
       setIsLoading(true); 
       const mail = Email.toLowerCase();
       let response = await login(mail, Password);
-
-      console.log("login response complette", response);
-
       const paymentStatus = response.paymentPending;
       const userNumber = response.userNo;
-
-      console.log("this is payment status", paymentStatus);
-      console.log("this is userNumber", userNumber);
-
+      await AsyncStorage.setItem('Subscription', response.subscription)
       setIsLoading(false); 
       if (response.message === 'Success') {
 
@@ -203,7 +179,6 @@ const LoginPress = async () => {
           setUserN(response.userNo);
           setemail(Email);
           let resp = await fetchUser(Email);
-          console.log(resp.firstName + ' ' + resp.lastName, 'response');
           await AsyncStorage.setItem('token', '');
           await AsyncStorage.setItem('userNo', '');
           await AsyncStorage.setItem('Email', '');
@@ -228,7 +203,6 @@ const LoginPress = async () => {
 
             const data = await response.json();
             setFirstUrl(data.url);
-            console.log('Data from the serverrrrrr:', response.statusText);
           } catch (error) {
             console.error('Error fetching data:', error);
           }
@@ -249,8 +223,6 @@ const LoginPress = async () => {
               const data = await response.json();
               const updatedUrl = `${data.url}?prefilled_email=${Email}`;
               setSecondUrl(updatedUrl);
-              console.log('Data from the server:', updatedUrl);
-
               navigation.navigate('CustomWebView', { uri: updatedUrl });
             } catch (error) {
               console.error('Error fetching data:', error);
