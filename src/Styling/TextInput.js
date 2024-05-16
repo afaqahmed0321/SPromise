@@ -15,7 +15,7 @@ export const TextInP = StyleSheet.create({
     // borderTopWidth:1,
     borderColor: 'transparent',
     borderCurve:'',
-    color: "grey",
+    color: "black",
     // borderColor:'#652D90'
     placeholderTextColor:'grey'
   },

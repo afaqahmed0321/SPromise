@@ -324,7 +324,7 @@ const UserProfile = () => {
                     />
                   </View>
                   <View styles={styles.InnerBox}>
-                    <Text style={[Headings.Input3]}>Select Date Of Birth</Text>
+                    <Text style={[Headings.Input3]}>Date Of Birth</Text>
                   
                     <TouchableOpacity
                       // onPress={() => (selectStartDate ? setselectStartDate(false) : setselectStartDate(true))}
