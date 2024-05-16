@@ -31,6 +31,7 @@ import { RefreshControl } from 'react-native';
 import { commonStyles } from '../../Styling/buttons';
 import DateRangePicker from 'rn-select-date-range';
 import DropDownPicker from 'react-native-dropdown-picker';
+import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 
 const NetworkFeed = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
@@ -73,24 +74,25 @@ const NetworkFeed = ({ navigation }) => {
     { label: 'Rejected', value: 'Rejected' },
   ]);
   const myAllData = selectedNetworkUserFee
-  
+
 
   const handelNetworkFeedComp = async () => {
     const networkUserNo = userN;
-    console.log('UserNo is ', networkUserNo, "visibility: ",selectedItem,"Status: ",selectedStatus, "First Date: ",selectedRange.firstDate, "Last date: ", selectedRange.secondDate );
-  
+    console.log('UserNo is ', networkUserNo, "visibility: ", selectedItem, "Status: ", selectedStatus, "First Date: ", selectedRange.firstDate, "Last date: ", selectedRange.secondDate);
+
     try {
+      setIsLoading(true);
       const response = await fetch(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${selectedItem}&${selectedStatus == "All" ? '' : "&status="}${selectedStatus}&fromDate=${selectedRange.firstDate}&toDate=${selectedRange.secondDate}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
-  
+
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-  
+
       const data = await response.json();
       console.log(data, "Network Feed");
       setIsLoading(false);
@@ -102,7 +104,7 @@ const NetworkFeed = ({ navigation }) => {
       return null;
     }
   };
-  
+
   const handleSubmit = () => {
     handelNetworkFeedComp();
     closeModal();
@@ -457,39 +459,42 @@ const NetworkFeed = ({ navigation }) => {
         }}>
         <TouchableOpacity
           onPress={handleNextButtonPress}
-          style={[commonStyles.lognBtn, { marginBottom: hp(4), backgroundColor: '#DDDDDD', padding: 10, borderRadius: 5 }]}>
-          <Text style={{ color: 'black', textAlign: 'center', fontSize: 16 }}>Filter</Text>
-
+          style={[{ marginVertical: 5, backgroundColor: '#652D90', paddingVertical:10, borderRadius: 50, width: '40%',justifyContent: 'center',
+          alignItems: 'center', }]}>
+          <View style={{flexDirection:'row',alignItems:'center', gap:9}}>
+            <FontAw5 name="filter" size={16} color="#fff" />
+            <Text style={{ color: 'white', textAlign: 'center', fontSize: 16 }}>Filter</Text>
+          </View>
         </TouchableOpacity>
 
-            {isLoading ? (
-              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                <ActivityIndicator size="small" color="#0000ff" />
-              </View>
-            ) : (
-              <View style={{ marginVertical: 10, marginHorizontal: 10, marginBottom: 110 }}>
-                
+        {isLoading ? (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+            <ActivityIndicator size="small" color="#0000ff" />
+          </View>
+        ) : (
+          <View style={{ marginVertical: 5, marginHorizontal: 10, marginBottom: 110 }}>
 
-                <FlatList
-                  refreshControl={
-                    <RefreshControl
-                      refreshing={isLoading}
-                      onRefresh={onRefresh}
-                      colors={['#E4A936', '#EE8347']} 
-                      tintColor="white" 
-                      title="Refreshing..." 
-                      titleColor="white" 
-                    />
-                  }
-                  data={filteredData}
-                  keyExtractor={item => item.promiseID.toString()}
-                  renderItem={renderItem}
+
+            <FlatList
+              refreshControl={
+                <RefreshControl
+                  refreshing={isLoading}
+                  onRefresh={onRefresh}
+                  colors={['#E4A936', '#EE8347']}
+                  tintColor="white"
+                  title="Refreshing..."
+                  titleColor="white"
                 />
-              </View>
-            )}
-        
+              }
+              data={filteredData}
+              keyExtractor={item => item.promiseID.toString()}
+              renderItem={renderItem}
+            />
+          </View>
+        )}
+
         <Modal
-          animationType="slide"
+          animationType="fade"
           transparent={true}
           visible={isModalV}
           onRequestClose={closeModal}>
@@ -673,7 +678,8 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "blue",
+    backgroundColor: "#652D90",
+    borderRadius: 5,
   },
   text: {
 

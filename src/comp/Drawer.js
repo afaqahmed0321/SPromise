@@ -143,7 +143,7 @@ const Drawer = () => {
 
         </TouchableOpacity>
 
-        <View style={{ marginHorizontal: wp(5), marginTop: 10 }}>
+        <View style={{ marginHorizontal: wp(5), marginTop: 5 }}>
           <View style={[styles.listContainer, { paddingVertical: 1 }]}>
             <Mati color="#652D90" name="account" size={30} style={{ marginTop: 6, marginLeft: wp(-1) }} />
             <TouchableOpacity
@@ -261,6 +261,24 @@ const Drawer = () => {
           )}
 
 
+          <View>
+            <TouchableOpacity
+              style={styles.listContainer}
+              onPress={() => {
+                navigation.navigate('ReportIssues')
+                setIsDrawerV(false);
+              }}
+            >
+              <MaterialIcons
+                color="#652D90"
+                name="report"
+                size={30}
+                style={{ marginTop: 8 }}
+              />
+              <Text style={[styles.TebText, { padding: 3 }]}>Report Issues</Text>
+            </TouchableOpacity>
+          </View>
+
         </View>
 
 
@@ -314,12 +332,12 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    height: hp(10),
+    height: hp(7.5),
   },
   TebText: {
     marginLeft: wp(3),
     color: '#6650A4',
-    fontSize: hp(2.5),
+    fontSize: hp(2.2),
     marginTop: 7,
     fontWeight: '600',
   },

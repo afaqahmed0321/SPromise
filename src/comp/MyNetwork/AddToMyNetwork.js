@@ -33,16 +33,14 @@ const AddToMyNetwork = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [userN, setUserN] = useRecoilState(UserNo);
   const [modalVisible, setMmodalVisible] = useRecoilState(ismodalVisible);
-  const [refreshnetwork, setrefreshnetwork] = useRecoilState(
-    refreshPromiseNetwork,
-  );
+  const [refreshnetwork, setrefreshnetwork] = useRecoilState(refreshPromiseNetwork);
 
   const SearchUser = async () => {
     if (email === '') {
-        ToastAndroid.show('Please enter an email address', ToastAndroid.LONG);
-        setSearching(false);
-        setUserFound(null);
-        return;
+      ToastAndroid.show('Please enter an email address', ToastAndroid.LONG);
+      setSearching(false);
+      setUserFound(null);
+      return;
     }
 
     setIsLoading(true);
@@ -50,74 +48,44 @@ const AddToMyNetwork = () => {
     const mail = email.toLowerCase();
 
     try {
-        const data = await fetchUser(mail);
-        console.log(data, 'data');
-        setIsLoading(false);
+      const data = await fetchUser(mail);
+      console.log(data, 'data');
+      setIsLoading(false);
 
-        if (data === 'User Does not Exist') {
-            setUserFound(false);
-            // Automatically call handelInviteUser if the user does not exist
-            handelInviteUser();
-        } else {
-            setUserFound(true);
-            setUserData(data);
-            // Delay calling handelAddtoNetwork by 3 seconds
-            setTimeout(async () => {
-                await handelAddtoNetwork();
-            }, 3000); // Delay of 3 seconds (3000 milliseconds)
-        }
+      if (data === 'User Does not Exist') {
+        setUserFound(false);
+        handelInviteUser();
+      } else {
+        setUserFound(true);
+        setUserData(data);
+      }
     } catch (error) {
-        console.error('Error fetching data:', error);
-        ToastAndroid.show('Error fetching user data.', ToastAndroid.LONG);
-        setIsLoading(false);
-        setSearching(false);
+      console.error('Error fetching data:', error);
+      ToastAndroid.show('Error fetching user data.', ToastAndroid.LONG);
+      setIsLoading(false);
+      setSearching(false);
     }
-};
+  };
 
-  
-
-
-
-  // const handelAddtoNetwork = async () => {
-  //   const AddUserN = await userData.userNo;
-  //   const UserEmailID = await userData.emailID;
-
-  //   console.log(userData);
-  //   if (!AddUserN) {
-  //     ToastAndroid.showWithGravityAndOffset(
-  //       'Please enter the email address and search the user',
-  //       ToastAndroid.LONG,
-  //       ToastAndroid.BOTTOM,
-  //       25,
-  //       50,
-  //     );
-  //   } else {
-  //     const AddUserN = userData.userNo;
-  //     const UserEmailID = userData.emailID;
-  //     console.log(AddUserN);
-  //     const res = await AddUserNetwork(AddUserN, userN);
-  //     setrefreshnetwork(!refreshnetwork);
-  //   }
-  // };
   const handelInviteUser = async () => {
     if (email == '') {
       ToastAndroid.show('Please enter email address', ToastAndroid.LONG);
     } else {
-      const res = await InviteUser(email).then(data => {
-        ToastAndroid.show(
-          'User Does not Exist! Invite has been send',
-          ToastAndroid.LONG,
-        );
-      });
+      await InviteUser(email);
+      ToastAndroid.show('User Does not Exist! Invite has been sent', ToastAndroid.LONG);
     }
   };
+
   const handelAddtoNetwork = async () => {
-    
+    if (!userData.userNo) {
+      ToastAndroid.show('No user found to add to network.', ToastAndroid.LONG);
+      return;
+    }
+
     const AddUserN = userData.userNo;
 
     try {
-      const res = AddUserNetwork(AddUserN, userN);
-      // ToastAndroid.show('User added to network successfully', ToastAndroid.LONG);
+      await AddUserNetwork(AddUserN, userN);
       setrefreshnetwork(!refreshnetwork);
     } catch (error) {
       console.error('Error adding user to network:', error);
@@ -125,33 +93,11 @@ const AddToMyNetwork = () => {
     }
   };
 
- useEffect(() => {
-    // Define a function to set searching to false after 10 seconds
-    const timeoutId = setTimeout(() => {
-        setSearching(false);
-        handelAddtoNetwork();
-    }, 3000); // 10 seconds delay
-
-    // Cleanup function to clear the timeout when the component unmounts or when dependencies change
-    return () => {
-        clearTimeout(timeoutId);
-    };
-}, [email, refreshnetwork]);
-
   return (
     <>
-      <BlurView
-        style={{ height: hp(25), }}
-        blurType="light" // You can customize the blurType as needed
-        blurAmount={10} // You can adjust the blurAmount as needed
-      ></BlurView>
-      {/* </View> */}
+      <BlurView style={{ height: hp(25) }} blurType="light" blurAmount={10} />
       <View style={{ flexDirection: 'row' }}>
-        <BlurView
-          style={{ flex: 1 }}
-          blurType="light" // You can customize the blurType as needed
-          blurAmount={10} // You can adjust the blurAmount as needed
-        ></BlurView>
+        <BlurView style={{ flex: 1 }} blurType="light" blurAmount={10} />
         <View
           style={{
             height: hp(40),
@@ -162,10 +108,12 @@ const AddToMyNetwork = () => {
             alignSelf: 'center',
             borderRadius: wp(2),
             borderColor: '#652D90',
-          }}>
+          }}
+        >
           <TouchableOpacity
             style={{ position: 'absolute', top: hp(1), right: wp(3) }}
-            onPress={() => setMmodalVisible(false)}>
+            onPress={() => setMmodalVisible(false)}
+          >
             <Font color="#652D90" name="close" size={30} />
           </TouchableOpacity>
           <View style={{ width: wp(79), marginTop: hp(8) }}>
@@ -173,24 +121,26 @@ const AddToMyNetwork = () => {
               style={styles.SearchInpF}
               placeholder="Search User"
               value={email}
-              onChangeText={text => {
+              onChangeText={(text) => {
                 setEmail(text);
                 setUserData([]);
-              }}></TextInput>
+              }}
+            />
             <TouchableOpacity
               onPress={SearchUser}
-              style={{ position: 'absolute', right: hp(1.8), top: hp(1.8) }}>
+              style={{ position: 'absolute', right: hp(1.8), top: hp(1.8) }}
+            >
               <Feather name="search" size={20} color="#8250A6" />
             </TouchableOpacity>
           </View>
           <View style={{ height: hp(8), marginTop: hp(2) }}>
             {userData && userData.emailID && (
               <View>
-                <Text style={{ color: "black" }}>Email: {userData.emailID}</Text>
-                <Text style={{ color: "black" }}>
+                <Text style={{ color: 'black' }}>Email: {userData.emailID}</Text>
+                <Text style={{ color: 'black' }}>
                   Name: {userData.firstName} {userData.lastName}
                 </Text>
-                <Text style={{ color: "black" }}>
+                <Text style={{ color: 'black' }}>
                   Promisibility: {userData.promisibility}
                 </Text>
               </View>
@@ -200,26 +150,17 @@ const AddToMyNetwork = () => {
           {isLoading ? (
             <ActivityIndicator size="small" color="#0000ff" />
           ) : !searching ? null : userFound ? (
-            {/* <TouchableOpacity
+            <TouchableOpacity
               style={styles.SignBtn}
-              onPress={handelAddtoNetwork}>
-              <Text style={{ color: "white" }}>Add to network</Text>
-            </TouchableOpacity> */}
-          ) : (
-            null
-          )}
+              onPress={handelAddtoNetwork}
+            >
+              <Text style={{ color: 'white' }}>Add to network</Text>
+            </TouchableOpacity>
+          ) : null}
         </View>
-        <BlurView
-          style={{ flex: 1 }}
-          blurType="light" // You can customize the blurType as needed
-          blurAmount={10} // You can adjust the blurAmount as needed
-        ></BlurView>
+        <BlurView style={{ flex: 1 }} blurType="light" blurAmount={10} />
       </View>
-      <BlurView
-        style={{ height: hp(30) }}
-        blurType="light" // You can customize the blurType as needed
-        blurAmount={10} // You can adjust the blurAmount as needed
-      ></BlurView>
+      <BlurView style={{ height: hp(30) }} blurType="light" blurAmount={10} />
     </>
   );
 };
@@ -250,7 +191,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.18,
     shadowRadius: 1.0,
-
     elevation: 1,
   },
   SignBtn: {

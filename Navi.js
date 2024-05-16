@@ -50,6 +50,7 @@ import NetworkFeed from './src/comp/PromiseNetwork/NetworkFeed';
 import PaymentScreens from './src/screens/PaymentScreens';
 import CustomWebView from './src/screens/CustomWebView';
 import Rewards from './src/screens/Rewards';
+import ReportIssues from './src/screens/ReportIssues';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -171,7 +172,7 @@ function HomeScreenn() {
         name="NetworkFeed"
         component={NetworkFeed}
         options={({ navigation }) => ({
-          title: '',
+          title: 'Network Feed',
           tabBarIcon: ({ color, size }) => (
             <AntDesi name="addusergroup" color={color} size={size} />
           ),
@@ -183,7 +184,7 @@ function HomeScreenn() {
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <TouchableOpacity
                 onPress={() => navigation.goBack()}
-                style={{ marginRight: wp(10), position: 'absolute', left: wp(4) }}>
+                style={{ marginHorizontal: wp(2) }}>
                 {/* <EvilIcon name="arrow-left" size={40} color="black" /> */}
                 <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
 
@@ -361,6 +362,11 @@ const Auth = () => {
                 name="PaymentScreen"
                 component={PaymentScreen}
                 options={{ headerShown: true }}
+              />
+              <Stack.Screen
+                name="ReportIssues"
+                component={ReportIssues}
+                options={{ headerShown: false }}
               />
               {/* <Stack.Screen
 

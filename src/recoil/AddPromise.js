@@ -64,6 +64,10 @@ export const UserNo = atom({
   key: 'UserNo',
   default: '',
 });
+export const emailID = atom({
+  key: 'emailID',
+  default: '',
+});
 export const selectedPromisee = atom({
   key: 'selectedPromisee',
   default: {},
