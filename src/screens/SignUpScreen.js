@@ -44,8 +44,8 @@ const SignUpScreen = ({ navigation }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    { label: 'Free', value: 'Free' },
-    { label: 'Paid', value: 'Paid' },
+    { label: 'Free', value: 'Free',textStyle: { color: 'black' } },
+    { label: 'Paid', value: 'Paid',textStyle: { color: 'black' } },
   ]);
 
   const handleDropdownSelect = (item) => {
@@ -206,7 +206,7 @@ const SignUpScreen = ({ navigation }) => {
                 placeholder="First Name"
                 value={fName}
                 onChangeText={handleFNameChange}
-                placeholderTextColor={'black'}
+                placeholderTextColor={'grey'}
               />
             </View>
 
@@ -216,7 +216,7 @@ const SignUpScreen = ({ navigation }) => {
                 placeholder="Last Name"
                 value={lName}
                 onChangeText={handleLNameChange}
-                placeholderTextColor={'black'}
+                placeholderTextColor={'grey'}
               />
             </View>
           </View>
@@ -225,7 +225,7 @@ const SignUpScreen = ({ navigation }) => {
             placeholder="Email"
             value={emailID}
             onChangeText={setEmail}
-            placeholderTextColor={'black'}
+            placeholderTextColor={'grey'}
           />
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <TextInput
@@ -234,7 +234,7 @@ const SignUpScreen = ({ navigation }) => {
               onChangeText={setPassword}
               value={password}
               secureTextEntry={!isPasswordVisible}
-              placeholderTextColor={'black'}
+              placeholderTextColor={'grey'}
             />
             <TouchableOpacity
               style={{ position: 'absolute', right: hp(2.1), top: hp(2.4) }}
@@ -249,7 +249,7 @@ const SignUpScreen = ({ navigation }) => {
               onChangeText={setConfirmPassword}
               value={Confirmpassword}
               secureTextEntry={!isCPasswordVisible}
-              placeholderTextColor={'black'}
+              placeholderTextColor={'grey'}
             />
             <TouchableOpacity
               style={{ position: 'absolute', right: hp(2.1), top: hp(2.4) }}
@@ -267,8 +267,9 @@ const SignUpScreen = ({ navigation }) => {
               setItems={setItems}
               style={[TextInP.Fileds, { borderRadius: open ? wp(6) : wp(50) }]}
               placeholder="Subscription"
-              placeholderStyle={{ color: '#000' }}
+              placeholderTextColor={'grey'}
               dropDownContainerStyle={{ backgroundColor: '#F6E2FF', borderRadius: open ? wp(6) : wp(50), height: hp(12), borderColor: 'transparent', paddingLeft: 8, }}
+              textStyle={{ color: 'grey' }}
             />
             {open && (
               <View>
@@ -277,7 +278,7 @@ const SignUpScreen = ({ navigation }) => {
                     key={item.value}
                     onPress={() => handleDropdownSelect(item)}
                   >
-                    <Text>
+                    <Text >
                       {item.label}
                       {item.value === value && <Icon name="checkmark" size={20} />}
                     </Text>
