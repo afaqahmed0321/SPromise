@@ -151,7 +151,6 @@ function HomeScreenn() {
         component={ReqDashboard}
         options={{
           tabBarIcon: ({ color, size }) => (
-            // <MaterialIcons name="space-dashboard" color={color} size={size} />
             <FontAw name="handshake-angle" color={color} size={size} />
 
           ),
@@ -159,15 +158,7 @@ function HomeScreenn() {
         }}
       />
 
-      {/* <Tab.Screen
-        name="Users"
-        component={Users}
-        options={{
-          tabBarIcon: ({color, size}) => (
-            <Feather name="user" color={color} size={size} />
-          ),
-        }}
-      /> */}
+
       <Tab.Screen
         name="NetworkFeed"
         component={NetworkFeed}
@@ -179,54 +170,20 @@ function HomeScreenn() {
           headerStyle: {
             backgroundColor: '#E4EEE',
           },
-
+          headerTitleAlign: 'center', // Center the title
           headerLeft: () => (
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <TouchableOpacity
                 onPress={() => navigation.goBack()}
-                style={{ marginHorizontal: wp(2) }}>
+                style={{ marginHorizontal: 10 }} // Adjust margin as necessary
+              >
                 {/* <EvilIcon name="arrow-left" size={40} color="black" /> */}
                 <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
-
               </TouchableOpacity>
             </View>
           ),
         })}
       />
-      {/* <Tab.Screen
-        name="PromiseNetwork"
-        component={PromiseNetwork}
-        options={({navigation}) => ({
-          title: 'My Promise Network',
-          tabBarIcon: ({color, size}) => (
-            <Feather name="user" color={color} size={size} />
-          ),
-          headerStyle: {
-            backgroundColor: '#E4EEE',
-          },
-
-          headerLeft: () => (
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <TouchableOpacity
-                onPress={() => navigation.goBack()}
-                style={{marginRight: wp(8)}}>
-                <EvilIcon name="arrow-left" size={40} color="black" />
-              </TouchableOpacity>
-            </View>
-          ),
-        })}
-      /> */}
-      {/* <Tab.Screen
-        name="Notifications"
-        component={Notifications}
-        options={{
-          headerShown: true,
-          headerStyle: {backgroundColor: '#E4EEE6'},
-          tabBarIcon: ({color, size}) => (
-            <MaterialIcons name="notifications" color={color} size={size} />
-          ),
-        }}
-      /> */}
     </Tab.Navigator>
   );
 }

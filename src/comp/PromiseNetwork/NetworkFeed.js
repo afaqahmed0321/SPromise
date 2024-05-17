@@ -533,7 +533,7 @@ const NetworkFeed = ({ navigation }) => {
           <View style={{ marginVertical: 5, marginHorizontal: 10, marginBottom: 110 }}>
             {filteredData.length === 0 ? (
               <View style={{ width: "100%", height: "100%", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                <Text style={{ fontSize: 18, textAlign: "center" }}>No Data to Display for today. You can try applying a filter.</Text>
+                <Text style={{ fontSize: 18, textAlign: "center", color: 'grey' }}>No Data to Display for today. You can try applying a filter.</Text>
               </View>
             ) : (
               <FlatList
@@ -573,10 +573,11 @@ const NetworkFeed = ({ navigation }) => {
                       }}
                       blockSingleDateSelection={true}
                       responseFormat="YYYY-MM-DD"
-                      selectedDateContainerStyle={styles.selectedDateContainerStyle}
+                      selectedDateContainerStyle={[styles.selectedDateContainerStyle,{color: 'grey'}]}
                       selectedDateStyle={styles.selectedDateStyle}
                       monthYearTextStyle={styles.monthYearTextStyle}
                       dateTextStyle={styles.abc}
+
 
                     />
                   </View>
@@ -754,6 +755,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontSize: 26,
     fontWeight:"800"
+
   },
   text: {
     fontSize: 14,

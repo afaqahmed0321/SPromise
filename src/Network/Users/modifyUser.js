@@ -21,38 +21,28 @@ export async function UpdateProfileApi(
     'Content-Type': 'application/json',
   });
   const body = {
-    "userNo": useN,
-    "emailID": email,
-    "password": password,
-    "firstName": fNam,
-    "lastName": lNam,
     "address1": addres,
     "address2": "",
-    "city": cit,
-    "state": "",
-    "zip": pinCod,
-    "country": countr,
     "phoneNo": phoneN,
-    "status": "",
-    "userType": "",
-    "isactive": false,
-    "role": "",
+    "firstName": fNam,
+    "lastName": lNam,
     "gender": gende,
-    "loginType": "",
-    "idToken": "",
-    "socialLogin": socialLogi
+    "country": countr,
+    "state": stat.slice(0, 2),
+    "city": cit,
+    "userNo": useN,
   };
   console.log(body, 'Body Sec');
   try {
     const response = await fetch(
-      'https://snappromise.com:8080/api/Users/modifyUser',
+      'https://snappromise.com:8080/api/Users/modifyProfileData',
       {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(body),
       },
     );
-    console.log(response);
+    console.log("profile update ",response);
 
     const responseData = await response.text();
     console.log(responseData,"resp dat");
