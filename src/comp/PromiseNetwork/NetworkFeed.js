@@ -531,7 +531,7 @@ const handleSearch = () => {
           <View style={{ marginVertical: 5, marginHorizontal: 10, marginBottom: 110 }}>
             {filteredData.length === 0 ? (
               <View style={{ width: "100%", height: "100%", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                <Text style={{ fontSize: 18, textAlign: "center" }}>No Data to Display for today. You can try applying a filter.</Text>
+                <Text style={{ fontSize: 18, textAlign: "center", color: 'grey' }}>No Data to Display for today. You can try applying a filter.</Text>
               </View>
             ) : (
               <FlatList
@@ -571,8 +571,9 @@ const handleSearch = () => {
                       }}
                       blockSingleDateSelection={true}
                       responseFormat="YYYY-MM-DD"
-                      selectedDateContainerStyle={styles.selectedDateContainerStyle}
+                      selectedDateContainerStyle={[styles.selectedDateContainerStyle,{color: 'grey'}]}
                       selectedDateStyle={styles.selectedDateStyle}
+                      style = {{color: 'grey'}}
                     />
                   </View>
                 </SafeAreaView>
@@ -741,6 +742,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#652D90",
     borderRadius: 5,
+    color: 'grey'
   },
   text: {
 
