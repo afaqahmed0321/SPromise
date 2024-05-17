@@ -33,8 +33,10 @@ import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 import moment from 'moment';
 
 const NetworkFeed = ({ navigation }) => {
-  const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState([]);
+  const [searchedData, setSearchedData] = useState([]);
+  const [searchText, setSearchText] = useState('');
+
   const [selectedNetworkUserFee, setSelectedNetworkUserFee] = useRecoilState(
     selectedNetworkUserFeed,
   );
@@ -117,17 +119,16 @@ const NetworkFeed = ({ navigation }) => {
   const onRefresh = () => {
     setrefresh(!refersh);
   };
-  // const handleSearch = () => {
-  //   if (searchText.trim() === '') {
-  //     console.log("Search text is empty. Resetting filter.");
-  //     setFilteredData(filteredData);
-  //   } else {
-  //     const filtered = filteredData.filter(item =>
-  //       item.promiseGoal.toLowerCase().includes(searchText.toLowerCase())
-  //     );
-  //     setFilteredData(filtered);
-  //   }
-  // };
+  const handleSearch = () => {
+    if (searchText.trim() === '') {
+      setSearchedData(filteredData);
+    } else {
+      const filtered = filteredData.filter(item =>
+        item.promiseGoal.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setSearchedData(filtered);
+    }
+  };
 
 
   useEffect(() => {
@@ -517,7 +518,7 @@ const NetworkFeed = ({ navigation }) => {
                   borderRadius: wp(10),
                   marginVertical: hp(1),
                 }}
-              // onPress={handleSearch}
+                onPress={handleSearch}
               >
                 <Text style={{ color: "white" }}>Search</Text>
               </TouchableOpacity>
@@ -540,16 +541,16 @@ const NetworkFeed = ({ navigation }) => {
                 refreshControl={
                   <RefreshControl
                     refreshing={isLoading}
-                    onRefresh={onRefresh}
+                    onRefresh={handelNetworkFeedComp}
                     colors={['#E4A936', '#EE8347']}
                     tintColor="white"
                     title="Refreshing..."
                     titleColor="white"
                   />
                 }
-                data={filteredData}
+                data={searchedData.length ? searchedData : filteredData}
                 keyExtractor={item => item.promiseID.toString()}
-                renderItem={renderItem}
+                renderItem={renderItem} 
               />
             )}
           </View>
@@ -573,7 +574,7 @@ const NetworkFeed = ({ navigation }) => {
                       }}
                       blockSingleDateSelection={true}
                       responseFormat="YYYY-MM-DD"
-                      selectedDateContainerStyle={[styles.selectedDateContainerStyle,{color: 'grey'}]}
+                      selectedDateContainerStyle={[styles.selectedDateContainerStyle, { color: 'grey' }]}
                       selectedDateStyle={styles.selectedDateStyle}
                       monthYearTextStyle={styles.monthYearTextStyle}
                       dateTextStyle={styles.abc}
@@ -700,7 +701,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
     backgroundColor: 'white',
@@ -712,13 +713,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   dateRangeContainer: {
-    width: '100%', 
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 10,
   },
   dateRangePicker: {
-    width: '100%', 
+    width: '100%',
   },
   dropdownContainer: {
     zIndex: 1,
@@ -754,7 +755,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#652D90",
     borderRadius: 5,
     fontSize: 26,
-    fontWeight:"800"
+    fontWeight: "800"
 
   },
   text: {
@@ -768,8 +769,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  monthYearTextStyle:{
+  monthYearTextStyle: {
     fontSize: 26,
-    fontWeight:"800"
+    fontWeight: "800"
   }
 });
