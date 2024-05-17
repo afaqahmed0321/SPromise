@@ -280,7 +280,7 @@ const HomePageDataSection = () => {
         </View>
         {data.length === 0 ? (
           <View style={{ width: "100%", height: "100%", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-            <Text style={{ fontSize: 16, textAlign: "center", color: "grey" }}>No Data to Display</Text>
+            <Text style={{ fontSize: 16, textAlign: "center", color: "grey" }}>No Ongoing Promises</Text>
           </View>
         ) : (
           <FlatList
