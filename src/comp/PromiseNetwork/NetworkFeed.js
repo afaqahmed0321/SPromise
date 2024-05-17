@@ -58,7 +58,9 @@ const NetworkFeed = ({ navigation }) => {
   const [selectedRange, setRange] = useState({
     firstDate: today,
     secondDate: today
-  }); const [openDropdown, setOpenDropdown] = useState(false);
+
+  });
+  const [openDropdown, setOpenDropdown] = useState(false);
   const [selectedItem, setSelectedItem] = useState("Public");
   const [items, setItems] = useState([
     { label: 'Public', value: 'Public' },

@@ -16,23 +16,25 @@ export const DashBoardStyling = StyleSheet.create({
   },
   MiniCard: {
     width: wp(90),
-    // height: hp(12),
+    height: hp(12),
     marginTop: hp(1.4),
     borderRadius: wp(2),
     alignItems: '',
     borderRadius: 32,
 
   },
-  PromiseGoal:{width: wp(75), height: hp(5)},
+  PromiseGoal:{width: wp(75)},
+  acionStatement:{width: wp(75)},
+
   PromiseGoal1:{width: wp(75), height: hp(5), paddingHorizontal:15},
 
   PromiseReward:{
     justifyContent: 'flex-start',
     alignItems:'flex-start',
     // height: hp(10),
-    marginTop: hp(1),
+    // marginTop: hp(1),
     // borderWidth:1,
-    marginVertical:10
+    // marginVertical:10
   },
   MainCardHome: {
     width: wp(85),

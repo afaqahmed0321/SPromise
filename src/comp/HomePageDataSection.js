@@ -161,7 +161,7 @@ const HomePageDataSection = () => {
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <LinearGradient
               colors={
-                item.actions == "Pay" ? ['#E4A936', '#EE8347']
+                (item.actions == "Pay" && item.promiseType == 'GAURANTEE') ? ['#E4A936', '#EE8347']
                   : ['#73B6BF', '#2E888C']
               }
               style={styles.Card}>
