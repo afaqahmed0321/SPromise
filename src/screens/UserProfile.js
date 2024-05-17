@@ -270,9 +270,6 @@ const UserProfile = () => {
                     alignSelf: 'center',
                     borderRadius: wp(2),
                     borderColor: '#652D90',
-                    // marginHorizontal:wp(3),
-                    // height: hp(58),
-                    // marginTop: hp(20),
                     backgroundColor: 'white',
                   },
                 ]}>
@@ -314,48 +311,14 @@ const UserProfile = () => {
                   <View styles={styles.InnerBox}>
                     <Text style={Headings.Input3}>Gender</Text>
                     <TextInput
-                      style={[TextInP.Fileds, { width: wp(38), }]}
+                      style={[TextInP.Fileds, { width: wp(82), }]}
                       placeholder={
-                        userData.gender == '' ? 'N/A' : userData.gender
+                        userData.gender == '' ? 'Gender' : userData.gender
                       }
                       placeholderTextColor="grey"
                       // value={lName}
                       onChangeText={text => setGender(text)}
                     />
-                  </View>
-                  <View styles={styles.InnerBox}>
-                    <Text style={[Headings.Input3]}>Date Of Birth</Text>
-                  
-                    <TouchableOpacity
-                      // onPress={() => (selectStartDate ? setselectStartDate(false) : setselectStartDate(true))}
-                      onPress={() => setStartDateMV(true)}
-                      style={[
-                        TextInP.Fileds,
-                        {
-                          width: wp(38),
-                          height: hp(5.5),
-                          justifyContent: 'center',
-                          // alignItems: 'center',
-                          paddingLeft: 0,
-                          color:"#000"
-                        },
-                      ]}>
-                      {userData.dob == '' ? (
-                        <Text>N/A</Text>
-                      ) : (
-                        <Text style={{color:"#000"}}>{startDa}</Text>
-                      )}
-                      {/* {startDateMV ? () : ()} */}
-                    </TouchableOpacity>
-                    <Modal
-                      animationType="slide"
-                      transparent={true}
-                      style={{ height: hp(50), backgroundColor: 'red' }}
-                      visible={startDateMV}
-                      onRequestClose={() => setStartDateMV(false)}>
-                      <DOBModal />
-                    </Modal>
-                    {/* </View> */}
                   </View>
                 </View>
 
@@ -363,7 +326,7 @@ const UserProfile = () => {
                   <Text style={Headings.Input3}>Phone</Text>
                   <TextInput
                     style={[TextInP.Fileds, { width: wp(82) }]}
-                    placeholder={userData.phoneNo == '' ? 'N/A' : userData.phone}
+                    placeholder={userData.phoneNo == '' ? 'Phone' : userData.phone}
                     placeholderTextColor="grey"
                     value={userData.phone}
                     onChangeText={text => setPhoneNo(text)}
@@ -375,7 +338,7 @@ const UserProfile = () => {
                   <TextInput
                     style={[TextInP.Fileds, { width: wp(82) }]}
                     placeholder={
-                      userData.address1 == '' ? 'N/A' : userData.address1
+                      userData.address1 == '' ? 'Address' : userData.address1
                     }
                     placeholderTextColor="grey"
                     // value={lName}
@@ -388,21 +351,22 @@ const UserProfile = () => {
                     <Text style={Headings.Input3}>City</Text>
                     <TextInput
                       style={[TextInP.Fileds, { width: wp(38) }]}
-                      placeholder={userData.city == '' ? 'N/A' : userData.city}
+                      placeholder={userData.city == '' ? 'City' : userData.city}
                       placeholderTextColor="grey"
                       // value={lName}
                       onChangeText={text => setCity(text)}
                     />
                   </View>
-
                   <View styles={styles.InnerBox}>
-                    <Text style={Headings.Input3}>Zip Code</Text>
+                    <Text style={Headings.Input3}>Country</Text>
                     <TextInput
                       style={[TextInP.Fileds, { width: wp(38) }]}
-                      placeholder={userData.zip == '' ? 'N/A' : userData.zip}
+                      placeholder={
+                        userData.country == '' ? 'Country' : userData.country
+                      }
                       placeholderTextColor="grey"
                       // value={lName}
-                      onChangeText={text => setPinCode(text)}
+                      onChangeText={text => setCountry(text)}
                     />
                   </View>
                 </View>
@@ -411,23 +375,11 @@ const UserProfile = () => {
                   <View styles={styles.InnerBox}>
                     <Text style={Headings.Input3}>State</Text>
                     <TextInput
-                      style={[TextInP.Fileds, { width: wp(38) }]}
-                      placeholder={userData.state == '' ? 'N/A' : userData.state}
+                      style={[TextInP.Fileds, { width: wp(82) }]}
+                      placeholder={userData.state == '' ? 'State' : userData.state}
                       placeholderTextColor="grey"
                       // value={lName}
                       onChangeText={text => setState(text)}
-                    />
-                  </View>
-                  <View styles={styles.InnerBox}>
-                    <Text style={Headings.Input3}>Country</Text>
-                    <TextInput
-                      style={[TextInP.Fileds, { width: wp(38) }]}
-                      placeholder={
-                        userData.country == '' ? 'N/A' : userData.country
-                      }
-                      placeholderTextColor="grey"
-                      // value={lName}
-                      onChangeText={text => setCountry(text)}
                     />
                   </View>
                 </View>
@@ -552,7 +504,7 @@ const UserProfile = () => {
                 style={[TextInP.Fileds, { width: wp(65), }]}
                 // placeholder={userData.emailID}
                 value={`${userData.firstName} ${userData.lastName}`}
-                placeholderTextColor="#000"
+                placeholderTextColor="grey"
                 onChangeText={text => setEmailId(text)}
                 editable={false}              />
             </View>
@@ -563,7 +515,7 @@ const UserProfile = () => {
                 style={[TextInP.Fileds, { width: wp(49)}]}
                 // placeholder={userData.emailID}
                 value={userData.phoneNo == '' ? 'N/A' : userData.phoneNo}
-                placeholderTextColor="#000"
+                placeholderTextColor="grey"
                 onChangeText={text => setEmailId(text)}
                 editable={false}              />
             </View>
@@ -574,7 +526,7 @@ const UserProfile = () => {
                 style={[TextInP.Fileds, { width: wp(61), }]}
                 // placeholder={userData.emailID}
                 value={userData.address1 == '' ? 'N/A' : userData.address1}
-                placeholderTextColor="#000"
+                placeholderTextColor="grey"
                 onChangeText={text => setEmailId(text)}
                 editable={false}              />
             </View>
@@ -585,7 +537,7 @@ const UserProfile = () => {
                 style={[TextInP.Fileds, { width: wp(62), }]}
                 // placeholder={userData.emailID}
                 value= {userData.gender == '' ? 'N/A' : userData.gender}
-                placeholderTextColor="#000"
+                placeholderTextColor="grey"
                 onChangeText={text => setEmailId(text)}
                 editable={false}              />
             </View>
@@ -596,7 +548,7 @@ const UserProfile = () => {
                 style={[TextInP.Fileds, { width: wp(68), }]}
                 // placeholder={userData.emailID}
                 value={userData.city == '' ? 'N/A' : userData.city}
-                placeholderTextColor="#000"
+                placeholderTextColor="grey"
                 onChangeText={text => setEmailId(text)}
                 editable={false}              />
             </View>
@@ -607,7 +559,7 @@ const UserProfile = () => {
                 style={[TextInP.Fileds, { width: wp(61), }]}
                 // placeholder={userData.emailID}
                 value={userData.country == '' ? 'N/A' : userData.country}
-                placeholderTextColor="#000"
+                placeholderTextColor="grey"
                 onChangeText={text => setEmailId(text)}
                 editable={false}              />
             </View>          
@@ -622,26 +574,26 @@ const UserProfile = () => {
         onRequestClose={() => setIsDrawerV(false)}>
         <BlurView
           style={{ height: hp(20) }}
-          blurType="light" // You can customize the blurType as needed
-          blurAmount={10} // You can adjust the blurAmount as needed
+          blurType="light" 
+          blurAmount={10} 
         ></BlurView>
         <View style={{ flexDirection: 'row' }}>
           <BlurView
             style={{ flex: 1 }}
-            blurType="light" // You can customize the blurType as needed
-            blurAmount={10} // You can adjust the blurAmount as needed
+            blurType="light" 
+            blurAmount={10} 
           ></BlurView>
           <UpdatePasswordModal />
           <BlurView
             style={{ flex: 1 }}
-            blurType="light" // You can customize the blurType as needed
-            blurAmount={10} // You can adjust the blurAmount as needed
+            blurType="light" 
+            blurAmount={10} 
           ></BlurView>
         </View>
         <BlurView
           style={{ flex: 1 }}
-          blurType="light" // You can customize the blurType as needed
-          blurAmount={10} // You can adjust the blurAmount as needed
+          blurType="light" 
+          blurAmount={10} 
         ></BlurView>
       </Modal>
       <View
@@ -706,7 +658,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#ffffff',
     padding: wp(4),
     // borderRadius: wp(10),
-    // shadowColor: '#000',
+    // shadowColor: 'grey',
     borderWidth: 0.5,
     width: wp(90),
     alignSelf: 'center',

@@ -112,6 +112,12 @@ const HomePageDataSection = () => {
       setTimer(false);
     }, 500)
   }, [timer]);
+  const data = [
+    ...promises.filter(item => item.status === 'AmountDue'),
+    ...promisesToMe.filter(item => item.status === 'AmountDue'),
+    ...promisesReq.filter(item => item.status === 'AmountDue'),
+    ...promisesReqToMe.filter(item => item.status === 'AmountDue'),
+  ];
 
   const renderItem = ({ item, index }) => (
     <>
@@ -127,7 +133,7 @@ const HomePageDataSection = () => {
             <DetailCard
               promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
               isTimeBound={item?.isTimeBound}
-              displayStatus = {item?.displayStatus}
+              displayStatus={item?.displayStatus}
               promisetype={item.promiseType}
               amount={item.paymentAmount}
               promiseeName={item?.promiseeName}
@@ -272,18 +278,19 @@ const HomePageDataSection = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <FlatList
-          data={[
-            ...promises.filter(item => item.status === 'AmountDue'),
-            ...promisesToMe.filter(item => item.status === 'AmountDue'),
-            ...promisesReq.filter(item => item.status === 'AmountDue'),
-            ...promisesReqToMe.filter(item => item.status === 'AmountDue'),
-          ]}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => item.promiseID.toString()}
-          style={{ marginBottom: hp(.2) }}
-          showsVerticalScrollIndicator={false}
-        />
+        {data.length === 0 ? (
+          <View style={{ width: "100%", height: "100%", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+            <Text style={{ fontSize: 16, textAlign: "center", color: "grey" }}>No Data to Display</Text>
+          </View>
+        ) : (
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => item.promiseID.toString()}
+            style={{ marginBottom: hp(.2) }}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
       </View>
     </View>
   );

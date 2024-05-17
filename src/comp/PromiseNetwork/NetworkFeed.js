@@ -26,9 +26,7 @@ import { useIsFocused } from '@react-navigation/native';
 import Ant from 'react-native-vector-icons/AntDesign';
 import PromiseReaction from '../../Network/Users/NetworkFeed/PromiseReaction';
 import PromiseComment from '../../Network/Users/NetworkFeed/AddCommentAPI';
-import axios from 'axios';
 import { RefreshControl } from 'react-native';
-import { commonStyles } from '../../Styling/buttons';
 import DateRangePicker from 'rn-select-date-range';
 import DropDownPicker from 'react-native-dropdown-picker';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
@@ -60,6 +58,7 @@ const NetworkFeed = ({ navigation }) => {
   const [selectedRange, setRange] = useState({
     firstDate: today,
     secondDate: today
+
   });
   const [openDropdown, setOpenDropdown] = useState(false);
   const [selectedItem, setSelectedItem] = useState("Public");
@@ -100,6 +99,7 @@ const NetworkFeed = ({ navigation }) => {
 
       const data = await response.json();
       console.log(data, "Network Feed");
+
       setIsLoading(false);
       setFilteredData(data.promisesList);
       return data.promisesList;
@@ -117,7 +117,19 @@ const NetworkFeed = ({ navigation }) => {
   const onRefresh = () => {
     setrefresh(!refersh);
   };
+const handleSearch = () => {
+  if (searchText.trim() === '') {
+    console.log("Search text is empty. Resetting filter.");
+    setFilteredData(filteredData);
+  } else {
+    const filtered = filteredData.filter(item =>
+      item.promiseGoal.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setFilteredData(filtered);
+  }
+};
 
+  
   useEffect(() => {
     handelNetworkFeedComp();
   }, [focus, refersh]);
@@ -161,6 +173,7 @@ const NetworkFeed = ({ navigation }) => {
     console.log("modal close")
     setIsModalV(false);
   };
+
   const renderItem = ({ item }) => {
     const userNN = userN;
     const setLike = item.promiseReactions;
@@ -182,7 +195,7 @@ const NetworkFeed = ({ navigation }) => {
       const action = isLiked ? "Unlike" : "Like";
       onHandelReaction(promiseID, item.promiseReactions, action);
     };
-
+    
     return (
       <View
         style={{
@@ -464,39 +477,82 @@ const NetworkFeed = ({ navigation }) => {
         }}>
         <TouchableOpacity
           onPress={handleNextButtonPress}
-          style={[{ marginVertical: 5, backgroundColor: '#652D90', paddingVertical:10, borderRadius: 50, width: '40%',justifyContent: 'center',
-          alignItems: 'center', }]}>
-          <View style={{flexDirection:'row',alignItems:'center', gap:9}}>
+          style={[{
+            marginVertical: 5, backgroundColor: '#652D90', paddingVertical: 10, borderRadius: 50, width: '40%', justifyContent: 'center',
+            alignItems: 'center',
+          }]}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 9 }}>
             <FontAw5 name="filter" size={16} color="#fff" />
             <Text style={{ color: 'white', textAlign: 'center', fontSize: 16 }}>Filter</Text>
           </View>
         </TouchableOpacity>
+        {filteredData.length > 0 && (
+          <View style={{ height: hp(6), width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+            <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', width: '60%', borderWidth: 1, borderColor: '#652D90', borderRadius: 50,                    marginTop: 5
+ }}>
+                <FontAw5 name="search" size={24} color="#652D90" style={{ marginLeft: wp(3) }} />
+                <TextInput
+                  style={{
+                    flex: 1,
+                    fontSize: 16,
+                    paddingHorizontal: wp(4),
+                    paddingVertical: hp(0.7),
+                    color: 'black',
+                  }}
+                  placeholder="Search Promises"
+                  placeholderTextColor="#652D90"
+                  value={searchText}
+                  onChangeText={text => setSearchText(text)}
+                />
+              </View>
+              <TouchableOpacity
+                style={{
+                  width: wp(30),
+                  height: hp(5),
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: '#652D90',
+                  borderRadius: wp(10),
+                  marginVertical: hp(1),
+                }}
+                onPress={handleSearch}>
+                <Text style={{ color: "white" }}>Search</Text>
+              </TouchableOpacity>
 
+            </TouchableOpacity>
+          </View>
+        )}
         {isLoading ? (
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator size="small" color="#0000ff" />
           </View>
         ) : (
           <View style={{ marginVertical: 5, marginHorizontal: 10, marginBottom: 110 }}>
-
-
-            <FlatList
-              refreshControl={
-                <RefreshControl
-                  refreshing={isLoading}
-                  onRefresh={onRefresh}
-                  colors={['#E4A936', '#EE8347']}
-                  tintColor="white"
-                  title="Refreshing..."
-                  titleColor="white"
-                />
-              }
-              data={filteredData}
-              keyExtractor={item => item.promiseID.toString()}
-              renderItem={renderItem}
-            />
+            {filteredData.length === 0 ? (
+              <View style={{ width: "100%", height: "100%", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                <Text style={{ fontSize: 18, textAlign: "center" }}>No Data to Display for today. You can try applying a filter.</Text>
+              </View>
+            ) : (
+              <FlatList
+                refreshControl={
+                  <RefreshControl
+                    refreshing={isLoading}
+                    onRefresh={onRefresh}
+                    colors={['#E4A936', '#EE8347']}
+                    tintColor="white"
+                    title="Refreshing..."
+                    titleColor="white"
+                  />
+                }
+                data={filteredData}
+                keyExtractor={item => item.promiseID.toString()}
+                renderItem={renderItem}
+              />
+            )}
           </View>
         )}
+
 
         <Modal
           animationType="fade"
