@@ -117,19 +117,19 @@ const NetworkFeed = ({ navigation }) => {
   const onRefresh = () => {
     setrefresh(!refersh);
   };
-const handleSearch = () => {
-  if (searchText.trim() === '') {
-    console.log("Search text is empty. Resetting filter.");
-    setFilteredData(filteredData);
-  } else {
-    const filtered = filteredData.filter(item =>
-      item.promiseGoal.toLowerCase().includes(searchText.toLowerCase())
-    );
-    setFilteredData(filtered);
-  }
-};
+  // const handleSearch = () => {
+  //   if (searchText.trim() === '') {
+  //     console.log("Search text is empty. Resetting filter.");
+  //     setFilteredData(filteredData);
+  //   } else {
+  //     const filtered = filteredData.filter(item =>
+  //       item.promiseGoal.toLowerCase().includes(searchText.toLowerCase())
+  //     );
+  //     setFilteredData(filtered);
+  //   }
+  // };
 
-  
+
   useEffect(() => {
     handelNetworkFeedComp();
   }, [focus, refersh]);
@@ -195,7 +195,7 @@ const handleSearch = () => {
       const action = isLiked ? "Unlike" : "Like";
       onHandelReaction(promiseID, item.promiseReactions, action);
     };
-    
+
     return (
       <View
         style={{
@@ -489,8 +489,9 @@ const handleSearch = () => {
         {filteredData.length > 0 && (
           <View style={{ height: hp(6), width: '100%', justifyContent: 'center', alignItems: 'center' }}>
             <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', width: '60%', borderWidth: 1, borderColor: '#652D90', borderRadius: 50,                    marginTop: 5
- }}>
+              <View style={{
+                flexDirection: 'row', alignItems: 'center', width: '60%', borderWidth: 1, borderColor: '#652D90', borderRadius: 50, marginTop: 5
+              }}>
                 <FontAw5 name="search" size={24} color="#652D90" style={{ marginLeft: wp(3) }} />
                 <TextInput
                   style={{
@@ -516,7 +517,8 @@ const handleSearch = () => {
                   borderRadius: wp(10),
                   marginVertical: hp(1),
                 }}
-                onPress={handleSearch}>
+              // onPress={handleSearch}
+              >
                 <Text style={{ color: "white" }}>Search</Text>
               </TouchableOpacity>
 
@@ -573,7 +575,10 @@ const handleSearch = () => {
                       responseFormat="YYYY-MM-DD"
                       selectedDateContainerStyle={[styles.selectedDateContainerStyle,{color: 'grey'}]}
                       selectedDateStyle={styles.selectedDateStyle}
-                      style = {{color: 'grey'}}
+                      monthYearTextStyle={styles.monthYearTextStyle}
+                      dateTextStyle={styles.abc}
+
+
                     />
                   </View>
                 </SafeAreaView>
@@ -588,7 +593,10 @@ const handleSearch = () => {
                 setOpen={setOpenDropdown}
                 setValue={setSelectedItem}
                 setItems={setItems}
-                containerStyle={styles.dropdownContainer}
+                containerStyle={[
+                  styles.dropdownContainer,
+                  openDropdown ? { zIndex: 1000 } : { zIndex: 1 },
+                ]}
                 style={styles.dropdown}
                 dropDownContainerStyle={styles.dropdownList}
                 onValueChange={(value) => setSelectedItem(value)}
@@ -600,8 +608,11 @@ const handleSearch = () => {
                 setOpen={setOpenStatusDropdown}
                 setValue={setSelectedStatus}
                 setItems={setStatusItems}
+                containerStyle={[
+                  styles.dropdownContainer,
+                  openStatusDropdown ? { zIndex: 1000 } : { zIndex: 1 },
+                ]}
                 placeholder="Select Status"
-                containerStyle={styles.dropdownContainer}
               />
 
               <View style={styles.buttonsGroup}>
@@ -689,7 +700,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
   },
   modalContent: {
     backgroundColor: 'white',
@@ -701,13 +712,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   dateRangeContainer: {
-    width: '100%', // Full width of the modal content
+    width: '100%', 
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 10,
   },
   dateRangePicker: {
-    width: '100%', // Full width of the container
+    width: '100%', 
   },
   dropdownContainer: {
     zIndex: 1,
@@ -742,18 +753,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#652D90",
     borderRadius: 5,
-    color: 'grey'
+    fontSize: 26,
+    fontWeight:"800"
+
   },
   text: {
-
     fontSize: 14,
     marginBottom: 10,
-    color: 'grey'
+    color: 'grey',
   },
   buttonsGroup: {
     paddingTop: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  monthYearTextStyle:{
+    fontSize: 26,
+    fontWeight:"800"
   }
 });
