@@ -70,6 +70,7 @@ const NetworkFeed = ({ navigation }) => {
     { label: 'Network Only', value: 'Network' },
   ]);
   const [openStatusDropdown, setOpenStatusDropdown] = useState(false);
+  const [showFullText, setShowFullText] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [statusItems, setStatusItems] = useState([
     { label: 'All', value: 'All' },
@@ -178,6 +179,7 @@ const NetworkFeed = ({ navigation }) => {
   const renderItem = ({ item }) => {
     const userNN = userN;
     const setLike = item.promiseReactions;
+
     const handleViewAllComments = (promiseID) => {
       if (isViewAll.includes(promiseID)) {
         const updatedArray = isViewAll.filter(item => item !== promiseID);
@@ -195,6 +197,10 @@ const NetworkFeed = ({ navigation }) => {
       const isLiked = item.promiseReactions.includes(userN);
       const action = isLiked ? "Unlike" : "Like";
       onHandelReaction(promiseID, item.promiseReactions, action);
+    };
+
+    const toggleText = () => {
+      setShowFullText(!showFullText);
     };
 
     return (
@@ -354,19 +360,33 @@ const NetworkFeed = ({ navigation }) => {
         </View>
 
 
-        <View >
+        <View>
           <Text
             style={[
               {
                 color: '#652D90',
                 fontWeight: 'bold',
                 fontSize: hp(1.9),
-                textAlign: 'center',
+                paddingHorizontal: 22,
+                paddingTop: 10,
               },
-            ]}>
-            {item.promiseGoal}
+            ]}
+          >
+            {showFullText ? item.promiseGoal : `${item.promiseGoal.slice(0, 90)}... `}
+
           </Text>
+          <TouchableOpacity onPress={toggleText}>
+            {item.promiseGoal.length > 90 && (
+            <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: hp(2.1), paddingHorizontal:hp(2.1) }}>
+              {showFullText ? ' Read Less' : ' Read More'}
+            </Text>
+            )}
+          </TouchableOpacity>
         </View>
+
+
+
+
         <View style={{ marginLeft: wp(2) }}>
           {item.promiseComments && item.promiseComments.length > 0 ? (
             item.promiseComments
@@ -426,6 +446,8 @@ const NetworkFeed = ({ navigation }) => {
             </TouchableOpacity>
           )}
         </View>
+
+
         <View style={{}}>
           <TextInput
             onChangeText={text => {
@@ -550,7 +572,7 @@ const NetworkFeed = ({ navigation }) => {
                 }
                 data={searchedData.length ? searchedData : filteredData}
                 keyExtractor={item => item.promiseID.toString()}
-                renderItem={renderItem} 
+                renderItem={renderItem}
               />
             )}
           </View>
