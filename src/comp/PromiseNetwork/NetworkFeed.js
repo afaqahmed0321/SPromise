@@ -32,6 +32,7 @@ import { commonStyles } from '../../Styling/buttons';
 import DateRangePicker from 'rn-select-date-range';
 import DropDownPicker from 'react-native-dropdown-picker';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
+import moment from 'moment';
 
 const NetworkFeed = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
@@ -55,7 +56,11 @@ const NetworkFeed = ({ navigation }) => {
 
   const [visibilityy, setVisibilityy] = useState('Private');
   const [dateRange, setDateRange] = useState({ firstDate: '', secondDate: '' });
-  const [selectedRange, setRange] = useState({});
+  const today = moment().format('YYYY-MM-DD');
+  const [selectedRange, setRange] = useState({
+    firstDate: today,
+    secondDate: today
+  });
   const [openDropdown, setOpenDropdown] = useState(false);
   const [selectedItem, setSelectedItem] = useState("Public");
   const [items, setItems] = useState([
