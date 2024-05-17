@@ -56,10 +56,6 @@ const UserProfile = () => {
     RemoveSoicalLinkApprovalState,
   );
 
-  const [startDateMV, setStartDateMV] = useRecoilState(isDOBModalV);
-  const [selectStartDate, setselectStartDate] = useState(true);
-  // const [endDateMV, setEndDateMV] = useRecoilState(isEndDateModalV)
-  // const [deadlinedate, setDeadLinedate] = useRecoilState(deadline);
   const [startDa, setStartDate] = useRecoilState(DobDate);
 
   const [isDrawerV, setIsDrawerV] = useRecoilState(isChangePasswordModalV);
@@ -68,7 +64,6 @@ const UserProfile = () => {
   const [socialLogin, setSocialLogin] = useState(false);
   const [userN, setUserN] = useRecoilState(UserNo);
   const [editProfile, setEditProfile] = useState(false);
-  // const [changePassword, setChangePassword] = useState(false);
   const [currentPassword, setCurrentPassword] = useRecoilState(CurrentPassword);
   const focus = useIsFocused();
 
@@ -326,7 +321,7 @@ const UserProfile = () => {
                   <Text style={Headings.Input3}>Phone</Text>
                   <TextInput
                     style={[TextInP.Fileds, { width: wp(82) }]}
-                    placeholder={userData.phoneNo == '' ? 'Phone' : userData.phone}
+                    placeholder={userData.phoneNo == '' ? 'Phone' : userData.phoneNo}
                     placeholderTextColor="grey"
                     value={userData.phone}
                     onChangeText={text => setPhoneNo(text)}

@@ -21,15 +21,26 @@ const PromiseStatusData = () => {
   const fetchData = async () => {
     console.log("Fetch data is called");
     const res = await getUserPromisbility(userN);
-    const resp = res.promisibility
+    const resp = res.promisibility;
     const userPromisbil = resp ? Number(resp) : 0;
     console.log(userPromisbil, 'jjjjjjjjjjjj');
     setUserPromisbility(userPromisbil);
-    setUserReward(res.rewardPoints)
+    setUserReward(res.rewardPoints);
   };
 
   useEffect(() => {
     fetchData();
+
+    const timer = setTimeout(() => {
+      setRefresh(!refresh);
+    }, 100); 
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (refresh) {
+      fetchData();
+    }
   }, [refresh]);
 
   return (
@@ -113,7 +124,6 @@ const styles = StyleSheet.create({
     borderRadius: wp(5),
     padding: wp(3),
     backgroundColor: 'rgba(101, 45, 144, 0.01)',
-    
   },
   barText: {
     fontSize: hp(1.5),
@@ -147,23 +157,7 @@ const styles = StyleSheet.create({
     right: 0,
     justifyContent: 'center',
     alignItems: 'center',
-
   },
-  // pieChartLabel1: {
-  //   position: 'absolute',
-  //   top: 25,
-  //   bottom: 0,
-  //   left: 25,
-  //   right: 0,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   backgroundColor: "#652D90",
-  //   padding: 0,
-  //   borderRadius: 40,
-  //   zIndex: -1,
-  //   height: 50,
-  //   width: 100
-  // },
   pieChartLabel2: {
     position: 'absolute',
     top: -55,
@@ -172,7 +166,7 @@ const styles = StyleSheet.create({
     right: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    color: "#652D90"
+    color: "#652D90",
   },
   pieChartText: {
     fontSize: hp(2),
@@ -181,7 +175,7 @@ const styles = StyleSheet.create({
   pieChartText1: {
     fontSize: hp(2),
     color: '#fff',
-    textAlign:"center",
-    marginHorizontal:34
+    textAlign: "center",
+    marginHorizontal: 34,
   },
 });
