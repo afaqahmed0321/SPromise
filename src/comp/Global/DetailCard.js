@@ -90,9 +90,6 @@ const DetailCard = ({
     setIsModalVisible(false); // Close the modal after completing
   };
 
-  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", promiseeName,
-    promisorName,)
-
   console.log(promiseeProfileImageUrl,
     promisetype,
     amount,
@@ -289,7 +286,8 @@ const DetailCard = ({
                   borderRadius: 50,
                   paddingVertical: 5,
                   paddingHorizontal: 10,
-                  width: "auto"
+                  width: "auto",
+                  marginBottom: hp(1.2)
 
                 },
               ]}>
@@ -308,7 +306,9 @@ const DetailCard = ({
                       borderRadius: 50,
                       paddingVertical: 5,
                       paddingHorizontal: 10,
-                      marginHorizontal: 10
+                      marginHorizontal: 10,
+                      marginBottom: hp(1.2)
+
                     },
                   ]}>
                   ${amount} {alotRewardPoints ? (
@@ -321,10 +321,9 @@ const DetailCard = ({
                         borderRadius: 50,
                         paddingVertical: 5,
                         paddingHorizontal: 10,
-                        marginHorizontal: 10
-
+                        marginHorizontal: 10,
                       },
-                    ]}> & {rewardPoints}pts </Text>
+                    ]}> & {rewardPoints} pts </Text>
                   ) : null}
                 </Text>
               ) : null}
@@ -352,7 +351,6 @@ const DetailCard = ({
 
             {displayStatus ? (
               <View>
-                {/* <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} /> */}
                 <Text style={[
                   {
                     color: 'black',
@@ -381,7 +379,8 @@ const DetailCard = ({
                 <VideoModal />
               </TouchableOpacity>
             ) : null}
-            <View style={DashBoardStyling.PromiseGoal}>
+            
+            <View style={[DashBoardStyling.PromiseGoal, { marginTop: hp(1.2) }]}>
               <View>
                 <Text
                   style={[
@@ -609,13 +608,17 @@ const DetailCard = ({
                   borderRadius: 50,
                   paddingVertical: 5,
                   paddingHorizontal: 10,
-                  width: "auto"
+                  width: "auto",
+                  marginBottom: hp(1.2)
 
                 },
               ]}>
                 {promisorName} is promising to {promiseeName}
               </Text>
             </View>
+
+            {(amount >0 || rewardPoints >0) && (
+
             <View style={DashBoardStyling.PromiseReward}>
 
               {promisetype == 'GUARANTEE' ? (
@@ -632,8 +635,8 @@ const DetailCard = ({
                             borderRadius: 50,
                             paddingVertical: 5,
                             paddingHorizontal: 10,
-                            marginHorizontal: 10
-
+                            marginHorizontal: 10,
+                            marginBottom: hp(1.2)
                           },
                         ]}>
                         <>
@@ -651,7 +654,7 @@ const DetailCard = ({
                                 marginHorizontal: 10
 
                               },
-                            ]}>  {rewardPoints}pts
+                            ]}>  {rewardPoints} pts
                             </Text>
                           ) : null}
                         </>
@@ -673,8 +676,8 @@ const DetailCard = ({
                       borderRadius: 50,
                       paddingVertical: 5,
                       paddingHorizontal: 10,
-                      marginHorizontal: 10
-
+                      marginHorizontal: 10,
+                      marginBottom: hp(1.2)
                     },
                   ]}>
                   {amount > 0 && (
@@ -690,10 +693,10 @@ const DetailCard = ({
                             borderRadius: 50,
                             paddingVertical: 5,
                             paddingHorizontal: 10,
-                            marginHorizontal: 10
-
+                            marginHorizontal: 10,
+                            marginBottom: hp(1.2)
                           },
-                        ]}> & {rewardPoints}pts </Text>
+                        ]}> & {rewardPoints} pts </Text>
                       ) : <Text style={[
                         {
                           color: 'black',
@@ -703,10 +706,11 @@ const DetailCard = ({
                           borderRadius: 50,
                           paddingVertical: 5,
                           paddingHorizontal: 10,
-                          marginHorizontal: 10
+                          marginHorizontal: 10,
+                          marginBottom: hp(1.2)
 
                         },
-                      ]}> & {rewardPoints}pts </Text>}
+                      ]}> & {rewardPoints} pts </Text>}
                     </>
                   )}
 
@@ -777,6 +781,7 @@ const DetailCard = ({
                 </Text>
               ) : null}
             </View>
+            )}
 
             {ratingImpact ? (
               <View>
@@ -789,7 +794,8 @@ const DetailCard = ({
                     borderRadius: 50,
                     paddingVertical: 5,
                     paddingHorizontal: 10,
-                    width: 145
+                    width: 145,
+                    marginBottom: hp(1.2),
                   },
                 ]}>
                   Rating Will Impact
@@ -803,7 +809,7 @@ const DetailCard = ({
                   {
                     color: 'black',
                     marginHorizontal: hp(1.2),
-                    marginTop : hp(1.2),
+                    // marginTop : hp(1.2),
                     fontSize: hp(1.8),
                     backgroundColor: "#e0e0e0",
                     borderRadius: 50,
@@ -825,7 +831,7 @@ const DetailCard = ({
                 <VideoModal />
               </TouchableOpacity>
             ) : null}
-            <View style={DashBoardStyling.PromiseGoal}>
+            <View style={[DashBoardStyling.PromiseGoal, { marginTop: hp(1.2) }]}>
               <View>
                 <Text
                   style={[
@@ -840,7 +846,7 @@ const DetailCard = ({
               </View>
             </View>
 
-            <View style={DashBoardStyling.PromiseGoal}>
+            <View style={DashBoardStyling.acionStatement}>
               {actions.map((action, index) => {
                 if (action === 'Accept') {
                   return (
@@ -1016,7 +1022,7 @@ const DetailCard = ({
       ) : tab == 'Home' ? (
         <LinearGradient
           colors={
-            tab == 'PromisestoMe' || actions == 'Pay'
+            (promisetype == 'Gaurantee' && actions == 'Pay')
               ? ['#E4A936', '#EE8347']
               : ['#73B6BF', '#2E888C']
           }
@@ -1030,6 +1036,7 @@ const DetailCard = ({
                   borderRadius: wp(6.5),
                   marginLeft: wp(7),
                   marginTop: hp(1),
+                  marginBottom: hp(1.2)
                 }}>
                 <Image
                   source={
@@ -1078,6 +1085,26 @@ const DetailCard = ({
               null
              )}
             </View>
+
+            <View>
+              <Text style={[
+                {
+                  color: 'black',
+                  marginHorizontal: hp(3.0),
+                  marginTop: hp(1.2),
+                  fontSize: hp(1.8),
+                  backgroundColor: "#e0e0e0",
+                  borderRadius: 50,
+                  paddingVertical: 5,
+                  paddingHorizontal: 10,
+                  width: hp(35),
+                  marginBottom: hp(1.2),
+                },
+              ]}>
+                {promiseeName} is promising to {promisorName}
+              </Text>
+            </View>
+
             <View style={DashBoardStyling.PromiseReward}>
               {promisetype == 'GUARANTEE' ? (
                 <Text
@@ -1090,7 +1117,8 @@ const DetailCard = ({
                       borderRadius: 50,
                       paddingVertical: 5,
                       paddingHorizontal: 10,
-                      marginHorizontal: 25
+                      marginHorizontal: 25,
+                      marginBottom: hp(1.2)
 
                     },
                   ]}>
@@ -1106,10 +1134,11 @@ const DetailCard = ({
                         borderRadius: 50,
                         paddingVertical: 5,
                         paddingHorizontal: 10,
-                        marginHorizontal: 10
+                        marginHorizontal: 10,
+                        marginBottom: hp(1.2)
 
                       },
-                    ]}> & {rewardPoints}pts
+                    ]}> & {rewardPoints} pts
                       {/* Reward Points */}
                     </Text>
                   ) : null}
@@ -1125,8 +1154,8 @@ const DetailCard = ({
                       borderRadius: 50,
                       paddingVertical: 5,
                       paddingHorizontal: 10,
-                      marginHorizontal: 25
-
+                      marginHorizontal: 25,
+                      marginBottom: hp(1.2)
                     },
                   ]}>
                   ${amount} {''}
@@ -1140,11 +1169,11 @@ const DetailCard = ({
                         borderRadius: 50,
                         paddingVertical: 5,
                         paddingHorizontal: 10,
-                        marginHorizontal: 20
-
+                        marginHorizontal: 20,
+                        marginBottom: hp(1.2)
                       },
                     ]}>
-                      & {rewardPoints}pts
+                      & {rewardPoints} pts
                     </Text>
                   ) : null}
                 </Text>
@@ -1174,19 +1203,16 @@ const DetailCard = ({
 
             {displayStatus ? (
               <View>
-                {/* <FontAw5 color="#652D90" name="medal" size={23} style={{ marginHorizontal: hp(2) }} /> */}
                 <Text style={[
                   {
                     color: 'black',
-                    marginHorizontal: hp(1.2),
-                    marginTop : hp(1.2),
+                    marginHorizontal: hp(3.0),
                     fontSize: hp(1.8),
                     backgroundColor: "#e0e0e0",
                     borderRadius: 50,
                     paddingVertical: 5,
                     paddingHorizontal: 10,
-                    width: 100,
-
+                    width: 120,
                   },
                 ]}>
                   {displayStatus}
@@ -1202,7 +1228,7 @@ const DetailCard = ({
               </TouchableOpacity>
 
             ) : null}
-            <View style={DashBoardStyling.PromiseGoal}>
+            <View style={[DashBoardStyling.PromiseGoal, { marginTop: hp(1.2) }]}>
               <View>
                 <Text
                   style={[
