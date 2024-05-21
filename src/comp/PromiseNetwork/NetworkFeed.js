@@ -372,7 +372,7 @@ const NetworkFeed = ({ navigation }) => {
               },
             ]}
           >
-            {showFullText ? item.promiseGoal : `${item.promiseGoal.slice(0, 90)}... `}
+            {showFullText ? item.promiseGoal : `${item.promiseGoal.slice(0, 90)}`}
 
           </Text>
           <TouchableOpacity onPress={toggleText}>

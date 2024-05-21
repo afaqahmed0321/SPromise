@@ -80,11 +80,14 @@ const LoginScreen = ({ navigation }) => {
 
 
   async function onGoogleButtonPress() {
+    console.log("inside google fuuncion");
     setIsLoading(true);
     await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
     await GoogleSignin.signOut();
 
+    console.log("Before google signin");
     const { idToken } = await GoogleSignin.signIn();
+    console.log("after google signin", idToken);
 
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
     const user_sign_in = auth().signInWithCredential(googleCredential);

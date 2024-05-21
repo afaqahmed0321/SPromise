@@ -1,4 +1,4 @@
-package com.snappromise1;
+package com.snappromise;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
