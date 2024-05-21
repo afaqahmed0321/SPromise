@@ -73,9 +73,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.snappromise1"
+    namespace "com.snappromise"
     defaultConfig {
-        applicationId 'com.snappromise1'
+        applicationId 'com.snappromise'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
