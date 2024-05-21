@@ -120,12 +120,19 @@ const NetworkFeed = ({ navigation }) => {
   const onRefresh = () => {
     setrefresh(!refersh);
   };
-  const handleSearch = () => {
-    if (searchText.trim() === '') {
+  function handleSearch(text) {
+    setSearchText(text);
+  
+    // Ensure text is a string before trimming
+    if (typeof text !== 'string') {
+      return;
+    }
+  
+    if (text.trim() === '') {
       setSearchedData(filteredData);
     } else {
       const filtered = filteredData.filter(item =>
-        item.promiseGoal.toLowerCase().includes(searchText.toLowerCase())
+        item.promiseGoal.toLowerCase().includes(text.toLowerCase())
       );
       setSearchedData(filtered);
     }
@@ -377,9 +384,9 @@ const NetworkFeed = ({ navigation }) => {
           </Text>
           <TouchableOpacity onPress={toggleText}>
             {item.promiseGoal.length > 90 && (
-            <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: hp(2.1), paddingHorizontal:hp(2.1) }}>
-              {showFullText ? ' Read Less' : ' Read More'}
-            </Text>
+              <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: hp(2.1), paddingHorizontal: hp(2.1) }}>
+                {showFullText ? ' Read Less' : ' Read More'}
+              </Text>
             )}
           </TouchableOpacity>
         </View>
@@ -513,24 +520,24 @@ const NetworkFeed = ({ navigation }) => {
           <View style={{ height: hp(6), width: '100%', justifyContent: 'center', alignItems: 'center' }}>
             <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
               <View style={{
-                flexDirection: 'row', alignItems: 'center', width: '60%', borderWidth: 1, borderColor: '#652D90', borderRadius: 50, marginTop: 5
+                flexDirection: 'row', alignItems: 'center', width: '90%', borderWidth: 1, borderColor: '#652D90', borderRadius: 50, marginTop: 5
               }}>
                 <FontAw5 name="search" size={24} color="#652D90" style={{ marginLeft: wp(3) }} />
                 <TextInput
                   style={{
                     flex: 1,
                     fontSize: 16,
-                    paddingHorizontal: wp(4),
+                    paddingHorizontal: wp(2),
                     paddingVertical: hp(0.7),
                     color: 'black',
                   }}
                   placeholder="Search Promises"
                   placeholderTextColor="#652D90"
                   value={searchText}
-                  onChangeText={text => setSearchText(text)}
+                  onChangeText={text => handleSearch(text)}
                 />
               </View>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={{
                   width: wp(30),
                   height: hp(5),
@@ -543,7 +550,7 @@ const NetworkFeed = ({ navigation }) => {
                 onPress={handleSearch}
               >
                 <Text style={{ color: "white" }}>Search</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
             </TouchableOpacity>
           </View>
