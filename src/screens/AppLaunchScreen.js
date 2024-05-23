@@ -37,7 +37,7 @@ const AppLaunchScreen = ({ navigation }) => {
           end={{ x: 1, y: 0 }}
           style={commonStyles.lognBtn}
         >
-          <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+          <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}  >
             <Text style={TextInP.LogInButton}>Log In</Text>
           </TouchableOpacity>
         </LinearGradient>

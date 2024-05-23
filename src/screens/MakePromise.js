@@ -450,7 +450,7 @@ const MakePromise = ({ navigation }) => {
 
           <TouchableOpacity
             onPress={handleNextButtonPress}
-            style={[commonStyles.lognBtn, { marginBottom: hp(4) }]}>
+            style={[commonStyles.lognBtn1]}>
             <LinearGradient
               colors={makePromise ? bgBtnmakeprms : bgBtnrqstprms}
               style={[

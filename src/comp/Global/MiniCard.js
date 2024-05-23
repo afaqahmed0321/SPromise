@@ -172,13 +172,16 @@ const MiniCard = ({
                 <Text
                   style={[
                     {
-                      color: 'white',
-                      marginHorizontal: hp(2),
-                      //  fontWeight: 'bold',
-                      fontSize: hp(2),
+                      color: 'black',
+                      marginHorizontal: hp(1.2),
+                      fontSize: hp(1.8),
+                      backgroundColor: "#e0e0e0",
+                      borderRadius: 50,
+                      paddingVertical: 5,
+                      paddingHorizontal: 10,
                     },
                   ]}>
-                  Commitment: ${amount} &nbsp;  {rewardPoints ? (
+                  Commitment: ${amount} {rewardPoints ? (
                     <Text> & {rewardPoints} pts</Text>
                   ) : null}
                 </Text>
@@ -219,7 +222,7 @@ const MiniCard = ({
                   }}
                 />
               </View>
-              
+
               <View
                 style={{
                   marginLeft: wp(3),
@@ -256,73 +259,93 @@ const MiniCard = ({
 
             <View style={{ paddingHorizontal: 15 }}>
 
-              <View style={[DashBoardStyling.PromiseReward, {
-                textAlign: 'center', justifyContent: 'center', alignItems: 'center',
-              }]}>
-                {promisetype == 'GUARANTEE' ? (
-                  <Text
-                    style={[
-                      {
-                        color: 'white',
-                        marginHorizontal: hp(2),
-                        fontWeight: 'bold',
-                        fontSize: 18,
-                        fontSize: hp(2),
-                      },
-                    ]}>
-                    {amount > 0 ? (
-                      <>
-                        Guarantee: ${amount}
-                        {rewardPoints ? <Text >& {rewardPoints} pts</Text>
-                          : null}
-                      </>
-                    ) : (
-                      null
-                    )}
-                  </Text>
-                ) : promisetype == 'COMMITMENT' ? (
-                  <Text
-                    style={[
-                      {
-                        color: 'white',
-                        marginHorizontal: hp(2),
-                        fontWeight: 'bold',
-                        fontSize: 18,
-                        fontSize: hp(2),
-                      },
-                    ]}>
-                    {amount > 0 ? (
-                      <>
-                        Commitment: ${amount} &nbsp;
-                        {rewardPoints ? <Text >& {rewardPoints} pts</Text>
-                          : null}
-                      </>
-                    ) : (
-                      null
-                    )}
-                  </Text>
-                ) :
-                  <Text
-                    style={[
-                      {
-                        color: 'white',
-                        marginHorizontal: hp(2),
-                        fontWeight: 'bold',
-                        fontSize: 18,
-                        fontSize: hp(2),
-                      },
-                    ]}>
-                    {rewardPoints ? <Text style={{}}>Reward: ${amount} & {rewardPoints} Pts</Text>
-                      : null}
-                  </Text>}
-                {promiseMediaURL ? (
-                  <TouchableOpacity
-                    onPress={() => handelAttachedMedia(promiseMediaURL)}>
-                    <FontAw5 color="#652D90" name="youtube" size={23} style={{ marginHorizontal: hp(2) }} />
-                    <VideoModal />
+              <View style={[
+                DashBoardStyling.PromiseReward1,
+                {
+                  justifyContent: (promisetype === 'GUARANTEE' && amount > 0) || (promisetype === 'COMMITMENT' && amount > 0) || rewardPoints ? 'space-around' : 'center'
+                }
+              ]}>
+                <View>
+                  {promisetype == 'GUARANTEE' && amount > 0 ? (
+                    <Text
+                      style={[
+                        {
+                          color: 'black',
+                          marginHorizontal: hp(1.2),
+                          fontSize: hp(1.8),
+                          backgroundColor: "#e0e0e0",
+                          borderRadius: 50,
+                          paddingVertical: 5,
+                          paddingHorizontal: 10,
+                        },
+                      ]}>
+                      {amount > 0 ? (
+                        <>
+                          Guarantee: ${amount}
+                          {rewardPoints ? <Text >& {rewardPoints} pts</Text>
+                            : null}
+                        </>
+                      ) : (
+                        null
+                      )}
+                    </Text>
+                  ) : promisetype == 'COMMITMENT' && amount > 0 ? (
+                    <Text
+                      style={[
+                        {
+                          color: 'black',
+                          marginHorizontal: hp(1.2),
+                          fontSize: hp(1.8),
+                          backgroundColor: "#e0e0e0",
+                          borderRadius: 50,
+                          paddingVertical: 5,
+                          paddingHorizontal: 10,
 
-                  </TouchableOpacity>
-                ) : null}
+                        },
+                      ]}>
+                      {amount > 0 ? (
+                        <>
+                          Commitment: ${amount} &nbsp;
+                          {rewardPoints ? <Text >& {rewardPoints} pts</Text>
+                            : null}
+                        </>
+                      ) : (
+                        null
+                      )}
+                    </Text>
+                  ) : (
+                    rewardPoints ? (
+
+                      <Text
+                        style={[
+                          {
+                            color: 'black',
+                            marginHorizontal: hp(1.2),
+                            fontSize: hp(1.8),
+                            backgroundColor: "#e0e0e0",
+                            borderRadius: 50,
+                            paddingVertical: 5,
+                            paddingHorizontal: 10,
+                          },
+                        ]}>
+                        {rewardPoints ? <Text style={{}}>Reward: ${amount} & {rewardPoints} Pts</Text>
+                          : null}
+                      </Text>
+                    ) : (
+                      null
+                    )
+                  )
+                  }
+                </View>
+                <View>
+                  {promiseMediaURL ? (
+                    <TouchableOpacity
+                      onPress={() => handelAttachedMedia(promiseMediaURL)}>
+                      <FontAw5 color="#652D90" name="youtube" size={23} />
+                      <VideoModal />
+                    </TouchableOpacity>
+                  ) : null}
+                </View>
               </View>
             </View>
           </View>

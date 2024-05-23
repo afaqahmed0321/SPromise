@@ -19,6 +19,21 @@ export const TextInP = StyleSheet.create({
     // borderColor:'#652D90'
     placeholderTextColor:'grey'
   },
+  Fileds1: {
+    marginVertical: hp(1),
+    backgroundColor: '#F6E2FF',
+    borderRadius: wp(50),
+    alignItems: 'center',
+    width: wp(82),
+    height: hp(6),
+    paddingLeft: 20,
+    // borderTopWidth:1,
+    borderColor: 'transparent',
+    borderCurve:'',
+    color: "black",
+    // borderColor:'#652D90'
+    placeholderTextColor:'grey'
+  },
   EmailFiled: {
     marginVertical: hp(1),
     backgroundColor: '#F6E2FF',
@@ -47,33 +62,33 @@ export const TextInP = StyleSheet.create({
     marginLeft: '10%'
   },
   LogInButton: {
-    // backgroundImage: 'linear-gradient(180deg, #E4A936 0%, #EE8347 100%)',
     fontSize: 16, // Adjust as needed
     fontWeight: 'bold', // or 'normal', '600', '700', etc.
     color:'white',
-    width: wp(90),
     flex:1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: wp(50),
-    height: hp(7),
-    borderRadius: 50,
-    paddingVertical: 8,
-    textAlign:"center"
+    flexDirection:"column",
+    textAlignVertical:"center"
   },
   SignInButton: {
     // backgroundImage: 'linear-gradient(180deg, #E4A936 0%, #EE8347 100%)',
     fontSize: 16, // Adjust as needed
     fontWeight: 'bold', // or 'normal', '600', '700', etc.
     color:'white',
-    width: wp(90),
     flex:1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: wp(50),
-    height: hp(7),
-    borderRadius: 50,
-    paddingVertical: 16,
+    flex:1,
+    flexDirection:"column",
+    textAlignVertical:"center",
+  },
+  SignInButton1: {
+    // backgroundImage: 'linear-gradient(180deg, #E4A936 0%, #EE8347 100%)',
+    fontSize: 16, // Adjust as needed
+    fontWeight: 'bold', // or 'normal', '600', '700', etc.
+    color:'white',
+    flex:1,
+    flexDirection:"column",
+    textAlignVertical:"center",
+    width:wp(90),
+    justifyContent:"center",
     textAlign:"center"
   }
 

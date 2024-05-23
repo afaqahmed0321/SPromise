@@ -62,8 +62,8 @@ const PromiseStatusData = () => {
         <View style={styles.pieChartsContainer}>
           <View style={styles.pieChartWrapper}>
             <Pie
-              radius={60}
-              innerRadius={50}
+              radius={50}
+              innerRadius={40}
               backgroundColor="#ee8347"
               sections={[
                 {
@@ -90,8 +90,8 @@ const PromiseStatusData = () => {
               start={{ x: 0, y: 0 }}
               end={{ x: 0, y: 1 }}
               style={{
-                width: '66%',
-                height: hp(14),
+                width: '62%',
+                height: hp(13),
                 opacity: 1,
                 borderRadius: wp(50),
                 marginTop: hp(0.5),
@@ -141,7 +141,12 @@ const styles = StyleSheet.create({
   pieChartsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: hp(1),
+    marginTop: hp(2),
+  },
+  pieChartsContainer1: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: hp(2),
   },
   pieChartWrapper: {
     flex: 1,
@@ -176,6 +181,6 @@ const styles = StyleSheet.create({
     fontSize: hp(2),
     color: '#fff',
     textAlign: "center",
-    marginHorizontal: 34,
+    marginHorizontal: 38,
   },
 });
