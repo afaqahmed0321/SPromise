@@ -31,6 +31,7 @@ import DateRangePicker from 'rn-select-date-range';
 import DropDownPicker from 'react-native-dropdown-picker';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 import moment from 'moment';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NetworkFeed = ({ navigation }) => {
   const [filteredData, setFilteredData] = useState([]);
@@ -122,9 +123,7 @@ const NetworkFeed = ({ navigation }) => {
   };
   function handleSearch(text) {
     setSearchText(text);
-  
-    // Ensure text is a string before trimming
-    if (typeof text !== 'string') {
+     if (typeof text !== 'string') {
       return;
     }
   
@@ -144,36 +143,100 @@ const NetworkFeed = ({ navigation }) => {
   }, [focus, refersh]);
 
   const onHandelReaction = async (PID, LikeA) => {
-    const PIDd = PID;
     const userNN = userN;
-    console.log(userNN, "New UserNo")
     const containsPromiseId = LikeA.includes(userNN);
     const Reac = containsPromiseId ? "UnLike" : "Like";
-    console.log(containsPromiseId, "Reac");
-    const res = await PromiseReaction(userNN, PIDd, Reac);
-    setrefresh(!refersh)
+    
+    try {
+      const res = await PromiseReaction(userNN, PID, Reac);
+      
+      // Update the filteredData state directly
+      setFilteredData(prevData => {
+        return prevData.map(item => {
+          if (item.promiseID === PID) {
+            const updatedReactions = containsPromiseId 
+              ? item.promiseReactions.filter(id => id !== userNN) 
+              : [...item.promiseReactions, userNN];
+            
+            return { ...item, promiseReactions: updatedReactions };
+          }
+          return item;
+        });
+      });
+    } catch (error) {
+      console.error('Error updating reaction:', error);
+    }
   };
-
-  const onHandelComment = async PID => {
-    const userNN = userN;
-    if (comment === '') {
+  
+  const onHandelComment = async (promiseID) => {
+    const userNo = await AsyncStorage.getItem('userNo');
+    let fullName = await AsyncStorage.getItem('Name');
+    console.log(fullName,userNo)
+    const newCommentValue = comment.trim();
+  
+    if (newCommentValue !== '') {
+      const promiseComments = {
+        promiseID: promiseID,
+        userNo: userNo,
+        newCommentValue: newCommentValue,
+      };
+  
+      try {
+        const res = await PromiseComment(userNo,promiseID,newCommentValue);
+        if (res) {
+          const updatedData = filteredData.map(item => {
+            if (item.promiseID === promiseID) {
+              return {
+                ...item,
+                promiseComments: [...item.promiseComments, {
+                  comment: promiseComments.newCommentValue,
+                  userName: fullName,
+                  userImageURL: '', // Assuming userImageURL is empty for now
+                }],
+              };
+            }
+            return item;
+          });
+          setFilteredData(updatedData);
+          setSearchedData(updatedData);
+          setComment('');
+          ToastAndroid.showWithGravityAndOffset(
+            'Comment added successfully!',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        } else {
+          ToastAndroid.showWithGravityAndOffset(
+            'Failed to add comment. Please try again.',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        }
+      } catch (error) {
+        console.error('Error adding comment:', error);
+        ToastAndroid.showWithGravityAndOffset(
+          'Failed to add comment. Please try again.',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      }
+    } else {
       ToastAndroid.showWithGravityAndOffset(
-        'Please enter comment',
+        'Please enter a non-empty comment.',
         ToastAndroid.LONG,
         ToastAndroid.BOTTOM,
         25,
         50,
       );
     }
-    else {
-      const commen = comment;
-      console.log('Api Calling');
-      const res = await PromiseComment(userNN, PID, commen);
-      setrefresh(!refersh)
-      setComment('')
-    }
   };
-
+  
   const handleNextButtonPress = () => {
     console.log("modal open")
     setIsModalV(true);
@@ -201,9 +264,10 @@ const NetworkFeed = ({ navigation }) => {
     };
 
     const handleLikeAction = (promiseID) => {
-      const isLiked = item.promiseReactions.includes(userN);
-      const action = isLiked ? "Unlike" : "Like";
-      onHandelReaction(promiseID, item.promiseReactions, action);
+      const promise = filteredData.find(item => item.promiseID === promiseID);
+      if (promise) {
+        onHandelReaction(promiseID, promise.promiseReactions);
+      }
     };
 
     const toggleText = () => {
@@ -390,10 +454,6 @@ const NetworkFeed = ({ navigation }) => {
             )}
           </TouchableOpacity>
         </View>
-
-
-
-
         <View style={{ marginLeft: wp(2) }}>
           {item.promiseComments && item.promiseComments.length > 0 ? (
             item.promiseComments
@@ -453,8 +513,6 @@ const NetworkFeed = ({ navigation }) => {
             </TouchableOpacity>
           )}
         </View>
-
-
         <View style={{}}>
           <TextInput
             onChangeText={text => {

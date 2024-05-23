@@ -31,18 +31,24 @@ const DashboardTopTabs = () => {
     <Tab.Navigator
     tabBarOptions={{
 
-      activeTintColor: 'blue', 
+      activeTintColor: '#652D90', 
       inactiveTintColor: 'gray', 
+      padding: 0,
+      margin:0,
       
       labelStyle: {
-        fontSize: hp(1.1), 
+        fontSize: hp(1.2), 
         fontWeight: 'bold', 
+        padding: 0,
+        margin:0,
       },
       tabStyle: {
         backgroundColor: 'white', 
+        padding: 0,
+        margin:0,
       },
       indicatorStyle: {
-        backgroundColor: 'blue',
+        backgroundColor: '#652D90',
       },
     }}
     >

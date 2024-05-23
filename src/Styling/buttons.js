@@ -13,8 +13,14 @@ export const commonStyles = StyleSheet.create({
     borderRadius: wp(50),
     height: hp(7),
     borderRadius: 50,
-    paddingHorizontal: 5,
-    paddingVertical: 8,
+  },
+  lognBtn1: {
+    width: wp(90),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: wp(50),
+    height: hp(5),
+    borderRadius: 50,
   },
   SignUpBtn: {
     backgroundColor: '#2E888C',
@@ -56,7 +62,6 @@ export const commonStyles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: wp(50),
     height: hp(7),
-    marginTop: hp(2),
     flexDirection: 'row',
     shadowColor: '#000',
     shadowOffset: {
@@ -103,7 +108,7 @@ export const commonStyles = StyleSheet.create({
     backgroundColor: '#D8DADC', // Change the color as needed
   },
   text: {
-    paddingHorizontal: 10,
+    paddingVertical: 15,
     color:'black'
   },
 });

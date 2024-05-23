@@ -533,11 +533,11 @@ const Review = ({ navigation }) => {
               ) : null}
             </View>
           </View>
-          <View style={{ marginTop: hp(2.5) }}>
+          <View style={{ marginTop: hp(2.5), paddingVertical: wp(2) }}>
             <TouchableOpacity
               onPress={Promiseze ? (makePromise ? handlePromiseApi : handelReqPromiseApi) : null}
               disabled={!Promiseze}
-              style={[commonStyles.lognBtn, { opacity: Promiseze ? 1 : 0.5 }]}>
+              style={[commonStyles.lognBtn1, { opacity: Promiseze ? 1 : 0.5 }]}>
               <LinearGradient
                 colors={!makePromise ? bgBtnrqstprms : bgBtnmakeprms}
                 style={{

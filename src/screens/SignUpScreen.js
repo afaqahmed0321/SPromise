@@ -299,12 +299,13 @@ const SignUpScreen = ({ navigation }) => {
               <TouchableOpacity
                 onPress={() => handleSignup()}
               >
-                <Text style={TextInP.SignInButton}>Create Account</Text>
+                <Text style={TextInP.SignInButton1}>Create Account</Text>
               </TouchableOpacity>
             </LinearGradient>
           </View>
+          
 
-          <View style={{ marginTop: hp(3), paddingBottom: 20 }}>
+          <View style={{}}>
 
             <View style={commonStyles.container}>
               <View style={commonStyles.line} />

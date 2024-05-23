@@ -182,7 +182,6 @@ const PromiseStatement = ({ onTextChange }) => {
                 color: '#000',
                 height: hp(15), // Set the height as needed
                 textAlignVertical: 'top',
-                paddingBottom: 10,
               }}
               multiline={true}
               value={generatedTexts}
@@ -317,9 +316,8 @@ const styles = StyleSheet.create({
   generatedBox: {
     width: '100%',
     borderColor: 'gray',
-    height: hp(8),
+    height: hp(3),
     marginTop: hp(2),
-
   },
   generatedTextBox: {
     padding: hp(0.4),
