@@ -34,14 +34,12 @@ import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NetworkFeed = ({ navigation }) => {
+  const today = moment().format('YYYY-MM-DD');
+
   const [filteredData, setFilteredData] = useState([]);
   const [searchedData, setSearchedData] = useState([]);
   const [searchText, setSearchText] = useState('');
-
-  const [selectedNetworkUserFee, setSelectedNetworkUserFee] = useRecoilState(
-    selectedNetworkUserFeed,
-  );
-
+  const [selectedNetworkUserFee, setSelectedNetworkUserFee] = useRecoilState(selectedNetworkUserFeed);
   const [allData, setAllData] = useState(selectedNetworkUserFee)
   const [isViewAll, setIsViewAll] = useState([]);
   const [refersh, setrefresh] = useState(false);
@@ -49,20 +47,12 @@ const NetworkFeed = ({ navigation }) => {
   const focus = useIsFocused();
   const [userN, setUserN] = useRecoilState(UserNo);
   const [comment, setComment] = useState('');
-  const [isnetworkModalVi, setIsnetworkModVi] = useRecoilState(
-    IspromiseNetworkmodalVisible,
-  );
+  const [isnetworkModalVi, setIsnetworkModVi] = useRecoilState(IspromiseNetworkmodalVisible);
   const [like, setLike] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const [visibilityy, setVisibilityy] = useState('Private');
   const [dateRange, setDateRange] = useState({ firstDate: '', secondDate: '' });
-  const today = moment().format('YYYY-MM-DD');
-  const [selectedRange, setRange] = useState({
-    firstDate: today,
-    secondDate: today
-
-  });
+  const [selectedRange, setRange] = useState({firstDate: today, secondDate: today});
   const [openDropdown, setOpenDropdown] = useState(false);
   const [selectedItem, setSelectedItem] = useState("Public");
   const [items, setItems] = useState([
@@ -73,6 +63,8 @@ const NetworkFeed = ({ navigation }) => {
   const [openStatusDropdown, setOpenStatusDropdown] = useState(false);
   const [showFullText, setShowFullText] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState("All");
+  const [resCode, setResCode] = useState();
+
   const [statusItems, setStatusItems] = useState([
     { label: 'All', value: 'All' },
     { label: 'Not In Effect', value: 'NotInEffect' },
@@ -82,12 +74,9 @@ const NetworkFeed = ({ navigation }) => {
     { label: 'Rejected', value: 'Rejected' },
   ]);
   const myAllData = selectedNetworkUserFee
-
-
   const handelNetworkFeedComp = async () => {
     const networkUserNo = userN;
     console.log('UserNo is ', networkUserNo, "visibility: ", selectedItem, "Status: ", selectedStatus, "First Date: ", selectedRange.firstDate, "Last date: ", selectedRange.secondDate);
-
     try {
       setIsLoading(true);
       const response = await fetch(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${selectedItem}&${selectedStatus == "All" ? '' : "&status="}${selectedStatus}&fromDate=${selectedRange.firstDate}&toDate=${selectedRange.secondDate}`, {
@@ -124,6 +113,7 @@ const NetworkFeed = ({ navigation }) => {
   function handleSearch(text) {
     setSearchText(text);
      if (typeof text !== 'string') {
+
       return;
     }
   
@@ -136,7 +126,6 @@ const NetworkFeed = ({ navigation }) => {
       setSearchedData(filtered);
     }
   };
-
 
   useEffect(() => {
     handelNetworkFeedComp();
@@ -166,6 +155,7 @@ const NetworkFeed = ({ navigation }) => {
     } catch (error) {
       console.error('Error updating reaction:', error);
     }
+
   };
   
   const onHandelComment = async (promiseID) => {
@@ -249,6 +239,7 @@ const NetworkFeed = ({ navigation }) => {
   const renderItem = ({ item }) => {
     const userNN = userN;
     const setLike = item.promiseReactions;
+    let newlike = 0;
 
     const handleViewAllComments = (promiseID) => {
       if (isViewAll.includes(promiseID)) {
@@ -267,6 +258,7 @@ const NetworkFeed = ({ navigation }) => {
       const promise = filteredData.find(item => item.promiseID === promiseID);
       if (promise) {
         onHandelReaction(promiseID, promise.promiseReactions);
+
       }
     };
 
@@ -321,6 +313,7 @@ const NetworkFeed = ({ navigation }) => {
             onPress={() => {
               const PID = item.promiseID;
               handleLikeAction(PID);
+              
             }}
             style={{
               flexDirection: 'row',
@@ -328,7 +321,8 @@ const NetworkFeed = ({ navigation }) => {
               alignItems: 'center',
               width: wp(20),
             }}>
-            {item.promiseReactions.find(item => item === userN) ? (
+            {console.log("his is item", item)}
+            {item.promiseReactions.find(item => item === userN) && resCode === 100 ? (
               <Ant name="like1" size={23} color="blue" />
             ) : (
               <Ant name="like1" size={23} color="grey" />
@@ -555,6 +549,7 @@ const NetworkFeed = ({ navigation }) => {
       </View>
     );
   };
+
   return (
     <>
       <View
@@ -595,20 +590,6 @@ const NetworkFeed = ({ navigation }) => {
                   onChangeText={text => handleSearch(text)}
                 />
               </View>
-              {/* <TouchableOpacity
-                style={{
-                  width: wp(30),
-                  height: hp(5),
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  backgroundColor: '#652D90',
-                  borderRadius: wp(10),
-                  marginVertical: hp(1),
-                }}
-                onPress={handleSearch}
-              >
-                <Text style={{ color: "white" }}>Search</Text>
-              </TouchableOpacity> */}
 
             </TouchableOpacity>
           </View>
@@ -624,6 +605,7 @@ const NetworkFeed = ({ navigation }) => {
                 <Text style={{ fontSize: 18, textAlign: "center", color: 'grey' }}>No Data to Display for today. You can try applying a filter.</Text>
               </View>
             ) : (
+              
               <FlatList
                 refreshControl={
                   <RefreshControl
