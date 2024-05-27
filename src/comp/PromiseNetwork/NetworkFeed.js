@@ -549,7 +549,7 @@ const NetworkFeed = ({ navigation }) => {
             style={{
               borderWidth: wp(0.5),
               borderColor: '#652D90',
-              backgroundColor: 'white',
+              backgroundColor: 'white', 
               borderRadius: wp(6.5),
               marginHorizontal: 10,
               paddingLeft: wp(2.2),
