@@ -32,6 +32,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import fetchUser from '../../Network/Users/GetUser';
 
 const NetworkFeed = ({ navigation }) => {
   const today = moment().format('YYYY-MM-DD');
@@ -159,10 +160,21 @@ const NetworkFeed = ({ navigation }) => {
   };
   
   const onHandelComment = async (promiseID) => {
+    const email = await AsyncStorage.getItem('Email');
+    let fullName = '';
+  
+    try {
+      const res = await fetchUser(email);
+      fullName = `${res.firstName} ${res.lastName}`;
+      console.log("response of fetchUser is:", res, "name is:", fullName);
+    } catch (error) {
+      console.error('Error fetching user:', error);
+    }
+  
     const userNo = await AsyncStorage.getItem('userNo');
-    let fullName = await AsyncStorage.getItem('Name');
-    console.log(fullName,userNo)
     const newCommentValue = comment.trim();
+  
+    console.log(fullName, userNo, email, "name from fetchUser is:", fullName);
   
     if (newCommentValue !== '') {
       const promiseComments = {
@@ -172,7 +184,7 @@ const NetworkFeed = ({ navigation }) => {
       };
   
       try {
-        const res = await PromiseComment(userNo,promiseID,newCommentValue);
+        const res = await PromiseComment(userNo, promiseID, newCommentValue);
         if (res) {
           const updatedData = filteredData.map(item => {
             if (item.promiseID === promiseID) {
@@ -189,7 +201,11 @@ const NetworkFeed = ({ navigation }) => {
           });
           setFilteredData(updatedData);
           setSearchedData(updatedData);
+  
+          // Clear the comment field
           setComment('');
+          console.log('Comment field cleared:', comment); // Debugging line to check if comment is cleared
+  
           ToastAndroid.showWithGravityAndOffset(
             'Comment added successfully!',
             ToastAndroid.LONG,
@@ -226,6 +242,8 @@ const NetworkFeed = ({ navigation }) => {
       );
     }
   };
+  
+  
   
   const handleNextButtonPress = () => {
     console.log("modal open")
@@ -512,6 +530,7 @@ const NetworkFeed = ({ navigation }) => {
             onChangeText={text => {
               setComment(text);
             }}
+            value={comment}
             placeholder="Add a comment"
             placeholderTextColor={"black"}
             style={{
@@ -539,8 +558,6 @@ const NetworkFeed = ({ navigation }) => {
             onPress={() => {
               const PID = item.promiseID;
               onHandelComment(PID);
-              setComment('')
-              console.log(comment, "comment")
             }}>
             <Text style={{ color: "white" }}>Add Comment</Text>
           </TouchableOpacity>
