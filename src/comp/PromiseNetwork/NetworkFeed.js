@@ -254,11 +254,24 @@ const NetworkFeed = ({ navigation }) => {
       return item.promiseReactions.length;
     };
 
-    const handleLikeAction = (promiseID) => {
-      const promise = filteredData.find(item => item.promiseID === promiseID);
-      if (promise) {
-        onHandelReaction(promiseID, promise.promiseReactions);
-
+    const handleLikeAction = async (promiseID) => {
+      const PIDd = promiseID;
+      const containsPromiseId = item.promiseReactions.includes(userN);
+      const Reac = containsPromiseId ? "UnLike" : "Like";
+      console.log(containsPromiseId, "Reac");
+      const res = await PromiseReaction(userN, PIDd, Reac);
+      console.log("like response", res)
+      if (res.code === 100) {
+        const index = filteredData.findIndex(promise => promise.promiseID === promiseID);
+        if (index !== -1) {
+          const updatedData = [...filteredData];
+          if (containsPromiseId) {
+            updatedData[index].promiseReactions = updatedData[index].promiseReactions.filter(id => id !== userN);
+          } else {
+            updatedData[index].promiseReactions.push(userN);
+          }
+          setFilteredData(updatedData);
+        }
       }
     };
 
@@ -322,7 +335,7 @@ const NetworkFeed = ({ navigation }) => {
               width: wp(20),
             }}>
             {console.log("his is item", item)}
-            {item.promiseReactions.find(item => item === userN) && resCode === 100 ? (
+            {item.promiseReactions.find(item => item === userN) ? (
               <Ant name="like1" size={23} color="blue" />
             ) : (
               <Ant name="like1" size={23} color="grey" />

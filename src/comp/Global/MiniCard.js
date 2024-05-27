@@ -173,7 +173,7 @@ const MiniCard = ({
                   style={[
                     {
                       color: 'black',
-                      marginHorizontal: hp(1.2),
+                      marginHorizontal: hp(8.2),
                       fontSize: hp(1.8),
                       backgroundColor: "#e0e0e0",
                       borderRadius: 50,
@@ -181,7 +181,7 @@ const MiniCard = ({
                       paddingHorizontal: 10,
                     },
                   ]}>
-                  Commitment: ${amount} {rewardPoints ? (
+                   ${amount} {rewardPoints ? (
                     <Text> & {rewardPoints} pts</Text>
                   ) : null}
                 </Text>
@@ -281,7 +281,7 @@ const MiniCard = ({
                       ]}>
                       {amount > 0 ? (
                         <>
-                          Guarantee: ${amount}
+                           ${amount}
                           {rewardPoints ? <Text >& {rewardPoints} pts</Text>
                             : null}
                         </>
@@ -305,7 +305,7 @@ const MiniCard = ({
                       ]}>
                       {amount > 0 ? (
                         <>
-                          Commitment: ${amount} &nbsp;
+                           ${amount} &nbsp;
                           {rewardPoints ? <Text >& {rewardPoints} pts</Text>
                             : null}
                         </>
