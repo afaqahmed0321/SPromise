@@ -49,6 +49,7 @@ import RemoveSoicalLinkApproval from '../comp/Profile/RemoveSoicalLinkApproval';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 import { BlurView } from '@react-native-community/blur';
 import DropDownPicker from 'react-native-dropdown-picker';
+import AccountRemovedApiCall from '../Network/Users/RemoveUserSocialAccounts/TwitterAccountRemoveApiCall';
 
 const UserProfile = () => {
   const [istwitterRemoveAccount, setIstwitterRemoveAccount] =
@@ -84,6 +85,7 @@ const UserProfile = () => {
   const [password, setPassword] = useState('');
   const [xtoggle, setXTogel] = useState(false);
   const [linkedInToggle, setLinkedInToggle] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const [isWebView, setIsWebView] = useState(false);
   const [twitterResponse, setTwitterResponse] = useState('');
@@ -228,12 +230,14 @@ const UserProfile = () => {
   };
   const apiCallLinkChceckRes = async () => {
     const response = await LinkDinApiCallToCheckData(userN);
-    if (response == '400') {
+    console.log("linkedin check response", response);
+    if (response == 400) {
+      setRefresh(!refresh);
       setLinkedInToggle(false);
-
       console.log('xtoggle is true');
     } else {
       setLinkedInToggle(true);
+      setRefresh(!refresh);
       console.log('xtoggle is False');
     }
   };
@@ -242,7 +246,7 @@ const UserProfile = () => {
     fetchUserData();
     apiCallChceckRes();
     apiCallLinkChceckRes();
-  }, [focus]);
+  }, [focus, refresh]);
 
   if (!userData) {
     return (
@@ -427,8 +431,9 @@ const UserProfile = () => {
                       onToggle={() => {
                         setXTogel(!xtoggle)
                         xtoggle
-                          ? (setRemoveSLAModal(true),
-                            setIstwitterRemoveAccount(true)
+                          ? (AccountRemovedApiCall(userN, 'Twitter'),
+                            setIstwitterRemoveAccount(true),
+                            setRefresh(!refresh)
                           )
                           : // setRemoveSLAModal(true)
                           (setIsTwitterApiCall(true), TwitterCallHandel());
@@ -454,11 +459,14 @@ const UserProfile = () => {
                         setLinkedInToggle(!linkedInToggle);
                         // LinkDinallHandel();
                         linkedInToggle
-                          ? (setRemoveSLAModal(true),
-                            setIstwitterRemoveAccount(true))
+                          ? (AccountRemovedApiCall(userN, 'LinkedIn'),
+                            setIstwitterRemoveAccount(true),
+                            setRefresh(!refresh)
+                            )
                           : (setIsTwitterApiCall(false), LinkDinallHandel());
                       }}
                     />
+
                   </View>
                   {/* //RemoveSoicalLinkApproval /> */}
                   {/* <Modal
