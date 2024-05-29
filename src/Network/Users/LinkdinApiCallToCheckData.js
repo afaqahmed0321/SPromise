@@ -6,8 +6,6 @@ const LinkDinApiCallToCheckData = async (userN) => {
   try {
     const response = await axios.get(apiUrl);
     return response.data.code
-    
-
   } catch (error) {
     
     
