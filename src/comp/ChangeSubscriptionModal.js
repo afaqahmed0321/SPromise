@@ -8,10 +8,10 @@ const ChangeSubscriptionModal = ({ visible, onClose, onConfirm }) => {
         <View style={styles.modal}>
           <Text style={styles.text}>You will be logged out.&nbsp;Are you sure you want to change your subscription?</Text>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={onConfirm} style={[styles.button, { backgroundColor: 'green' }]}>
+            <TouchableOpacity onPress={onConfirm} style={[styles.button, { backgroundColor: '#652D90' }]}>
               <Text style={styles.buttonText}>Yes</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={onClose} style={[styles.button, { backgroundColor: 'red' }]}>
+            <TouchableOpacity onPress={onClose} style={[styles.button, { backgroundColor: '#652D90' }]}>
               <Text style={styles.buttonText}>No</Text>
             </TouchableOpacity>
           </View>
@@ -45,7 +45,8 @@ modal: {
     flexDirection: 'row',
   },
   button: {
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal:16,
     borderRadius: 5,
     marginHorizontal: 10,
   },

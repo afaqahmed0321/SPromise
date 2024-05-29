@@ -84,14 +84,14 @@ const PromiseStatusData = () => {
           <View style={styles.pieChartWrapper}>
             <View style={styles.pieChartLabel2}>
               <Text style={styles.barText}>Reward Points</Text>
-            </View>
+            </View> 
             <LinearGradient
               colors={['#73B6BF', '#2E888C']}
               start={{ x: 0, y: 0 }}
               end={{ x: 0, y: 1 }}
               style={{
-                width: '62%',
-                height: hp(13),
+                width: '60%',
+                height: hp(12.4),
                 opacity: 1,
                 borderRadius: wp(50),
                 marginTop: hp(0.5),
@@ -178,9 +178,11 @@ const styles = StyleSheet.create({
     color: '#652D90',
   },
   pieChartText1: {
+    position: 'absolute',
     fontSize: hp(2),
     color: '#fff',
     textAlign: "center",
-    marginHorizontal: 38,
+    top: -10,
+    left: 35,
   },
 });

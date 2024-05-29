@@ -317,21 +317,6 @@ const UserProfile = () => {
                       />
                     </View>
                   </View>
-
-                  {/* <View style={styles.Box}>
-                    <View styles={styles.InnerBox}>
-                      <Text style={Headings.Input3}>Gender</Text>
-                      <TextInput
-                        style={[TextInP.Fileds, { width: wp(82), }]}
-                        value={
-                          userData.gender == '' ? 'Gender' : userData.gender
-                        }
-                        placeholderTextColor="grey"
-                        // value={lName}
-                        onChangeText={text => setGender(text)}
-                      />
-                    </View>
-                  </View> */}
                   <View>
                     <Text style={Headings.Input3}>Gender</Text>
                     <DropDownPicker
@@ -520,6 +505,7 @@ const UserProfile = () => {
                     source={{
                       uri: isTwitterApiCall ? twitterResponse : linkDinResponse,
                     }}
+                    style={{height:hp(90)}}
 
                   />
                 </SafeAreaView>
