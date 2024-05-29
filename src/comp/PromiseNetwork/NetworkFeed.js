@@ -205,14 +205,6 @@ const NetworkFeed = ({ navigation }) => {
           // Clear the comment field
           setComment('');
           console.log('Comment field cleared:', comment); // Debugging line to check if comment is cleared
-  
-          ToastAndroid.showWithGravityAndOffset(
-            'Comment added successfully!',
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50,
-          );
         } else {
           ToastAndroid.showWithGravityAndOffset(
             'Failed to add comment. Please try again.',
