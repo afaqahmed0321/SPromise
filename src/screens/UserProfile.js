@@ -51,6 +51,7 @@ import { BlurView } from '@react-native-community/blur';
 import DropDownPicker from 'react-native-dropdown-picker';
 import AccountRemovedApiCall from '../Network/Users/RemoveUserSocialAccounts/TwitterAccountRemoveApiCall';
 
+
 const UserProfile = () => {
   const [istwitterRemoveAccount, setIstwitterRemoveAccount] =
     useRecoilState(RemoveTwitterApicall);
@@ -179,27 +180,36 @@ const UserProfile = () => {
   };
 
   const LinkDinallHandel = async () => {
-    setLinkDinResponse('');
-    const LinkDinApiRes = await LinkDinApiCallLogin(userN);
-    console.log('LinkDinApiRessssss: ' + LinkDinApiRes);
-    setLinkDinResponse(LinkDinApiRes);
-    if (LinkDinApiRes !== '') {
-      setIsWebView(true);
-    } else {
-      console.log('Error');
+    if (linkedInToggle) {
+      AccountRemovedApiCall(userN, "LinkedIn")
+    }
+    else {
+      setLinkDinResponse('');
+      setIsTwitterApiCall(false)
+      const LinkDinApiRes = await LinkDinApiCallLogin(userN);
+      console.log('LinkDinApiRessssss: ' + LinkDinApiRes);
+      setLinkDinResponse(LinkDinApiRes);
+      if (LinkDinApiRes !== '') {
+        setIsWebView(true);
+      } else {
+        console.log('Error');
+      }
     }
   };
   const TwitterCallHandel = async () => {
-    console.log(
-      'User is already logged in, Automatically calling call handlers',
-    );
-    const twriterApiRes = await TwitterApiCallLogin(userN);
-    console.log(twriterApiRes, 'api call success to twitter');
-    setTwitterResponse(twriterApiRes);
-    if (twriterApiRes !== '') {
-      setIsWebView(true);
-    } else {
-      console.log('Error');
+    if (xtoggle) {
+      AccountRemovedApiCall(userN, "Twitter")
+    }
+    else {
+      const twriterApiRes = await TwitterApiCallLogin(userN);
+      console.log(twriterApiRes, 'api call success to twitter');
+      setTwitterResponse(twriterApiRes);
+      setIsTwitterApiCall(true)
+      if (twriterApiRes !== '') {
+        setIsWebView(true);
+      } else {
+        console.log('Error');
+      }
     }
 
   };
@@ -247,6 +257,7 @@ const UserProfile = () => {
     apiCallChceckRes();
     apiCallLinkChceckRes();
   }, [focus, refresh]);
+
 
   if (!userData) {
     return (
@@ -417,10 +428,12 @@ const UserProfile = () => {
                   </View>
 
                   <View style={styles.Social}>
+                    <View style={{flexDirection:'row', alignItems:"center", gap:10}}>
                     <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
                       Twitter
                     </Text>
                     <ToggleSwitch
+                      disabled={true}
                       isOn={xtoggle}
                       style={{ marginRight: wp(5) }}
                       onColor="green"
@@ -436,13 +449,18 @@ const UserProfile = () => {
                             setRefresh(!refresh)
                           )
                           : // setRemoveSLAModal(true)
-                          (setIsTwitterApiCall(true), TwitterCallHandel());
+                          (setIsTwitterApiCall(true));
 
                       }}
                     />
-                  </View>
 
+                    </View>
+                    <TouchableOpacity onPress={TwitterCallHandel} style={[styles.button, { backgroundColor: '#652D90' }]}>
+                      <Text style={styles.buttonText}>{xtoggle? 'Disconnect':'Connect'}</Text>
+                    </TouchableOpacity>
+                  </View>
                   <View style={styles.Social}>
+                    <View style={{flexDirection:'row', alignItems:"center", gap:10}}>
                     <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
                       LinkedIn
                     </Text>
@@ -451,6 +469,7 @@ const UserProfile = () => {
                       style={{ marginRight: wp(5) }}
                       onColor="green"
                       offColor="#FFFFFF"
+                      disabled={true}
                       thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
                       thumbOnStyle={{ backgroundColor: '#652D90' }}
                       size="small"
@@ -462,10 +481,15 @@ const UserProfile = () => {
                           ? (AccountRemovedApiCall(userN, 'LinkedIn'),
                             setIstwitterRemoveAccount(true),
                             setRefresh(!refresh)
-                            )
-                          : (setIsTwitterApiCall(false), LinkDinallHandel());
+                          )
+                          : (setIsTwitterApiCall(false));
                       }}
                     />
+                    </View>
+                    <TouchableOpacity onPress={LinkDinallHandel} style={[styles.button, { backgroundColor: '#652D90' }]}>
+                      <Text style={styles.buttonText}>{linkedInToggle?'Disconnect':'Connect'}</Text>
+                    </TouchableOpacity>
+
 
                   </View>
                   {/* //RemoveSoicalLinkApproval /> */}
@@ -513,7 +537,7 @@ const UserProfile = () => {
                     source={{
                       uri: isTwitterApiCall ? twitterResponse : linkDinResponse,
                     }}
-                    style={{height:hp(90)}}
+                    style={{ height: hp(90) }}
 
                   />
                 </SafeAreaView>
@@ -764,6 +788,16 @@ const styles = StyleSheet.create({
     width: wp(84),
     justifyContent: 'space-between',
     marginTop: hp(1),
+  },
+  button: {
+    paddingVertical: 7,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginHorizontal: 10,
+  },
+  buttonText: {
+    fontSize: 12,
+    color: 'white',
   },
 });
 
