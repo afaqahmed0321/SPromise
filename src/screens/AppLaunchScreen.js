@@ -31,26 +31,26 @@ const AppLaunchScreen = ({ navigation }) => {
       </View>
 
       <View style={{ flex: 1 }}>
+        <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}  >
         <LinearGradient
           colors={['#E4A936', '#EE8347']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={commonStyles.lognBtn}
         >
-          <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}  >
             <Text style={TextInP.LogInButton}>Log In</Text>
-          </TouchableOpacity>
         </LinearGradient>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
         <LinearGradient
           colors={['#73B6BF', '#2E888C']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={commonStyles.SignUpBtn}
         >
-          <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
             <Text style={TextInP.SignInButton}>Create Account</Text>
-          </TouchableOpacity>
         </LinearGradient>
+          </TouchableOpacity>
       </View>
     </View>
 
