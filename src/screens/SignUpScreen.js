@@ -309,7 +309,7 @@ const SignUpScreen = ({ navigation }) => {
 
             <View style={commonStyles.container}>
               <View style={commonStyles.line} />
-              <Text style={commonStyles.text}>Or Register With</Text>
+              <Text style={commonStyles.text}>Or</Text>
               <View style={commonStyles.line} />
             </View>
             <TouchableOpacity onPress={onGoogleButtonPress} style={commonStyles.SocialBtn}>
