@@ -47,13 +47,10 @@ import { useIsFocused } from '@react-navigation/native';
 import ToggleSwitch from 'toggle-switch-react-native';
 import { ToastAndroid } from 'react-native';
 
-
 const MakePromise = ({ navigation }) => {
   const [financial, setFinancial] = useRecoilState(promiseType);
-  const [type, setType] = useRecoilState(promiseType)
   const [isChecked1, setIsChecked1] = useState(istimeBoundCheckBox1);
   const [isChecked2, setIsChecked2] = useState(istimeBoundCheckBox2);
-  const [deadlinedate, setDeadLinedate] = useRecoilState(deadline);
   const [isTimeB, setIsTimeB] = useRecoilState(IsTimeBound);
   const [startDa, setStartDate] = useRecoilState(startDate);
   const [paymentCheck, setpaymentCheck] = useRecoilState(PaymentCheck);
@@ -73,11 +70,9 @@ const MakePromise = ({ navigation }) => {
   const [selectedMediaURI, setSelectedMediaURI] = useRecoilState(selectedMedia);
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectMedia);
 
-
   const bgBtnmakeprms = ['#E4A936', '#EE8347'];
   const bgBtnrqstprms = ['#73B6BF', '#2E888C'];
   const focus = useIsFocused();
-
 
   const toggleCheckBox1 = () => {
     setIsChecked1(true);
@@ -91,7 +86,6 @@ const MakePromise = ({ navigation }) => {
     setrewardCheck(true);
   };
 
-
   const toggleCheckBox2 = () => {
     setIsChecked1(false);
     setIsChecked2(true);
@@ -102,29 +96,15 @@ const MakePromise = ({ navigation }) => {
     console.log(promiseType, "promise type")
   }, [focus]);
 
-
-
-
   const handleTextChange = (text) => {
     setPromiseStatement(text);
     console.log('Promise statement changed:', text);
   };
 
   const handleNextButtonPress = () => {
-    if (isTimeB) {
-      if (!startDa) {
-        ToastAndroid.showWithGravityAndOffset(
-          'Please select compilation date',
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-          25,
-          50,
-        );
-      } else {
-
-
-
-        const promiseText = promiseStatement;
+    const promiseText = promiseStatement;
+    if ((isTimeB && selectEndDate) || !isTimeB) {
+      if (financial && (amount > 0 || rewardPoints > 0) || !financial) {
         if ((!promiseText || promiseText.trim() === '') && !selectedVideo) {
           ToastAndroid.showWithGravityAndOffset(
             'Please attach video or write promise statement',
@@ -133,71 +113,40 @@ const MakePromise = ({ navigation }) => {
             25,
             50,
           );
-        } else if (selectEndDate) {
+        } else {
           navigation.navigate('Review');
           console.log('Reward points', rewardPoints);
           console.log('Promise Amount', amount);
-
+        }
+      } else {
+        if (makePromise) {
+          ToastAndroid.showWithGravityAndOffset(
+            'Please Enter Amount',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
         } else {
           ToastAndroid.showWithGravityAndOffset(
-            'Please select compilation date',
+            'Please Enter Amount or Reward Points',
             ToastAndroid.LONG,
             ToastAndroid.BOTTOM,
             25,
             50,
           );
         }
-
-
       }
-    }
-    else {
-
-      if (financial && (amount > 0 || rewardPoints > 0) || !financial) {
-        
-        const promiseText = promiseStatement;
-        console.log("selected media from parent", selectedVideo, "textttttt".promiseText)
-
-        if ((!promiseText || promiseText.trim() === '') && !selectedVideo) {
-          ToastAndroid.showWithGravityAndOffset(
-            'Please attach video or write promise statement',
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50,
-          );
-        } else {
-
-          navigation.navigate('Review');
-          console.log('Reward points', rewardPoints);
-        }
-      } else  {
-        if(makePromise){
-          ToastAndroid.showWithGravityAndOffset(
-            'Please enter amount',
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50,
-          );
-        }else {
-          console.log("prommmtype", financial);
-          ToastAndroid.showWithGravityAndOffset(
-            'Please enter amount or reward point',
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50,
-          );
-        }
-      } 
-
+    } else {
+      ToastAndroid.showWithGravityAndOffset(
+        'Please select compilation date',
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        25,
+        50,
+      );
     }
   };
-
-
-
-
 
   const handleBack = () => {
     navigation.goBack();
