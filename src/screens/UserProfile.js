@@ -79,7 +79,6 @@ const UserProfile = () => {
   const [state, setState] = useState('');
   const [pinCode, setPinCode] = useState('');
   const [country, setCountry] = useState('');
-  const [gender, setGender] = useState('');
   const [dob, setDob] = useState('');
   const navigation = useNavigation();
 
@@ -216,12 +215,11 @@ const UserProfile = () => {
 
 
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  const [gender, setGender] = useState('');
   const [items, setItems] = useState([
-    { label: 'Male', value: 'Male', textStyle: { color: 'black' } },
-    { label: 'Female', value: 'Female', textStyle: { color: 'black' } },
+    { label: 'Male', value: 'Male' },
+    { label: 'Female', value: 'Female' },
   ]);
-
   const handleDropdownSelect = (item) => {
     setValue(item.value);
     setOpen(false);
@@ -337,32 +335,19 @@ const UserProfile = () => {
                     <DropDownPicker
                       open={open}
                       value={
-                        userData.gender == '' ? 'Gender' : userData.gender
-                      } items={items}
+                        userData.gender != '' || userData.gender != null ? userData.gender : "Gender"
+                      } 
+                      // value={gender}
+                      items={items}
                       setOpen={setOpen}
                       setValue={setGender}
                       setItems={setItems}
                       style={[TextInP.Fileds1, { borderRadius: open ? wp(6) : wp(50) }]}
                       placeholder="Select Gender"
-                      placeholderTextColor={'grey'}
+                      placeholderStyle={{ color: 'grey' }}
                       dropDownContainerStyle={{ backgroundColor: '#F6E2FF', borderRadius: open ? wp(6) : wp(50), height: hp(12), borderColor: 'transparent', paddingLeft: 8, }}
                       textStyle={{ color: 'black' }}
                     />
-                    {open && (
-                      <View>
-                        {items.map((item) => (
-                          <TouchableOpacity
-                            key={item.value}
-                            onPress={() => handleDropdownSelect(item)}
-                          >
-                            <Text >
-                              {item.label}
-                              {item.value === value && <Icon name="checkmark" size={20} />}
-                            </Text>
-                          </TouchableOpacity>
-                        ))}
-                      </View>
-                    )}
                   </View>
 
                   <View styles={styles.InnerBox}>
@@ -428,66 +413,66 @@ const UserProfile = () => {
                   </View>
 
                   <View style={styles.Social}>
-                    <View style={{flexDirection:'row', alignItems:"center", gap:10}}>
-                    <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
-                      Twitter
-                    </Text>
-                    <ToggleSwitch
-                      disabled={true}
-                      isOn={xtoggle}
-                      style={{ marginRight: wp(5) }}
-                      onColor="green"
-                      offColor="#FFFFFF"
-                      thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
-                      thumbOnStyle={{ backgroundColor: '#652D90' }}
-                      size="small"
-                      onToggle={() => {
-                        setXTogel(!xtoggle)
-                        xtoggle
-                          ? (AccountRemovedApiCall(userN, 'Twitter'),
-                            setIstwitterRemoveAccount(true),
-                            setRefresh(!refresh)
-                          )
-                          : // setRemoveSLAModal(true)
-                          (setIsTwitterApiCall(true));
+                    <View style={{ flexDirection: 'row', alignItems: "center", gap: 10 }}>
+                      <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
+                        Twitter
+                      </Text>
+                      <ToggleSwitch
+                        disabled={true}
+                        isOn={xtoggle}
+                        style={{ marginRight: wp(5) }}
+                        onColor="green"
+                        offColor="#FFFFFF"
+                        thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
+                        thumbOnStyle={{ backgroundColor: '#652D90' }}
+                        size="small"
+                        onToggle={() => {
+                          setXTogel(!xtoggle)
+                          xtoggle
+                            ? (AccountRemovedApiCall(userN, 'Twitter'),
+                              setIstwitterRemoveAccount(true),
+                              setRefresh(!refresh)
+                            )
+                            : // setRemoveSLAModal(true)
+                            (setIsTwitterApiCall(true));
 
-                      }}
-                    />
+                        }}
+                      />
 
                     </View>
                     <TouchableOpacity onPress={TwitterCallHandel} style={[styles.button, { backgroundColor: '#652D90' }]}>
-                      <Text style={styles.buttonText}>{xtoggle? 'Disconnect':'Connect'}</Text>
+                      <Text style={styles.buttonText}>{xtoggle ? 'Disconnect' : 'Connect'}</Text>
                     </TouchableOpacity>
                   </View>
                   <View style={styles.Social}>
-                    <View style={{flexDirection:'row', alignItems:"center", gap:10}}>
-                    <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
-                      LinkedIn
-                    </Text>
-                    <ToggleSwitch
-                      isOn={linkedInToggle}
-                      style={{ marginRight: wp(5) }}
-                      onColor="green"
-                      offColor="#FFFFFF"
-                      disabled={true}
-                      thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
-                      thumbOnStyle={{ backgroundColor: '#652D90' }}
-                      size="small"
-                      onToggle={() => {
-                        setIsTwitterApiCall(false);
-                        setLinkedInToggle(!linkedInToggle);
-                        // LinkDinallHandel();
-                        linkedInToggle
-                          ? (AccountRemovedApiCall(userN, 'LinkedIn'),
-                            setIstwitterRemoveAccount(true),
-                            setRefresh(!refresh)
-                          )
-                          : (setIsTwitterApiCall(false));
-                      }}
-                    />
+                    <View style={{ flexDirection: 'row', alignItems: "center", gap: 10 }}>
+                      <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
+                        LinkedIn
+                      </Text>
+                      <ToggleSwitch
+                        isOn={linkedInToggle}
+                        style={{ marginRight: wp(5) }}
+                        onColor="green"
+                        offColor="#FFFFFF"
+                        disabled={true}
+                        thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
+                        thumbOnStyle={{ backgroundColor: '#652D90' }}
+                        size="small"
+                        onToggle={() => {
+                          setIsTwitterApiCall(false);
+                          setLinkedInToggle(!linkedInToggle);
+                          // LinkDinallHandel();
+                          linkedInToggle
+                            ? (AccountRemovedApiCall(userN, 'LinkedIn'),
+                              setIstwitterRemoveAccount(true),
+                              setRefresh(!refresh)
+                            )
+                            : (setIsTwitterApiCall(false));
+                        }}
+                      />
                     </View>
                     <TouchableOpacity onPress={LinkDinallHandel} style={[styles.button, { backgroundColor: '#652D90' }]}>
-                      <Text style={styles.buttonText}>{linkedInToggle?'Disconnect':'Connect'}</Text>
+                      <Text style={styles.buttonText}>{linkedInToggle ? 'Disconnect' : 'Connect'}</Text>
                     </TouchableOpacity>
 
 

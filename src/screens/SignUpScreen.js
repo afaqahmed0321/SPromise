@@ -139,46 +139,43 @@ const SignUpScreen = ({ navigation }) => {
 
   async function onGoogleButtonPress() {
     setIsLoading(true);
-    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-    await GoogleSignin.signOut();
-
-    const { idToken } = await GoogleSignin.signIn();
-    setSSubscription(subscription)
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-    const user_sign_in = auth().signInWithCredential(googleCredential);
-
-    user_sign_in.then(async (user) => {
-      console.log(user.user.photoURL, "aniqa");
-      let person = await fetchUser(user.user.email)
-      console.log(person, "aniqa user email")
-
-      if (person == 'User Does not Exist') {
-        const mail = user.user.email.toLowerCase();
-        let responses = await Socialsignup(mail, user.user.displayName, true, user.user.photoURL, sSubscription);
-        console.log(responses, "hey response from social signup API")
-
-        if (responses == "Registered") {
-          ToastAndroid.show('Registered Sucessfully!', ToastAndroid.LONG);
-          navigation.navigate('LoginScreen')
-        }
-        else {
+  
+    try {
+      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+      await GoogleSignin.signOut();
+  
+      const { idToken } = await GoogleSignin.signIn();
+      setSSubscription(subscription);
+  
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      const user_sign_in = await auth().signInWithCredential(googleCredential);
+  
+      console.log(user_sign_in.user.photoURL, "aniqa");
+  
+      let person = await fetchUser(user_sign_in.user.email);
+      console.log(person, "aniqa user email");
+  
+      if (person === 'User Does not Exist') {
+        const mail = user_sign_in.user.email.toLowerCase();
+        let responses = await Socialsignup(mail, user_sign_in.user.displayName, true, user_sign_in.user.photoURL, sSubscription);
+        console.log(responses, "hey response from social signup API");
+  
+        if (responses === "Registered") {
+          ToastAndroid.show('Registered Successfully!', ToastAndroid.LONG);
+          navigation.navigate('LoginScreen');
+        } else {
           ToastAndroid.show(responses, ToastAndroid.LONG);
-
         }
-      }
-      else {
+      } else {
         ToastAndroid.show('User is already registered...!', ToastAndroid.LONG);
-        setIsLoading(false);
-
       }
-    })
-      .catch((error) => {
-        console.log(error)
-        setIsLoading(false);
-
-      });
-
+    } catch (error) {
+      console.log('Google sign-in error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   }
+  
 
   const handleFNameChange = (text) => {
     const formattedText = text.replace(/[^a-zA-Z]/g, '');

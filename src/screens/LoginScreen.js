@@ -80,43 +80,60 @@ const LoginScreen = ({ navigation }) => {
 
 
   async function onGoogleButtonPress() {
-    console.log("inside google fuuncion");
+    console.log("inside google function");
     setIsLoading(true);
-    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-    await GoogleSignin.signOut();
 
-    console.log("Before google signin");
-    const { idToken } = await GoogleSignin.signIn();
-    console.log("after google signin", idToken);
+    try {
+      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+      await GoogleSignin.signOut();
+      console.log("Before google sign-in");
 
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-    const user_sign_in = auth().signInWithCredential(googleCredential);
-    user_sign_in
-      .then(async user => {
-        let person = await fetchUser(user.user.email);
-        if (person == 'User Does not Exist') {
-          ToastAndroid.show('User does not exist', ToastAndroid.LONG);
-        } else {
-          const mail = user?.user?.email.toLowerCase();
-          let response = await Sociallogin(mail, true);
-          const paymentStatus = response.paymentPending;
-          const userNumber = response.userNo;
+      const { idToken } = await GoogleSignin.signIn();
+      console.log("after google sign-in", idToken);
 
-          if (response.message === 'Success') {
-            if (!paymentStatus) {
-              setToken(response.token);
-              setUserN(response.userNo);
-              setemail(user.user.email);
-              let resp = await fetchUser(user.user.email);
-              await AsyncStorage.setItem('token', response.token);
-              await AsyncStorage.setItem('userNo', response.userNo);
-              await AsyncStorage.setItem('Email', user.user.email);
-              await AsyncStorage.setItem('Name', user.user.displayName);
-              navigation.navigate('LoginScreen');
-            } else {
-              try {
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      const user_sign_in = await auth().signInWithCredential(googleCredential);
 
-                const response = await fetch(`https://snappromise.com:8080/getCustomerPortalURL?UserNo=${userNumber}`, {
+      const user = user_sign_in.user;
+      let person = await fetchUser(user.email);
+
+      if (person === 'User Does not Exist') {
+        ToastAndroid.show('User does not exist', ToastAndroid.LONG);
+      } else {
+        const mail = user.email.toLowerCase();
+        let response = await Sociallogin(mail, true);
+        const paymentStatus = response.paymentPending;
+        const userNumber = response.userNo;
+
+        if (response.message === 'Success') {
+          if (!paymentStatus) {
+            setToken(response.token);
+            setUserN(response.userNo);
+            setEmail(user.email);
+
+            let resp = await fetchUser(user.email);
+            await AsyncStorage.setItem('token', response.token);
+            await AsyncStorage.setItem('userNo', response.userNo);
+            await AsyncStorage.setItem('Email', user.email);
+            await AsyncStorage.setItem('Name', user.displayName);
+            navigation.navigate('LoginScreen');
+          } else {
+            try {
+              const portalResponse = await fetch(`https://snappromise.com:8080/getCustomerPortalURL?UserNo=${userNumber}`, {
+                method: 'GET',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+              });
+
+              const portalData = await portalResponse.json();
+              setFirstUrl(portalData.url);
+
+              if (portalData.url) {
+                navigation.navigate('CustomWebView', { uri: portalData.url });
+              } else {
+                const checkoutResponse = await fetch(`https://snappromise.com:8080/getCheckOutURL`, {
                   method: 'GET',
                   headers: {
                     Accept: 'application/json',
@@ -124,98 +141,61 @@ const LoginScreen = ({ navigation }) => {
                   },
                 });
 
-                const data = await response.json();
-                setFirstUrl(data.url);
-              } catch (error) {
-                console.error('Error fetching data:', error);
+                const checkoutData = await checkoutResponse.json();
+                const updatedUrl = `${checkoutData.url}?prefilled_email=${mail}`;
+                setSecondUrl(updatedUrl);
+                navigation.navigate('CustomWebView', { uri: updatedUrl });
               }
-              if (firstUrl) {
-                navigation.navigate('CustomWebView', { uri: firstUrl });
-
-              } else {
-                try {
-                  const response = await fetch(`https://snappromise.com:8080/getCheckOutURL`, {
-                    method: 'GET',
-                    headers: {
-                      Accept: 'application/json',
-                      'Content-Type': 'application/json',
-                    },
-                  });
-                  const data = await response.json();
-                  const updatedUrl = `${data.url}?prefilled_email=${mail}`;
-                  setSecondUrl(updatedUrl);
-                  navigation.navigate('CustomWebView', { uri: updatedUrl });
-                } catch (error) {
-                  console.error('Error fetching data:', error);
-                }
-              }
+            } catch (error) {
+              console.error('Error fetching data:', error);
             }
-
           }
         }
-        setIsLoading(false);
-      })
-      .catch(error => {
-        console.log(error);
-        setIsLoading(false);
-      });
+      }
+    } catch (error) {
+      console.log('Google sign-in error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
-const LoginPress = async () => {
-  try {
-    if (Email == '') {
-      ToastAndroid.show('Please Enter Email', ToastAndroid.LONG);
-    } else if (Password == '') {
-      ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
-    } else {
-      setIsLoading(true); 
-      const mail = Email.toLowerCase();
-      let response = await login(mail, Password);
-      const paymentStatus = response.paymentPending;
-      const userNumber = response.userNo;
-      await AsyncStorage.setItem('Subscription', response.subscription)
-      setIsLoading(false); 
-      if (response.message === 'Success') {
 
-        if (!paymentStatus) {
-          setToken(response.token);
-          setUserN(response.userNo);
-          setemail(Email);
-          let resp = await fetchUser(Email);
-          await AsyncStorage.setItem('token', '');
-          await AsyncStorage.setItem('userNo', '');
-          await AsyncStorage.setItem('Email', '');
-          await AsyncStorage.setItem('Name', '');
-          await AsyncStorage.setItem('token', response.token);
-          await AsyncStorage.setItem('userNo', response.userNo);
-          await AsyncStorage.setItem('Email', Email);
-          await AsyncStorage.setItem(
-            'Name',
-            resp.firstName + ' ' + resp.lastName,
-          );
-        } else {
-          try {
+  const LoginPress = async () => {
+    try {
+      if (Email == '') {
+        ToastAndroid.show('Please Enter Email', ToastAndroid.LONG);
+      } else if (Password == '') {
+        ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
+      } else {
+        setIsLoading(true);
+        const mail = Email.toLowerCase();
+        let response = await login(mail, Password);
+        const paymentStatus = response.paymentPending;
+        const userNumber = response.userNo;
+        await AsyncStorage.setItem('Subscription', response.subscription)
+        setIsLoading(false);
+        if (response.message === 'Success') {
 
-            const response = await fetch(`https://snappromise.com:8080/getCustomerPortalURL?UserNo=${userNumber}`, {
-              method: 'GET',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-            });
-
-            const data = await response.json();
-            setFirstUrl(data.url);
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
-          if (firstUrl) {
-
-            navigation.navigate('CustomWebView', { uri: firstUrl });
-
+          if (!paymentStatus) {
+            setToken(response.token);
+            setUserN(response.userNo);
+            setemail(Email);
+            let resp = await fetchUser(Email);
+            await AsyncStorage.setItem('token', '');
+            await AsyncStorage.setItem('userNo', '');
+            await AsyncStorage.setItem('Email', '');
+            await AsyncStorage.setItem('Name', '');
+            await AsyncStorage.setItem('token', response.token);
+            await AsyncStorage.setItem('userNo', response.userNo);
+            await AsyncStorage.setItem('Email', Email);
+            await AsyncStorage.setItem(
+              'Name',
+              resp.firstName + ' ' + resp.lastName,
+            );
           } else {
             try {
-              const response = await fetch(`https://snappromise.com:8080/getCheckOutURL`, {
+
+              const response = await fetch(`https://snappromise.com:8080/getCustomerPortalURL?UserNo=${userNumber}`, {
                 method: 'GET',
                 headers: {
                   Accept: 'application/json',
@@ -224,102 +204,127 @@ const LoginPress = async () => {
               });
 
               const data = await response.json();
-              const updatedUrl = `${data.url}?prefilled_email=${Email}`;
-              setSecondUrl(updatedUrl);
-              navigation.navigate('CustomWebView', { uri: updatedUrl });
+              setFirstUrl(data.url);
             } catch (error) {
               console.error('Error fetching data:', error);
             }
+            if (firstUrl) {
+
+              navigation.navigate('CustomWebView', { uri: firstUrl });
+
+            } else {
+              try {
+                const response = await fetch(`https://snappromise.com:8080/getCheckOutURL`, {
+                  method: 'GET',
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                  },
+                });
+
+                const data = await response.json();
+                const updatedUrl = `${data.url}?prefilled_email=${Email}`;
+                setSecondUrl(updatedUrl);
+                navigation.navigate('CustomWebView', { uri: updatedUrl });
+              } catch (error) {
+                console.error('Error fetching data:', error);
+              }
+            }
           }
+        } else if (
+          (response.message =
+            'Either you do not have permission or credentials are invalid.')
+        ) {
+          ToastAndroid.show(
+            'Either you do not have permission or credentials are invalid.',
+            ToastAndroid.LONG,
+          );
+        } else {
+          ToastAndroid.show('Please Try Again !', ToastAndroid.LONG);
         }
-      } else if (
-        (response.message =
-          'Either you do not have permission or credentials are invalid.')
-      ) {
-        ToastAndroid.show(
-          'Either you do not have permission or credentials are invalid.',
-          ToastAndroid.LONG,
-        );
-      } else {
-        ToastAndroid.show('Please Try Again !', ToastAndroid.LONG);
       }
+    } catch (error) {
+      console.error('Error in LoginPress:', error);
+      setIsLoading(false);
+      ToastAndroid.show('An error occurred. Please try again later.', ToastAndroid.LONG);
     }
-  } catch (error) {
-    console.error('Error in LoginPress:', error);
-    setIsLoading(false); 
-    ToastAndroid.show('An error occurred. Please try again later.', ToastAndroid.LONG);
-  }
-};
+  };
 
-const onChangeEmail = async text => {
-  setEmail(text);
-};
-const onChangePassword = async text => {
-  setPassword(text);
-};
-return (
-  <SafeAreaView style={styles.mainC}>
-    {isLoading && <LoadingOverlay />}
+  const onChangeEmail = async text => {
+    setEmail(text);
+  };
+  const onChangePassword = async text => {
+    setPassword(text);
+  };
+  return (
+    <SafeAreaView style={styles.mainC}>
+      {isLoading && <LoadingOverlay />}
 
-    <LogoHeaderGlobel navigation={navigation} />
-    <View style={{ width: wp(90), marginTop: hp(8), marginLeft: hp(2) }}>
-      <Text style={Headings.InputH}>Log In</Text>
-      <TextInput
-        style={TextInP.Fileds}
-        value={Email}
-        onChangeText={text => onChangeEmail(text)}
-        placeholder="Enter your email here"
-        placeholderTextColor={'grey'}
-      />
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <LogoHeaderGlobel navigation={navigation} />
+      <View style={{ width: wp(90), marginTop: hp(8), marginLeft: hp(2) }}>
+        <Text style={Headings.InputH}>Log In</Text>
         <TextInput
           style={TextInP.Fileds}
-          placeholder="Enter your password here"
-          value={Password}
-          onChangeText={text => onChangePassword(text)}
-          secureTextEntry={!isPasswordVisible}
+          value={Email}
+          onChangeText={text => onChangeEmail(text)}
+          placeholder="Enter your email here"
           placeholderTextColor={'grey'}
-
         />
-        <TouchableOpacity
-          style={{ position: 'absolute', right: hp(2.1), top: hp(2.4), color: '#652D90' }}
-          onPress={togglePasswordVisibility}>
-          <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
-        </TouchableOpacity>
-      </View>
-      <TouchableOpacity onPress={() => navigation.navigate('ForgetPasswordEmailScreen')} style={{ alignItems: 'flex-end', }}>
-        <Text style={{ fontWeight: 'bold', color: '#000' }}>Forgot Password?</Text>
-      </TouchableOpacity>
-    </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <TextInput
+            style={TextInP.Fileds}
+            placeholder="Enter your password here"
+            value={Password}
+            onChangeText={text => onChangePassword(text)}
+            secureTextEntry={!isPasswordVisible}
+            placeholderTextColor={'grey'}
 
-    <View style={{ marginTop: hp(3), alignItems: 'center' }}>
-      <View>
-        <LinearGradient
-          colors={['#E4A936', '#EE8347']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={commonStyles.lognBtn}
-        >
-          <TouchableOpacity onPress={() => LoginPress()}>
-            <Text style={TextInP.LogInButton}>Log In</Text>
-          </TouchableOpacity>
-        </LinearGradient>
-      </View>
-      <View style={{ marginTop: hp(2) }}>
-        <TouchableOpacity
-          onPress={onGoogleButtonPress}
-          style={commonStyles.SocialBtn}>
-          <Image
-            source={require('../source/google.png')} // Replace with the actual path to your local image
-            style={{ width: 24, height: 24, marginRight: wp(2) }} // Adjust the width and height as needed
           />
-          <Text style={{ color: 'black' }}>Continue with Google</Text>
+          <TouchableOpacity
+            style={{ position: 'absolute', right: hp(2.1), top: hp(2.4), color: '#652D90' }}
+            onPress={togglePasswordVisibility}>
+            <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity onPress={() => navigation.navigate('ForgetPasswordEmailScreen')} style={{ alignItems: 'flex-end', }}>
+          <Text style={{ fontWeight: 'bold', color: '#000' }}>Forgot Password?</Text>
         </TouchableOpacity>
-
       </View>
-    </View>
-  </SafeAreaView>
-);
+
+      <View style={{ marginTop: hp(3), alignItems: 'center' }}>
+        <View>
+          <TouchableOpacity onPress={() => LoginPress()}>
+            <LinearGradient
+              colors={['#E4A936', '#EE8347']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={commonStyles.lognBtn}
+            >
+              <Text style={TextInP.LogInButton}>Log In</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+        <View style={commonStyles.container}>
+              <View style={commonStyles.line} />
+              <Text style={commonStyles.text}> OR </Text>
+              <View style={commonStyles.line} />
+            </View>
+            
+        <View style={{ }}>
+          <TouchableOpacity
+            onPress={onGoogleButtonPress}
+            style={commonStyles.SocialBtn}>
+            <Image
+              source={require('../source/google.png')} // Replace with the actual path to your local image
+              style={{ width: 24, height: 24, marginRight: wp(2) }} // Adjust the width and height as needed
+            />
+            <Text style={{ color: 'black' }}>Continue with Google</Text>
+          </TouchableOpacity>
+
+        </View>
+      </View>
+    </SafeAreaView>
+  );
 };
 
 export default LoginScreen;

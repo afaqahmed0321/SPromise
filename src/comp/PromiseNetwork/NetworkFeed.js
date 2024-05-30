@@ -624,7 +624,7 @@ const NetworkFeed = ({ navigation }) => {
           <View style={{ marginVertical: 5, marginHorizontal: 10, marginBottom: 110 }}>
             {filteredData.length === 0 ? (
               <View style={{ width: "100%", height: "100%", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                <Text style={{ fontSize: 18, textAlign: "center", color: 'grey' }}>No Data to Display for today. You can try applying a filter.</Text>
+                <Text style={{ fontSize: 18, textAlign: "center", color: 'grey' }}>No Data to Display. You can try applying a filter.</Text>
               </View>
             ) : (
               
