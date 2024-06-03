@@ -22,12 +22,12 @@ const AppLaunchScreen = ({ navigation }) => {
           alignItems: 'center',
           width: wp(70),
         }}>
-        <Text style={{ color: 'black', fontSize: 32, fontWeight: 'bold' }}>
+        {/* <Text style={{ color: 'black', fontSize: 32, fontWeight: 'bold' }}>
           Explore the app
         </Text>
         <Text style={{ textAlign: 'center', marginVertical: 10, color: '#000', fontSize: 17 }} numberOfLines={2}>
         Turning words into actions
-        </Text>
+        </Text> */}
       </View>
 
       <View style={{ flex: 1 }}>
