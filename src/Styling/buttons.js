@@ -70,7 +70,6 @@ export const commonStyles = StyleSheet.create({
     },
     shadowOpacity: 0.18,
     shadowRadius: 1.0,
-
     elevation: 1,
   },
   ActionBtn: {

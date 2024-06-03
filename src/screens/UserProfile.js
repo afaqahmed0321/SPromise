@@ -421,10 +421,10 @@ const UserProfile = () => {
                         disabled={true}
                         isOn={xtoggle}
                         style={{ marginRight: wp(5) }}
-                        onColor="green"
+                        onColor="#652D90"
                         offColor="#FFFFFF"
                         thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
-                        thumbOnStyle={{ backgroundColor: '#652D90' }}
+                        thumbOnStyle={{ backgroundColor: '#fff' }}
                         size="small"
                         onToggle={() => {
                           setXTogel(!xtoggle)
@@ -452,11 +452,11 @@ const UserProfile = () => {
                       <ToggleSwitch
                         isOn={linkedInToggle}
                         style={{ marginRight: wp(5) }}
-                        onColor="green"
+                        onColor="#652D90"
                         offColor="#FFFFFF"
                         disabled={true}
                         thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
-                        thumbOnStyle={{ backgroundColor: '#652D90' }}
+                        thumbOnStyle={{ backgroundColor: '#fff' }}
                         size="small"
                         onToggle={() => {
                           setIsTwitterApiCall(false);
