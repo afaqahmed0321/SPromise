@@ -4,48 +4,48 @@ import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
 import { uNumber, uemail } from '../recoil/Users/GetUsers';
-import { UserNo } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import UpdatedPassword from '../Network/Users/UpdatePassword';
 
-const EnterNewPasswordScreen = ({ navigation, route }) => {
+const EnterNewPasswordScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [emailID, setEmail] = useRecoilState(uemail);
   const [userNumber, setUserNumber] = useRecoilState(uNumber);
-  
+  const [passwordError, setPasswordError] = useState('');
 
-  
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      setPasswordError('Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and have a minimum length of 8 characters');
+    } else {
+      setPasswordError('');
+    }
+  };
+
+  const handlePasswordChange = (text) => {
+    setPassword(text);
+    validatePassword(text);
+  };
+
   const changePassword = async () => {
+    if (password === '') {
+      ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
+      return;
+    } else if (passwordError !== '') {
+      ToastAndroid.show('Please enter a valid password', ToastAndroid.LONG);
+      return;
+    } else if (password !== confirmPassword) {
+      ToastAndroid.show('Password is not Confirmed', ToastAndroid.LONG);
+      return;
+    }
 
-    console.log("User Number", userNumber,"paswordddddd", password);
-    const isValidPassword = (password) => {
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-      return passwordRegex.test(password);
-    };
     try {
-      if (password === '') {
-        ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
-        return;
-      } else if (!isValidPassword(password)) {
-        ToastAndroid.show('Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and have a minimum length of 8 characters', ToastAndroid.LONG);
-        return;
-      } else if(password !== confirmPassword){
-        ToastAndroid.show('Password is not Confirmed', ToastAndroid.LONG);
-        return;
-      }
-
-      // Make an API call to change the password
       const response = await UpdatedPassword(userNumber, password);
-      console.log("responceeeeee", response);
-      // Check the response and navigate accordingly
-      if (response.status == 200) {
-        // Password changed successfully
+      if (response.status === 200) {
         ToastAndroid.show('Password changed successfully', ToastAndroid.LONG);
         navigation.navigate('LoginScreen');
-       
       } else {
-        // Handle the case where password change fails
         ToastAndroid.show('Failed to change password. Please try again.', ToastAndroid.LONG);
       }
     } catch (error) {
@@ -56,23 +56,26 @@ const EnterNewPasswordScreen = ({ navigation, route }) => {
 
   return (
     <View style={TextInP.container}>
-    {console.log("his is user number", userNumber)}
       <LogoHeaderGlobel navigation={navigation} />
-
       <Text style={TextInP.heading}>Enter New Password</Text>
       <TextInput
         style={TextInP.Fileds}
         value={password}
-        onChangeText={setPassword}
+        onChangeText={handlePasswordChange}
         placeholder="Password"
         placeholderTextColor={'grey'}
+        secureTextEntry
       />
+      {passwordError !== '' && (
+        <Text style={TextInP.errorText}>{passwordError}</Text>
+      )}
       <TextInput
         style={TextInP.Fileds}
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         placeholder="Confirm Password"
         placeholderTextColor={'grey'}
+        secureTextEntry
       />
       <View style={TextInP.lognBtnParent}>
         <LinearGradient
@@ -81,11 +84,8 @@ const EnterNewPasswordScreen = ({ navigation, route }) => {
           end={{ x: 1, y: 0 }}
           style={TextInP.lognBtn}
         >
-          <TouchableOpacity onPress={changePassword} >
-            <Text style={{
-              color: "#fff", fontWeight: '600',
-            }}
-            >Change Password</Text>
+          <TouchableOpacity onPress={changePassword}>
+            <Text style={{ color: "#fff", fontWeight: '600' }}>Change Password</Text>
           </TouchableOpacity>
         </LinearGradient>
       </View>
@@ -96,8 +96,8 @@ const EnterNewPasswordScreen = ({ navigation, route }) => {
 export const TextInP = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'start', // Align items vertically in the center
-    alignItems: 'start', // Align items horizontally in the center
+    justifyContent: 'start',
+    alignItems: 'start',
     paddingHorizontal: 10
   },
   heading: {
@@ -105,7 +105,6 @@ export const TextInP = StyleSheet.create({
     fontWeight: '700',
     fontSize: 28,
     padding: 10
-
   },
   Fileds: {
     marginTop: hp(2),
@@ -113,13 +112,11 @@ export const TextInP = StyleSheet.create({
     borderRadius: wp(50),
     alignItems: 'center',
     paddingLeft: 20,
-    borderCurve: '',
     color: "#000",
-    placeholderTextColor: "#000"
   },
   lognBtnParent: {
-    justifyContent: 'center', // Align children horizontally in the center
-    alignItems: 'center', // Align children vertically in the center
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   lognBtn: {
     width: wp(40),
@@ -127,8 +124,13 @@ export const TextInP = StyleSheet.create({
     alignItems: 'center',
     borderRadius: wp(50),
     height: hp(6),
-    borderRadius: 50,
     marginVertical: 20,
   },
+  errorText: {
+    color: 'red',
+    marginTop: 5,
+    marginLeft: 10,
+  },
 });
+
 export default EnterNewPasswordScreen;

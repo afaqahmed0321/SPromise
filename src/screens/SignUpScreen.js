@@ -5,8 +5,8 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  ToastAndroid,
   ScrollView,
+  ToastAndroid,
 } from 'react-native';
 import React, { useState } from 'react';
 import {
@@ -53,7 +53,6 @@ const SignUpScreen = ({ navigation }) => {
     setOpen(false);
   };
 
-
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
@@ -77,17 +76,22 @@ const SignUpScreen = ({ navigation }) => {
   const [userN, setUserN] = useRecoilState(UserNo)
   const [email, setemail] = useRecoilState(uemail)
 
+  const [passwordError, setPasswordError] = useState('');
+
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      setPasswordError('Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and have a minimum length of 8 characters');
+    } else {
+      setPasswordError('');
+    }
+  };
 
   const handleSignup = async () => {
     try {
       const isValidEmail = (email) => {
         const emailRegex = /\S+@\S+\.\S+/;
         return emailRegex.test(email.toLowerCase());
-      };
-
-      const isValidPassword = (password) => {
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        return passwordRegex.test(password);
       };
 
       if (fName === '') {
@@ -105,11 +109,11 @@ const SignUpScreen = ({ navigation }) => {
       } else if (password === '') {
         ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
         return;
-      } else if (!isValidPassword(password)) {
-        ToastAndroid.show('Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and have a minimum length of 8 characters', ToastAndroid.LONG);
+      } else if (passwordError !== '') {
+        ToastAndroid.show('Please enter a valid password', ToastAndroid.LONG);
         return;
       } else if (password !== Confirmpassword) {
-        ToastAndroid.show('Password is not Confirmed', ToastAndroid.LONG);
+        ToastAndroid.show('Password do not match', ToastAndroid.LONG);
         return;
       }
 
@@ -175,7 +179,6 @@ const SignUpScreen = ({ navigation }) => {
       setIsLoading(false);
     }
   }
-  
 
   const handleFNameChange = (text) => {
     const formattedText = text.replace(/[^a-zA-Z]/g, '');
@@ -185,6 +188,11 @@ const SignUpScreen = ({ navigation }) => {
   const handleLNameChange = (text) => {
     const formattedText = text.replace(/[^a-zA-Z]/g, '');
     setLName(formattedText);
+  };
+
+  const handlePasswordChange = (text) => {
+    setPassword(text);
+    validatePassword(text);
   };
 
   return (
@@ -228,7 +236,7 @@ const SignUpScreen = ({ navigation }) => {
             <TextInput
               style={TextInP.Fileds}
               placeholder="*******"
-              onChangeText={setPassword}
+              onChangeText={handlePasswordChange}
               value={password}
               secureTextEntry={!isPasswordVisible}
               placeholderTextColor={'grey'}
@@ -239,6 +247,9 @@ const SignUpScreen = ({ navigation }) => {
               <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
             </TouchableOpacity>
           </View>
+          {passwordError !== '' && (
+            <Text style={styles.errorText}>{passwordError}</Text>
+          )}
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <TextInput
               style={TextInP.Fileds}
@@ -301,12 +312,11 @@ const SignUpScreen = ({ navigation }) => {
             </LinearGradient>
           </View>
           
-
           <View style={{}}>
 
             <View style={commonStyles.container}>
               <View style={commonStyles.line} />
-              <Text style={commonStyles.text}>Or</Text>
+              <Text style={commonStyles.text}>OR</Text>
               <View style={commonStyles.line} />
             </View>
             <TouchableOpacity onPress={onGoogleButtonPress} style={commonStyles.SocialBtn}>
@@ -326,11 +336,14 @@ const SignUpScreen = ({ navigation }) => {
 export default SignUpScreen;
 
 const styles = StyleSheet.create({
-  m: {
-    width: '100%',
-    justifyContent: 'center',
+  mainC: {
+    flex: 1,
     alignItems: 'center',
-    flex: 1
+    backgroundColor: '#fff',
   },
-
+  errorText: {
+    color: 'red',
+    marginTop: 5,
+    marginLeft: 10,
+  },
 });
