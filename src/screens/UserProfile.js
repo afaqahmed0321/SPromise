@@ -103,6 +103,7 @@ const UserProfile = () => {
       setEmailId(data.emailID);
       setFName(data.firstName);
       setLName(data.lastName);
+      setGender(data.gender);
       setPhoneNo(data.phoneNo);
       setAddress(data.address1);
       setCity(data.city);
@@ -254,7 +255,7 @@ const UserProfile = () => {
     fetchUserData();
     apiCallChceckRes();
     apiCallLinkChceckRes();
-  }, [focus, refresh]);
+  },[]);
 
 
   if (!userData) {
@@ -307,36 +308,33 @@ const UserProfile = () => {
                       onChangeText={text => setEmailId(text)}
                     />
                   </View>
-
-                  <View style={[styles.Box, { paddingHorizontal: 0 }]}>
-                    <View styles={styles.InnerBox}>
-                      <Text style={Headings.Input3}>First Name</Text>
-                      <TextInput
-                        style={[TextInP.Fileds, { width: wp(38) }]}
-                        placeholder="First Name"
-                        value={fName}
-                        placeholderTextColor="grey"
-                        onChangeText={text => setFName(text)}
-                      />
-                    </View>
-                    <View styles={styles.InnerBox}>
-                      <Text style={Headings.Input3}>Last Name</Text>
-                      <TextInput
-                        style={[TextInP.Fileds, { width: wp(38) }]}
-                        placeholder="Last Name"
-                        placeholderTextColor="grey"
-                        value={lName}
-                        onChangeText={text => setLName(text)}
-                      />
-                    </View>
+                  <View style={[styles.Box,{paddingHorizontal:0}]}>
+                  <View styles={styles.InnerBox}>
+                    <Text style={Headings.Input3}>First Name</Text>
+                    <TextInput
+                      style={[TextInP.Fileds, { width: wp(38) }]}
+                      placeholder="First Name"
+                      value={fName}
+                      placeholderTextColor="grey"
+                      onChangeText={text => setFName(text)}
+                    />
                   </View>
+                  <View styles={styles.InnerBox}>
+                    <Text style={Headings.Input3}>Last Name</Text>
+                    <TextInput
+                      style={[TextInP.Fileds, { width: wp(38) }]}
+                      placeholder="Last Name"
+                      placeholderTextColor="grey"
+                      value={lName}
+                      onChangeText={text => setLName(text)}
+                    />
+                  </View>
+                </View>
                   <View>
                     <Text style={Headings.Input3}>Gender</Text>
                     <DropDownPicker
                       open={open}
-                      value={
-                        userData.gender != '' || userData.gender != null ? userData.gender : "Gender"
-                      } 
+                      value={gender} 
                       // value={gender}
                       items={items}
                       setOpen={setOpen}
@@ -354,7 +352,7 @@ const UserProfile = () => {
                     <Text style={Headings.Input3}>Phone</Text>
                     <TextInput
                       style={[TextInP.Fileds, { width: wp(82) }]}
-                      value={userData.phoneNo == '' ? 'Phone' : userData.phoneNo}
+                      value={phonNo}
                       placeholderTextColor="grey"
                       placeholder={userData.phone}
                       onChangeText={text => setPhoneNo(text)}
@@ -366,20 +364,19 @@ const UserProfile = () => {
                     <TextInput
                       style={[TextInP.Fileds, { width: wp(82) }]}
                       value={
-                        userData.address1 == '' ? 'Address' : userData.address1
+                       address
                       }
                       placeholderTextColor="grey"
                       // value={lName}
                       onChangeText={text => setAddress(text)}
                     />
                   </View>
-
                   <View style={styles.Box}>
                     <View styles={styles.InnerBox}>
                       <Text style={Headings.Input3}>City</Text>
                       <TextInput
                         style={[TextInP.Fileds, { width: wp(38) }]}
-                        value={userData.city == '' ? 'City' : userData.city}
+                        value={city}
                         placeholderTextColor="grey"
                         // value={lName}
                         onChangeText={text => setCity(text)}
@@ -390,7 +387,7 @@ const UserProfile = () => {
                       <TextInput
                         style={[TextInP.Fileds, { width: wp(38) }]}
                         value={
-                          userData.country == '' ? 'Country' : userData.country
+                          country
                         }
                         placeholderTextColor="grey"
                         // value={lName}
@@ -404,7 +401,7 @@ const UserProfile = () => {
                       <Text style={Headings.Input3}>State</Text>
                       <TextInput
                         style={[TextInP.Fileds, { width: wp(82) }]}
-                        value={userData.state == '' ? 'State' : userData.state}
+                        value={state}
                         placeholderTextColor="grey"
                         // value={lName}
                         onChangeText={text => setState(text)}
@@ -536,7 +533,7 @@ const UserProfile = () => {
               <View style={{ flexDirection: "row" }}>
                 <Text style={Headings.InputCustom}>Email:</Text>
                 <TextInput
-                  style={[TextInP.Fileds, { width: wp(65), }]}
+                  style={[TextInP.Fileds, { width: wp(61), }]}
                   // placeholder={userData.emailID}
                   value={userData.emailID}
                   placeholderTextColor="#000"
@@ -547,7 +544,7 @@ const UserProfile = () => {
               <View style={{ flexDirection: "row" }}>
                 <Text style={Headings.InputCustom}>Name:</Text>
                 <TextInput
-                  style={[TextInP.Fileds, { width: wp(65), }]}
+                  style={[TextInP.Fileds, { width: wp(61), }]}
                   // placeholder={userData.emailID}
                   value={`${userData.firstName} ${userData.lastName}`}
                   placeholderTextColor="grey"
@@ -558,7 +555,7 @@ const UserProfile = () => {
               <View style={{ flexDirection: "row" }}>
                 <Text style={Headings.InputCustom}>Phone Number:</Text>
                 <TextInput
-                  style={[TextInP.Fileds, { width: wp(49) }]}
+                  style={[TextInP.Fileds, { width: wp(61) }]}
                   // placeholder={userData.emailID}
                   value={userData.phoneNo == '' ? 'N/A' : userData.phoneNo}
                   placeholderTextColor="grey"
@@ -580,7 +577,7 @@ const UserProfile = () => {
               <View style={{ flexDirection: "row" }}>
                 <Text style={Headings.InputCustom}>Gender:</Text>
                 <TextInput
-                  style={[TextInP.Fileds, { width: wp(62), }]}
+                  style={[TextInP.Fileds, { width: wp(61), }]}
                   // placeholder={userData.emailID}
                   value={userData.gender == '' ? 'N/A' : userData.gender}
                   placeholderTextColor="grey"
@@ -591,7 +588,7 @@ const UserProfile = () => {
               <View style={{ flexDirection: "row" }}>
                 <Text style={Headings.InputCustom}>City:</Text>
                 <TextInput
-                  style={[TextInP.Fileds, { width: wp(68), }]}
+                  style={[TextInP.Fileds, { width: wp(61), }]}
                   // placeholder={userData.emailID}
                   value={userData.city == '' ? 'N/A' : userData.city}
                   placeholderTextColor="grey"

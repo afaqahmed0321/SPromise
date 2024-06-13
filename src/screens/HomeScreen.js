@@ -23,6 +23,7 @@ import { UserNo, token } from '../recoil/AddPromise';
 import GetVideoSize from '../Network/GetVideoSize';
 import GetAllowedVideoFormats from '../Network/GetVideoFarmats';
 import { AllowedVideoFormatsState, AllowedVideoSizeState } from '../recoil/Globel';
+import { Text } from 'react-native-paper';
 
 const HomeScreen = ({ navigation }) => {
   const [accToken, setAc] = useRecoilState(token);
@@ -80,6 +81,7 @@ const HomeScreen = ({ navigation }) => {
               source={require('../source/mainLogo.jpg')}
               style={styles.ImageStyle}
             />
+            <Text style={styles.heading} >SNAPPROMISE</Text>
           </View>
 
           <TouchableOpacity style={{ marginRight: wp(3.5) }} onPress={() => navigation.navigate("Notifications")}>
@@ -111,8 +113,15 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   LogoC: {
-    width: hp(6),
+    flexDirection: 'row',
+    alignItems: "center",
+    width: hp(20),
     height: hp(6),
+  },
+  heading: {
+    fontSize:hp(2.25),
+    fontWeight: 800,
+    marginHorizontal: hp(1)
   },
   ImageStyle: {
     width: hp(6),

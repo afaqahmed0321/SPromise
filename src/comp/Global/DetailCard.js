@@ -266,7 +266,7 @@ const DetailCard = ({
                           marginTop: wp(0.3),
                         },
                       ]}>
-                      {format(new Date(date), 'dd/MM/yyyy')}
+                      {format(new Date(date), 'MM/dd/yyyy')}
                     </Text>
                   </View>
                 </>
@@ -586,7 +586,7 @@ const DetailCard = ({
                           marginTop: wp(0.3),
                         },
                       ]}>
-                      {format(new Date(date), 'dd/MM/yyyy')}
+                      {format(new Date(date), 'MM/dd/yyyy')}
                     </Text>
                   </View>
                 </>
@@ -1076,7 +1076,7 @@ const DetailCard = ({
                           marginTop: wp(0.3),
                         },
                       ]}>
-                      {format(new Date(date), 'dd/MM/yyyy')}
+                      {format(new Date(date), 'MM/dd/yyyy')}
                     </Text>
                   </View>
                 </>

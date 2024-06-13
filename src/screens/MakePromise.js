@@ -139,7 +139,7 @@ const MakePromise = ({ navigation }) => {
       }
     } else {
       ToastAndroid.showWithGravityAndOffset(
-        'Please select compilation date',
+        'Please select completion date',
         ToastAndroid.LONG,
         ToastAndroid.BOTTOM,
         25,
@@ -237,7 +237,7 @@ const MakePromise = ({ navigation }) => {
               flexDirection: 'row',
             }}>
               <Text style={[{ marginVertical: hp(0.5) }, Headings.Input3]}>
-                Compilation Date
+                Completion Date
               </Text>
               <View
                 style={{

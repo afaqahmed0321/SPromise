@@ -11,7 +11,7 @@ import { TextInP } from '../Styling/TextInput';
 
 const AppLaunchScreen = ({ navigation }) => {
   return (
-    <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+    <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor:"#fff" }}>
       <View style={{ marginTop: hp(9) }}>
         <LogoHeader />
       </View>

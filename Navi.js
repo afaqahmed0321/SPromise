@@ -42,7 +42,6 @@ import BraintreeDropInUI from './src/screens/Payment';
 import PaymentScreen from './src/screens/PaymentScreenNotUsed';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { STRIPE_PUBLIC_KEY } from './src/comp/Payment/helper';
-
 import EnterNewPasswordScreen from './src/screens/EnterNewPasswordScreen';
 import EnterOTPScreen from './src/screens/EnterOTPScreen';
 import ForgetPasswordEmailScreen from './src/screens/ForgetPasswordEmailScreen';
@@ -189,8 +188,11 @@ function HomeScreenn() {
 }
 
 const Auth = () => {
+
   const [Token, setToken] = useRecoilState(token);
   const [userN, setUserN] = useRecoilState(UserNo);
+
+ 
   useEffect(() => {
     readData();
   }, []);
