@@ -312,7 +312,7 @@ const SignUpScreen = ({ navigation }) => {
             </LinearGradient>
           </View>
           
-          <View style={{}}>
+          <View style={{paddingBottom:8}}>
 
             <View style={commonStyles.container}>
               <View style={commonStyles.line} />
@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
   mainC: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#fff',
+    paddingBottom: 20
   },
   errorText: {
     color: 'red',

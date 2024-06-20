@@ -669,7 +669,7 @@ const NetworkFeed = ({ navigation }) => {
                       selectedDateStyle={styles.selectedDateStyle}
                       monthYearTextStyle={styles.monthYearTextStyle}
                       dateTextStyle={styles.abc}
-
+                      maxDate={moment().format('YYYY-MM-DD')}
 
                     />
                   </View>
