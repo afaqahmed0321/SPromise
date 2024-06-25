@@ -27,7 +27,7 @@ export async function UpdateProfileApi(
     "lastName": lNam,
     "gender": gende,
     "country": countr,
-    "state": stat.slice(0, 2),
+    "state": stat,
     "city": cit,
     "userNo": useN,
   };

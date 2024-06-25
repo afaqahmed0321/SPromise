@@ -69,6 +69,7 @@ const UserProfile = () => {
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
+  const [open1, setOpen1] = useState(false);
   const [pinCode, setPinCode] = useState('');
   const [country, setCountry] = useState('');
   const [dob, setDob] = useState('');
@@ -83,7 +84,58 @@ const UserProfile = () => {
   const [twitterResponse, setTwitterResponse] = useState('');
   const [linkDinResponse, setLinkDinResponse] = useState('');
   const [isTwitterApiCall, setIsTwitterApiCall] = useState(false);
-
+  const usStates = [
+    { label: 'Alabama', value: 'AL' },
+    { label: 'Alaska', value: 'AK' },
+    { label: 'Arizona', value: 'AZ' },
+    { label: 'Arkansas', value: 'AR' },
+    { label: 'California', value: 'CA' },
+    { label: 'Colorado', value: 'CO' },
+    { label: 'Connecticut', value: 'CT' },
+    { label: 'Delaware', value: 'DE' },
+    { label: 'Florida', value: 'FL' },
+    { label: 'Georgia', value: 'GA' },
+    { label: 'Hawaii', value: 'HI' },
+    { label: 'Idaho', value: 'ID' },
+    { label: 'Illinois', value: 'IL' },
+    { label: 'Indiana', value: 'IN' },
+    { label: 'Iowa', value: 'IA' },
+    { label: 'Kansas', value: 'KS' },
+    { label: 'Kentucky', value: 'KY' },
+    { label: 'Louisiana', value: 'LA' },
+    { label: 'Maine', value: 'ME' },
+    { label: 'Maryland', value: 'MD' },
+    { label: 'Massachusetts', value: 'MA' },
+    { label: 'Michigan', value: 'MI' },
+    { label: 'Minnesota', value: 'MN' },
+    { label: 'Mississippi', value: 'MS' },
+    { label: 'Missouri', value: 'MO' },
+    { label: 'Montana', value: 'MT' },
+    { label: 'Nebraska', value: 'NE' },
+    { label: 'Nevada', value: 'NV' },
+    { label: 'New Hampshire', value: 'NH' },
+    { label: 'New Jersey', value: 'NJ' },
+    { label: 'New Mexico', value: 'NM' },
+    { label: 'New York', value: 'NY' },
+    { label: 'North Carolina', value: 'NC' },
+    { label: 'North Dakota', value: 'ND' },
+    { label: 'Ohio', value: 'OH' },
+    { label: 'Oklahoma', value: 'OK' },
+    { label: 'Oregon', value: 'OR' },
+    { label: 'Pennsylvania', value: 'PA' },
+    { label: 'Rhode Island', value: 'RI' },
+    { label: 'South Carolina', value: 'SC' },
+    { label: 'South Dakota', value: 'SD' },
+    { label: 'Tennessee', value: 'TN' },  
+    { label: 'Texas', value: 'TX' },
+    { label: 'Utah', value: 'UT' },
+    { label: 'Vermont', value: 'VT' },
+    { label: 'Virginia', value: 'VA' },
+    { label: 'Washington', value: 'WA' },
+    { label: 'West Virginia', value: 'WV' },
+    { label: 'Wisconsin', value: 'WI' },
+    { label: 'Wyoming', value: 'WY' },
+  ];
   console.log(isWebView, 'isWebView');
 
   const fetchUserData = async () => {
@@ -240,12 +292,12 @@ const UserProfile = () => {
   useEffect(() => {
     apiCallChceckRes();
     apiCallLinkChceckRes();
-  },[refresh]);
+  }, [refresh]);
 
   useEffect(() => {
     fetchUserData();
-   
-  },[]);
+
+  }, []);
   if (!userData) {
     return (
       <View style={styles.loadingContainer}>
@@ -288,38 +340,38 @@ const UserProfile = () => {
                     <Text style={Headings.Input3}>Email</Text>
                     <TextInput
                       style={[TextInP.Fileds, { width: wp(82), }]}
-                          value={userData.emailID}
+                      value={userData.emailID}
                       placeholderTextColor="#000"
                       onChangeText={text => setEmailId(text)}
                     />
                   </View>
-                  <View style={[styles.Box,{paddingHorizontal:0}]}>
-                  <View styles={styles.InnerBox}>
-                    <Text style={Headings.Input3}>First Name</Text>
-                    <TextInput
-                      style={[TextInP.Fileds, { width: wp(38) }]}
-                      placeholder="First Name"
-                      value={fName}
-                      placeholderTextColor="grey"
-                      onChangeText={text => setFName(text)}
-                    />
+                  <View style={[styles.Box, { paddingHorizontal: 0 }]}>
+                    <View styles={styles.InnerBox}>
+                      <Text style={Headings.Input3}>First Name</Text>
+                      <TextInput
+                        style={[TextInP.Fileds, { width: wp(38) }]}
+                        placeholder="First Name"
+                        value={fName}
+                        placeholderTextColor="grey"
+                        onChangeText={text => setFName(text)}
+                      />
+                    </View>
+                    <View styles={styles.InnerBox}>
+                      <Text style={Headings.Input3}>Last Name</Text>
+                      <TextInput
+                        style={[TextInP.Fileds, { width: wp(38) }]}
+                        placeholder="Last Name"
+                        placeholderTextColor="grey"
+                        value={lName}
+                        onChangeText={text => setLName(text)}
+                      />
+                    </View>
                   </View>
-                  <View styles={styles.InnerBox}>
-                    <Text style={Headings.Input3}>Last Name</Text>
-                    <TextInput
-                      style={[TextInP.Fileds, { width: wp(38) }]}
-                      placeholder="Last Name"
-                      placeholderTextColor="grey"
-                      value={lName}
-                      onChangeText={text => setLName(text)}
-                    />
-                  </View>
-                </View>
                   <View>
                     <Text style={Headings.Input3}>Gender</Text>
                     <DropDownPicker
                       open={open}
-                      value={gender} 
+                      value={gender}
                       items={items}
                       setOpen={setOpen}
                       setValue={setGender}
@@ -339,7 +391,12 @@ const UserProfile = () => {
                       value={phonNo}
                       placeholderTextColor="grey"
                       placeholder={userData.phone}
-                      onChangeText={text => setPhoneNo(text)}
+                      keyboardType="numeric"
+                      maxLength={10}
+                      onChangeText={text => {
+                        const numericText = text.replace(/[^0-9]/g, '');
+                        setPhoneNo(numericText);
+                      }}
                     />
                   </View>
 
@@ -348,7 +405,7 @@ const UserProfile = () => {
                     <TextInput
                       style={[TextInP.Fileds, { width: wp(82) }]}
                       value={
-                       address
+                        address
                       }
                       placeholderTextColor="grey"
                       onChangeText={text => setAddress(text)}
@@ -377,7 +434,7 @@ const UserProfile = () => {
                     </View>
                   </View>
 
-                  <View style={styles.Box}>
+                  {/* <View style={styles.Box}>
                     <View styles={styles.InnerBox}>
                       <Text style={Headings.Input3}>State</Text>
                       <TextInput
@@ -385,6 +442,23 @@ const UserProfile = () => {
                         value={state}
                         placeholderTextColor="grey"
                         onChangeText={text => setState(text)}
+                      />
+                    </View>
+                  </View> */}
+                  <View style={styles.Box}>
+                    <View style={styles.InnerBox}>
+                      <Text style={Headings.Input3}>State</Text>
+                      <DropDownPicker
+                        open={open1}
+                        value={state}
+                        items={usStates}
+                        setOpen={setOpen1}
+                        setValue={setState}
+                        placeholder="Select a state"
+                        style={[TextInP.Fileds, { width: wp(82) }]}
+                        dropDownContainerStyle={styles.dropDownContainer}
+                        listItemContainerStyle={styles.listItemContainer}
+                        listItemLabelStyle={styles.listItemLabel}
                       />
                     </View>
                   </View>
@@ -410,7 +484,7 @@ const UserProfile = () => {
                               setIstwitterRemoveAccount(true),
                               setRefresh(!refresh)
                             )
-                            : 
+                            :
                             (setIsTwitterApiCall(true));
 
                         }}
@@ -717,6 +791,20 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'white',
   },
+  dropDownContainer: {
+    backgroundColor: '#F6E2FF',
+    borderRadius: wp(2),
+    minHeight: hp(25),
+    overflow:"scroll",
+    borderColor: 'transparent',
+    paddingLeft: 8,
+  },
+  listItemContainer: {
+    height: hp(5), 
+    overflow:"scroll",
+
+  },
+
 });
 
 export default UserProfile;
