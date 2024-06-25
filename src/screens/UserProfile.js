@@ -126,7 +126,7 @@ const UserProfile = () => {
     { label: 'Rhode Island', value: 'RI' },
     { label: 'South Carolina', value: 'SC' },
     { label: 'South Dakota', value: 'SD' },
-    { label: 'Tennessee', value: 'TN' },
+    { label: 'Tennessee', value: 'TN' },  
     { label: 'Texas', value: 'TX' },
     { label: 'Utah', value: 'UT' },
     { label: 'Vermont', value: 'VT' },
