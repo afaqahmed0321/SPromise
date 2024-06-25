@@ -118,6 +118,7 @@ const ReportIssues = ({ navigation }) => {
                         placeholder="Title"
                         value={title}
                         onChangeText={setTitle}
+                        placeholderTextColor='grey'
                     />
                     <TextInput
                         style={[styles.input, styles.textarea]}
@@ -126,6 +127,7 @@ const ReportIssues = ({ navigation }) => {
                         onChangeText={setDescription}
                         multiline={true}
                         numberOfLines={4}
+                        placeholderTextColor='grey'
                     />
                 </View>
                 <View style={styles.buttons}>
@@ -169,6 +171,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 8,
         marginBottom: 10,
+        color:'black'
     },
     textarea: {
         height: 100,

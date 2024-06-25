@@ -235,6 +235,7 @@ const Drawer = () => {
               </TouchableOpacity>
             </View>
           ) : (
+            <SafeAreaView>
             <View>
               <TouchableOpacity
                 style={styles.listContainer}
@@ -258,6 +259,7 @@ const Drawer = () => {
                 }
               </TouchableOpacity>
             </View>
+            </SafeAreaView>
           )}
 
 
