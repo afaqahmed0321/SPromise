@@ -30,9 +30,6 @@ const RemoveSoicalLinkApproval = () => {
   const handleYes = async () => {
     const Platform = istwitterRemoveAccount ? 'Twitter' : 'LinkedIn';
     const res = await AccountRemovedApiCall(userN, Platform);
-    console.log(res);
-   
-
     setRemoveSLAModal(false);
   };
 

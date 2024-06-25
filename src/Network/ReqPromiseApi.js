@@ -21,32 +21,6 @@ const ReqPromiseApi = async (
   PromiseStatus,
   visibility,
 ) => {
-
-  console.log("before call appi in review",
-    {
-      expiryDate: expiryDate,
-      isTimeBound: IsTimeBound,
-      promiseGoal: promiseGoal,
-      promiseMediaURL: promiseMediaU,
-      promiseRequestID: '00000000-0000-0000-0000-000000000000',
-      promiseType: promiseType,
-      promisee: promisee,
-      promisor: promisor,
-      ratingImpact: RatingImapect,
-      shareonLinkedIn: LinkDin,
-      shareonTwitter: Twitter,
-      status: status,
-      userPromisePayment: {
-        PaymentStatus: paymentStatus,
-        paymentAmount: paymentAmount,
-      },
-      userPromiseReward:
-        PromiseReward !== null ? { rewardPoints: PromiseReward } : null,
-
-      visibility: visibility,
-    }
-  )
-
   const requestBody = {
     expiryDate: expiryDate,
     isTimeBound: IsTimeBound,
@@ -70,8 +44,6 @@ const ReqPromiseApi = async (
     visibility: visibility,
   };
 
-  console.log(requestBody, 'Api Call');
-
   try {
     let result = await fetch(url, {
       method: 'POST',
@@ -82,8 +54,7 @@ const ReqPromiseApi = async (
       body: JSON.stringify(requestBody),
     });
 
-    results = await result.json();
-    console.log('resultttt', results);
+    const results = await result.json();
     if (results.code === 100) {
       ToastAndroid.showWithGravityAndOffset(
         'Your promise request has been successfully Sent',

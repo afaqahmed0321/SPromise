@@ -28,17 +28,13 @@ const ReportIssues = ({ navigation }) => {
         setIsLoading(true)
         let userNo = await AsyncStorage.getItem('userNo');
         let emailID = await AsyncStorage.getItem('Email');
-        console.log("usernooo: ",userNo, "email", emailID)    
         const userData = {
           title: title,
           description: description,
           status: 'NEW',
           emailID: emailID,
           createdBy: userNo
-        };
-
-        console.log("userdata: ",userData)
-    
+        };    
         if (title && description) {
           try {
             const response = await axios.post('https://snappromise.com:8080/api/Report/reportSave', userData);

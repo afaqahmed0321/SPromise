@@ -117,7 +117,6 @@ const DetailCard = ({
 
 
   const handelAttachedMedia = (urll) => {
-    console.log(urll, "video playing");
     setSelectedVideo(urll);
     toggleVideoModal();
   };
@@ -184,31 +183,6 @@ const DetailCard = ({
 
   return (
     <>
-      {console.log("actionsss",
-        promiseeProfileImageUrl,
-        promisetype,
-        amount,
-        promiseeName,
-        promisorName,
-        date,
-        name,
-        promiseMediaURL,
-        ratingImpact,
-        promiseGoal,
-        "this is Actionssssssssssssssss",
-        actions,
-        promiseID,
-        "this is userNumber",
-        userN,
-        tab,
-        guaranteedWithMoney,
-        alotRewardPoints,
-        rewardPoints,
-        refreshCallback,
-        style,
-        navigation,
-        jugaar)}
-
       {tab == 'UserPromiseReq' || tab == 'ReqPromiseDashboard' ? (
         <LinearGradient
           colors={

@@ -13,17 +13,14 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const PromiseStatusData = () => {
   const [userN, setUserN] = useRecoilState(UserNo);
-  console.log("This is userNO", userN);
   const [userPromisbility, setUserPromisbility] = useState(null);
   const [userReward, setUserReward] = useState(null);
   const [refresh, setRefresh] = useState(false);
 
   const fetchData = async () => {
-    console.log("Fetch data is called");
     const res = await getUserPromisbility(userN);
     const resp = res.promisibility;
     const userPromisbil = resp ? Number(resp) : 0;
-    console.log(userPromisbil, 'jjjjjjjjjjjj');
     setUserPromisbility(userPromisbil);
     setUserReward(res.rewardPoints);
   };

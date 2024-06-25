@@ -110,7 +110,6 @@ const CompletePRTM = ({ navigation }) => {
           renderItem={({ item }) => (
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               {showDetail == item.promiseID ? (
-                console.log("iteeeeemmmmmmmmm", item),
                 <TouchableOpacity onPress={() => setshowDetail('')}>
                   <DetailCard
                     promiseeProfileImageUrl={item?.promiseeProfileImageUrl}

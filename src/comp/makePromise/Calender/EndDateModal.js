@@ -30,7 +30,6 @@ const EndDateModal = () => {
   style={styles.keyB}
   minDate={currentDateString}
   onDayPress={day => {
-    console.log('Clicked'); // Corrected the string closing quote
     setDeadLinedate(day.dateString);
     setEndDateMV(false);
   }}

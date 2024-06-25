@@ -11,7 +11,6 @@ const AllUsers = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const featchAllUsers = async () => {
-    console.log("featchAllUsers Call")
     const res = await getAllUsersForAdminPanelApi();
   }
 

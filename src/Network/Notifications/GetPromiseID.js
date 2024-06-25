@@ -10,7 +10,6 @@ const GetPromiseById = (docNo) => {
       },
     })
     .then((response) => {
-      console.log(response.data, "Data returned")
       resolve(response.data);
     })
     .catch((error) => {

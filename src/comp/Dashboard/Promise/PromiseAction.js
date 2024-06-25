@@ -9,34 +9,24 @@ import FailedPromiseApi from "../../../Network/Dashboard/Promises/Actions/Failed
 
 
 export const handleAcceptPromise = async(promiseID, userN) => {
-    console.log(`Accept button pressed for promise ID: ${promiseID}`)
    const res = await AcceptPromiseApi(promiseID, userN)
   };
   
   export const handleRejectPromise = async(promiseID, userN) => {
-    console.log(promiseID, userN)
    const res = await RejectPromiseApi(promiseID, userN)
     
   };
   export const handleCompletePromise = async(promiseID, userN, note) => {
-    console.log(promiseID, userN, note)
    const res = await CompletePromiseApi(promiseID, userN,note)
     
   };
   export const handleFulfilledPromiseApi = async(promiseID, userN) => {
-    console.log(promiseID, userN)
    const res = await FulfilledPromiseApi(promiseID, userN)
-    
   };
   export const handleFailedPromiseApi = async(promiseID, userN) => {
-    console.log(promiseID, userN)
    const res = await FailedPromiseApi(promiseID, userN)
-    
   };
   export const handleFailPromise = async(promiseID, userN) => {
-
-    console.log(promiseID, userN)
    const res = await FailPromiseApi(promiseID, userN)
-    
   };
  

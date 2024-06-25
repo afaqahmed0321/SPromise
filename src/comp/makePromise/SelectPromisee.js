@@ -83,7 +83,6 @@ const SelectPromise = () => {
 
   const fetchData = () => {
     fetchUserData(userN).then(data => {
-      console.log(data);
       setUserData(data);
       setIsLoading(false);
     });

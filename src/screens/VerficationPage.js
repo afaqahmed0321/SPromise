@@ -31,7 +31,6 @@ const VerficationPage = ({ navigation }) => {
     let response = await VerifyOTP(mail)
 
     try {
-      console.log("Forget password is hitted", response);
       setCode(response.code);
     }
     catch {
@@ -49,14 +48,9 @@ const VerficationPage = ({ navigation }) => {
   }, [resendCooldown, resendCode]);
 
   const verification = async () => {
-    console.log("here", OutputCode, Code)
-    console.log(fName, lName, password, emailID, subscription, "here1")
-
     if (OutputCode == Code) {
-      console.log(fName, lName, password, emailID, subscription, "here1")
       const mail = emailID.toLowerCase();
       let response = await signup(mail, password, fName, lName, subscription);
-      console.log(response, "hey")
       if (response == "Registered") {
         ToastAndroid.show('Registered Sucessfully!', ToastAndroid.LONG);
         navigation.navigate('LoginScreen')
@@ -67,7 +61,6 @@ const VerficationPage = ({ navigation }) => {
       }
     }
     else {
-      console.log("here2")
       ToastAndroid.show('OTP is incorrect, Please try again', ToastAndroid.LONG);
 
     }

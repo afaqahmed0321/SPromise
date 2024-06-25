@@ -8,9 +8,6 @@ import {
 
 export default function CustomWebView({ route }) {
     const { uri } = route.params.uri;
-        console.log("this is URI", uri);
-        console.log("urllll", route.params);
-
     return (
         
         <View style={{ flex: 1, width: wp(100),  }}>

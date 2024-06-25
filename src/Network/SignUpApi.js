@@ -1,5 +1,4 @@
 export async function signup(emailID, password, fName, lName, subscription) {
-  console.log(emailID, password, fName, lName,subscription,"signup")
   const headers = new Headers({
     'Content-Type': 'application/json',
   });
@@ -21,8 +20,6 @@ export async function signup(emailID, password, fName, lName, subscription) {
 });
     const responseData = await response.text();
     const data = JSON.parse(responseData);
-    console.log(data,"data")
-
     if (data.message === 'Operation completed successfully.') {
       return "Registered";
     } else {
@@ -57,8 +54,6 @@ export async function Socialsignup(emailID,Name,socialLogin,imageURL, sSubscript
 });
     const responseData = await response.text();
     const data = JSON.parse(responseData);
-    console.log(data,"data")
-
     if (data.message === 'Operation completed successfully.') {
       return "Registered";
     } else {

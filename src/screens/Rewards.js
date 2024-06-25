@@ -43,19 +43,15 @@ const Rewards = ({ navigation }) => {
   );
 
   const handelNetworkFeedComp = async item => {
-    console.log(item);
     const networkUserNo = item;
     const res = await NetWorkFeedApi(networkUserNo);
-    console.log(res, 'network User Feed');
     setSelectedNetworkUserFee(res);
     navigation.navigate('NetworkFeed');
   };
 
   const fetchData = async () => {
-    console.log("user number from rewards", userN);
     const resp = axios.get(`https://snappromise.com:8080/api/Users/getNetworkUsersRewards?userNo=${userN}`)
       .then((response) => {
-        console.log("respppppppppppppp", response)
         setUserData(response.data.userRewards);
         setIsLoading(false);
       })

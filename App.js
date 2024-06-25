@@ -19,8 +19,9 @@ export default function App() {
   if (isLoading) {
     // Render loading indicator or splash screen
     return (
-      <AppLaunchScreen/>
-   
+      <RecoilRoot>
+      <AppLaunchScreen />
+    </RecoilRoot>
     );
   }
 

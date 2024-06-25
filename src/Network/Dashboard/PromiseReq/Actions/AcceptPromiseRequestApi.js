@@ -13,7 +13,6 @@ export default AcceptPromiseRequest = async (promiseID, userNo) => {
         
       });
       const data = await response.json();
-      console.log('Response:', data);
       if (data.code === 100) {
         ToastAndroid.showWithGravityAndOffset(
           'Accepted',

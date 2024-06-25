@@ -73,7 +73,6 @@ const LoginScreen = ({navigation}) => {
     const user_sign_in = auth().signInWithCredential(googleCredential);
     user_sign_in
       .then(user => {
-        console.log(user);
         // navigation.navigate('HomeScreen')
         setLoginState(true);
       })

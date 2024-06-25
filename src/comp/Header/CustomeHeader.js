@@ -6,7 +6,6 @@ const CustomHeader = ({ title,navigation  }) => {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       <TouchableOpacity onPress={()=>(
-        console.log("here"),
         navigation.goBack())}>
       <Feather name="user" color="black" size={24} />
       </TouchableOpacity>

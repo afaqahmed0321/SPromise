@@ -11,7 +11,5 @@ export const handleAccept = async (promiseID, userN) => {
 };
 
 export const handleReject = async (promiseID, userN) => {
-  console.log(promiseID, userN, "Rejecting")
   const res = await RejectPromiseRequestApi(promiseID, userN)
-
 };

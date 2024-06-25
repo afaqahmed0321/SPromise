@@ -11,7 +11,6 @@ const GetUserPromiseRequest = (userN) => {
     })
     .then((response) => {
       resolve(response.data.promiseRequestList);
-      console.log(response.data.promiseRequestList)
     })
     .catch((error) => {
       reject(error);

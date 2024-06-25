@@ -7,7 +7,6 @@ const FetchRewards = async (userN) => {
 
   try {
     const response = await axios.get(apiUrl);
-    console.log("response from reward service", response)
     return response.data.networkUsers;
   } catch (error) {
     console.error('Error fetching data:', error);

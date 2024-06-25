@@ -95,7 +95,6 @@ const PendingPRTM = ({ navigation }) => {
         <ActivityIndicator size="small" color="#0000ff" />
       ) : (
         <>
-          {console.log("item array", promises)}
           <FlatList
             refreshControl={
               <RefreshControl

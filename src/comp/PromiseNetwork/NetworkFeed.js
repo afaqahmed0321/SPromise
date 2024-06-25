@@ -77,7 +77,6 @@ const NetworkFeed = ({ navigation }) => {
   const myAllData = selectedNetworkUserFee
   const handelNetworkFeedComp = async () => {
     const networkUserNo = userN;
-    console.log('UserNo is ', networkUserNo, "visibility: ", selectedItem, "Status: ", selectedStatus, "First Date: ", selectedRange.firstDate, "Last date: ", selectedRange.secondDate);
     try {
       setIsLoading(true);
       const response = await fetch(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${selectedItem}&${selectedStatus == "All" ? '' : "&status="}${selectedStatus}&fromDate=${selectedRange.firstDate}&toDate=${selectedRange.secondDate}`, {
@@ -92,8 +91,6 @@ const NetworkFeed = ({ navigation }) => {
       }
 
       const data = await response.json();
-      console.log(data, "Network Feed");
-
       setIsLoading(false);
       setFilteredData(data.promisesList);
       return data.promisesList;
@@ -166,16 +163,12 @@ const NetworkFeed = ({ navigation }) => {
     try {
       const res = await fetchUser(email);
       fullName = `${res.firstName} ${res.lastName}`;
-      console.log("response of fetchUser is:", res, "name is:", fullName);
     } catch (error) {
       console.error('Error fetching user:', error);
     }
   
     const userNo = await AsyncStorage.getItem('userNo');
-    const newCommentValue = comment.trim();
-  
-    console.log(fullName, userNo, email, "name from fetchUser is:", fullName);
-  
+    const newCommentValue = comment.trim();  
     if (newCommentValue !== '') {
       const promiseComments = {
         promiseID: promiseID,
@@ -201,10 +194,7 @@ const NetworkFeed = ({ navigation }) => {
           });
           setFilteredData(updatedData);
           setSearchedData(updatedData);
-  
-          // Clear the comment field
           setComment('');
-          console.log('Comment field cleared:', comment); // Debugging line to check if comment is cleared
         } else {
           ToastAndroid.showWithGravityAndOffset(
             'Failed to add comment. Please try again.',
@@ -238,11 +228,9 @@ const NetworkFeed = ({ navigation }) => {
   
   
   const handleNextButtonPress = () => {
-    console.log("modal open")
     setIsModalV(true);
   };
   const closeModal = () => {
-    console.log("modal close")
     setIsModalV(false);
   };
 
@@ -268,9 +256,7 @@ const NetworkFeed = ({ navigation }) => {
       const PIDd = promiseID;
       const containsPromiseId = item.promiseReactions.includes(userN);
       const Reac = containsPromiseId ? "UnLike" : "Like";
-      console.log(containsPromiseId, "Reac");
       const res = await PromiseReaction(userN, PIDd, Reac);
-      console.log("like response", res)
       if (res.code === 100) {
         const index = filteredData.findIndex(promise => promise.promiseID === promiseID);
         if (index !== -1) {
@@ -344,7 +330,6 @@ const NetworkFeed = ({ navigation }) => {
               alignItems: 'center',
               width: wp(20),
             }}>
-            {console.log("his is item", item)}
             {item.promiseReactions.find(item => item === userN) ? (
               <Ant name="like1" size={23} color="blue" />
             ) : (

@@ -36,18 +36,12 @@ const HomeScreen = ({ navigation }) => {
   const fetchAppSettings = async () => {
     const getVideoSize = await GetVideoSize();
     const vSiz = getVideoSize[0]?.value || '';
-    console.log(vSiz, "Video size")
 
     setVideoSize(vSiz);
 
     const getVideoFormats = await GetAllowedVideoFormats();
-    console.log(getVideoFormats, "Video formats")
     const extractedValue = getVideoFormats[0]?.value || '';
-    console.log(extractedValue, "Extracted value")
     setVideoFarmats(prevVideoFormats => [...prevVideoFormats, ...extractedValue.split(',')]);
-
-    console.log('Video Formats Array:', VideoFarmats);
-
   }
 
   useEffect(() => {

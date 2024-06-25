@@ -2,9 +2,7 @@ import { ToastAndroid } from 'react-native';
 
 const url = 'https://snappromise.com:8080/addPromiseComment';
 
-const PromiseComment = async (userNN, PID, commen) => {
-  console.log("API Call from service", userNN, PID, commen);
-  
+const PromiseComment = async (userNN, PID, commen) => {  
   const requestBody = {
     "userNo": userNN,
     "promiseID": PID,

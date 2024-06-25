@@ -26,14 +26,9 @@ axiosInstance.interceptors.response.use(
   response => {
     // Modify response data or handle success responses
     const responseData = response.data;
-    console.log(responseData, 'responseData');
-    console.log(responseData.message, 'data');
-
     if (responseData.message === 'Success') {
-      console.log(responseData.message, 'here');
       return responseData;
     } else {
-      console.log('', 'returning');
       return '';
     }
   },
@@ -54,10 +49,7 @@ const handleEmailChange = (text) => {
     }
   };
 // Log interceptor addition
-console.log('Request and response interceptors added.');
-
 export async function login(email,password) {
-  console.log("here")
   const headers = new Headers({
     Accept: '*/*',
   });
@@ -74,14 +66,9 @@ export async function login(email,password) {
     });
     const responseData = await response.text();
     const data = JSON.parse(responseData);
-    console.log(data,"responseData in Login APi")
-    // console.log(data.message,"data")
-
     if (data.message === 'Success') {
-      // console.log(data.message,"here")
       return data;
     } else {
-      console.log("","returning")
       return "";
     }
   } catch (error) {
@@ -98,18 +85,15 @@ export async function Sociallogin(email, socialLogin) {
     formData.append('email', email);
     formData.append('socialLogIn', socialLogin);
 
-    console.log("this form dataaaaa", formData);
     const response = await fetch("https://snappromise.com:8080/Login", {
       method: 'POST',
       headers: headers,
       body: formData,
     });
-    console.log("response from social login", response);
     const responseData = await response.text();
     const data = JSON.parse(responseData);
     return data;
   } catch (error) {
-    console.log("error before -222", error);
     return -2;
   }
 }

@@ -34,9 +34,7 @@ const EnterOTPScreen = ({ navigation }) => {
     let response = await PasswordVerification(mail)
 
       try {
-        console.log("Forget password is hitted", response);
         setCode(response.code);
-        
       }
       catch {
         console.log("Error in forgot password");
@@ -54,15 +52,10 @@ const EnterOTPScreen = ({ navigation }) => {
     }, 60000); 
   }, [resendCooldown, resendCode]);
   const verification = async () => {
-    console.log("here", OutputCode, Code)
-    console.log(fName, lName, password, emailID, "here1")
-
     if (OutputCode == Code) {
-      console.log(fName, lName, password, emailID, "here11111111111")
       navigation.navigate('EnterNewPasswordScreen');
     }
     else {
-      console.log("here2")
       ToastAndroid.show('OTP is incorrect, Please try again', ToastAndroid.LONG);
     }
   }

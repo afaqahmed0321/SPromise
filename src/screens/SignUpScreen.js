@@ -121,7 +121,6 @@ const SignUpScreen = ({ navigation }) => {
       const mail = emailID.toLowerCase();
       let response = await VerifyOTP(mail);
 
-      console.log(response.code, "aniqa")
       if (response.description === "Operation completed successfully.") {
         setCode(response.code)
         setSemail(emailID)
@@ -129,7 +128,6 @@ const SignUpScreen = ({ navigation }) => {
         setSfname(fName)
         setslname(lName)
         setSSubscription(subscription)
-        console.log("near navigate")
         navigation.navigate('VerficationPage');
       } else {
         ToastAndroid.show('User Already Exists!', ToastAndroid.LONG);
@@ -152,18 +150,11 @@ const SignUpScreen = ({ navigation }) => {
       setSSubscription(subscription);
   
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      const user_sign_in = await auth().signInWithCredential(googleCredential);
-  
-      console.log(user_sign_in.user.photoURL, "aniqa");
-  
-      let person = await fetchUser(user_sign_in.user.email);
-      console.log(person, "aniqa user email");
-  
+      const user_sign_in = await auth().signInWithCredential(googleCredential);  
+      let person = await fetchUser(user_sign_in.user.email);  
       if (person === 'User Does not Exist') {
         const mail = user_sign_in.user.email.toLowerCase();
-        let responses = await Socialsignup(mail, user_sign_in.user.displayName, true, user_sign_in.user.photoURL, sSubscription);
-        console.log(responses, "hey response from social signup API");
-  
+        let responses = await Socialsignup(mail, user_sign_in.user.displayName, true, user_sign_in.user.photoURL, sSubscription);  
         if (responses === "Registered") {
           ToastAndroid.show('Registered Successfully!', ToastAndroid.LONG);
           navigation.navigate('LoginScreen');
