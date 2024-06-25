@@ -52,10 +52,8 @@ const PromiseNetwork = ({ navigation }) => {
     setFilteredData(filtered);
   };
 
-  const [rating, setRating] = useState(0);
   const [userData, setUserData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isFavorited, setIsFavorited] = useState(false);
   const [userN, setUserN] = useRecoilState(UserNo);
   const [modalVisible, setMmodalVisible] = useRecoilState(ismodalVisible);
   const focus = useIsFocused();
@@ -65,13 +63,6 @@ const PromiseNetwork = ({ navigation }) => {
   const [isnetworkModalVi, setIsnetworkModVi] = useRecoilState(
     IspromiseNetworkmodalVisible,
   );
-
-  const handelNetworkFeedComp = async item => {
-    const networkUserNo = item;
-    const res = await NetWorkFeedApi(networkUserNo);
-    setSelectedNetworkUserFee(res);
-    navigation.navigate('NetworkFeed');
-  };
 
   const fetchData = () => {
     fetchUserData(userN).then(data => {
@@ -90,27 +81,37 @@ const PromiseNetwork = ({ navigation }) => {
       setIsLoading(false);
     });
   };
-  
-  function removeNetworkUser(SerialNo){
-    removeUserNetwork(SerialNo).then(data => {
-    })
-  }
 
   useEffect(() => {
     fetchData();
   }, [focus, refreshnetwork]);
+
   const handleBack = () => {
     navigation.goBack();
-  }
+  };
 
+  const handleFavoriteAction = async (serialNo, isFavorite) => {
+    const Value = isFavorite ? false : true;
+    await addRemoveFavouriteAPi(serialNo, Value);
+    const updatedData = userData.map(item => 
+      item.serialNo === serialNo ? { ...item, isFavourite: Value } : item
+    );
+    setUserData(updatedData);
+    setFilteredData(updatedData);
+  };
+
+  const removeNetworkUser = async (serialNo) => {
+    await removeUserNetwork(serialNo);
+    const updatedData = userData.filter(item => item.serialNo !== serialNo);
+    setUserData(updatedData);
+    setFilteredData(updatedData);
+  };
 
   return (
-    <View style={{ backgroundColor: '#E4EEE6', flex: 1 }} >
+    <View style={{ backgroundColor: '#E4EEE6', flex: 1 }}>
       <View style={{ height: hp(7), flexDirection: 'row', alignItems: 'center' }}>
         {navigation.canGoBack() && (
-          <TouchableOpacity
-            onPress={handleBack}
-            style={{ marginLeft: wp(6) }}>
+          <TouchableOpacity onPress={handleBack} style={{ marginLeft: wp(6) }}>
             <EvilIcon name="arrow-alt-circle-left" size={30} color="#652D90" />
           </TouchableOpacity>
         )}
@@ -118,20 +119,10 @@ const PromiseNetwork = ({ navigation }) => {
           <Text style={{ fontSize: hp(2.3), fontWeight: 'bold', color: "#652D90" }}>
             Promise Network
           </Text>
-
         </View>
       </View>
-      <View
-        style={{
-          height: hp(4),
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginLeft: wp(3),
-        }}>
-
-
+      <View style={{ height: hp(4), flexDirection: 'row', alignItems: 'center', marginLeft: wp(3) }}>
         <View style={{ width: wp(79) }}>
-
           <TextInput
             placeholder="Search by name"
             placeholderTextColor={'grey'}
@@ -139,21 +130,14 @@ const PromiseNetwork = ({ navigation }) => {
             value={searchText}
             onChangeText={text => {
               setSearchText(text);
-              handleSearch(); 
+              handleSearch();
             }}
           />
-
         </View>
         <TouchableOpacity
           onPress={() => setMmodalVisible(true)}
-          style={{
-            height: hp(4),
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginLeft: wp(6),
-          }}>
+          style={{ height: hp(4), flexDirection: 'row', alignItems: 'center', marginLeft: wp(6) }}>
           <Ionicons name="person-add-outline" size={23} color="#652D90" />
-
           <Modal
             animationType="slide"
             transparent={true}
@@ -161,8 +145,6 @@ const PromiseNetwork = ({ navigation }) => {
             onRequestClose={() => setMmodalVisible(false)}>
             <AddToMyNetwork />
           </Modal>
-
-
         </TouchableOpacity>
       </View>
       {isLoading ? (
@@ -171,103 +153,80 @@ const PromiseNetwork = ({ navigation }) => {
         </View>
       ) : (
         <ScrollView>
-
-        <FlatList
-          data={searchText.length > 0 ? filteredData : userData}
-          keyExtractor={item => item.serialNo.toString()}
-          renderItem={({ item }) => (
-            <View>
-              <TouchableOpacity
-                // onPress={() => handelNetworkFeedComp(item.networkUserNo)}
-                style={{
-                  flexDirection: 'row',
-                  marginVertical: hp(1),
-                  alignItems: 'center',
-                  marginLeft: wp(3),
-                }}>
-                <View>
-                  <Image
-                    source={
-                      item.imageURL === ''
-                        ? {
-                          uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                        }
-                        : { uri: item.imageURL }
-                    }
-                    style={{
-                      width: wp(12),
-                      height: hp(6),
-                      borderRadius: wp(12) / 2,
-                      marginLeft: wp(2),
-                    }}
-                  />
-                </View>
-                <View style={{ width: wp(49), marginLeft: wp(3) }}>
-                  {item.networkUserName !== '' ? (
-                    <Text style={{ color: "black" }}>{item.networkUserName}
-                    
-                    </Text>
-                  ) : null}
-
-                  <Text style={[
+          <FlatList
+            data={searchText.length > 0 ? filteredData : userData}
+            keyExtractor={item => item.serialNo.toString()}
+            renderItem={({ item }) => (
+              <View>
+                <TouchableOpacity
+                  style={{
+                    flexDirection: 'row',
+                    marginVertical: hp(1),
+                    alignItems: 'center',
+                    marginLeft: wp(3),
+                  }}>
+                  <View>
+                    <Image
+                      source={
+                        item.imageURL === ''
+                          ? { uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }
+                          : { uri: item.imageURL }
+                      }
+                      style={{
+                        width: wp(12),
+                        height: hp(6),
+                        borderRadius: wp(12) / 2,
+                        marginLeft: wp(2),
+                      }}
+                    />
+                  </View>
+                  <View style={{ width: wp(49), marginLeft: wp(3) }}>
+                    {item.networkUserName !== '' ? (
+                      <Text style={{ color: "black" }}>{item.networkUserName}</Text>
+                    ) : null}
+                    <Text style={[
                       {
                         color: 'black',
-                        // marginHorizontal: hp(2),
                         fontSize: hp(1.8),
-                        // backgroundColor: "#e0e0e0",
-                        borderRadius: 50,
-                        // paddingVertical: 5,
-                        // paddingHorizontal: 10,
-                        // marginHorizontal: 10
-
                       },
-                    ]}>Promisibility {item.promisibility ? `${item.promisibility}%` : "0%"}
+                    ]}>
+                      Promisibility {item.promisibility ? `${item.promisibility}%` : "0%"}
                     </Text>
-                </View>
-
-
-
-                <View style={{}}>
-                  <TouchableOpacity
-                    style={{
-                      padding: 0.2,
-                      borderRadius: 50,
-                      position: 'absolute',
-                      marginLeft: wp(15)
-                    }}
-                    onPress={() => {
-                      const Value = item.isFavourite ? false : true;
-                      const res = addRemoveFavouriteAPi(item.serialNo, Value);
-                      setrefreshnetwork(!refreshnetwork);
-                    }}>
-
-                    {item.isFavourite == true ? (
-                      <FontAwesome name="heart" size={15} color="#652D90" />
-                    ) : (
-                      <FontAwesome name="heart-o" size={15} color="#652D90" />
-                    )}
-
-                  </TouchableOpacity>
-                </View>
-                <View style={{}}>
-                  <TouchableOpacity
-                    style={{
-                      padding: 0.2,
-                      borderRadius: 50,
-                      position: 'absolute',
-                      marginLeft: wp(20)
-                    }}
-                    
-                    onPress={() => {
-                      removeNetworkUser(item.serialNo)
-                    }}>
-                    <FontAwesome name="trash" size={15} color="#652D90" />
-                  </TouchableOpacity>
-                </View>
-              </TouchableOpacity>
-            </View>
-          )}
-        />
+                  </View>
+                  <View style={{}}>
+                    <TouchableOpacity
+                      style={{
+                        padding: 0.2,
+                        borderRadius: 50,
+                        position: 'absolute',
+                        marginLeft: wp(15),
+                      }}
+                      onPress={() => handleFavoriteAction(item.serialNo, item.isFavourite)}
+                    >
+                      {item.isFavourite ? (
+                        <FontAwesome name="heart" size={15} color="#652D90" />
+                      ) : (
+                        <FontAwesome name="heart-o" size={15} color="#652D90" />
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{}}>
+                    <TouchableOpacity
+                      style={{
+                        padding: 0.2,
+                        borderRadius: 50,
+                        position: 'absolute',
+                        marginLeft: wp(20),
+                      }}
+                      onPress={() => removeNetworkUser(item.serialNo)}
+                    >
+                      <FontAwesome name="trash" size={15} color="#652D90" />
+                    </TouchableOpacity>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
         </ScrollView>
       )}
     </View>
