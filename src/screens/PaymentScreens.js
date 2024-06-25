@@ -36,7 +36,6 @@ function getCreditCardToken(creditCardData) {
 
 function subscribeUser(creditCardToken) {
   return new Promise((resolve) => {
-    console.log('Credit card token\n', creditCardToken);
     CARD_TOKEN = creditCardToken.id;
     setTimeout(() => {
       resolve({ status: true });
@@ -45,7 +44,6 @@ function subscribeUser(creditCardToken) {
 };
 
 const PaymentScreens = ({ promiseID, userN, amount,handleCloseModal }) => {
-  console.log("this is pro id", promiseID)
   const [CardInput, setCardInput] = useState({})
   const [isLoading, setIsLoading] = useState(false)
 
@@ -77,7 +75,6 @@ const PaymentScreens = ({ promiseID, userN, amount,handleCloseModal }) => {
     } else {
 
       let pament_data = await charges();
-      console.log('pament_data', pament_data);
       if (pament_data.status == 'succeeded') {
         setIsLoading(false);
         ToastAndroid.show('Payment Successfull.', ToastAndroid.LONG);

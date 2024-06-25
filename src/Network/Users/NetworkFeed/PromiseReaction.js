@@ -20,7 +20,6 @@ const PromiseReaction = async (userNN, PIDd, Reac)=> {
     });
 
     result = await result.json();
-    console.log(result)
     if (result.code === 100) {
       ToastAndroid.showWithGravityAndOffset(
         Reac+"d",

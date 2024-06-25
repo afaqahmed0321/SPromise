@@ -12,8 +12,6 @@ export default RejectPromiseApi = async (promiseID, userNo) => {
         
       });
       const data = await response.json();
-      console.log('Reject Promise Api', data);
-
       if (data.code === 100) {
         ToastAndroid.showWithGravityAndOffset(
           'Rejected',

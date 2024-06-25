@@ -12,17 +12,13 @@ import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 
 const RewardPoints = () => {
   const [userN, setUserN] = useRecoilState(UserNo);
-  console.log("this is userNO", userN)
   const [userPromisbility, setUserPromisbility] = useState(null);
   const [refresh, setRefresh] = useState(false);
 
   const fetchData = async () => {
-    console.log("fetch data is called")
     const res = await getUserPromisbility(userN);
     const userPromisbil = res ? Number(res) : 0
-    console.log(userPromisbil, 'jjjjjjjjjjjj')
     setUserPromisbility(userPromisbil)
-
   };
 
   useEffect(() => {

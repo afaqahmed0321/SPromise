@@ -9,8 +9,6 @@ const AddUserNetwork = async (AddUserN,userN )=> {
     "isFavourite": true
   };
 
-  console.log(requestBody)
-
   try {
     let result = await fetch(url, {
       method: 'POST',
@@ -22,7 +20,6 @@ const AddUserNetwork = async (AddUserN,userN )=> {
     });
 
     result = await result.json();
-    console.log(result,"AddTo Network API call")
     if (result.code === 100) {
       ToastAndroid.showWithGravityAndOffset(
         'User has been added to the network',

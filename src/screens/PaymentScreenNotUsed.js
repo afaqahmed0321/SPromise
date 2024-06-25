@@ -9,8 +9,6 @@ import { Auth_Token, STRIPE_PUBLIC_KEY, Secret_key } from '../comp/Payment/helpe
 
 
 const PaymentScreen = ({ promiseID, userN }) => {
-  console.log("this is promise IDDDDDD", promiseID);
-
   const [CardInput, setCardInput] = useState({});
   const [paymentIntent, setPaymentIntent] = useState('');
 
@@ -18,7 +16,6 @@ const PaymentScreen = ({ promiseID, userN }) => {
     const promise = "4e8d1ffe-d6f8-4035-819f-e98197163e61"
     axios.post(`https://snappromise.com:8080/getPaymentIntent?promiseId=${promiseID}`)
       .then((response) => {
-        console.log("This is the payment intent object", response.data.id);
         setPaymentIntent(response.data)
       })
       .catch((error) => {
@@ -44,9 +41,7 @@ const PaymentScreen = ({ promiseID, userN }) => {
                     card: paymentMethod.id,
                 },
             });
-    
-            console.log("confirmPaymentIntent res++++", confirmPaymentIntent);
-            alert("Payment successfully...!!!");
+                alert("Payment successfully...!!!");
         }
     } catch (error) {
         console.log("Error raised during payment intent", error);

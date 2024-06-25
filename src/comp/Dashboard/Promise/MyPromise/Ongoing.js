@@ -36,7 +36,6 @@ const Ongoing = ({ navigation }) => {
     MyPromisesApi(userN)
       .then(data => {
         setPromises(data);
-        console.log(data, "pro");
         setIsLoading(false);
       })
       .catch(error => {

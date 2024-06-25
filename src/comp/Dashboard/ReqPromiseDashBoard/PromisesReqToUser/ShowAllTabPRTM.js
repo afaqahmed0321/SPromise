@@ -80,9 +80,7 @@ const ShowAllTabPRTM = ({ navigation }) => {
     GetPromiseRequestToUser(userN)
       .then(data => {
         setPromises(data);
-        console.log(data, "pro")
         setIsLoading(false);
-        console.log("REQ TO ME ALL DATA", data);
       })
       .catch(error => {
         console.error('Error fetching promises:', error);

@@ -129,7 +129,6 @@ const Notifications = ({ navigation }) => {
       .then(data => {
         setNotificationList(data);
         setIsLoading(false);
-        console.log("i am notification data", data);
       })
       .catch(error => {
         console.error('Error fetching promises:', error);

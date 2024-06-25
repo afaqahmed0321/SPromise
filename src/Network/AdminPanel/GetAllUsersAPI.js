@@ -8,7 +8,6 @@ const getAllUsersForAdminPanelApi = () => {
   })
     .then(response => {
       const data = response.data;
-      console.log('API Response:', data);
       return data;
     })
     .catch(error => {

@@ -96,7 +96,6 @@ const NotificationCard = () => {
   const [generatedTexts, setGeneratedTexts] = useRecoilState(promiseStatement);
 
   const handelAttachedMedia = urll => {
-    console.log(urll);
     setSelectedVideo(urll);
     navigation.navigate('Player');
   };
@@ -112,17 +111,12 @@ const NotificationCard = () => {
   const fetchPromise = async () => {
     const docNo = noti.docNo;
 
-    console.log(notiMethod);
     // setSelectitem(data);([]);
     if (notiMethod == 'Promise') {
-      console.log('Fetching Promise');
-      console.log(docNo);
       await GetPromiseById(docNo)
         .then(data => {
           if (data.code === 200) {
             setSelectitem(data.promisesList[0]);
-            console.log(data);
-            console.log(selectitem, 'mmmc');
             setIsLoading(false);
           } else {
             setIsModalV(false),
@@ -138,14 +132,11 @@ const NotificationCard = () => {
         .catch(error => {
         });
     } else if (notiMethod == 'RequestPromise') {
-      console.log('Fetching Promise by Request', docNo);
 
       await GetPromiseRequestById(docNo)
         .then(data => {
           if (data.code === 200) {
             setSelectitem(data.promiseRequestList[0]);
-            console.log(data);
-            console.log(selectitem, 'PromiseRequestData');
             setIsLoading(false);
           } else {
             setIsModalV(false),
@@ -164,7 +155,6 @@ const NotificationCard = () => {
           console.error('Error fetching promise:', error);
         });
     } else {
-      console.log('Non of them');
       setIsModalV(false);
       ToastAndroid.showWithGravityAndOffset(
         "There's no data",
@@ -416,7 +406,6 @@ const NotificationCard = () => {
                         <TouchableOpacity
                           onPress={() => {
                             setEditPReq(selectitem);
-                            console.log('Hiiii', selectitem);
                             {
                               selectitem.promiseType == 'Payment'
                                 ? (setrewardCheck(false),
@@ -457,7 +446,6 @@ const NotificationCard = () => {
                               networkUserNo: selectitem.promisee,
                               imageURL: selectitem.promiseeProfileImageUrl,
                             });
-                            console.log(Promiseze);
                             navigation.navigate('MakePromise');
                           }}
                           style={{ marginLeft: wp(2) }}>

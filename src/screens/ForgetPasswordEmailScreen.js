@@ -29,12 +29,10 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
         }
         const mail = email.toLowerCase();
         const encodedEmail = encodeURIComponent(mail);
-        console.log("this is email", encodedEmail);
 
         await axios.get(`https://snappromise.com:8080/api/Users/getUsers?searchString=${mail}`)
 
             .then(async (response) => {
-                console.log("this is userrrrr", response?.data?.users?.[0].loginType)
                 setUserNumber(response?.data?.users?.[0].userNo)
                 if (response?.data?.users?.[0].loginType !== 'Manual') {
                     ToastAndroid.show('User has Logged in with Google', ToastAndroid.LONG);
@@ -42,8 +40,6 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
                 } else {
                     let response = await PasswordVerification(mail)
                     try {
-                        console.log("Forget password is hitted by verification page", response);
-                        console.log("thisssssssss codeee", response);
                         setCode(response);
                         navigation.navigate('EnterOTPScreen', { Code, email, userNumber });
                         setSemail(email);
@@ -53,10 +49,7 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
                     };
                 }
 
-            })
-            console.log("this is login Type ", loginype)
-        
-
+            })   
     };
 
 

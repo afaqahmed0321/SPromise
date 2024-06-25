@@ -44,15 +44,8 @@ import { RadioButton } from 'react-native-paper';
 
 const Review = ({ navigation }) => {
   const [Promiseze, setSelectedPromisee] = useRecoilState(selectedPromisee);
-  const [forType, setForType] = useState(false);
-
-  console.log(Promiseze, 'Promiseze');
-
   const handlePromiseApi = async () => {
     setIsLoading(true);
-    console.log('rewardPointState is ', rewardPointState);
-    console.log('financial', financial);
-    console.log('isRating', isRating);
     const expiryDate = isTimeB ? deadlinedate : dateString;
     const IsTimeBound = isTimeB;
     const promiseGoal = generatedTexts;
@@ -70,25 +63,6 @@ const Review = ({ navigation }) => {
     const paymentStatus = 'Pending';
     const PromiseReward = financial ? rewardPoints : null;
     const visibility = mNtoggle ? 'PUBLIC' : 'PRIVATE';
-
-    console.log("Data before sending",
-      expiryDate,
-      IsTimeBound,
-      promiseGoal,
-      promiseMediaU,
-      PromiseID,
-      promiseType,
-      promisee,
-      promisor,
-      RatingImapect,
-      LinkDin,
-      Twitter,
-      startDate,
-      status,
-      amount,
-      paymentStatus,
-      PromiseReward,
-      visibility,)
 
     try {
       const prom = await MakePromiseApi(
@@ -110,9 +84,7 @@ const Review = ({ navigation }) => {
         PromiseReward,
         visibility,
       );
-      console.log("prommmmmm", prom);
       if (prom === 100) {
-        console.log("running in make promise at line 96");
         ToastAndroid.showWithGravityAndOffset(
           'Promise created successfully.',
           ToastAndroid.LONG,
@@ -122,7 +94,6 @@ const Review = ({ navigation }) => {
         );
         navigation.navigate('SnapPromiseVerification');
       } else {
-        console.log("error in make promise at line 96");
         ToastAndroid.showWithGravityAndOffset(
           'Please select promisee first',
           ToastAndroid.LONG,
@@ -144,7 +115,6 @@ const Review = ({ navigation }) => {
   };
 
   const handelReqPromiseApi = async () => {
-    console.log('Req Promise Called');
     const expiryDate = isTimeB ? deadlinedate : dateString;
     const IsTimeBound = isTimeB;
     const promiseGoal = generatedTexts;
@@ -162,30 +132,6 @@ const Review = ({ navigation }) => {
     const PromiseReward = financial ? rewardPoints : 0;
     const PromiseStatus = 'Pending';
     const visibility = mNtoggle ? 'PUBLIC' : 'PRIVATE';
-
-    console.log("before sending to API",
-      {
-        expiryDate: expiryDate,
-        IsTimeBound: IsTimeBound,
-        promiseGoal: promiseGoal,
-        promiseMediaU: promiseMediaU,
-        promiseType: promiseType,
-        promisee: promisee,
-        promisor: promisor,
-        RatingImapect: RatingImapect,
-        LinkDin: LinkDin,
-        Twitter: Twitter,
-        startDate: startDate,
-        status: status,
-        paymentAmount: paymentAmount,
-        paymentStatus: paymentStatus,
-        PromiseReward: PromiseReward,
-        PromiseStatus: PromiseStatus,
-        visibility: visibility,
-
-      }
-    )
-
     const prom = await ReqPromiseApi(
       expiryDate,
       IsTimeBound,
@@ -205,7 +151,6 @@ const Review = ({ navigation }) => {
       PromiseStatus,
       visibility,
     );
-    console.log("prom from 167", prom)
     if (prom === 100) {
       navigation.navigate('SnapPromiseVerification');
     }
@@ -223,7 +168,6 @@ const Review = ({ navigation }) => {
 
   const [makePromise, setMakePromise] = useRecoilState(MakeaPromise);
   makePromise ? promiseType == 'GUARANTEE' : promiseType == "COMMITMENT"
-  console.log(makePromise, 'makePromise');
   const [modalVisible, setModalVisible] = useRecoilState(isSelectModalVisible);
   const [amount, setAmount] = useRecoilState(promiseAmounnt);
   const [deadlinedate, setDeadLinedate] = useRecoilState(startDate);
@@ -261,7 +205,6 @@ const Review = ({ navigation }) => {
 
     const linkedinResp = await axios.get(`https://snappromise.com:8080/api/Users/checkLinkedIn?userNo=${userN}`)
       .then((res) => {
-        console.log("linkedIn", res)
         setLinkedInCode(res?.data?.code)
       })
       .catch((err) => {
@@ -270,7 +213,6 @@ const Review = ({ navigation }) => {
 
     const twitterCode = await axios.get(`https://snappromise.com:8080/api/Users/checkTwitter?userNo=${userN}`)
       .then((res) => {
-        console.log("Twitter", res)
         setTwitterCode(res?.data?.code)
       })
       .catch((err) => {
@@ -344,7 +286,6 @@ const Review = ({ navigation }) => {
           </Modal>
 
           <View style={{ marginVertical: hp(1) }}>
-            {console.log("this is user data ", userData)}
             <Text style={Headings.Input3}>Promise Details</Text>
           </View>
           <LinearGradient

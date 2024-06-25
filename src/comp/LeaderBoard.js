@@ -29,10 +29,7 @@ const LeaderBoard = () => {
           const uniqueUsers = Array.from(new Set(data.map(user => user.firstName.toLowerCase()))).map(name => {
             return data.find(user => user.firstName.toLowerCase() === name);
           });
-
           setTopUserList(uniqueUsers.slice(0, 4));
-
-          console.log("Top user data", uniqueUsers.slice(0, 5));
         }
       })
       .catch(error => {

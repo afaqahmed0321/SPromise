@@ -12,7 +12,6 @@ const fetchNotification = async (userN) => {
   const apiUrl = 'https://snappromise.com:8080/getUserNotifications?userNo='+user;
   try {
     const response = await axios.get(apiUrl);
-    console.log(response.data.notificationsList)
     return response.data.notificationsList;
 
   } catch (error) {

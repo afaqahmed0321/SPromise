@@ -3,7 +3,6 @@ import { ToastAndroid } from 'react-native';
 export default FulfilledPromiseApi = async (promiseID, userNo) => {
 
     const url = `https://snappromise.com:8080/fulfilledPromise?promiseID=${promiseID}&userNo=${userNo}`;
-    console.log(promiseID, userNo) 
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -14,7 +13,6 @@ export default FulfilledPromiseApi = async (promiseID, userNo) => {
         
       });
       const data = await response.json();
-      console.log('Response:', data);
       if (data.code == 100) {
         ToastAndroid.showWithGravityAndOffset(
           'FulFilled',

@@ -1,6 +1,4 @@
 const UpdatedPassword = async (userN, NewPass) => {
-  console.log("Api Call", userN);
-  console.log("Api Call", NewPass);
   const userNo = userN;
   const newPassword = NewPass;
 

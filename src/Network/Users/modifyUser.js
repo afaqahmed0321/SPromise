@@ -15,7 +15,6 @@ export async function UpdateProfileApi(
   phoneN,
   socialLogi,
 ) {
-  console.log('API Section', useN, email, password, fNam, lNam, gende, dom, countr, pinCod, stat, cit, addres, phoneN, socialLogi);
 
   const headers = new Headers({
     'Content-Type': 'application/json',
@@ -32,7 +31,6 @@ export async function UpdateProfileApi(
     "city": cit,
     "userNo": useN,
   };
-  console.log(body, 'Body Sec');
   try {
     const response = await fetch(
       'https://snappromise.com:8080/api/Users/modifyProfileData',
@@ -42,13 +40,10 @@ export async function UpdateProfileApi(
         body: JSON.stringify(body),
       },
     );
-    console.log("profile update ",response);
 
     const responseData = await response.text();
-    console.log(responseData,"resp dat");
 
     const data = JSON.parse(responseData);
-    console.log(data, 'data');
 
     if (data.code === 200) {
    
@@ -57,7 +52,6 @@ export async function UpdateProfileApi(
       return data.description;
     }
   } catch (error) {
-    console.log("i am catch error". error);
     return -2;
   }
 }

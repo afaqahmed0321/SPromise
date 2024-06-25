@@ -33,13 +33,10 @@ const ShowAllTabPromiseReq = ({ navigation }) => {
   const [showDetail, setshowDetail] = useState('');
 
   const focus = useIsFocused();
-  console.log(userN, 'usern');
   useEffect(() => {
-
     GetUserPromiseRequest(userN)
       .then(data => {
         setPromises(data);
-        console.log(data, 'prooooooo');
         setIsLoading(false);
       })
       .catch(error => {

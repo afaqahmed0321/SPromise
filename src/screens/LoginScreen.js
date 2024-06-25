@@ -80,14 +80,11 @@ const LoginScreen = ({ navigation }) => {
 
 
   async function onGoogleButtonPress() {
-    console.log("inside google function");
     setIsLoading(true);
 
     try {
       await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
       await GoogleSignin.signOut();
-      console.log("Before google sign-in");
-
       const { idToken } = await GoogleSignin.signIn();
       console.log("after google sign-in", idToken);
 

@@ -67,17 +67,14 @@ const PromiseNetwork = ({ navigation }) => {
   );
 
   const handelNetworkFeedComp = async item => {
-    console.log(item);
     const networkUserNo = item;
     const res = await NetWorkFeedApi(networkUserNo);
-    console.log(res, 'network User Feed');
     setSelectedNetworkUserFee(res);
     navigation.navigate('NetworkFeed');
   };
 
   const fetchData = () => {
     fetchUserData(userN).then(data => {
-      console.log(data, 'Network User: ');
       // Remove duplicates based on serialNo
       const uniqueData = [];
       const seenSerialNos = new Set();
@@ -95,9 +92,7 @@ const PromiseNetwork = ({ navigation }) => {
   };
   
   function removeNetworkUser(SerialNo){
-    console.log("this is serial no", SerialNo)
     removeUserNetwork(SerialNo).then(data => {
-      console.log("removed");
     })
   }
 
@@ -242,7 +237,6 @@ const PromiseNetwork = ({ navigation }) => {
                     }}
                     onPress={() => {
                       const Value = item.isFavourite ? false : true;
-                      console.log(Value);
                       const res = addRemoveFavouriteAPi(item.serialNo, Value);
                       setrefreshnetwork(!refreshnetwork);
                     }}>
@@ -265,7 +259,6 @@ const PromiseNetwork = ({ navigation }) => {
                     }}
                     
                     onPress={() => {
-                      console.log("item data", item)
                       removeNetworkUser(item.serialNo)
                     }}>
                     <FontAwesome name="trash" size={15} color="#652D90" />

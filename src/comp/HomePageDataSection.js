@@ -50,13 +50,10 @@ const HomePageDataSection = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [refersh, setrefresh] = useState(false);
   const fetchData = async () => {
-    console.log("Fetch data call")
-
     setIsLoading(true);
     await MyPromisesApi(userN)
       .then(data => {
         setPromises(data);
-        console.log(data, "active promises MyPromisesApi")
       })
       .catch(error => {
         console.error('Error fetching promises:', error);
@@ -66,18 +63,14 @@ const HomePageDataSection = () => {
     await PromisesToMeApi(userN)
       .then(data => {
         setpromisesToMe(data);
-        console.log(data, "active promises PromisesToMeApi")
       })
       .catch(error => {
         console.error('Error fetching promises:', error);
         setIsLoading(false);
       });
-
-
     await GetPromiseRequestToUser(userN)
       .then(data => {
         setPromisesReq(data);
-        console.log(data, "active promises GetPromiseRequestToUser")
       })
       .catch(error => {
         console.error('Error fetching promises:', error);
@@ -87,7 +80,6 @@ const HomePageDataSection = () => {
     await GetUserPromiseRequest(userN)
       .then(data => {
         setpromisesReqToMe(data);
-        console.log(data, "active promises GetUserPromiseRequest")
       })
       .catch(error => {
         console.error('Error fetching promises:', error);
@@ -101,12 +93,10 @@ const HomePageDataSection = () => {
     setrefresh(!refersh);
   };
   useEffect(() => {
-    console.log("useEffect call")
     fetchData();
   }, [focus, refersh]);
 
   useEffect(() => {
-    console.log("useEffect call 2")
     fetchData();
     setTimeout(() => {
       setTimer(false);
@@ -122,7 +112,6 @@ const HomePageDataSection = () => {
   const renderItem = ({ item, index }) => (
     <>
       {item.actions == 'Pay' && setForName(true)}
-      {console.log("itemsss", item)}
       {showDetail == item.promiseID ? (
         <TouchableOpacity
           style={{ justifyContent: 'center', alignItems: 'center', }}

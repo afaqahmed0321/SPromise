@@ -19,7 +19,6 @@ export const removeUserNetwork = async (serialNo) => {
 
   try {
     const response = await axios.post(apiUrl);
-    console.log("removed response", response)
     return response;
   } catch (error) {
     console.log(error)

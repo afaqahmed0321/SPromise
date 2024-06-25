@@ -12,7 +12,6 @@ export default CompletePromiseApi = async (promiseID, userNo, note) => {
         
       });
       const data = await response.json();
-      console.log('Response:', data);
       if (data.code === 100) {
         ToastAndroid.showWithGravityAndOffset(
           'Completed',

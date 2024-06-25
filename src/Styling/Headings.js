@@ -16,8 +16,9 @@ export const Headings = StyleSheet.create({
     fontWeight:'bold',
     color: 'black',
     fontSize:16,
-    marginHorizontal:10
+    marginHorizontal:10,
   },
+  
   Input31:{
     fontWeight:'bold',
     color: 'black',
@@ -31,7 +32,9 @@ export const Headings = StyleSheet.create({
     fontSize:hp(1.8),
     marginHorizontal:10,
     alignContent: 'center',
-    marginTop:20
+    marginTop:20,
+    width:wp(15),
+    lineHeight:20
   },
   Input6:{
     fontWeight:'bold',

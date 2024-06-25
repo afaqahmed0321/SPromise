@@ -37,9 +37,7 @@ const ShowAllTabPTM = ({ navigation }) => {
     PromisesToMeApi(userN)
       .then(data => {
         setPromises(data);
-        console.log(data, "pro");
         setIsLoading(false);
-        console.log(data);
       })
       .catch(error => {
         console.error('Error fetching promises:', error);

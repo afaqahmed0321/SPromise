@@ -38,7 +38,6 @@ const ShowAllTab = ({ navigation }) => {
     MyPromisesApi(userN)
       .then(data => {
         setPromises(data);
-        console.log(data, 'pro');
         setIsLoading(false);
       })
       .catch(error => {
@@ -64,7 +63,8 @@ const ShowAllTab = ({ navigation }) => {
             item.status === 'MarkedforCompletion' ||
             item.status === 'Pending' ||
             item.status === 'Accepted' ||
-            item.status === 'Canceled'
+            item.status === 'Canceled' ||
+            item.status === 'Failed'
             
             )}
           refreshControl={

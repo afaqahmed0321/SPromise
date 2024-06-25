@@ -87,9 +87,7 @@ const PromiseStatement = ({ onTextChange }) => {
       const maxSizeInBytes = 20 * 1024 * 1024; // Convert MB to bytes
       const allowedFormats = VideoFarmats; // Check allowed formats
       const selectedFileType = result.assets[0].type;
-      console.log("Selected file size:", selectedFileSize);
-      console.log("Max allowed size:", maxSizeInBytes);
-      console.log("Selected file type:", selectedFileType);
+     
 
       if (selectedFileSize <= maxSizeInBytes) {
         setSelectedVideo(result.assets[0].uri);
@@ -131,8 +129,6 @@ const PromiseStatement = ({ onTextChange }) => {
     )
       .then(response => response.json())
       .then(result => {
-        console.log(result);
-
         const url = result.secure_url;
         setAttachMedia(url);
         setIsModalV(false);
@@ -149,7 +145,6 @@ const PromiseStatement = ({ onTextChange }) => {
   const suggest = async () => {
     await axios.post(`https://snappromise.com:8080/suggestPromiseText?promiseStatement=${generatedTexts}`)
       .then((response) => {
-        console.log("this is sugesstion response", response);
         setGeneratedTexts(response.data.description);
       })
       .catch((error) => {

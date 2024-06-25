@@ -36,7 +36,6 @@ const CompletePTM = ({ navigation }) => {
     PromisesToMeApi(userN)
       .then(data => {
         setPromises(data);
-        console.log(data, "proo")
         setIsLoading(false);
       })
       .catch(error => {

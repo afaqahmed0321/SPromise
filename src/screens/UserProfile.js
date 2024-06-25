@@ -12,12 +12,10 @@ import {
 } from 'react-native';
 import GetUserData from '../Network/Users/GetUserData';
 import { WebView } from 'react-native-webview';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { UserNo } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Font from 'react-native-vector-icons/Fontisto';
-// import Font from 'react-native-vector-icons/Fontisto';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -34,18 +32,12 @@ import {
   RemoveSoicalLinkApprovalState,
   RemoveTwitterApicall,
   isChangePasswordModalV,
-  isDOBModalV,
 } from '../recoil/Users/GetUsers';
-import EvilIcon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
-import DOBModal from '../comp/SelectDOBCalender';
-import TwitterWebView from '../comp/Profile/WebView/TwitterWebView';
-import TwitterApiCall from '../Network/Users/TwitterApiCallToCheckData';
 import TwitterApiCallLogin from '../Network/Users/TwitterApiCallToLogin';
 import TwitterApiCallToCheckData from '../Network/Users/TwitterApiCallToCheckData';
 import LinkDinApiCallToCheckData from '../Network/Users/LinkdinApiCallToCheckData';
 import LinkDinApiCallLogin from '../Network/Users/LinkdinApiCallToLogin';
-import RemoveSoicalLinkApproval from '../comp/Profile/RemoveSoicalLinkApproval';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 import { BlurView } from '@react-native-community/blur';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -103,6 +95,7 @@ const UserProfile = () => {
       setEmailId(data.emailID);
       setFName(data.firstName);
       setLName(data.lastName);
+      setGender(data.gender);
       setPhoneNo(data.phoneNo);
       setAddress(data.address1);
       setCity(data.city);
@@ -123,7 +116,6 @@ const UserProfile = () => {
     const lNam = lName === '' ? userData.lastName : lName;
     const gende = gender;
     const phoneN = phonNo;
-    // const phoneN = phonNo === ''|| "string"? userData.phoneNo : phonNo
     const addres = address === '' ? userData.address1 : address;
     const cit = city;
     const stat = state;
@@ -220,11 +212,6 @@ const UserProfile = () => {
     { label: 'Male', value: 'Male' },
     { label: 'Female', value: 'Female' },
   ]);
-  const handleDropdownSelect = (item) => {
-    setValue(item.value);
-    setOpen(false);
-  };
-
 
   const apiCallChceckRes = async () => {
     const response = await TwitterApiCallToCheckData(userN);
@@ -251,12 +238,14 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    fetchUserData();
     apiCallChceckRes();
     apiCallLinkChceckRes();
-  }, [focus, refresh]);
+  },[refresh]);
 
-
+  useEffect(() => {
+    fetchUserData();
+   
+  },[]);
   if (!userData) {
     return (
       <View style={styles.loadingContainer}>
@@ -273,11 +262,9 @@ const UserProfile = () => {
             onPress={() => navigation.goBack()}
             style={{
               marginLeft: wp(5),
-              // borderWidth: 1,
               height: hp(5),
               marginTop: hp(1),
             }}>
-            {/* <EvilIcon name="arrow-left-circle" size={30} color="black" /> */}
             <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
           </TouchableOpacity>
         )}
@@ -301,43 +288,38 @@ const UserProfile = () => {
                     <Text style={Headings.Input3}>Email</Text>
                     <TextInput
                       style={[TextInP.Fileds, { width: wp(82), }]}
-                      // placeholder={userData.emailID}
-                      value={userData.emailID}
+                          value={userData.emailID}
                       placeholderTextColor="#000"
                       onChangeText={text => setEmailId(text)}
                     />
                   </View>
-
-                  <View style={[styles.Box, { paddingHorizontal: 0 }]}>
-                    <View styles={styles.InnerBox}>
-                      <Text style={Headings.Input3}>First Name</Text>
-                      <TextInput
-                        style={[TextInP.Fileds, { width: wp(38) }]}
-                        placeholder="First Name"
-                        value={fName}
-                        placeholderTextColor="grey"
-                        onChangeText={text => setFName(text)}
-                      />
-                    </View>
-                    <View styles={styles.InnerBox}>
-                      <Text style={Headings.Input3}>Last Name</Text>
-                      <TextInput
-                        style={[TextInP.Fileds, { width: wp(38) }]}
-                        placeholder="Last Name"
-                        placeholderTextColor="grey"
-                        value={lName}
-                        onChangeText={text => setLName(text)}
-                      />
-                    </View>
+                  <View style={[styles.Box,{paddingHorizontal:0}]}>
+                  <View styles={styles.InnerBox}>
+                    <Text style={Headings.Input3}>First Name</Text>
+                    <TextInput
+                      style={[TextInP.Fileds, { width: wp(38) }]}
+                      placeholder="First Name"
+                      value={fName}
+                      placeholderTextColor="grey"
+                      onChangeText={text => setFName(text)}
+                    />
                   </View>
+                  <View styles={styles.InnerBox}>
+                    <Text style={Headings.Input3}>Last Name</Text>
+                    <TextInput
+                      style={[TextInP.Fileds, { width: wp(38) }]}
+                      placeholder="Last Name"
+                      placeholderTextColor="grey"
+                      value={lName}
+                      onChangeText={text => setLName(text)}
+                    />
+                  </View>
+                </View>
                   <View>
                     <Text style={Headings.Input3}>Gender</Text>
                     <DropDownPicker
                       open={open}
-                      value={
-                        userData.gender != '' || userData.gender != null ? userData.gender : "Gender"
-                      } 
-                      // value={gender}
+                      value={gender} 
                       items={items}
                       setOpen={setOpen}
                       setValue={setGender}
@@ -354,7 +336,7 @@ const UserProfile = () => {
                     <Text style={Headings.Input3}>Phone</Text>
                     <TextInput
                       style={[TextInP.Fileds, { width: wp(82) }]}
-                      value={userData.phoneNo == '' ? 'Phone' : userData.phoneNo}
+                      value={phonNo}
                       placeholderTextColor="grey"
                       placeholder={userData.phone}
                       onChangeText={text => setPhoneNo(text)}
@@ -366,22 +348,19 @@ const UserProfile = () => {
                     <TextInput
                       style={[TextInP.Fileds, { width: wp(82) }]}
                       value={
-                        userData.address1 == '' ? 'Address' : userData.address1
+                       address
                       }
                       placeholderTextColor="grey"
-                      // value={lName}
                       onChangeText={text => setAddress(text)}
                     />
                   </View>
-
                   <View style={styles.Box}>
                     <View styles={styles.InnerBox}>
                       <Text style={Headings.Input3}>City</Text>
                       <TextInput
                         style={[TextInP.Fileds, { width: wp(38) }]}
-                        value={userData.city == '' ? 'City' : userData.city}
+                        value={city}
                         placeholderTextColor="grey"
-                        // value={lName}
                         onChangeText={text => setCity(text)}
                       />
                     </View>
@@ -390,10 +369,9 @@ const UserProfile = () => {
                       <TextInput
                         style={[TextInP.Fileds, { width: wp(38) }]}
                         value={
-                          userData.country == '' ? 'Country' : userData.country
+                          country
                         }
                         placeholderTextColor="grey"
-                        // value={lName}
                         onChangeText={text => setCountry(text)}
                       />
                     </View>
@@ -404,9 +382,8 @@ const UserProfile = () => {
                       <Text style={Headings.Input3}>State</Text>
                       <TextInput
                         style={[TextInP.Fileds, { width: wp(82) }]}
-                        value={userData.state == '' ? 'State' : userData.state}
+                        value={state}
                         placeholderTextColor="grey"
-                        // value={lName}
                         onChangeText={text => setState(text)}
                       />
                     </View>
@@ -433,7 +410,7 @@ const UserProfile = () => {
                               setIstwitterRemoveAccount(true),
                               setRefresh(!refresh)
                             )
-                            : // setRemoveSLAModal(true)
+                            : 
                             (setIsTwitterApiCall(true));
 
                         }}
@@ -461,7 +438,6 @@ const UserProfile = () => {
                         onToggle={() => {
                           setIsTwitterApiCall(false);
                           setLinkedInToggle(!linkedInToggle);
-                          // LinkDinallHandel();
                           linkedInToggle
                             ? (AccountRemovedApiCall(userN, 'LinkedIn'),
                               setIstwitterRemoveAccount(true),
@@ -477,28 +453,6 @@ const UserProfile = () => {
 
 
                   </View>
-                  {/* //RemoveSoicalLinkApproval /> */}
-                  {/* <Modal
-                  animationType="slide"
-                  transparent={true}
-                  style={{ height: hp(50), backgroundColor: 'red' }}
-                  visible={removeSLAModal}
-                  onRequestClose={removeSLAModal}>
-                  <BlurView
-                    style={{ flex: 1 }}
-                    blurType="light"
-                    blurAmount={10}
-                  ></BlurView>
-                
-                  <RemoveSoicalLinkApproval />
-                 
-                  <BlurView
-                    style={{ flex: 1 }}
-                    blurType="light" // You can customize the blurType as needed
-                    blurAmount={10} // You can adjust the blurAmount as needed
-                  ></BlurView>
-                </Modal> */}
-
 
                 </View>
               ) : (
@@ -507,11 +461,9 @@ const UserProfile = () => {
                     onPress={() => setIsWebView(false)}
                     style={{
                       marginLeft: wp(2),
-                      // borderWidth: 1,
                       height: hp(5),
                       marginTop: hp(1),
                     }}>
-                    {/* <EvilIcon name="arrow-left-circle" size={30} color="black" /> */}
                     <FontAw5
                       name="arrow-alt-circle-left"
                       size={30}
@@ -530,14 +482,12 @@ const UserProfile = () => {
             </View>
           </>
         ) : (
-          // </View>
           <>
             <View style={styles.container}>
               <View style={{ flexDirection: "row" }}>
                 <Text style={Headings.InputCustom}>Email:</Text>
                 <TextInput
-                  style={[TextInP.Fileds, { width: wp(65), }]}
-                  // placeholder={userData.emailID}
+                  style={[TextInP.Fileds, { width: wp(61), }]}
                   value={userData.emailID}
                   placeholderTextColor="#000"
                   onChangeText={text => setEmailId(text)}
@@ -547,8 +497,7 @@ const UserProfile = () => {
               <View style={{ flexDirection: "row" }}>
                 <Text style={Headings.InputCustom}>Name:</Text>
                 <TextInput
-                  style={[TextInP.Fileds, { width: wp(65), }]}
-                  // placeholder={userData.emailID}
+                  style={[TextInP.Fileds, { width: wp(61), }]}
                   value={`${userData.firstName} ${userData.lastName}`}
                   placeholderTextColor="grey"
                   onChangeText={text => setEmailId(text)}
@@ -558,8 +507,7 @@ const UserProfile = () => {
               <View style={{ flexDirection: "row" }}>
                 <Text style={Headings.InputCustom}>Phone Number:</Text>
                 <TextInput
-                  style={[TextInP.Fileds, { width: wp(49) }]}
-                  // placeholder={userData.emailID}
+                  style={[TextInP.Fileds, { width: wp(61) }]}
                   value={userData.phoneNo == '' ? 'N/A' : userData.phoneNo}
                   placeholderTextColor="grey"
                   onChangeText={text => setEmailId(text)}
@@ -570,7 +518,6 @@ const UserProfile = () => {
                 <Text style={Headings.InputCustom}>Address:</Text>
                 <TextInput
                   style={[TextInP.Fileds, { width: wp(61), }]}
-                  // placeholder={userData.emailID}
                   value={userData.address1 == '' ? 'N/A' : userData.address1}
                   placeholderTextColor="grey"
                   onChangeText={text => setEmailId(text)}
@@ -580,8 +527,7 @@ const UserProfile = () => {
               <View style={{ flexDirection: "row" }}>
                 <Text style={Headings.InputCustom}>Gender:</Text>
                 <TextInput
-                  style={[TextInP.Fileds, { width: wp(62), }]}
-                  // placeholder={userData.emailID}
+                  style={[TextInP.Fileds, { width: wp(61), }]}
                   value={userData.gender == '' ? 'N/A' : userData.gender}
                   placeholderTextColor="grey"
                   onChangeText={text => setEmailId(text)}
@@ -591,8 +537,7 @@ const UserProfile = () => {
               <View style={{ flexDirection: "row" }}>
                 <Text style={Headings.InputCustom}>City:</Text>
                 <TextInput
-                  style={[TextInP.Fileds, { width: wp(68), }]}
-                  // placeholder={userData.emailID}
+                  style={[TextInP.Fileds, { width: wp(61), }]}
                   value={userData.city == '' ? 'N/A' : userData.city}
                   placeholderTextColor="grey"
                   onChangeText={text => setEmailId(text)}
@@ -603,7 +548,6 @@ const UserProfile = () => {
                 <Text style={Headings.InputCustom}>Country:</Text>
                 <TextInput
                   style={[TextInP.Fileds, { width: wp(61), }]}
-                  // placeholder={userData.emailID}
                   value={userData.country == '' ? 'N/A' : userData.country}
                   placeholderTextColor="grey"
                   onChangeText={text => setEmailId(text)}
@@ -647,7 +591,6 @@ const UserProfile = () => {
             justifyContent: 'center',
             alignItems: 'center',
             width: wp(100),
-            // borderWidth: wp(1),
             height: hp(8),
           }}>
           {editProfile ? (
@@ -702,10 +645,7 @@ const UserProfile = () => {
 const styles = StyleSheet.create({
   container: {
     marginVertical: hp(1),
-    // backgroundColor: '#ffffff',
     padding: wp(4),
-    // borderRadius: wp(10),
-    // shadowColor: 'grey',
     borderWidth: 0.5,
     width: wp(90),
     alignSelf: 'center',
@@ -713,14 +653,12 @@ const styles = StyleSheet.create({
     borderColor: '#652D90',
     marginHorizontal: wp(3),
     height: hp(45),
-    // marginTop: hp(20),
     backgroundColor: 'white',
     shadowOffset: { width: 0, height: hp(2) },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
     height: "auto"
-    // marginBottom: hp(10)
   },
   DateCB: {},
   Box: {
@@ -746,21 +684,16 @@ const styles = StyleSheet.create({
   },
   data: {
     fontSize: wp(4),
-    // fontWeight: 'bold',
     fontWeight: 'normal',
     marginTop: hp(2),
   },
   InputContainer: {
     flexDirection: 'row',
-    // justifyContent:'space-between',
     alignItems: 'center',
     width: wp(90),
     height: hp(8),
     marginTop: hp(1),
     marginBottom: hp(1),
-    // borderRadius: wp(5),
-    // borderColor: '#652D90',
-    // borderWidth: wp(1),
   },
   editableText: {
     width: wp(70),

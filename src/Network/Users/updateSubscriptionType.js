@@ -1,6 +1,4 @@
 const updateSubscriptionType = async (userN, subscriptionType) => {
-    console.log("Api Call", userN);
-    console.log("Api Call", subscriptionType);
     const userNo = userN;
     const subsType = subscriptionType;
   
@@ -14,7 +12,6 @@ const updateSubscriptionType = async (userN, subscriptionType) => {
           },
         }
       );
-      console.log("Api as been run and type is now paid");
       return response
     } catch (error) {
       console.error('Error updating password:', error.message);
