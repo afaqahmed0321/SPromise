@@ -153,7 +153,7 @@ function HomeScreenn() {
             <FontAw name="handshake-angle" color={color} size={size} />
 
           ),
-          title: 'Promise Request'
+          title: 'Promise Requests'
         }}
       />
 
