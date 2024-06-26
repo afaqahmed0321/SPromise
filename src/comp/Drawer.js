@@ -144,15 +144,15 @@ const Drawer = () => {
         </TouchableOpacity>
 
         <View style={{ marginHorizontal: wp(5), marginTop: 5 }}>
-          <View style={[styles.listContainer, { paddingVertical: 1 }]}>
-            <Mati color="#652D90" name="account" size={30} style={{ marginTop: 6, marginLeft: wp(-1) }} />
+          <View style={[styles.listContainer]}>
+            <Mati color="#652D90" name="account" size={30} style={{ marginTop: 6}} />
             <TouchableOpacity
               onPress={() => {
                 setIsDrawerV(false);
                 navigation.navigate('UserProfile');
               }}
             >
-              <Text style={[styles.TebText, { padding: 1 }]}>User Profile</Text>
+              <Text style={[styles.TebText]}>User Profile</Text>
             </TouchableOpacity>
           </View>
 

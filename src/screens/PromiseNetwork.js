@@ -63,20 +63,20 @@ const PromiseNetwork = ({ navigation }) => {
   const [isnetworkModalVi, setIsnetworkModVi] = useRecoilState(
     IspromiseNetworkmodalVisible,
   );
-
+  console.log("refreshPromiseNetwork", refreshnetwork)
   const fetchData = () => {
     fetchUserData(userN).then(data => {
       // Remove duplicates based on serialNo
       const uniqueData = [];
       const seenSerialNos = new Set();
-      
+
       data.forEach(item => {
         if (!seenSerialNos.has(item.networkUserNo)) {
           uniqueData.push(item);
           seenSerialNos.add(item.networkUserNo);
         }
       });
-  
+
       setUserData(uniqueData);
       setIsLoading(false);
     });
@@ -93,7 +93,7 @@ const PromiseNetwork = ({ navigation }) => {
   const handleFavoriteAction = async (serialNo, isFavorite) => {
     const Value = isFavorite ? false : true;
     await addRemoveFavouriteAPi(serialNo, Value);
-    const updatedData = userData.map(item => 
+    const updatedData = userData.map(item =>
       item.serialNo === serialNo ? { ...item, isFavourite: Value } : item
     );
     setUserData(updatedData);
@@ -137,7 +137,7 @@ const PromiseNetwork = ({ navigation }) => {
         <TouchableOpacity
           onPress={() => setMmodalVisible(true)}
           style={{ height: hp(4), flexDirection: 'row', alignItems: 'center', marginLeft: wp(6) }}>
-          <Ionicons name="person-add-outline" size={23} color="#652D90" />
+          <Ionicons name="person-add-outline" size={30} color="#652D90" />
           <Modal
             animationType="slide"
             transparent={true}
@@ -154,17 +154,19 @@ const PromiseNetwork = ({ navigation }) => {
       ) : (
         <ScrollView>
           <FlatList
+          style={{marginVertical:hp(2)}}
             data={searchText.length > 0 ? filteredData : userData}
             keyExtractor={item => item.serialNo.toString()}
             renderItem={({ item }) => (
-              <View>
-                <TouchableOpacity
-                  style={{
-                    flexDirection: 'row',
-                    marginVertical: hp(1),
-                    alignItems: 'center',
-                    marginLeft: wp(3),
-                  }}>
+              <View style={{
+                flex:1,
+                flexDirection: 'row',
+                marginVertical: hp(1),
+                marginHorizontal: hp(2.2),
+                alignItems: 'center',
+                justifyContent:"space-between"
+              }}>
+                <View style={{flexDirection:"row", flex:1}}>
                   <View>
                     <Image
                       source={
@@ -182,48 +184,41 @@ const PromiseNetwork = ({ navigation }) => {
                   </View>
                   <View style={{ width: wp(49), marginLeft: wp(3) }}>
                     {item.networkUserName !== '' ? (
-                      <Text style={{ color: "black" }}>{item.networkUserName}</Text>
+                      <Text style={{ color: "black", fontSize: hp(1.8) }}>{item.networkUserName}</Text>
                     ) : null}
                     <Text style={[
                       {
                         color: 'black',
-                        fontSize: hp(1.8),
+                        fontSize: hp(1.6),
                       },
                     ]}>
                       Promisibility {item.promisibility ? `${item.promisibility}%` : "0%"}
                     </Text>
                   </View>
-                  <View style={{}}>
+                </View>
+                <View style={{ gap: 15, flexDirection: "row" }}>
+                  <View>
                     <TouchableOpacity
-                      style={{
-                        padding: 0.2,
-                        borderRadius: 50,
-                        position: 'absolute',
-                        marginLeft: wp(15),
-                      }}
+
                       onPress={() => handleFavoriteAction(item.serialNo, item.isFavourite)}
                     >
                       {item.isFavourite ? (
-                        <FontAwesome name="heart" size={15} color="#652D90" />
+                        <FontAwesome name="heart" size={25} color="#652D90" />
                       ) : (
-                        <FontAwesome name="heart-o" size={15} color="#652D90" />
+                        <FontAwesome name="heart-o" size={25} color="#652D90" />
                       )}
                     </TouchableOpacity>
                   </View>
                   <View style={{}}>
                     <TouchableOpacity
-                      style={{
-                        padding: 0.2,
-                        borderRadius: 50,
-                        position: 'absolute',
-                        marginLeft: wp(20),
-                      }}
+
                       onPress={() => removeNetworkUser(item.serialNo)}
                     >
-                      <FontAwesome name="trash" size={15} color="#652D90" />
+                      <FontAwesome name="trash" size={25} color="#652D90" />
                     </TouchableOpacity>
                   </View>
-                </TouchableOpacity>
+                </View>
+
               </View>
             )}
           />
@@ -252,11 +247,10 @@ const styles = StyleSheet.create({
     borderRadius: wp(5),
     fontSize: hp(1),
     color: '#652D90',
-    fontWeight: 'bold',
     paddingLeft: wp(4),
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: 14,
+    fontSize: hp(1.8),
     padding: 0,
     height: hp(5),
   },

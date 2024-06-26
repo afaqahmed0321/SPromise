@@ -1,4 +1,4 @@
-// import React, {useState} from 'react';
+import React, { useState, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Modal,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -14,7 +15,6 @@ import {
 } from 'react-native-responsive-screen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Mater from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import { useRecoilState } from 'recoil';
 import {
   promiseStatement,
@@ -24,7 +24,6 @@ import {
 } from '../../recoil/AddPromise';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native';
-import React, { useState, useRef } from 'react';
 import {
   AllowedVideoFormatsState,
   AllowedVideoSizeState,
@@ -38,13 +37,10 @@ const PromiseStatement = ({ onTextChange }) => {
   const [isModalV, setIsModalV] = useState(false);
   const [generatedTexts, setGeneratedTexts] = useRecoilState(promiseStatement);
   const [makePromise, setMakePromise] = useRecoilState(MakeaPromise);
-  const makeprmsbg1 = ['#EB6F1F', '#AA8F3C'];
-  const rqstprmsbg1 = ['#305B61', '#779A9C'];
   const [result, setResult] = useState();
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectMedia);
   const [attachMedia, setAttachMedia] = useRecoilState(selectedMedia);
   const [videoUri, setVideoUri] = useState(null);
-
   const [licked, setClicked] = useState(false);
   const [paused, setPaused] = useState(false);
   const [progress, setProgress] = useState({ currentTime: 0 });
@@ -52,14 +48,12 @@ const PromiseStatement = ({ onTextChange }) => {
     AllowedVideoFormatsState,
   );
   const [VideoSize, setVideoSize] = useRecoilState(AllowedVideoSizeState);
-
   const [fullScreen, setFullScreen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // Loading state
   const ref = useRef();
 
-
-
   const openCamera = async () => {
-    setIsModalV(false)
+    setIsModalV(false);
     const result = await launchCamera({ mediaType: 'video', quality: 1 });
 
     if (result.assets && result.assets.length > 0) {
@@ -70,16 +64,16 @@ const PromiseStatement = ({ onTextChange }) => {
       if (selectedFileSize <= maxSizeInBytes) {
         setSelectedVideo(result.assets[0].uri);
         handelUpload();
-      }
-      else {
+      } else {
         alert(
           `Invalid file format. Please choose a valid video format${allowedFormats}`,
         );
       }
     }
-  }
+  };
+
   const chooseVideo = async () => {
-    setIsModalV(false)
+    setIsModalV(false);
     const result = await launchImageLibrary({ mediaType: 'video', quality: 1 });
 
     if (result.assets && result.assets.length > 0) {
@@ -87,7 +81,6 @@ const PromiseStatement = ({ onTextChange }) => {
       const maxSizeInBytes = 20 * 1024 * 1024; // Convert MB to bytes
       const allowedFormats = VideoFarmats; // Check allowed formats
       const selectedFileType = result.assets[0].type;
-     
 
       if (selectedFileSize <= maxSizeInBytes) {
         setSelectedVideo(result.assets[0].uri);
@@ -99,6 +92,7 @@ const PromiseStatement = ({ onTextChange }) => {
   };
 
   const handelUpload = async () => {
+    setIsLoading(true); // Start loading
     let newfile = {
       uri: selectedVideo,
       type: 'test/mp4',
@@ -132,10 +126,13 @@ const PromiseStatement = ({ onTextChange }) => {
         const url = result.secure_url;
         setAttachMedia(url);
         setIsModalV(false);
+        setIsLoading(false); // Stop loading
       })
-      .catch(error => console.log('error', error));
+      .catch(error => {
+        console.log('error', error);
+        setIsLoading(false); // Stop loading in case of error
+      });
   };
-
 
   const handleTextChange = (text) => {
     setGeneratedTexts(text);
@@ -150,7 +147,7 @@ const PromiseStatement = ({ onTextChange }) => {
       .catch((error) => {
         console.log("this is sugesstion error", error);
       })
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -171,7 +168,9 @@ const PromiseStatement = ({ onTextChange }) => {
               onChangeText={handleTextChange}
               placeholderTextColor="black"
               style={{
-                width: wp(80), paddingHorizontal: wp(4), borderWidth: wp(0.6),
+                width: wp(80),
+                paddingHorizontal: wp(4),
+                borderWidth: wp(0.6),
                 borderColor: '#652D90',
                 borderRadius: wp(3),
                 color: '#000',
@@ -191,12 +190,14 @@ const PromiseStatement = ({ onTextChange }) => {
               )}
             </TouchableOpacity>
             <TouchableOpacity onPress={suggest} style={{ marginTop: 30, marginStart: 10 }}>
-
               <Ionicons color="#652D90" name="flash-outline" size={30} />
-
             </TouchableOpacity>
           </View>
         </View>
+
+        {isLoading && (
+          <ActivityIndicator size="small" color="#0000ff" />
+        )}
 
         <Modal
           animationType="slide"
@@ -250,11 +251,8 @@ const PromiseStatement = ({ onTextChange }) => {
             </View>
           </TouchableWithoutFeedback>
         </Modal>
-
       </View>
-      <View style={styles.generatedBox}>
-
-      </View>
+      <View style={styles.generatedBox}></View>
     </View>
   );
 };
@@ -262,6 +260,10 @@ const PromiseStatement = ({ onTextChange }) => {
 export default PromiseStatement;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+  },
   CiBox: {
     backgroundColor: 'grey',
     width: wp(13),
@@ -287,7 +289,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   logoImageContainer: {
-
     borderRadius: hp(50),
     overflow: 'hidden',
     resizeMode: 'cover',

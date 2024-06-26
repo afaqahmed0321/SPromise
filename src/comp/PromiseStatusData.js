@@ -10,6 +10,7 @@ import { useRecoilState } from 'recoil';
 import getUserPromisbility from '../Network/GetPromisibility';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 import LinearGradient from 'react-native-linear-gradient';
+import { Positions } from 'react-native-calendars/src/expandableCalendar';
 
 const PromiseStatusData = () => {
   const [userN, setUserN] = useRecoilState(UserNo);
@@ -30,7 +31,7 @@ const PromiseStatusData = () => {
 
     const timer = setTimeout(() => {
       setRefresh(!refresh);
-    }, 100); 
+    }, 100);
     return () => clearTimeout(timer);
   }, []);
 
@@ -42,25 +43,29 @@ const PromiseStatusData = () => {
 
   return (
     <View style={styles.PromiseStatus}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Text style={styles.barText}>Your Promisibility</Text>
-        <TouchableOpacity onPress={() => setRefresh(!refresh)}>
-          <View style={styles.refreshIcon}>
-            <FontAw5
-              name="sync"
-              size={15}
-              color="#6650A4"
-            />
-          </View>
-        </TouchableOpacity>
+      <View style={styles.headerContainer}>
+        <View>
+          <Text style={styles.barText}>Your Promisibility</Text>
+        </View>
+        <View>
+          <Text style={[styles.barText, styles.rewardText]}>Reward Points</Text>
+
+        </View>
+        <View>
+          <TouchableOpacity onPress={() => setRefresh(!refresh)}>
+            <View style={styles.refreshIcon}>
+              <FontAw5 name="sync" size={15} color="#6650A4" />
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.container}>
         <View style={styles.pieChartsContainer}>
           <View style={styles.pieChartWrapper}>
             <Pie
-              radius={50}
-              innerRadius={40}
+              radius={hp(6)}
+              innerRadius={hp(5)}
               backgroundColor="#ee8347"
               sections={[
                 {
@@ -79,33 +84,26 @@ const PromiseStatusData = () => {
           </View>
 
           <View style={styles.pieChartWrapper}>
-            <View style={styles.pieChartLabel2}>
-              <Text style={styles.barText}>Reward Points</Text>
-            </View> 
-            <LinearGradient
-              colors={['#73B6BF', '#2E888C']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 0, y: 1 }}
-              style={{
-                width: '60%',
-                height: hp(12.4),
-                opacity: 1,
-                borderRadius: wp(50),
-                marginTop: hp(0.5),
-                flexDirection: 'row',
-                alignSelf: 'center',
-                alignItems: 'center',
-              }}
-            >
-             <View style={styles.pieChartLabel1}>
-              <Text style={styles.pieChartText1}>
+            <Pie
+              radius={hp(6)}
+              innerRadius={hp(5)}
+              backgroundColor="#652D90"
+              sections={[
+                {
+                  percentage: userReward,
+                  color: '#73B6BF',
+                },
+              ]}
+              dividerSize={1}
+              strokeCap={'butt'}
+            />
+            <View style={styles.pieChartLabel}>
+              <Text style={styles.pieChartText}>
                 {parseInt(userReward)} pts
               </Text>
             </View>
-            </LinearGradient>
-            {/* Add a second pie chart here */}
-           
           </View>
+
         </View>
       </View>
     </View>
@@ -117,69 +115,65 @@ export default PromiseStatusData;
 const styles = StyleSheet.create({
   PromiseStatus: {
     width: wp(90),
-    height: hp(21),
+    height: hp(25),
     borderRadius: wp(5),
     padding: wp(3),
     backgroundColor: 'rgba(101, 45, 144, 0.01)',
   },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   barText: {
-    fontSize: hp(1.5),
+    fontSize: hp(1.6),
     color: '#652D90',
     fontWeight: 'bold',
-    marginLeft: wp(1),
   },
-  refreshIcon: {
-    marginRight: wp(2),
-  },
+  // refreshIcon: {
+  //   marginRight: wp(2),
+  // },
   container: {
     alignItems: 'center',
     justifyContent: 'center',
   },
   pieChartsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     marginTop: hp(2),
-  },
-  pieChartsContainer1: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: hp(2),
+    alignItems: 'center'
   },
   pieChartWrapper: {
     flex: 1,
     alignItems: 'center',
+    flexDirection: 'row',
     justifyContent: 'center',
-    position: 'relative',
   },
   pieChartLabel: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: 'start',
     alignItems: 'center',
-  },
-  pieChartLabel2: {
     position: 'absolute',
-    top: -55,
-    bottom: 100,
-    left: 0,
-    right: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: "#652D90",
+    
   },
+
   pieChartText: {
-    fontSize: hp(2),
+    fontSize: hp(1.6),
     color: '#652D90',
+    textAlign: 'center',
+
+
   },
   pieChartText1: {
-    position: 'absolute',
-    fontSize: hp(2),
-    color: '#fff',
-    textAlign: "center",
-    top: -10,
-    left: 35,
+    fontSize: hp(1.6),
+    textAlign: 'center',
   },
+  linearGradient: {
+    width: wp(23),
+    height: hp(11.5),
+    borderRadius: wp(50),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
 });

@@ -75,7 +75,8 @@ const AddToMyNetwork = () => {
       ToastAndroid.show('Error adding user to network.', ToastAndroid.LONG);
     }
   };
-
+  useEffect(() => {
+  }, [ refreshnetwork]);
   return (
 
     
@@ -104,7 +105,7 @@ const AddToMyNetwork = () => {
               onPress={SearchUser}
               style={styles.searchButton}
             >
-              <Feather name="search" size={20} color="#8250A6" />
+              <Feather name="search" size={30} color="#8250A6" />
             </TouchableOpacity>
           </View>
           {isLoading ? (
@@ -173,7 +174,7 @@ const styles = StyleSheet.create({
     color: '#652D90',
     fontWeight: 'bold',
     paddingLeft: wp(4),
-    fontSize: hp(1.5),
+    fontSize: hp(1.8),
     flex: 1,
   },
   searchButton: {
