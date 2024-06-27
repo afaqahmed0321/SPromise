@@ -41,11 +41,16 @@ import GetUserData from '../../Network/Users/GetUserData';
 import LoadingOverlay from '../Global/LoadingOverlay';
 import axios from 'axios';
 import { RadioButton } from 'react-native-paper';
+import debounce from 'lodash.debounce';
 
 const Review = ({ navigation }) => {
   const [Promiseze, setSelectedPromisee] = useRecoilState(selectedPromisee);
+  const [forType, setForType] = useState(false);
+
+
   const handlePromiseApi = async () => {
     setIsLoading(true);
+ 
     const expiryDate = isTimeB ? deadlinedate : dateString;
     const IsTimeBound = isTimeB;
     const promiseGoal = generatedTexts;
@@ -63,6 +68,25 @@ const Review = ({ navigation }) => {
     const paymentStatus = 'Pending';
     const PromiseReward = financial ? rewardPoints : null;
     const visibility = mNtoggle ? 'PUBLIC' : 'PRIVATE';
+
+    console.log("Data before sending",
+      expiryDate,
+      IsTimeBound,
+      promiseGoal,
+      promiseMediaU,
+      PromiseID,
+      promiseType,
+      promisee,
+      promisor,
+      RatingImapect,
+      LinkDin,
+      Twitter,
+      startDate,
+      status,
+      amount,
+      paymentStatus,
+      PromiseReward,
+      visibility,)
 
     try {
       const prom = await MakePromiseApi(
@@ -84,7 +108,9 @@ const Review = ({ navigation }) => {
         PromiseReward,
         visibility,
       );
+      console.log("prommmmmm", prom);
       if (prom === 100) {
+        console.log("running in make promise at line 96");
         ToastAndroid.showWithGravityAndOffset(
           'Promise created successfully.',
           ToastAndroid.LONG,
@@ -94,6 +120,7 @@ const Review = ({ navigation }) => {
         );
         navigation.navigate('SnapPromiseVerification');
       } else {
+        console.log("error in make promise at line 96");
         ToastAndroid.showWithGravityAndOffset(
           'Please select promisee first',
           ToastAndroid.LONG,
@@ -115,6 +142,7 @@ const Review = ({ navigation }) => {
   };
 
   const handelReqPromiseApi = async () => {
+    console.log('Req Promise Called');
     const expiryDate = isTimeB ? deadlinedate : dateString;
     const IsTimeBound = isTimeB;
     const promiseGoal = generatedTexts;
@@ -132,6 +160,30 @@ const Review = ({ navigation }) => {
     const PromiseReward = financial ? rewardPoints : 0;
     const PromiseStatus = 'Pending';
     const visibility = mNtoggle ? 'PUBLIC' : 'PRIVATE';
+
+    console.log("before sending to API",
+      {
+        expiryDate: expiryDate,
+        IsTimeBound: IsTimeBound,
+        promiseGoal: promiseGoal,
+        promiseMediaU: promiseMediaU,
+        promiseType: promiseType,
+        promisee: promisee,
+        promisor: promisor,
+        RatingImapect: RatingImapect,
+        LinkDin: LinkDin,
+        Twitter: Twitter,
+        startDate: startDate,
+        status: status,
+        paymentAmount: paymentAmount,
+        paymentStatus: paymentStatus,
+        PromiseReward: PromiseReward,
+        PromiseStatus: PromiseStatus,
+        visibility: visibility,
+
+      }
+    )
+
     const prom = await ReqPromiseApi(
       expiryDate,
       IsTimeBound,
@@ -151,11 +203,21 @@ const Review = ({ navigation }) => {
       PromiseStatus,
       visibility,
     );
+    console.log("prom from 167", prom)
     if (prom === 100) {
       navigation.navigate('SnapPromiseVerification');
     }
   };
-
+  const DEBOUNCE_DELAY = 300;
+  const handleDebouncedPress = debounce(() => {
+    if (Promiseze) {
+      if (makePromise) {
+        handlePromiseApi();
+      } else {
+        handelReqPromiseApi();
+      }
+    }
+  }, DEBOUNCE_DELAY);
 
   const [userN, setUserN] = useRecoilState(UserNo);
   const [preward, setPreward] = useRecoilState(promiseReward);
@@ -475,23 +537,24 @@ const Review = ({ navigation }) => {
             </View>
           </View>
           <View style={{ marginTop: hp(2.5), paddingVertical: wp(2) }}>
-            <TouchableOpacity
-              onPress={Promiseze ? (makePromise ? handlePromiseApi : handelReqPromiseApi) : null}
-              disabled={!Promiseze}
-              style={[commonStyles.lognBtn1, { opacity: Promiseze ? 1 : 0.5 }]}>
-              <LinearGradient
-                colors={!makePromise ? bgBtnrqstprms : bgBtnmakeprms}
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '100%',
-                  borderRadius: wp(50),
-                }}>
-                <Text style={{ color: 'white', textAlign: 'center' }}>Next</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
+  <TouchableOpacity
+    onPress={handleDebouncedPress}
+    disabled={!Promiseze}
+    style={[commonStyles.lognBtn1, { opacity: Promiseze ? 1 : 0.5 }]}>
+    <LinearGradient
+      colors={!makePromise ? bgBtnrqstprms : bgBtnmakeprms}
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        borderRadius: wp(50),
+      }}>
+      <Text style={{ color: 'white', textAlign: 'center' }}>Next</Text>
+    </LinearGradient>
+  </TouchableOpacity>
+</View>
+
         </View>
       </View>
     </ScrollView>

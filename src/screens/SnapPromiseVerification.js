@@ -15,6 +15,7 @@ import {
   RewardPointsState,
   RewardPoints,
   RatingImapect,
+  IsTimeBound,
 } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import { Headings } from '../Styling/Headings';
@@ -38,7 +39,35 @@ const SnapPromiseVerification = ({ navigation }) => {
     useRecoilState(RewardPointsState);
   const [rewardPoints, setRewardPoints] = useRecoilState(RewardPoints);
   const [isRating, setIsRating] = useRecoilState(RatingImapect);
+  const [isTimeB, setIsTimeB] = useRecoilState(IsTimeBound);
 
+
+  const goToPending = () => {
+    setMakePromise(true);
+    setAmount('');
+    setDeadLinedate('Select Date');
+    setGeneratedTexts('');
+    setFinancial(false);
+    setSelectedPromisee({});
+    setRewardPointState(false);
+    setRewardPoints(null);
+    setIsRating(false);
+    setIsTimeB(false);
+    navigation.navigate('Dashboard')
+  }
+  const goToHome = () => {
+    setMakePromise(true);
+    setAmount('');
+    setDeadLinedate('Select Date');
+    setGeneratedTexts('');
+    setFinancial(false);
+    setSelectedPromisee({});
+    setRewardPointState(false);
+    setRewardPoints(null);
+    setIsRating(false);
+    setIsTimeB(false);
+    navigation.navigate('HomeScreenB')
+  }
   return (
     <View style={{ backgroundColor: '#E4EEE6', flex: 1, alignItems: 'center' }}>
       <View style={{ height: hp(30), height: hp(22) }}>
@@ -182,12 +211,12 @@ const SnapPromiseVerification = ({ navigation }) => {
           </View>
         </LinearGradient>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Dashboard')}
+          onPress={goToPending}
           style={[styles.btn, { marginTop: hp(2) }]}>
           <Text style={{ color: '#652D90' }}> View in Pending Promises</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('HomeScreenB')}
+          onPress={goToHome}
           style={styles.btn}>
           <Text style={{ color: '#652D90' }}>Go to Home</Text>
         </TouchableOpacity>

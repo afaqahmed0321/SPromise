@@ -42,6 +42,9 @@ const MakePromiseApi = async (
     visibility: visibility,
     userPromiseReward: PromiseReward !== null ? { rewardPoints: PromiseReward } : null,
   };
+
+  console.log(requestBody, "Request body: ");
+
   try {
     const response = await axios.post(url, requestBody, {
       headers: {
@@ -49,6 +52,8 @@ const MakePromiseApi = async (
         Accept: 'text/plain',
       },
     });
+
+    console.log("make promise API ka",response.data);
     return response.data.code;
   } catch (error) {
     console.error('Error during API call:', error);
