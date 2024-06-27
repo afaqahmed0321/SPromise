@@ -183,7 +183,9 @@ const PromiseStatement = ({ onTextChange }) => {
           </View>
           <View>
             <TouchableOpacity onPress={() => setIsModalV(true)} style={{ marginTop: 10, marginStart: 10 }}>
-              {!attachMedia ? (
+              {isLoading ? (
+                <ActivityIndicator size="small" color="#0000ff" />
+              ) : !attachMedia ? (
                 <Ionicons color="#652D90" name="videocam" size={30} />
               ) : (
                 <Ionicons color="red" name="videocam" size={30} />
@@ -194,10 +196,10 @@ const PromiseStatement = ({ onTextChange }) => {
             </TouchableOpacity>
           </View>
         </View>
-
+{/* 
         {isLoading && (
           <ActivityIndicator size="small" color="#0000ff" />
-        )}
+        )} */}
 
         <Modal
           animationType="slide"
@@ -262,7 +264,7 @@ export default PromiseStatement;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    paddingHorizontal: hp(0.2),
   },
   CiBox: {
     backgroundColor: 'grey',

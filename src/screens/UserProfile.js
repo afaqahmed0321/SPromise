@@ -288,6 +288,7 @@ const UserProfile = () => {
       console.log('xtoggle is False');
     }
   };
+  const [showStateDropdown, setShowStateDropdown] = useState(false);
 
   useEffect(() => {
     apiCallChceckRes();
@@ -298,6 +299,21 @@ const UserProfile = () => {
     fetchUserData();
 
   }, []);
+  useEffect(() => {
+    const lowercaseCountry = country.toLowerCase();
+    // Check if the country is US or USA
+    if (
+      lowercaseCountry === 'us' ||
+      lowercaseCountry === 'usa' ||
+      lowercaseCountry === 'america' ||
+      lowercaseCountry === 'united states of america'||
+      lowercaseCountry === 'united states'
+    ){
+      setShowStateDropdown(true);
+    } else {
+      setShowStateDropdown(false);
+    }
+  }, [country]);
   if (!userData) {
     return (
       <View style={styles.loadingContainer}>
@@ -415,53 +431,56 @@ const UserProfile = () => {
                     <View styles={styles.InnerBox}>
                       <Text style={Headings.Input3}>City</Text>
                       <TextInput
-                        style={[TextInP.Fileds, { width: wp(38) }]}
+                        style={[TextInP.Fileds, { width: wp(82) }]}
                         value={city}
                         placeholderTextColor="grey"
                         onChangeText={text => setCity(text)}
                       />
                     </View>
-                    <View styles={styles.InnerBox}>
-                      <Text style={Headings.Input3}>Country</Text>
-                      <TextInput
-                        style={[TextInP.Fileds, { width: wp(38) }]}
-                        value={
-                          country
-                        }
-                        placeholderTextColor="grey"
-                        onChangeText={text => setCountry(text)}
-                      />
-                    </View>
+
+                  </View>
+                
+                  <View styles={styles.InnerBox}>
+                    <Text style={Headings.Input3}>Country</Text>
+                    <TextInput
+                      style={[TextInP.Fileds, { width: wp(82) }]}
+                      value={
+                        country
+                      }
+                      placeholderTextColor="grey"
+                      onChangeText={text => setCountry(text)}
+                    />
                   </View>
 
-                  {/* <View style={styles.Box}>
-                    <View styles={styles.InnerBox}>
+                  {showStateDropdown ? (
+                    <View style={styles.Box}>
+                      <View style={styles.InnerBox}>
+                        <Text style={Headings.Input3}>State</Text>
+                        <DropDownPicker
+                          open={open1}
+                          value={state}
+                          items={usStates}
+                          setOpen={setOpen1}
+                          setValue={setState}
+                          placeholder="Select a state"
+                          style={[TextInP.Fileds01, { borderRadius: open1 ? wp(3) : wp(50) }]}
+                          dropDownContainerStyle={styles.dropDownContainer}
+                          listItemContainerStyle={styles.listItemContainer}
+                          listItemLabelStyle={styles.listItemLabel}
+                        />
+                      </View>
+                    </View>
+                  ) : (
+
+                    <View styles={styles.Box}>
                       <Text style={Headings.Input3}>State</Text>
                       <TextInput
                         style={[TextInP.Fileds, { width: wp(82) }]}
                         value={state}
                         placeholderTextColor="grey"
-                        onChangeText={text => setState(text)}
-                      />
+                        onChangeText={(text) => setState(text)} />
                     </View>
-                  </View> */}
-                  <View style={styles.Box}>
-                    <View style={styles.InnerBox}>
-                      <Text style={Headings.Input3}>State</Text>
-                      <DropDownPicker
-                        open={open1}
-                        value={state}
-                        items={usStates}
-                        setOpen={setOpen1}
-                        setValue={setState}
-                        placeholder="Select a state"
-                        style={[TextInP.Fileds, { width: wp(82) }]}
-                        dropDownContainerStyle={styles.dropDownContainer}
-                        listItemContainerStyle={styles.listItemContainer}
-                        listItemLabelStyle={styles.listItemLabel}
-                      />
-                    </View>
-                  </View>
+                  )}
 
                   <View style={styles.Social}>
                     <View style={{ flexDirection: 'row', alignItems: "center", gap: 10 }}>
@@ -668,7 +687,7 @@ const UserProfile = () => {
             height: hp(8),
           }}>
           {editProfile ? (
-            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', gap: 50, marginTop: 10 }}>
+            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', gap: 50, marginTop: 10,zIndex:-10 }}>
               <TouchableOpacity
                 onPress={UpdateProfile}
                 style={{ marginLeft: wp(0) }}>
@@ -795,13 +814,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6E2FF',
     borderRadius: wp(2),
     minHeight: hp(25),
-    overflow:"scroll",
+    overflow: "scroll",
     borderColor: 'transparent',
     paddingLeft: 8,
   },
   listItemContainer: {
-    height: hp(5), 
-    overflow:"scroll",
+    height: hp(5),
+    overflow: "scroll",
 
   },
 

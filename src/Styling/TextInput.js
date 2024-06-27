@@ -17,7 +17,21 @@ export const TextInP = StyleSheet.create({
     borderCurve:'',
     color: "black",
     // borderColor:'#652D90'
-    placeholderTextColor:'grey'
+    placeholderTextColor:'grey',
+  },
+  Fileds01: {
+    marginVertical: hp(1),
+    backgroundColor: '#F6E2FF',
+    alignItems: 'center',
+    width: wp(82),
+    height: hp(6),
+    paddingLeft: 20,
+    // borderTopWidth:1,
+    borderColor: 'transparent',
+    borderCurve:'',
+    color: "black",
+    // borderColor:'#652D90'
+    placeholderTextColor:'grey',
   },
   Fileds1: {
     marginVertical: hp(1),
