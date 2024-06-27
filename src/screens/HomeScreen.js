@@ -55,21 +55,23 @@ const HomeScreen = ({ navigation }) => {
         height: '100%',
       }}>
       <View style={{}}>
-        <View style={{ marginTop: hp(1), marginLeft: wp(1), flexDirection: 'row', justifyContent: 'space-between', marginBottom: hp(2), alignItems: 'center' }}>
-          <TouchableOpacity onPress={() => setIsDrawerV(true)}>
-            <MaterialComunityIcons
-              name="menu"
-              color="black"
-              size={40}
-            />
-          </TouchableOpacity>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={isDrawerV}
-            onRequestClose={() => setIsDrawerV(false)}>
-            <Drawer />
-          </Modal>
+        <View style={{marginHorizontal:hp(2), marginTop:hp(2),  flexDirection: 'row', justifyContent: 'space-between',  alignItems: 'center' }}>
+          <View>
+            <TouchableOpacity onPress={() => setIsDrawerV(true)}>
+              <MaterialComunityIcons
+                name="menu"
+                color="black"
+                size={40}
+              />
+            </TouchableOpacity>
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={isDrawerV}
+              onRequestClose={() => setIsDrawerV(false)}>
+              <Drawer />
+            </Modal>
+          </View>
           <View style={styles.LogoC}>
             <Image
               source={require('../source/mainLogo.jpg')}
@@ -77,14 +79,15 @@ const HomeScreen = ({ navigation }) => {
             />
             <Text style={styles.heading} >SNAPPROMISE</Text>
           </View>
-
-          <TouchableOpacity style={{ marginRight: wp(3.5) }} onPress={() => navigation.navigate("Notifications")}>
-            <Ionicons
-              name="notifications-outline"
-              color="black"
-              size={30}
-            />
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity  onPress={() => navigation.navigate("Notifications")}>
+              <Ionicons
+                name="notifications-outline"
+                color="black"
+                size={30}
+              />
+            </TouchableOpacity>
+          </View>
 
         </View>
         <View style={{ marginTop: hp(3) }}>
@@ -109,17 +112,16 @@ const styles = StyleSheet.create({
   LogoC: {
     flexDirection: 'row',
     alignItems: "center",
-    width: hp(20),
-    height: hp(6),
+
   },
   heading: {
-    fontSize:hp(2.25),
+    fontSize: hp(2.25),
     fontWeight: 800,
     marginHorizontal: hp(1)
   },
   ImageStyle: {
-    width: hp(6),
-    height: hp(6),
+    width: hp(4),
+    height: hp(4),
     borderRadius: hp(25) / 2,
     resizeMode: 'cover',
   },
