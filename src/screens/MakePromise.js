@@ -93,10 +93,12 @@ const MakePromise = ({ navigation }) => {
   };
 
   useEffect(() => {
+    console.log(promiseType, "promise type")
   }, [focus]);
 
   const handleTextChange = (text) => {
     setPromiseStatement(text);
+    console.log('Promise statement changed:', text);
   };
 
   const handleNextButtonPress = () => {
@@ -113,6 +115,8 @@ const MakePromise = ({ navigation }) => {
           );
         } else {
           navigation.navigate('Review');
+          console.log('Reward points', rewardPoints);
+          console.log('Promise Amount', amount);
         }
       } else {
         if (makePromise) {
@@ -135,7 +139,7 @@ const MakePromise = ({ navigation }) => {
       }
     } else {
       ToastAndroid.showWithGravityAndOffset(
-        'Please select completion date',
+        'Please select compilation date',
         ToastAndroid.LONG,
         ToastAndroid.BOTTOM,
         25,
@@ -233,7 +237,7 @@ const MakePromise = ({ navigation }) => {
               flexDirection: 'row',
             }}>
               <Text style={[{ marginVertical: hp(0.5) }, Headings.Input3]}>
-                Completion Date
+                Compilation Date
               </Text>
               <View
                 style={{

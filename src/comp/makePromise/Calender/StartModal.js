@@ -23,11 +23,6 @@ const StartModal = () => {
     const currentDate = new Date();
     const currentDateString = currentDate.toISOString().split('T')[0];
 
-    const formatDate = (dateString) => {
-      const [year, month, day] = dateString.split('-');
-      return `${month}-${day}-${year}`;
-    };
-
   return (
     <View style={{ marginTop: hp(38), alignItems: 'center', height: hp(45), backgroundColor: 'white' }}>
 
@@ -35,8 +30,7 @@ const StartModal = () => {
         style={styles.keyB}
         minDate={currentDateString}
         onDayPress={day => {
-          const formattedDate = formatDate(day.dateString);
-          setStartDate(formattedDate);
+          setStartDate(day.dateString);
           setStartDateMV(false)
           setselectStartDate(false)
         }}
