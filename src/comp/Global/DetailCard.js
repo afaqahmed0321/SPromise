@@ -128,6 +128,7 @@ const DetailCard = ({
   const VideoModal = ({ isVisible, toggleModal, videoUrl }) => {
     const [isLoading, setIsLoading] = useState(true);
     const handleLoadStart = () => {
+      console.log(selectedVideo)
       setIsLoading(true);
     };
     const handleLoad = () => {
