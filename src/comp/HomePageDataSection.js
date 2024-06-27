@@ -118,7 +118,7 @@ const HomePageDataSection = () => {
           onPress={() => {
             setshowDetail('');
           }}>
-          <View style={{ flex: 1, marginHorizontal: 10, paddingHorizontal: 10 }} >
+          <View style={{ flex: 1, marginHorizontal: hp(1), paddingHorizontal: 10 }} >
             <DetailCard
               promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
               isTimeBound={item?.isTimeBound}
@@ -209,7 +209,7 @@ const HomePageDataSection = () => {
                             <Entypo size={18} color="white" name="calendar" />
                           </View>
 
-                          <View style={{ alignSelf: 'center', marginHorizontal: 2 }}>
+                          <View style={{ alignSelf: 'center', marginHorizontal: hp(0.2) }}>
                             <Text
                               style={[
                                 Headings.Input6,

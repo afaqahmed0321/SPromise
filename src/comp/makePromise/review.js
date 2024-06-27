@@ -365,11 +365,11 @@ const Review = ({ navigation }) => {
                             <Text
                               style={[
                                 Headings.h3ForReviewpage,
-                                { marginVertical: hp(0.5), fontSize: 18 },
+                                { marginVertical: hp(0.5), fontSize: hp(2) },
                               ]}>
                               Promise Amount
                             </Text>
-                            <Text style={[Headings.h3ForReviewpage, { fontSize: 28 }]}>
+                            <Text style={[Headings.h3ForReviewpage, { fontSize: hp(2.5) }]}>
                               $ <Text>{amount}.00</Text>
                             </Text>
                           </View>
@@ -380,11 +380,11 @@ const Review = ({ navigation }) => {
                             <Text
                               style={[
                                 Headings.h3ForReviewpage,
-                                { marginVertical: hp(0.5), fontSize: 18 },
+                                { marginVertical: hp(0.5), fontSize: hp(2) },
                               ]}>
                               Reward Amount
                             </Text>
-                            <Text style={[Headings.h3ForReviewpage, { fontSize: 28 }]}>
+                            <Text style={[Headings.h3ForReviewpage, { fontSize: hp(2.5) }]}>
                               $ <Text>{amount}.00</Text>
                             </Text>
                           </View>
@@ -396,7 +396,7 @@ const Review = ({ navigation }) => {
                       {
                         rewardPoints ? (
                           <View>
-                            <Text style={[Headings.h3ForReviewpage, { fontSize: 18 }]}>
+                            <Text style={[Headings.h3ForReviewpage, { fontSize: hp(2) }]}>
                               Reward Points
                             </Text>
                             <Text style={[Headings.h3ForReviewpage, {}]}>{rewardPoints}</Text>
@@ -419,7 +419,7 @@ const Review = ({ navigation }) => {
                         flexDirection: '',
                         paddingVertical: 5
                       }}>
-                      <Text style={[Headings.h3ForReviewpage, { fontSize: 18 }]}>
+                      <Text style={[Headings.h3ForReviewpage, { fontSize: hp(2) }]}>
                         Completion Date{' '}
                       </Text>
                       <Text style={[Headings.h3ForReviewpage, { marginTop: 5 }]}>{deadlinedate}</Text>
@@ -432,7 +432,7 @@ const Review = ({ navigation }) => {
                 <View style={{}}>
                   <View>
                     <Text
-                      style={[Headings.h3ForReviewpage, { marginVertical: hp(1), fontSize: 18 }]}>
+                      style={[Headings.h3ForReviewpage, { marginVertical: hp(1), fontSize: hp(2) }]}>
                       Rating will Imapct
                     </Text>
                   </View>
@@ -441,11 +441,11 @@ const Review = ({ navigation }) => {
               ) : null}
 
               <View style={{}}>
-                <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: 18 }]}>Promise Statement</Text>
+                <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}>Promise Statement</Text>
                 <View style={{ height: hp(8), width: wp(80) }}>
                   <View style={[styles.generatedBox, { padding: 0, margin: 0 }]}>
 
-                    <Text style={{ color: '#FFFFFF' }}> {generatedTexts} </Text>
+                    <Text style={{ color: '#FFFFFF',fontSize: hp(2) }}> {generatedTexts} </Text>
                   </View>
                 </View>
               </View>

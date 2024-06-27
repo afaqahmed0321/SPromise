@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   resultContainer: {
-    marginTop: 20,
+    marginTop: widthPercentageToDP(2),
   },
 });
 

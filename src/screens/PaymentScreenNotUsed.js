@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     marginBottom: 5,
-    fontSize: 12
+    fontSize: hp(1.5)
   },
   lognBtn: {
     width: wp(90),
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   LogInButton: {
-    fontSize: 16, 
+    fontSize: hp(1.6), 
     fontWeight: 'bold', 
     color: 'white',
   }

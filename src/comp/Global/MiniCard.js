@@ -86,7 +86,7 @@ const MiniCard = ({
               />
               <TouchableOpacity style={{ position: 'absolute', top: 20, right: 20 }} onPress={toggleVideoModal}>
                 {/* Close button */}
-                <Text style={{ color: 'white', fontSize: 18 }}>X</Text>
+                <Text style={{ color: 'white', fontSize: wp(4) }}>X</Text>
               </TouchableOpacity>
             </View>
             <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}>

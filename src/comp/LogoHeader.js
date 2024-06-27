@@ -11,7 +11,7 @@ const LogoHeader = () => {
         source={require('../source/mainLogo.jpg')} // Replace with the actual path to your image
         style={styles.ImageStyle} // Define the dimensions of the image
       />
-      <Text style={{fontSize: 32, fontWeight:'bold', color:'black', marginTop:hp(2)}}>
+      <Text style={{fontSize: wp(8), fontWeight:'bold', color:'black', marginTop:hp(2)}}>
         SNAP PROMISE
       </Text>
     </View>

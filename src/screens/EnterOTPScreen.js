@@ -91,7 +91,7 @@ const EnterOTPScreen = ({ navigation }) => {
             <TouchableOpacity
               onPress={verification}
             >
-              <Text style={{ color: 'white', fontSize: 16, fontWeight: "800", width: wp(90), textAlign: "center" }}>Verify</Text>
+              <Text style={{ color: 'white', fontSize: hp(1.8), fontWeight: "800", width: wp(90), textAlign: "center" }}>Verify</Text>
             </TouchableOpacity>
           </LinearGradient>
         </View>
@@ -99,7 +99,7 @@ const EnterOTPScreen = ({ navigation }) => {
 
           {resendCooldown <= 0 ? (
             <TouchableOpacity onPress={resendCode}>
-              <Text style={{ color: 'black', textAlign: 'center', marginTop: hp(2), fontWeight: '600', fontSize: 16 }}>Send code again</Text>
+              <Text style={{ color: 'black', textAlign: 'center', marginTop: hp(2), fontWeight: '600', fontSize: hp(1.8) }}>Send code again</Text>
             </TouchableOpacity>
           ) : (
             null 

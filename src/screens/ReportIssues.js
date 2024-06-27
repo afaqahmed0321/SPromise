@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     title: {
-        fontSize: 24,
+        fontSize: hp(2),
         fontWeight: 'bold',
         color: '#652D90',
     },
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#FFFFFF',
         fontWeight: 'bold',
-        fontSize: 16,
+        fontSize: hp(1.6),
     },
 });
 
