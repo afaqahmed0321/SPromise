@@ -8,21 +8,21 @@ export const Headings = StyleSheet.create({
     fontWeight:'bold',
     marginBottom:20,
     color: 'black',
-    fontSize:25,
+    fontSize:hp(2.5),
     marginHorizontal:10
 
   },
   Input3:{
     fontWeight:'bold',
     color: 'black',
-    fontSize:16,
+    fontSize:hp(1.6),
     marginHorizontal:10,
   },
   
   Input31:{
     fontWeight:'bold',
     color: 'black',
-    fontSize:16,
+    fontSize:hp(1.6),
     marginTop: 5,
     fontWeight:'600',
   },

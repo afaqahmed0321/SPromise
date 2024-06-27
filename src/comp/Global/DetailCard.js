@@ -166,7 +166,7 @@ const DetailCard = ({
                 onLoad={handleLoad}
               />
               <TouchableOpacity style={{ position: 'absolute', top: 20, right: 20 }} onPress={toggleVideoModal}>
-                <Text style={{ color: 'white', fontSize: 18 }}>X</Text>
+                <Text style={{ color: 'white', fontSize: wp(4) }}>X</Text>
               </TouchableOpacity>
             </View>
             <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}>
@@ -251,73 +251,23 @@ const DetailCard = ({
 
             </View>
             <View>
-              <Text style={[
-                {
-                  color: 'black',
-                  marginHorizontal: hp(1.2),
-                  marginTop: hp(1.2),
-                  fontSize: hp(1.8),
-                  backgroundColor: "#e0e0e0",
-                  borderRadius: 50,
-                  paddingVertical: 5,
-                  paddingHorizontal: 10,
-                  width: "auto",
-                  marginBottom: hp(1.2)
-
-                },
-              ]}>
+              <Text style={styles.promisingText}>
                 {promiseeName} is promising to {promisorName}
               </Text>
             </View>
             <View style={DashBoardStyling.PromiseReward}>
               {guaranteedWithMoney ? (
-                <Text
-                  style={[
-                    {
-                      color: 'black',
-                      marginHorizontal: hp(4),
-                      fontSize: hp(1.8),
-                      backgroundColor: "#e0e0e0",
-                      borderRadius: 50,
-                      paddingVertical: 5,
-                      paddingHorizontal: 10,
-                      marginHorizontal: 10,
-                      marginBottom: hp(1.2)
-
-                    },
-                  ]}>
-                  ${amount} {alotRewardPoints ? (
-                    <Text style={[
-                      {
-                        color: 'black',
-                        marginHorizontal: hp(4),
-                        fontSize: hp(1.8),
-                        backgroundColor: "#e0e0e0",
-                        borderRadius: 50,
-                        paddingVertical: 5,
-                        paddingHorizontal: 10,
-                        marginHorizontal: 10,
-                      },
-                    ]}> & {rewardPoints} pts </Text>
+                <Text style={styles.baseText}>
+                  ${amount}
+                  {alotRewardPoints ? (
+                    <Text style={styles.baseText}> & {rewardPoints} pts </Text>
                   ) : null}
                 </Text>
               ) : null}
             </View>
             {ratingImpact ? (
               <View>
-                <Text style={[
-                  {
-                    color: 'black',
-                    marginHorizontal: hp(1.2),
-                    fontSize: hp(1.8),
-                    backgroundColor: "#e0e0e0",
-                    borderRadius: 50,
-                    paddingVertical: 5,
-                    paddingHorizontal: 10,
-                    width: 145
-
-                  },
-                ]}>
+                <Text style={styles.dynamicText}>
                   Rating Will Impact
                 </Text>
               </View>
@@ -325,20 +275,7 @@ const DetailCard = ({
 
             {displayStatus ? (
               <View>
-                <Text style={[
-                  {
-                    color: 'black',
-                    marginHorizontal: hp(1.2),
-                    marginTop: hp(1.2),
-                    fontSize: hp(1.8),
-                    backgroundColor: "#e0e0e0",
-                    borderRadius: 50,
-                    paddingVertical: 5,
-                    paddingHorizontal: 10,
-                    width: 120
-
-                  },
-                ]}>
+                <Text style={styles.statusText}>
                   {displayStatus}
                 </Text>
               </View>
@@ -349,50 +286,55 @@ const DetailCard = ({
             {promiseMediaURL ? (
               <TouchableOpacity
                 onPress={() => handelAttachedMedia(promiseMediaURL)}>
-                <FontAw5 color="#652D90" name="youtube" size={23} style={{ marginHorizontal: hp(2) }} />
-                <VideoModal />
+                <View style={styles.thumbnailContainer}>
+                  <Video
+                    source={{ uri: promiseMediaURL }}
+                    style={styles.videoThumbnail}
+                    paused={true} // Make sure the video is paused initially
+                    resizeMode="cover"
+                    controls={false}
+                  />
+                </View>
+                <VideoModal
+                  isVisible={isVideoModalVisible}
+                  toggleModal={toggleVideoModal}
+                  videoUrl={selectedVideo}
+                />
               </TouchableOpacity>
             ) : null}
 
-            <View style={[DashBoardStyling.PromiseGoal, { marginTop: hp(1.2) }]}>
+            <View style={[styles.promiseGoalContainer, { marginTop: hp(1.2) }]}>
               <View>
-                <Text
-                  style={[
-                    {
-                      color: 'white',
-                      marginHorizontal: hp(2),
-                      fontSize: hp(2),
-                    },
-                  ]}>
+                <Text style={styles.promiseGoalText}>
                   {promiseGoal}
                 </Text>
               </View>
             </View>
 
-            <View style={DashBoardStyling.PromiseGoal}>
+            <View style={styles.actionTextContainer}>
               {actions.map((action, index) => {
                 if (action === 'Accept') {
                   return (
                     <>
-                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either accept or reject this promise</Text>
+                      <Text style={styles.actionText}>You can either accept or reject this promise</Text>
                     </>
                   );
                 } else if (action === 'Fulfilled') {
                   return (
                     <>
-                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either Fulfill or Fail this promise</Text>
+                      <Text style={styles.actionText}>You can either Fulfill or Fail this promise</Text>
                     </>
                   );
                 } else if (action === 'Pay') {
                   return (
                     <>
-                      <Text style={{ color: "white", paddingLeft: 13 }}>Pay the amount to complete this promise</Text>
+                      <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
                     </>
                   );
                 } else if (action === 'Complete') {
                   return (
                     <>
-                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either accept or reject this promise</Text>
+                      <Text style={styles.actionText}>You can either accept or reject this promise</Text>
                     </>
                   );
                 }
@@ -572,28 +514,14 @@ const DetailCard = ({
 
             </View>
             <View>
-              <Text style={[
-                {
-                  color: 'black',
-                  marginHorizontal: hp(1.2),
-                  marginTop: hp(1.2),
-                  fontSize: hp(1.8),
-                  backgroundColor: "#e0e0e0",
-                  borderRadius: 50,
-                  paddingVertical: 5,
-                  paddingHorizontal: 10,
-                  width: "auto",
-                  marginBottom: hp(1.2)
-
-                },
-              ]}>
+              <Text style={styles.promisingText}>
                 {promisorName} is promising to {promiseeName}
               </Text>
             </View>
 
             {(amount > 0 || rewardPoints > 0) && (
 
-              <View style={DashBoardStyling.PromiseReward}>
+              <View style={styles.amountRewardText}>
 
                 {promisetype == 'GUARANTEE' ? (
                   <>
@@ -603,14 +531,13 @@ const DetailCard = ({
                           style={[
                             {
                               color: 'black',
-                              marginHorizontal: hp(4),
                               fontSize: hp(1.8),
                               backgroundColor: "#e0e0e0",
                               borderRadius: 50,
                               paddingVertical: 5,
                               paddingHorizontal: 10,
-                              marginHorizontal: 10,
-                              marginBottom: hp(1.2)
+                              alignSelf: 'flex-start', // Ensures the width adjusts according to the content
+                              marginBottom: hp(1.2),
                             },
                           ]}>
                           <>
@@ -638,20 +565,18 @@ const DetailCard = ({
                       null
                     )}
                   </>
-
                 ) : promisetype == 'COMMITMENT' ? (
                   <Text
                     style={[
                       {
                         color: 'black',
-                        marginHorizontal: hp(4),
                         fontSize: hp(1.8),
                         backgroundColor: "#e0e0e0",
                         borderRadius: 50,
                         paddingVertical: 5,
                         paddingHorizontal: 10,
-                        marginHorizontal: 10,
-                        marginBottom: hp(1.2)
+                        alignSelf: 'flex-start', // Ensures the width adjusts according to the content
+                        marginBottom: hp(1.2),
                       },
                     ]}>
                     {amount > 0 && (
@@ -682,7 +607,6 @@ const DetailCard = ({
                             paddingHorizontal: 10,
                             marginHorizontal: 10,
                             marginBottom: hp(1.2)
-
                           },
                         ]}> & {rewardPoints} pts </Text>}
                       </>
@@ -754,24 +678,13 @@ const DetailCard = ({
 
                   </Text>
                 ) : null}
+
               </View>
             )}
 
             {ratingImpact ? (
               <View>
-                <Text style={[
-                  {
-                    color: 'black',
-                    marginHorizontal: hp(1.2),
-                    fontSize: hp(1.8),
-                    backgroundColor: "#e0e0e0",
-                    borderRadius: 50,
-                    paddingVertical: 5,
-                    paddingHorizontal: 10,
-                    width: 145,
-                    marginBottom: hp(1.2),
-                  },
-                ]}>
+                <Text style={styles.dynamicText}>
                   Rating Will Impact
                 </Text>
               </View>
@@ -779,20 +692,7 @@ const DetailCard = ({
 
             {displayStatus ? (
               <View>
-                <Text style={[
-                  {
-                    color: 'black',
-                    marginHorizontal: hp(1.2),
-                    // marginTop : hp(1.2),
-                    fontSize: hp(1.8),
-                    backgroundColor: "#e0e0e0",
-                    borderRadius: 50,
-                    paddingVertical: 5,
-                    paddingHorizontal: 10,
-                    width: 120
-
-                  },
-                ]}>
+                <Text style={styles.statusText}>
                   {displayStatus}
                 </Text>
               </View>
@@ -801,55 +701,58 @@ const DetailCard = ({
             {promiseMediaURL ? (
               <TouchableOpacity
                 onPress={() => handelAttachedMedia(promiseMediaURL)}>
-                <FontAw5 color="#652D90" name="youtube" size={23} style={{ marginHorizontal: hp(2) }} />
-                <VideoModal />
+                <View style={styles.thumbnailContainer}>
+                  <Video
+                    source={{ uri: promiseMediaURL }}
+                    style={styles.videoThumbnail}
+                    paused={true} // Make sure the video is paused initially
+                    resizeMode="cover"
+                    controls={false}
+                  />
+                </View>
+                <VideoModal
+                  isVisible={isVideoModalVisible}
+                  toggleModal={toggleVideoModal}
+                  videoUrl={selectedVideo}
+                />
               </TouchableOpacity>
             ) : null}
-            <View style={[DashBoardStyling.PromiseGoal, { marginTop: hp(1.2) }]}>
+            <View style={[styles.promiseGoalContainer, { marginTop: hp(1.2) }]}>
               <View>
-                <Text
-                  style={[
-                    {
-                      color: 'white',
-                      marginHorizontal: hp(2),
-                      fontSize: hp(2),
-                    },
-                  ]}>
+                <Text style={styles.promiseGoalText}>
                   {promiseGoal}
                 </Text>
               </View>
             </View>
 
-            <View style={DashBoardStyling.acionStatement}>
+            <View style={styles.actionTextContainer}>
               {actions.map((action, index) => {
                 if (action === 'Accept') {
                   return (
                     <>
-                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either accept or reject this promise</Text>
+                      <Text style={styles.actionText}>You can either accept or reject this promise</Text>
                     </>
                   );
                 } else if (action === 'Fulfilled') {
                   return (
                     <>
-                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either Fulfill or Fail this promise</Text>
+                      <Text style={styles.actionText}>You can either Fulfill or Fail this promise</Text>
                     </>
                   );
                 } else if (action === 'Pay') {
                   return (
                     <>
-                      <Text style={{ color: "white", paddingLeft: 13 }}>Pay the amount to complete this promise</Text>
+                      <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
                     </>
                   );
                 } else if (action === 'Complete') {
                   return (
                     <>
-                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either accept or reject this promise</Text>
+                      <Text style={styles.actionText}>You can either accept or reject this promise</Text>
                     </>
                   );
-
                 }
               })}
-
             </View>
 
             <View
@@ -1060,93 +963,60 @@ const DetailCard = ({
               )}
             </View>
 
-            <View>
-              <Text style={[
-                {
-                  color: 'black',
-                  marginHorizontal: hp(3.0),
-                  marginTop: hp(1.2),
-                  fontSize: hp(1.8),
-                  backgroundColor: "#e0e0e0",
-                  borderRadius: 50,
-                  paddingVertical: 5,
-                  paddingHorizontal: 10,
-                  width: hp(35),
-                  marginBottom: hp(1.2),
-                },
-              ]}>
+            <View style={{ marginHorizontal: hp(1.2) }}>
+              <Text style={styles.promisingText}>
                 {promiseeName} is promising to {promisorName}
               </Text>
             </View>
 
-            <View style={DashBoardStyling.PromiseReward}>
-              {promisetype == 'GUARANTEE' ? (
+            <View style={[DashBoardStyling.PromiseReward, { marginHorizontal: hp(2.4), marginBottom: hp(1.2) }]}>
+              {promisetype === 'GUARANTEE' ? (
                 <Text
-                  style={[
-                    {
+                  style={{
+                    color: 'black',
+                    fontSize: hp(1.8),
+                    backgroundColor: "#e0e0e0",
+                    borderRadius: 50,
+                    paddingVertical: 5,
+                    paddingHorizontal: 10,
+                    // marginBottom: hp(1.2)
+                  }}>
+                  $ {amount}
+                  {rewardPoints ? (
+                    <Text style={{
                       color: 'black',
-                      marginHorizontal: hp(4),
                       fontSize: hp(1.8),
                       backgroundColor: "#e0e0e0",
                       borderRadius: 50,
                       paddingVertical: 5,
                       paddingHorizontal: 10,
-                      marginHorizontal: 25,
-                      marginBottom: hp(1.2)
-
-                    },
-                  ]}>
-                  {/* Guarantee: */}
-                  $ {amount}
-                  {rewardPoints ? (
-                    <Text style={[
-                      {
-                        color: 'black',
-                        marginHorizontal: hp(4),
-                        fontSize: hp(1.8),
-                        backgroundColor: "#e0e0e0",
-                        borderRadius: 50,
-                        paddingVertical: 5,
-                        paddingHorizontal: 10,
-                        marginHorizontal: 10,
-                        marginBottom: hp(1.2)
-
-                      },
-                    ]}> & {rewardPoints} pts
-                      {/* Reward Points */}
+                      marginLeft: 10,
+                    }}> & {rewardPoints} pts
                     </Text>
                   ) : null}
                 </Text>
-              ) : promisetype == 'COMMITMENT' ? (
+              ) : promisetype === 'COMMITMENT' ? (
                 <Text
-                  style={[
-                    {
+                  style={{
+                    color: 'black',
+                    fontSize: hp(1.8),
+                    backgroundColor: "#e0e0e0",
+                    borderRadius: 50,
+                    paddingVertical: 5,
+                    paddingHorizontal: 10,
+                    // marginBottom: hp(1.2)
+                  }}>
+                  ${amount} {' '}
+                  {rewardPoints ? (
+                    <Text style={{
                       color: 'black',
-                      marginHorizontal: hp(4),
                       fontSize: hp(1.8),
                       backgroundColor: "#e0e0e0",
                       borderRadius: 50,
                       paddingVertical: 5,
                       paddingHorizontal: 10,
-                      marginHorizontal: 25,
-                      marginBottom: hp(1.2)
-                    },
-                  ]}>
-                  ${amount} {''}
-                  {rewardPoints ? (
-                    <Text style={[
-                      {
-                        color: 'black',
-                        marginHorizontal: hp(4),
-                        fontSize: hp(1.8),
-                        backgroundColor: "#e0e0e0",
-                        borderRadius: 50,
-                        paddingVertical: 5,
-                        paddingHorizontal: 10,
-                        marginHorizontal: 20,
-                        marginBottom: hp(1.2)
-                      },
-                    ]}>
+                      marginLeft: 20,
+                    }}>
                       & {rewardPoints} pts
                     </Text>
                   ) : null}
@@ -1154,21 +1024,10 @@ const DetailCard = ({
               ) : null}
             </View>
 
+
             {ratingImpact ? (
               <View>
-                <Text style={[
-                  {
-                    color: 'black',
-                    marginHorizontal: hp(3),
-                    fontSize: hp(1.8),
-                    backgroundColor: "#e0e0e0",
-                    borderRadius: 50,
-                    paddingVertical: 5,
-                    paddingHorizontal: 10,
-                    width: 145,
-                    marginBottom: hp(1.2)
-                  },
-                ]}>
+                <Text style={[styles.dynamicText, { marginHorizontal: hp(2.4) }]}>
                   Rating Will Impact
                 </Text>
               </View>
@@ -1176,18 +1035,7 @@ const DetailCard = ({
 
             {displayStatus ? (
               <View>
-                <Text style={[
-                  {
-                    color: 'black',
-                    marginHorizontal: hp(3.0),
-                    fontSize: hp(1.8),
-                    backgroundColor: "#e0e0e0",
-                    borderRadius: 50,
-                    paddingVertical: 5,
-                    paddingHorizontal: 10,
-                    width: 120,
-                  },
-                ]}>
+                <Text style={[styles.statusText, { marginHorizontal: hp(2.4) }]}>
                   {displayStatus}
                 </Text>
               </View>
@@ -1196,50 +1044,56 @@ const DetailCard = ({
             {promiseMediaURL ? (
               <TouchableOpacity
                 onPress={() => handelAttachedMedia(promiseMediaURL)}>
-                <FontAw5 color="#652D90" name="youtube" size={23} style={{ marginHorizontal: hp(4) }} />
-                <VideoModal />
+                <View style={styles.thumbnailContainer}>
+                  <Video
+                    source={{ uri: promiseMediaURL }}
+                    style={styles.videoThumbnail}
+                    paused={true} // Make sure the video is paused initially
+                    resizeMode="cover"
+                    controls={false}
+                  />
+                </View>
+                <VideoModal
+                  isVisible={isVideoModalVisible}
+                  toggleModal={toggleVideoModal}
+                  videoUrl={selectedVideo}
+                />
               </TouchableOpacity>
 
             ) : null}
-            <View style={[DashBoardStyling.PromiseGoal, { marginTop: hp(1.2) }]}>
+
+            <View style={[DashBoardStyling.PromiseGoal, { marginTop: hp(1.2), marginBottom: hp(1.2) }]}>
               <View>
-                <Text
-                  style={[
-                    {
-                      color: 'white',
-                      marginHorizontal: hp(4),
-                      fontSize: hp(2),
-                    },
-                  ]}>
+                <Text style={{ color: 'white', fontSize: hp(2), marginLeft: hp(2.8) }}>
                   {promiseGoal}
                 </Text>
               </View>
             </View>
 
-            <View style={DashBoardStyling.PromiseGoal1}>
+            <View style={[styles.actionTextContainer,{marginHorizontal:hp(1,2)}]}>
               {actions.map((action, index) => {
                 if (action === 'Accept') {
                   return (
                     <>
-                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either accept or reject this promise</Text>
+                      <Text style={styles.actionText}>You can either accept or reject this promise</Text>
                     </>
                   );
                 } else if (action === 'Fulfilled') {
                   return (
                     <>
-                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either Fulfill or Fail this promise</Text>
+                      <Text style={styles.actionText}>You can either Fulfill or Fail this promise</Text>
                     </>
                   );
                 } else if (action === 'Pay') {
                   return (
                     <>
-                      <Text style={{ color: "white", paddingLeft: 13 }}>Pay the amount to complete this promise</Text>
+                      <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
                     </>
                   );
                 } else if (action === 'Complete') {
                   return (
                     <>
-                      <Text style={{ color: "white", paddingLeft: 13 }}>You can either accept or reject this promise</Text>
+                      <Text style={styles.actionText}>You can either accept or reject this promise</Text>
                     </>
                   );
                 }
@@ -1320,6 +1174,7 @@ const DetailCard = ({
                 }
               })}
             </View>
+
           </View>
         </LinearGradient>
       ) : null}
@@ -1347,6 +1202,98 @@ const DetailCard = ({
 
 
 const styles = StyleSheet.create({
+
+  promisingText: {
+    color: 'black',
+    marginHorizontal: hp(1.2),
+    marginTop: hp(1.2),
+    fontSize: hp(1.8),
+    backgroundColor: "#e0e0e0",
+    borderRadius: 50,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    alignSelf: 'flex-start', // Ensures the width adjusts according to the content
+    marginBottom: hp(1.2),
+  },
+
+  amountRewardText: {
+    color: 'black',
+    marginHorizontal: hp(1.2),
+    //  justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+
+  baseText: {
+    color: 'black',
+    fontSize: hp(1.8),
+    backgroundColor: "#e0e0e0",
+    borderRadius: 50,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    marginHorizontal: hp(1.2),
+    marginBottom: hp(1.2),
+    alignSelf: 'flex-start', // Ensures the width adjusts according to the content
+  },
+
+
+  dynamicText: {
+    color: 'black',
+    marginHorizontal: hp(1.2),
+    fontSize: hp(1.8),
+    backgroundColor: "#e0e0e0",
+    borderRadius: 50,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    marginBottom: hp(1.2),
+    alignSelf: 'flex-start', // Ensures the width adjusts according to the content
+  },
+
+  statusText: {
+    color: 'black',
+    marginHorizontal: hp(1.2),
+    fontSize: hp(1.8),
+    backgroundColor: "#e0e0e0",
+    borderRadius: 50,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    alignSelf: 'flex-start', // Ensures the width adjusts according to the content
+  },
+
+
+  promiseGoalContainer: {
+    alignItems: 'flex-start', // Ensures the text aligns to the start
+    paddingHorizontal: hp(2), // Adjust the padding if needed
+  },
+  promiseGoalText: {
+    color: 'white',
+    fontSize: hp(2),
+  },
+
+  actionTextContainer: {
+    alignItems: 'flex-start', // Ensures the text aligns to the start
+    paddingHorizontal: hp(2), // Adjust the padding if needed
+  },
+
+  actionText: {
+    color: 'white',
+    fontSize: hp(1.5),
+  },
+
+
+ thumbnailContainer: {
+    width: 150,
+    height: 150,
+    backgroundColor: 'black',
+    marginHorizontal: 15, // Adjust this as needed
+    marginTop: 10, // Adjust this as needed
+    borderRadius: 20,
+    overflow: 'hidden', // Ensure child elements respect the border radius
+  },
+  videoThumbnail: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 20, // Apply border radius to the video as well
+  },
   left: {
     width: wp(33),
     justifyContent: 'center',

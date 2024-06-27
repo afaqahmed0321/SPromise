@@ -143,9 +143,9 @@ const Drawer = () => {
 
         </TouchableOpacity>
 
-        <View style={{ marginHorizontal: wp(5), marginTop: 5 }}>
+        <View style={{ marginHorizontal: wp(5), marginTop: wp(1) }}>
           <View style={[styles.listContainer]}>
-            <Mati color="#652D90" name="account" size={30} style={{ marginTop: 6}} />
+            <Mati color="#652D90" name="account" size={30} style={{ marginTop: wp(1)}} />
             <TouchableOpacity
               onPress={() => {
                 setIsDrawerV(false);
@@ -168,7 +168,7 @@ const Drawer = () => {
                 color="#652D90"
                 name="notifications"
                 size={30}
-                style={{ marginTop: 8 }}
+                style={{ marginTop: wp(1) }}
               />
               <Text style={[styles.TebText, { padding: 3 }]}>Notifications</Text>
             </TouchableOpacity>
@@ -186,7 +186,7 @@ const Drawer = () => {
                 color="#652D90"
                 name="groups"
                 size={30}
-                style={{ marginTop: 8 }}
+                style={{ marginTop: wp(1) }}
               />
               <Text style={[styles.TebText, { padding: 3 }]}>Promise Network</Text>
             </TouchableOpacity>
@@ -204,7 +204,7 @@ const Drawer = () => {
                 color="#652D90"
                 name="stars"
                 size={30}
-                style={{ marginTop: 8 }}
+                style={{ marginTop: wp(1) }}
               />
               <Text style={[styles.TebText, { padding: 3 }]}>Rewards</Text>
             </TouchableOpacity>
@@ -220,7 +220,7 @@ const Drawer = () => {
                   color="#652D90"
                   name="credit-card"
                   size={30}
-                  style={{ marginTop: 8 }}
+                  style={{ marginTop: wp(1) }}
                 />
                 <Text style={[styles.TebText, { padding: 3 }]}>Change Subscription</Text>
                 {isModalVisible ? (
@@ -245,7 +245,7 @@ const Drawer = () => {
                   color="#652D90"
                   name="credit-card"
                   size={30}
-                  style={{ marginTop: 8 }}
+                  style={{ marginTop: wp(1) }}
                 />
                 <Text style={[styles.TebText, { padding: 3 }]}>Manage Subscription</Text>
                 {isModalVisible ? (
@@ -275,7 +275,7 @@ const Drawer = () => {
                 color="#652D90"
                 name="report"
                 size={30}
-                style={{ marginTop: 8 }}
+                style={{ marginTop: wp(1) }}
               />
               <Text style={[styles.TebText, { padding: 3 }]}>Report Issues</Text>
             </TouchableOpacity>
@@ -285,11 +285,11 @@ const Drawer = () => {
 
 
         <TouchableOpacity
-          style={[styles.listContainer, { position: 'absolute', bottom: 20, marginLeft: 20 }]}
+          style={[styles.listContainer, { position: 'absolute', bottom: 20, marginLeft: hp(2) }]}
           onPress={() => logout()}
         >
           <MaterialIcons
-            style={{ marginLeft: 5, marginTop: 10 }}
+            style={{ marginLeft: hp(1), marginTop: wp(1.1) }}
             color="#652D90"
             name="logout"
             size={25}
@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
     marginLeft: wp(3),
     color: '#6650A4',
     fontSize: hp(2.2),
-    marginTop: 7,
+    marginTop: wp(1),
     fontWeight: '600',
   },
   overlay: {

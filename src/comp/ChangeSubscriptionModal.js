@@ -1,5 +1,9 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const ChangeSubscriptionModal = ({ visible, onClose, onConfirm }) => {
   return (
@@ -30,14 +34,14 @@ const styles = StyleSheet.create({
 },
 modal: {
     backgroundColor: 'white',
-    marginHorizontal: 20,
+    marginHorizontal: hp(2),
     borderRadius: 10,
     padding: 20,
     alignItems: 'center',
   },
   text: {
-    fontSize: 18,
-    marginBottom: 20,
+    fontSize: hp(2.2),
+    marginBottom: wp(3),
     textAlign: 'center',
     color:'black'
   },
@@ -48,10 +52,10 @@ modal: {
     paddingVertical: 10,
     paddingHorizontal:16,
     borderRadius: 5,
-    marginHorizontal: 10,
+    marginHorizontal: hp(1),
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: hp(2),
     color: 'white',
   },
 });

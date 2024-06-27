@@ -573,7 +573,7 @@ const NetworkFeed = ({ navigation }) => {
           }]}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 9 }}>
             <FontAw5 name="filter" size={16} color="#fff" />
-            <Text style={{ color: 'white', textAlign: 'center', fontSize: 16 }}>Filter</Text>
+            <Text style={{ color: 'white', textAlign: 'center', fontSize: hp(2) }}>Filter</Text>
           </View>
         </TouchableOpacity>
         {filteredData.length > 0 && (
@@ -586,7 +586,7 @@ const NetworkFeed = ({ navigation }) => {
                 <TextInput
                   style={{
                     flex: 1,
-                    fontSize: 16,
+                    fontSize: hp(2),
                     paddingHorizontal: wp(2),
                     paddingVertical: hp(0.7),
                     color: 'black',
@@ -609,7 +609,7 @@ const NetworkFeed = ({ navigation }) => {
           <View style={{ marginVertical: 5, marginHorizontal: 10, marginBottom: 110 }}>
             {filteredData.length === 0 ? (
               <View style={{ width: "100%", height: "100%", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                <Text style={{ fontSize: 18, textAlign: "center", color: 'grey' }}>No Data to Display. You can try applying a filter.</Text>
+                <Text style={{ fontSize: hp(1.8), textAlign: "center", color: 'grey' }}>No Data to Display. You can try applying a filter.</Text>
               </View>
             ) : (
               
@@ -785,7 +785,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   modalText: {
-    fontSize: 18,
+    fontSize: hp(1.8),
     marginBottom: 10,
   },
   dateRangeContainer: {
@@ -835,7 +835,7 @@ const styles = StyleSheet.create({
 
   },
   text: {
-    fontSize: 14,
+    fontSize: hp(1.8),
     marginBottom: 10,
     color: 'grey',
   },

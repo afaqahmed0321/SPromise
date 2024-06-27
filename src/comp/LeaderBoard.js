@@ -93,7 +93,7 @@ const LeaderBoard = () => {
           end={{ x: 1, y: 0 }}
           style={{ backgroundColor: '#EE8347', borderRadius: 50, paddingVertical: 3, paddingHorizontal: 5 }}
         >
-          <Text style={{ color: 'black', fontSize: 11 }}>{item.promisability}%</Text>
+          <Text style={{ color: 'black', fontSize: hp(1.5) }}>{item.promisability}%</Text>
         </LinearGradient>
       </View>
     </LinearGradient>
@@ -115,7 +115,7 @@ const LeaderBoard = () => {
       </View>
       {topUserList.length === 0 ? (
         <View style={{ width: "100%", height: "70%", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-          <Text style={{ fontSize: 16, textAlign: "center", color: 'grey' }}>No Top Users</Text>
+          <Text style={{ fontSize: hp(1.8), textAlign: "center", color: 'grey' }}>No Top Users</Text>
         </View>
       ) : (
         <FlatList

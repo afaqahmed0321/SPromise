@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     paddingVertical: hp(2),
   },
   modalHeading: {
-    fontSize: 20,
+    fontSize: hp(2),
     fontWeight: 'bold',
     marginBottom: hp(2),
     color: '#652D90',

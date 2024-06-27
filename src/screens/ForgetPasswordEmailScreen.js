@@ -96,7 +96,7 @@ export const TextInP = StyleSheet.create({
     heading: {
         color: "#000",
         fontWeight: '700',
-        fontSize: 24,
+        fontSize: hp(2.2),
         padding: 10
     },
     Fileds: {

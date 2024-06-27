@@ -161,8 +161,6 @@ const styles = StyleSheet.create({
     fontSize: hp(1.6),
     color: '#652D90',
     textAlign: 'center',
-
-
   },
   pieChartText1: {
     fontSize: hp(1.6),
