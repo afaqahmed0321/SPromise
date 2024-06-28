@@ -65,7 +65,6 @@ const ShowAllTab = ({ navigation }) => {
             item.status === 'Accepted' ||
             item.status === 'Canceled' ||
             item.status === 'Failed'
-            
             )}
           refreshControl={
             <RefreshControl
@@ -98,7 +97,7 @@ const ShowAllTab = ({ navigation }) => {
                     promiseID={item.promiseID}
                     refreshCallback={onRefresh}
                     promiseeName={item?.promiseeName}
-                    rewardPoints={item.rewardPoints}
+                    rewardPoints={item?.rewardPoints}
                     userN={userN}
                     tab={'Promise'}
                     navigation={navigation}

@@ -136,13 +136,11 @@ const UserProfile = () => {
     { label: 'Wisconsin', value: 'WI' },
     { label: 'Wyoming', value: 'WY' },
   ];
-  console.log(isWebView, 'isWebView');
 
   const fetchUserData = async () => {
     try {
       const response = await GetUserData(userN);
       const data = await response;
-      console.log(data, 'askdmkanskfnaskmc');
       setUserData(data);
       setEmailId(data.emailID);
       setFName(data.firstName);
@@ -160,7 +158,6 @@ const UserProfile = () => {
   };
 
   const UpdateProfile = async () => {
-    console.log(userData.phonNo, "inside updated profile");
     const useN = userN;
     const email = emailId === '' ? userData.email : emailId;
     const password = userData.password;
@@ -176,23 +173,6 @@ const UserProfile = () => {
     const dom = startDa === '' ? userData.dob : startDa;
     const socialLogi = socialLogin;
 
-    console.log(
-      'Test',
-      useN,
-      email,
-      password,
-      fNam,
-      lNam,
-      gende,
-      dom,
-      countr,
-      pinCod,
-      stat,
-      cit,
-      addres,
-      phoneN,
-      socialLogi,
-    );
     const modifyApiRequest = await UpdateProfileApi(
       useN,
       email,
@@ -210,8 +190,10 @@ const UserProfile = () => {
       socialLogi,
     );
 
-    if (modifyApiRequest.code == 200) {
+    console.log(modifyApiRequest);
+    if (modifyApiRequest.code === 200) {
       setEditProfile(false);
+      console.log("code running");
       ToastAndroid.showWithGravityAndOffset(
         'Data Successfully Updated',
         ToastAndroid.LONG,
@@ -230,7 +212,6 @@ const UserProfile = () => {
       setLinkDinResponse('');
       setIsTwitterApiCall(false)
       const LinkDinApiRes = await LinkDinApiCallLogin(userN);
-      console.log('LinkDinApiRessssss: ' + LinkDinApiRes);
       setLinkDinResponse(LinkDinApiRes);
       if (LinkDinApiRes !== '') {
         setIsWebView(true);
@@ -245,7 +226,6 @@ const UserProfile = () => {
     }
     else {
       const twriterApiRes = await TwitterApiCallLogin(userN);
-      console.log(twriterApiRes, 'api call success to twitter');
       setTwitterResponse(twriterApiRes);
       setIsTwitterApiCall(true)
       if (twriterApiRes !== '') {
@@ -269,23 +249,18 @@ const UserProfile = () => {
     const response = await TwitterApiCallToCheckData(userN);
     if (response == '400') {
       setXTogel(false);
-      console.log('xtoggle is true');
     } else {
       setXTogel(true);
-      console.log('xtoggle is False');
     }
   };
   const apiCallLinkChceckRes = async () => {
     const response = await LinkDinApiCallToCheckData(userN);
-    console.log("linkedin check response", response);
     if (response == 400) {
       setRefresh(!refresh);
       setLinkedInToggle(false);
-      console.log('xtoggle is true');
     } else {
       setLinkedInToggle(true);
       setRefresh(!refresh);
-      console.log('xtoggle is False');
     }
   };
   const [showStateDropdown, setShowStateDropdown] = useState(false);
@@ -297,18 +272,17 @@ const UserProfile = () => {
 
   useEffect(() => {
     fetchUserData();
+  }, [focus]);
 
-  }, []);
   useEffect(() => {
     const lowercaseCountry = country.toLowerCase();
-    // Check if the country is US or USA
     if (
       lowercaseCountry === 'us' ||
       lowercaseCountry === 'usa' ||
       lowercaseCountry === 'america' ||
-      lowercaseCountry === 'united states of america'||
+      lowercaseCountry === 'united states of america' ||
       lowercaseCountry === 'united states'
-    ){
+    ) {
       setShowStateDropdown(true);
     } else {
       setShowStateDropdown(false);
@@ -439,7 +413,7 @@ const UserProfile = () => {
                     </View>
 
                   </View>
-                
+
                   <View styles={styles.InnerBox}>
                     <Text style={Headings.Input3}>Country</Text>
                     <TextInput
@@ -577,18 +551,19 @@ const UserProfile = () => {
         ) : (
           <>
             <View style={styles.container}>
-              <View style={{ flexDirection: "row" }}>
-                <Text style={Headings.InputCustom}>Email:</Text>
+              <View style={styles.row}>
+                <Text style={styles.InputCustom}>Email:</Text>
                 <TextInput
-                  style={[TextInP.Fileds, { width: wp(61), }]}
+                  style={[TextInP.Fileds, { width: wp(61) }]}
                   value={userData.emailID}
                   placeholderTextColor="#000"
                   onChangeText={text => setEmailId(text)}
-                  editable={false} />
+                  editable={false}
+                />
               </View>
 
-              <View style={{ flexDirection: "row" }}>
-                <Text style={Headings.InputCustom}>Name:</Text>
+              <View style={styles.row}>
+                <Text style={styles.InputCustom}>Name:</Text>
                 <TextInput
                   style={[TextInP.Fileds, { width: wp(61), }]}
                   value={`${userData.firstName} ${userData.lastName}`}
@@ -597,8 +572,8 @@ const UserProfile = () => {
                   editable={false} />
               </View>
 
-              <View style={{ flexDirection: "row" }}>
-                <Text style={Headings.InputCustom}>Phone Number:</Text>
+              <View style={styles.row}>
+                <Text style={styles.InputCustom}>Phone Number:</Text>
                 <TextInput
                   style={[TextInP.Fileds, { width: wp(61) }]}
                   value={userData.phoneNo == '' ? 'N/A' : userData.phoneNo}
@@ -607,8 +582,8 @@ const UserProfile = () => {
                   editable={false} />
               </View>
 
-              <View style={{ flexDirection: "row" }}>
-                <Text style={Headings.InputCustom}>Address:</Text>
+              <View style={styles.row}>
+                <Text style={styles.InputCustom}>Address:</Text>
                 <TextInput
                   style={[TextInP.Fileds, { width: wp(61), }]}
                   value={userData.address1 == '' ? 'N/A' : userData.address1}
@@ -617,8 +592,8 @@ const UserProfile = () => {
                   editable={false} />
               </View>
 
-              <View style={{ flexDirection: "row" }}>
-                <Text style={Headings.InputCustom}>Gender:</Text>
+              <View style={styles.row}>
+                <Text style={styles.InputCustom}>Gender:</Text>
                 <TextInput
                   style={[TextInP.Fileds, { width: wp(61), }]}
                   value={userData.gender == '' ? 'N/A' : userData.gender}
@@ -627,8 +602,8 @@ const UserProfile = () => {
                   editable={false} />
               </View>
 
-              <View style={{ flexDirection: "row" }}>
-                <Text style={Headings.InputCustom}>City:</Text>
+              <View style={styles.row}>
+                <Text style={styles.InputCustom}>City:</Text>
                 <TextInput
                   style={[TextInP.Fileds, { width: wp(61), }]}
                   value={userData.city == '' ? 'N/A' : userData.city}
@@ -637,8 +612,8 @@ const UserProfile = () => {
                   editable={false} />
               </View>
 
-              <View style={{ flexDirection: "row" }}>
-                <Text style={Headings.InputCustom}>Country:</Text>
+              <View style={styles.row}>
+                <Text style={styles.InputCustom}>Country:</Text>
                 <TextInput
                   style={[TextInP.Fileds, { width: wp(61), }]}
                   value={userData.country == '' ? 'N/A' : userData.country}
@@ -687,21 +662,21 @@ const UserProfile = () => {
             height: hp(8),
           }}>
           {editProfile ? (
-            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', gap: 50, marginTop: 10,zIndex:-10 }}>
-              <TouchableOpacity
-                onPress={UpdateProfile}
-                style={{ marginLeft: wp(0) }}>
-                <Font color="green" name="check" size={30} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  setEditProfile(false);
-                  setStartDate('');
-                }}
-                style={{ marginLeft: wp(0) }}>
-                <Font color="#652D90" name="close" size={30} />
-              </TouchableOpacity>
-            </View>
+            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', gap: 50, marginTop: 10, zIndex: -10 }}>
+      <TouchableOpacity
+        onPress={() => UpdateProfile()} // Ensure function is called only on press
+        style={{ marginLeft: wp(0) }}>
+        <Font color="green" name="check" size={30} />
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          setEditProfile(false);
+          setStartDate('');
+        }}
+        style={{ marginLeft: wp(0) }}>
+        <Font color="#652D90" name="close" size={30} />
+      </TouchableOpacity>
+    </View>
           ) : (
             <View
               style={{
@@ -722,7 +697,6 @@ const UserProfile = () => {
                 ]}
                 onPress={() => {
                   setCurrentPassword(userData.password);
-                  console.log(currentPassword, 'current password');
                   setIsDrawerV(true);
                 }}>
                 <Text style={{ color: "white" }}> Change Password</Text>
@@ -821,7 +795,29 @@ const styles = StyleSheet.create({
   listItemContainer: {
     height: hp(5),
     overflow: "scroll",
+  },
 
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  InputCustom: {
+    fontWeight: 'bold',
+    color: 'black',
+    fontSize: hp(1.8),
+    marginHorizontal: 10,
+    alignContent: 'center',
+    width: wp(18),
+    lineHeight: 25,
+  },
+  Fileds: {
+    backgroundColor: '#F6E2FF',
+    borderRadius: wp(50),
+    alignItems: 'center',
+    height: hp(6),
+    paddingLeft: 20,
+    borderColor: 'transparent',
+    color: 'black',
   },
 
 });

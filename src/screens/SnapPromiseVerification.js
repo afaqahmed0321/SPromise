@@ -68,6 +68,14 @@ const SnapPromiseVerification = ({ navigation }) => {
     setIsTimeB(false);
     navigation.navigate('HomeScreenB')
   }
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  };
   return (
     <View style={{ backgroundColor: '#E4EEE6', flex: 1, alignItems: 'center' }}>
       <View style={{ height: hp(30), height: hp(22) }}>
@@ -170,7 +178,17 @@ const SnapPromiseVerification = ({ navigation }) => {
               </View>
             ) : null}
           </View>
-
+          {rewardPoints > 0 && (
+            <>
+              <Text style={[Headings.h3ForReviewpage, { fontSize: hp(1.8) }]}>
+                Reward Points
+              </Text>
+              <Text
+                style={[Headings.h3ForReviewpage, { fontSize: 28 }]}>
+                {rewardPoints}
+              </Text>
+            </>
+          )}
           {deadlinedate ? (
             <View
               style={{
@@ -182,7 +200,8 @@ const SnapPromiseVerification = ({ navigation }) => {
                 style={[Headings.h3ForReviewpage, { marginVertical: hp(0.5), fontSize: 18 }]}>
                 Completion Date
               </Text>
-              <Text style={Headings.h3ForReviewpage}> {deadlinedate}</Text>
+
+              <Text style={Headings.h3ForReviewpage}>{formatDate(deadlinedate)}</Text>
             </View>
           ) : null}
           {isRating ?

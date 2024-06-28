@@ -53,7 +53,7 @@ const NetworkFeed = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [visibilityy, setVisibilityy] = useState('Private');
   const [dateRange, setDateRange] = useState({ firstDate: '', secondDate: '' });
-  const [selectedRange, setRange] = useState({firstDate: today, secondDate: today});
+  const [selectedRange, setRange] = useState({ firstDate: today, secondDate: today });
   const [openDropdown, setOpenDropdown] = useState(false);
   const [selectedItem, setSelectedItem] = useState("Public");
   const [items, setItems] = useState([
@@ -110,11 +110,11 @@ const NetworkFeed = ({ navigation }) => {
   };
   function handleSearch(text) {
     setSearchText(text);
-     if (typeof text !== 'string') {
+    if (typeof text !== 'string') {
 
       return;
     }
-  
+
     if (text.trim() === '') {
       setSearchedData(filteredData);
     } else {
@@ -133,18 +133,18 @@ const NetworkFeed = ({ navigation }) => {
     const userNN = userN;
     const containsPromiseId = LikeA.includes(userNN);
     const Reac = containsPromiseId ? "UnLike" : "Like";
-    
+
     try {
       const res = await PromiseReaction(userNN, PID, Reac);
-      
+
       // Update the filteredData state directly
       setFilteredData(prevData => {
         return prevData.map(item => {
           if (item.promiseID === PID) {
-            const updatedReactions = containsPromiseId 
-              ? item.promiseReactions.filter(id => id !== userNN) 
+            const updatedReactions = containsPromiseId
+              ? item.promiseReactions.filter(id => id !== userNN)
               : [...item.promiseReactions, userNN];
-            
+
             return { ...item, promiseReactions: updatedReactions };
           }
           return item;
@@ -155,27 +155,27 @@ const NetworkFeed = ({ navigation }) => {
     }
 
   };
-  
+
   const onHandelComment = async (promiseID) => {
     const email = await AsyncStorage.getItem('Email');
     let fullName = '';
-  
+
     try {
       const res = await fetchUser(email);
       fullName = `${res.firstName} ${res.lastName}`;
     } catch (error) {
       console.error('Error fetching user:', error);
     }
-  
+
     const userNo = await AsyncStorage.getItem('userNo');
-    const newCommentValue = comment.trim();  
+    const newCommentValue = comment.trim();
     if (newCommentValue !== '') {
       const promiseComments = {
         promiseID: promiseID,
         userNo: userNo,
         newCommentValue: newCommentValue,
       };
-  
+
       try {
         const res = await PromiseComment(userNo, promiseID, newCommentValue);
         if (res) {
@@ -224,9 +224,9 @@ const NetworkFeed = ({ navigation }) => {
       );
     }
   };
-  
-  
-  
+
+
+
   const handleNextButtonPress = () => {
     setIsModalV(true);
   };
@@ -322,7 +322,7 @@ const NetworkFeed = ({ navigation }) => {
             onPress={() => {
               const PID = item.promiseID;
               handleLikeAction(PID);
-              
+
             }}
             style={{
               flexDirection: 'row',
@@ -362,8 +362,8 @@ const NetworkFeed = ({ navigation }) => {
                 borderRadius: 50,
                 paddingVertical: 5,
                 paddingHorizontal: 10,
-                width: 55
-
+                flexShrink: 1,
+                alignSelf: 'flex-start'
               },
             ]}>
               ${item.paymentAmount}
@@ -381,13 +381,14 @@ const NetworkFeed = ({ navigation }) => {
                   borderRadius: 50,
                   paddingVertical: 5,
                   paddingHorizontal: 10,
-                  width: 85
-
+                  flexShrink: 1,
+                  alignSelf: 'flex-start'
                 },
               ]}>
-                {item.rewardPoints}pts
+                {item.rewardPoints} pts
               </Text>
             </View>
+
           )}
           {item.ratingImpact != null && (
             <View>
@@ -401,13 +402,14 @@ const NetworkFeed = ({ navigation }) => {
                   borderRadius: 50,
                   paddingVertical: 5,
                   paddingHorizontal: 10,
-                  width: 140
-
+                  flexShrink: 1,
+                  alignSelf: 'flex-start'
                 },
               ]}>
                 Rating will impact
               </Text>
             </View>
+
           )}
           {item.displayStatus != null && (
             <View>
@@ -421,8 +423,8 @@ const NetworkFeed = ({ navigation }) => {
                   borderRadius: 50,
                   paddingVertical: 5,
                   paddingHorizontal: 10,
-                  width: 105
-
+                  flexShrink: 1,
+                  alignSelf: 'flex-start'
                 },
               ]}>
                 {item.displayStatus}
@@ -435,27 +437,25 @@ const NetworkFeed = ({ navigation }) => {
 
         <View>
           <Text
-            style={[
-              {
-                color: '#652D90',
-                fontWeight: 'bold',
-                fontSize: hp(1.9),
-                paddingHorizontal: 22,
-                paddingTop: 10,
-              },
-            ]}
+            style={{
+              color: '#652D90',
+              fontWeight: 'bold',
+              fontSize: hp(1.9),
+              paddingHorizontal: 22,
+              paddingTop: 10,
+            }}
           >
             {showFullText ? item.promiseGoal : `${item.promiseGoal.slice(0, 90)}`}
-
           </Text>
-          <TouchableOpacity onPress={toggleText}>
-            {item.promiseGoal.length > 90 && (
+          {item.promiseGoal.length > 90 && (
+            <TouchableOpacity onPress={toggleText}>
               <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: hp(2.1), paddingHorizontal: hp(2.1) }}>
                 {showFullText ? ' Read Less' : ' Read More'}
               </Text>
-            )}
-          </TouchableOpacity>
+            </TouchableOpacity>
+          )}
         </View>
+
         <View style={{ marginLeft: wp(2) }}>
           {item.promiseComments && item.promiseComments.length > 0 ? (
             item.promiseComments
@@ -503,7 +503,7 @@ const NetworkFeed = ({ navigation }) => {
                 </View>
               ))
           ) : (
-            <Text style={{ color: "black", margin: 10 }}>No comments for this promise</Text>
+            <Text style={{ color: "black", margin: hp(1.2) }}>No comments for this promise</Text>
           )}
           {item.promiseComments && item.promiseComments.length > 2 && (
             <TouchableOpacity onPress={() => handleViewAllComments(item.promiseID)}>
@@ -526,7 +526,7 @@ const NetworkFeed = ({ navigation }) => {
             style={{
               borderWidth: wp(0.5),
               borderColor: '#652D90',
-              backgroundColor: 'white', 
+              backgroundColor: 'white',
               borderRadius: wp(6.5),
               marginHorizontal: 10,
               paddingLeft: wp(2.2),
@@ -612,7 +612,7 @@ const NetworkFeed = ({ navigation }) => {
                 <Text style={{ fontSize: hp(1.8), textAlign: "center", color: 'grey' }}>No Data to Display. You can try applying a filter.</Text>
               </View>
             ) : (
-              
+
               <FlatList
                 refreshControl={
                   <RefreshControl
@@ -746,8 +746,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginTop: 20,
   },
+
   button: {
-    padding: 10,
+    padding: hp(2),
     borderColor: 'gray',
     borderRadius: 5,
     width: wp(28),
@@ -770,9 +771,10 @@ const styles = StyleSheet.create({
 
   closeButton: {
     color: 'blue',
-    fontSize: 16,
+    fontSize: hp(1),
     marginTop: 10,
   },
+
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -810,7 +812,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10,
-    padding: 10,
+    padding: hp(1),
     borderColor: 'gray',
     borderRadius: 5,
     width: wp(28),
@@ -830,7 +832,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#652D90",
     borderRadius: 5,
-    fontSize: 26,
+    fontSize: hp(2),
     fontWeight: "800"
 
   },
@@ -846,7 +848,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   monthYearTextStyle: {
-    fontSize: 26,
+    fontSize: hp(2),
     fontWeight: "800"
   }
 });

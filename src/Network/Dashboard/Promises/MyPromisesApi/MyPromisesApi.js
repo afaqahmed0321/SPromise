@@ -12,6 +12,7 @@ const MyPromisesApi = (userN) => {
       },
     })
     .then((response) => {
+      console.log("All Promises", response)
       resolve(response.data.promisesList);
     })
     .catch((error) => {

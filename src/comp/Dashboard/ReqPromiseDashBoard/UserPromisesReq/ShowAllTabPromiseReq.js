@@ -83,12 +83,16 @@ const ShowAllTabPromiseReq = ({ navigation }) => {
                     promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
                     promiseeName={item.promiseeName}
                     promisorName={item.promisorName}
-                    ratingImpact={item.ratingImpact} promiseGoal={item.promiseGoal}
+                    ratingImpact={item.ratingImpact} 
+                    promiseGoal={item.promiseGoal}
                     actions={item.actions}
                     promiseID={item.promiseID}
                     refreshCallback={onRefresh}
-                    userN={userN} tab={"UserPromiseReq"} guaranteedWithMoney={item.guaranteedWithMoney}
-                    alotRewardPoints={item.alotRewardPoints} rewardPoints={item.rewardPoints}
+                    userN={userN} 
+                    tab={"UserPromiseReq"}
+                    guaranteedWithMoney={item.guaranteedWithMoney}
+                    alotRewardPoints={item.alotRewardPoints} 
+                    rewardPoints={item.rewardPoints}
 
                   />
                 </TouchableOpacity>

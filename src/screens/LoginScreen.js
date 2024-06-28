@@ -278,7 +278,7 @@ const LoginScreen = ({ navigation }) => {
 
           />
           <TouchableOpacity
-            style={{ position: 'absolute', right: hp(2.1), top: hp(2.4), color: '#652D90' }}
+            style={{ position: 'absolute', right: hp(2.1), top: hp(2.6), color: '#652D90' }}
             onPress={togglePasswordVisibility}>
             <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
           </TouchableOpacity>
