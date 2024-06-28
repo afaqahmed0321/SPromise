@@ -91,7 +91,7 @@ const PromiseStatusData = () => {
               sections={[
                 {
                   percentage: userReward,
-                  color: '#73B6BF',
+                  // color: '#73B6BF',
                 },
               ]}
               dividerSize={1}

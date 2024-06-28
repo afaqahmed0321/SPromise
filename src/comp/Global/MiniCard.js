@@ -182,8 +182,8 @@ const MiniCard = ({
                       fontSize: hp(1.8),
                       backgroundColor: "#e0e0e0",
                       borderRadius: 50,
-                      paddingVertical: 5,
-                      paddingHorizontal: 10,
+                      paddingVertical: wp(1),
+                      paddingHorizontal: hp(1),
                     },
                   ]}>
                   ${amount} {rewardPoints ? (

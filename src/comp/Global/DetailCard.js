@@ -454,6 +454,7 @@ const DetailCard = ({
               : ['#E4A936', '#EE8347']
           }
           style={DashBoardStyling.MainCard}>
+          {console.log("detail crad data", amount, rewardPoints)}
           <View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <View

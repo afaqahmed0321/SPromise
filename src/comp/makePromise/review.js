@@ -202,6 +202,7 @@ const Review = ({ navigation }) => {
       PromiseReward,
       PromiseStatus,
       visibility,
+      RewardPoints,
     );
     console.log("prom from 167", prom)
     if (prom === 100) {
