@@ -422,7 +422,7 @@ const NetworkFeed = ({ navigation }) => {
                   backgroundColor: "#e0e0e0",
                   borderRadius: 50,
                   paddingVertical: 5,
-                  paddingHorizontal: 10,
+                  paddingHorizontal: hp(1),
                   flexShrink: 1,
                   alignSelf: 'flex-start'
                 },
@@ -441,16 +441,22 @@ const NetworkFeed = ({ navigation }) => {
               color: '#652D90',
               fontWeight: 'bold',
               fontSize: hp(1.9),
-              paddingHorizontal: 22,
+              marginHorizontal: hp(1.2),
+              paddingHorizontal: hp(1),
               paddingTop: 10,
+              justifyContent: "flex-start",
+              textAlign: "start"
             }}
           >
             {showFullText ? item.promiseGoal : `${item.promiseGoal.slice(0, 90)}`}
           </Text>
           {item.promiseGoal.length > 90 && (
             <TouchableOpacity onPress={toggleText}>
-              <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: hp(2.1), paddingHorizontal: hp(2.1) }}>
-                {showFullText ? ' Read Less' : ' Read More'}
+              <Text style={{
+                color: 'orange', fontWeight: 'bold', fontSize: hp(1.6), marginHorizontal: hp(1.2),
+                paddingHorizontal: hp(1), textDecorationLine: "underline", margin: 0
+              }}>
+                {showFullText ? 'Read Less' : 'Read More'}
               </Text>
             </TouchableOpacity>
           )}
@@ -485,17 +491,21 @@ const NetworkFeed = ({ navigation }) => {
                           : { uri: comment.userImageURL }
                       }
                       style={{
-                        width: wp(13),
-                        height: hp(6),
+                        width: wp(10),
+                        height: hp(5),
                         borderRadius: wp(6.5),
                       }}
                     />
                   </View>
                   <View
                     style={{
+                      flex:1,
                       flexDirection: 'column',
-                      width: wp(65),
-                      marginLeft: wp(3),
+                      justifyContent:"flex-start",
+                      alignItems:"flex-start",
+                      textAlign:"justify",
+                      height:hp(4)
+
                     }}>
                     <Text style={{ color: "black" }}>{comment.userName}</Text>
                     <Text style={{ color: "black" }}>{comment.comment}</Text>
@@ -818,7 +828,7 @@ const styles = StyleSheet.create({
     width: wp(28),
     justifyContent: 'center',
     textAlign: 'center',
-    backgroundColor: '#6650A4', // Button background color
+    backgroundColor: '#652D90', // Button background color
   },
   BtnText: {
     textAlign: 'center',

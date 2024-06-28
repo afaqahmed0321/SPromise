@@ -166,7 +166,7 @@ const PromiseStatement = ({ onTextChange }) => {
             <TextInput
               placeholder="Write a Promise Statement"
               onChangeText={handleTextChange}
-              placeholderTextColor="black"
+              placeholderTextColor="grey"
               style={{
                 width: wp(80),
                 paddingHorizontal: wp(4),
@@ -176,6 +176,7 @@ const PromiseStatement = ({ onTextChange }) => {
                 color: '#000',
                 height: hp(15), // Set the height as needed
                 textAlignVertical: 'top',
+                fontSize:hp(1.6)
               }}
               multiline={true}
               value={generatedTexts}
