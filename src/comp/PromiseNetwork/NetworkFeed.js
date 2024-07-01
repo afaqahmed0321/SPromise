@@ -68,8 +68,8 @@ const NetworkFeed = ({ navigation }) => {
 
   const [statusItems, setStatusItems] = useState([
     { label: 'All', value: 'All' },
-    { label: 'Not In Effect', value: 'NotInEffect' },
-    { label: 'In Effect', value: 'InEffect' },
+    { label: 'Not In Effect', value: 'Not in Effect' },
+    { label: 'In Effect', value: 'In Effect' },
     { label: 'Completed', value: 'Completed' },
     { label: 'Failed', value: 'Failed' },
     { label: 'Rejected', value: 'Rejected' },
@@ -79,7 +79,7 @@ const NetworkFeed = ({ navigation }) => {
     const networkUserNo = userN;
     try {
       setIsLoading(true);
-      const response = await fetch(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${selectedItem}&${selectedStatus == "All" ? '' : "&status="}${selectedStatus}&fromDate=${selectedRange.firstDate}&toDate=${selectedRange.secondDate}`, {
+      const response = await fetch(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${selectedItem}${selectedStatus == "All" ? '' : "&status="}${selectedStatus}&fromDate=${selectedRange.firstDate}&toDate=${selectedRange.secondDate}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -91,6 +91,7 @@ const NetworkFeed = ({ navigation }) => {
       }
 
       const data = await response.json();
+      console.log("dataaaaa", data);
       setIsLoading(false);
       setFilteredData(data.promisesList);
       return data.promisesList;
