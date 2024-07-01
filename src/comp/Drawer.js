@@ -118,11 +118,10 @@ const Drawer = () => {
           >
             <View
               style={{
-                width: wp(13),
-                height: hp(6),
+                width: wp(10),
+                height: wp(10),
                 borderRadius: wp(6.5),
                 marginLeft: wp(2),
-                marginTop: hp(1),
               }}
             >
               <Image
@@ -130,14 +129,14 @@ const Drawer = () => {
                   uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
                 }}
                 style={{
-                  width: wp(13),
-                  height: hp(6),
+                  width: hp(5),
+                  height: hp(5),
                   borderRadius: wp(6.5),
                 }}
               />
             </View>
-            <View style={{ width: wp(58), marginLeft: wp(3) }}>
-              <Text style={{ color: '#6650A4', width: wp(65) }}>{email}</Text>
+            <View style={{ marginLeft: wp(2) }}>
+              <Text style={{ color: '#6650A4', fontSize:hp(1.8), fontWeight:'bold' }}>{email}</Text>
             </View>
           </View>
 

@@ -103,15 +103,15 @@ const HomePageDataSection = () => {
     }, 500)
   }, [timer]);
   const data = [
-    ...promises.filter(item => item.status === 'AmountDue'),
-    ...promisesToMe.filter(item => item.status === 'AmountDue'),
-    ...promisesReq.filter(item => item.status === 'AmountDue'),
-    ...promisesReqToMe.filter(item => item.status === 'AmountDue'),
+    ...promises.filter(item => item.status === 'AmountDue' || item.status === 'MarkedforCompletion' || item.status === 'Accepted' || item.status === 'Pending'),
+    ...promisesToMe.filter(item => item.status === 'AmountDue' || item.status === 'MarkedforCompletion' || item.status === 'Accepted' || item.status === 'Pending'),
+    ...promisesReq.filter(item => item.status === 'Pending') ,
+    ...promisesReqToMe.filter(item =>  item.status === 'Pending'),
   ];
 
   const renderItem = ({ item, index }) => (
     <>
-      {item.actions == 'Pay' && setForName(true)}
+      {item.status == 'Pay' && setForName(true)}
       {showDetail == item.promiseID ? (
         <TouchableOpacity
           style={{ justifyContent: 'center', alignItems: 'center', }}
@@ -129,7 +129,7 @@ const HomePageDataSection = () => {
               promisorName={item.promisorName}
               date={item.expiryDate}
               promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
-
+              promisor = {item?.promisor}
               ratingImpact={item.ratingImpact}
               promiseGoal={item.promiseGoal}
               actions={item.actions}
@@ -142,6 +142,7 @@ const HomePageDataSection = () => {
                 'Home'
               }
               jugaar="abc"
+              status = {item?.status}
             />
           </View>
         </TouchableOpacity>
@@ -150,7 +151,7 @@ const HomePageDataSection = () => {
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <LinearGradient
               colors={
-                (item.actions == "Pay" && item.promiseType == 'GAURANTEE') ? ['#E4A936', '#EE8347']
+                (item.promisor == userN ) ? ['#E4A936', '#EE8347']
                   : ['#73B6BF', '#2E888C']
               }
               style={styles.Card}>
@@ -189,7 +190,7 @@ const HomePageDataSection = () => {
                         Headings.Input6,
                         { marginLeft: wp(0.7), color: 'white', marginTop: wp(1) },
                       ]}>
-                      {item.actions == 'Pay' ? item?.promiseeName : item?.promisorName}
+                      {item.promisor == userN ? item?.promiseeName : item?.promisorName}
                       { }
                     </Text>
                   </View>
@@ -215,7 +216,7 @@ const HomePageDataSection = () => {
                                 Headings.Input6,
                                 { color: 'white', textAlign: 'center' },
                               ]}>
-                              {format(new Date(item.expiryDate), 'dd/MM/yyyy')}
+                              {format(new Date(item.expiryDate), 'MM/dd/yyyy')}
                             </Text>
                           </View>
                         </>
@@ -273,7 +274,7 @@ const HomePageDataSection = () => {
           </View>
         ) : (
           <FlatList
-            data={data}
+            data={data.sort((a, b) => new Date(a.promiseDate) - new Date(b.promiseDate))}
             renderItem={renderItem}
             keyExtractor={(item, index) => item.promiseID.toString()}
             style={{ marginBottom: hp(.2) }}
