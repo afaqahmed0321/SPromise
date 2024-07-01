@@ -170,7 +170,7 @@ const MiniCard = ({
             <View  style={[
                 DashBoardStyling.PromiseReward1,
                 {
-                  justifyContent: (promisetype === 'GUARANTEE' && amount > 0) || (promisetype === 'COMMITMENT' && amount > 0) || rewardPoints ? 'space-around' : 'center'
+                  justifyContent: (promisetype === 'GUARANTEE' && amount > 0) || (promisetype === 'COMMITMENT' && amount > 0) || rewardPoints ? 'center' : 'center'
                 }
               ]}>
               {guaranteedWithMoney ? (
@@ -192,15 +192,7 @@ const MiniCard = ({
                 </Text>
 
               ) : null}
-              <View>
-                {promiseMediaURL ? (
-                  <TouchableOpacity
-                    onPress={() => handelAttachedMedia(promiseMediaURL)}>
-                    <FontAw5 color="#652D90" name="youtube" size={23} />
-                    <VideoModal />
-                  </TouchableOpacity>
-                ) : null}
-              </View>
+
 
             </View>
           </View>
@@ -277,7 +269,7 @@ const MiniCard = ({
               <View style={[
                 DashBoardStyling.PromiseReward1,
                 {
-                  justifyContent: (promisetype === 'GUARANTEE' && amount > 0) || (promisetype === 'COMMITMENT' && amount > 0) || rewardPoints ? 'space-around' : 'center'
+                  justifyContent: (promisetype === 'GUARANTEE' && amount > 0) || (promisetype === 'COMMITMENT' && amount > 0) || rewardPoints ? 'center' : 'center'
                 }
               ]}>
                 <View>
@@ -351,15 +343,6 @@ const MiniCard = ({
                     )
                   )
                   }
-                </View>
-                <View>
-                  {promiseMediaURL ? (
-                    <TouchableOpacity
-                      onPress={() => handelAttachedMedia(promiseMediaURL)}>
-                      <FontAw5 color="#652D90" name="youtube" size={23} />
-                      <VideoModal />
-                    </TouchableOpacity>
-                  ) : null}
                 </View>
               </View>
             </View>
