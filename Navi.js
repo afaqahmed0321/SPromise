@@ -50,6 +50,7 @@ import PaymentScreens from './src/screens/PaymentScreens';
 import CustomWebView from './src/screens/CustomWebView';
 import Rewards from './src/screens/Rewards';
 import ReportIssues from './src/screens/ReportIssues';
+import EditProfile from './src/screens/EditProfile';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -192,7 +193,7 @@ const Auth = () => {
   const [Token, setToken] = useRecoilState(token);
   const [userN, setUserN] = useRecoilState(UserNo);
 
- 
+
   useEffect(() => {
     readData();
   }, []);
@@ -283,6 +284,11 @@ const Auth = () => {
               <Stack.Screen
                 name="UserProfile"
                 component={UserProfile}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="EditProfile"
+                component={EditProfile}
                 options={{ headerShown: false }}
               />
               <Stack.Screen

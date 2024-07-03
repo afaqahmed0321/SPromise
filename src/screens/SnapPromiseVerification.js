@@ -16,6 +16,7 @@ import {
   RewardPoints,
   RatingImapect,
   IsTimeBound,
+  selectedMedia,
 } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import { Headings } from '../Styling/Headings';
@@ -40,6 +41,8 @@ const SnapPromiseVerification = ({ navigation }) => {
   const [rewardPoints, setRewardPoints] = useRecoilState(RewardPoints);
   const [isRating, setIsRating] = useRecoilState(RatingImapect);
   const [isTimeB, setIsTimeB] = useRecoilState(IsTimeBound);
+  const [attachMedia, setAttachMedia] = useRecoilState(selectedMedia);
+
 
 
   const goToPending = () => {
@@ -53,6 +56,7 @@ const SnapPromiseVerification = ({ navigation }) => {
     setRewardPoints(null);
     setIsRating(false);
     setIsTimeB(false);
+    setAttachMedia(null);
     navigation.navigate('Dashboard')
   }
   const goToHome = () => {
@@ -66,6 +70,7 @@ const SnapPromiseVerification = ({ navigation }) => {
     setRewardPoints(null);
     setIsRating(false);
     setIsTimeB(false);
+    setAttachMedia(null);
     navigation.navigate('HomeScreenB')
   }
 
