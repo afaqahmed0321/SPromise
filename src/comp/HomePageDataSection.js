@@ -143,6 +143,7 @@ const HomePageDataSection = () => {
               }
               jugaar="abc"
               status = {item?.status}
+              promisorImageUrl = {item.promisorProfileImageUrl}
             />
           </View>
         </TouchableOpacity>

@@ -146,6 +146,10 @@ export const selectedMedia = atom({
   key: 'selectedMedia',
   default: null,
 });
+export const mediaUpload = atom({
+  key: 'mediaUpload',
+  default: false,
+});
 export const selectedPlayer = atom({
   key: 'selectedPlayer',
   default: false,

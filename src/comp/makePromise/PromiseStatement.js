@@ -21,6 +21,7 @@ import {
   MakeaPromise,
   selectedMedia,
   selectMedia,
+  mediaUpload,
 } from '../../recoil/AddPromise';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native';
@@ -49,7 +50,7 @@ const PromiseStatement = ({ onTextChange }) => {
   );
   const [VideoSize, setVideoSize] = useRecoilState(AllowedVideoSizeState);
   const [fullScreen, setFullScreen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useRecoilState(mediaUpload); // Loading state
 
   const ref = useRef();
 
@@ -193,11 +194,17 @@ const PromiseStatement = ({ onTextChange }) => {
                 <Ionicons color="red" name="videocam" size={30} />
               )}
             </TouchableOpacity>
+            {attachMedia && (
+              <TouchableOpacity onPress={() => setAttachMedia(null)}>
+                <Ionicons color="red" name="close" size={30} />
+              </TouchableOpacity>
+            )}
             <TouchableOpacity onPress={suggest} style={{ marginTop: 30, marginStart: 10 }}>
               <Ionicons color="#652D90" name="flash-outline" size={30} />
             </TouchableOpacity>
           </View>
         </View>
+
         <Modal
           animationType="slide"
           transparent={true}

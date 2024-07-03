@@ -37,6 +37,7 @@ import {
   RewardPointsState,
   selectedMedia,
   selectMedia,
+  mediaUpload,
 } from '../recoil/AddPromise';
 import { Headings } from '../Styling/Headings';
 import PromiseStatement from '../comp/makePromise/PromiseStatement';
@@ -69,6 +70,9 @@ const MakePromise = ({ navigation }) => {
   const [rewardPointState, setRewardPointState] = useRecoilState(RewardPointsState);
   const [selectedMediaURI, setSelectedMediaURI] = useRecoilState(selectedMedia);
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectMedia);
+  const [mediaLoad, setMediaLoad] = useRecoilState(mediaUpload); // Loading state
+
+
 
   const bgBtnmakeprms = ['#E4A936', '#EE8347'];
   const bgBtnrqstprms = ['#73B6BF', '#2E888C'];
@@ -399,7 +403,9 @@ const MakePromise = ({ navigation }) => {
 
           <TouchableOpacity
             onPress={handleNextButtonPress}
-            style={[commonStyles.lognBtn1]}>
+            style={[commonStyles.lognBtn1]}
+            disabled={mediaLoad ? true : false}
+            >
             <LinearGradient
               colors={makePromise ? bgBtnmakeprms : bgBtnrqstprms}
               style={[

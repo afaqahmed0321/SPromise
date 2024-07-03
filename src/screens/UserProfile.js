@@ -189,10 +189,22 @@ const UserProfile = () => {
       phoneN,
       socialLogi,
     );
-
+    setRefresh(!refresh);
+    setEmailId(email);
+    setFName(fNam);
+    setLName(lNam);
+    setGender(gende);
+    setPhoneNo(phoneN);
+    setAddress(addres);
+    setCity(cit);
+    setState(stat);
+    // setPinCode(data.zip);
+    setCountry(countr);
     console.log(modifyApiRequest);
     if (modifyApiRequest.code === 200) {
-      setEditProfile(false);
+
+    setEditProfile(false);
+      
       console.log("code running");
       ToastAndroid.showWithGravityAndOffset(
         'Data Successfully Updated',
@@ -287,7 +299,7 @@ const UserProfile = () => {
     } else {
       setShowStateDropdown(false);
     }
-  }, [country]);
+  }, [country, refresh]);
   if (!userData) {
     return (
       <View style={styles.loadingContainer}>
@@ -310,7 +322,7 @@ const UserProfile = () => {
             <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
           </TouchableOpacity>
         )}
-        {editProfile ? (
+        {/* {editProfile ? (
           <>
             <View>
               {isWebView == false ? (
@@ -549,7 +561,7 @@ const UserProfile = () => {
             </View>
           </>
         ) : (
-          <>
+          <> */}
             <View style={styles.container}>
               <View style={styles.row}>
                 <Text style={styles.InputCustom}>Email:</Text>
@@ -622,8 +634,8 @@ const UserProfile = () => {
                   editable={false} />
               </View>
             </View>
-          </>
-        )}
+          {/* </>
+        )} */}
 
         <Modal
           animationType="slide"
@@ -661,25 +673,24 @@ const UserProfile = () => {
             width: wp(100),
             height: hp(8),
           }}>
-          {editProfile ? (
+          {/* {editProfile ? (
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', gap: 50, marginTop: 10, zIndex: -10 }}>
-              <TouchableOpacity
-                onPress={() => {UpdateProfile()
-                  setRefresh(!refresh)
-                }} // Ensure function is called only on press
-                style={{ marginLeft: wp(0) }}>
-                <Font color="green" name="check" size={30} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  setEditProfile(false);
-                  setStartDate('');
-                }}
-                style={{ marginLeft: wp(0) }}>
-                <Font color="#652D90" name="close" size={30} />
-              </TouchableOpacity>
-            </View>
-          ) : (
+      <TouchableOpacity
+        onPress={() => UpdateProfile()} // Ensure function is called only on press
+        style={{ marginLeft: wp(0) }}>
+        <Font color="green" name="check" size={30} />
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          setEditProfile(false);
+          setStartDate('');
+        }}
+        style={{ marginLeft: wp(0) }}>
+        <Font color="#652D90" name="close" size={30} />
+      </TouchableOpacity>
+    </View>
+          ) : ( */}
+
             <View
               style={{
                 flexDirection: 'row',
@@ -689,7 +700,7 @@ const UserProfile = () => {
               }}>
               <TouchableOpacity
                 style={[commonStyles.ActionBtn, { width: wp(35) }]}
-                onPress={() => setEditProfile(true)}>
+                onPress={() => navigation.navigate('EditProfile') }>
                 <Text style={{ color: "white" }}> Edit Profile</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -704,7 +715,7 @@ const UserProfile = () => {
                 <Text style={{ color: "white" }}> Change Password</Text>
               </TouchableOpacity>
             </View>
-          )}
+          {/* )} */}
         </View>
       </View>
     </ScrollView>
