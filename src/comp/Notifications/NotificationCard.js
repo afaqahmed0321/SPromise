@@ -355,7 +355,7 @@ const NotificationCard = () => {
                                       handleAccept(promiseId, userN);
                                     }
                                   }}>
-                                  <Text>{action}</Text>
+                                  <Text style={{color:"white"}}>{action}</Text>
                                 </TouchableOpacity>
                               );
                             } else if (action === 'Reject') {
@@ -369,7 +369,7 @@ const NotificationCard = () => {
                                   onPress={() =>
                                     handleReject(selectitem.promiseID, userN)
                                   }>
-                                  <Text>{action}</Text>
+                                  <Text style={{color:"white"}}>{action}</Text>
                                 </TouchableOpacity>
                               );
                             } else if (action === 'Complete') {
@@ -383,7 +383,7 @@ const NotificationCard = () => {
                                       userN,
                                     )
                                   }>
-                                  <Text>{action}</Text>
+                                  <Text style={{color:"white"}}>{action}</Text>
                                 </TouchableOpacity>
                               );
                             } else if (action === 'Fail') {
