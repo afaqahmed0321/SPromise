@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -51,6 +51,7 @@ const PromiseStatement = ({ onTextChange }) => {
   const [VideoSize, setVideoSize] = useRecoilState(AllowedVideoSizeState);
   const [fullScreen, setFullScreen] = useState(false);
   const [isLoading, setIsLoading] = useRecoilState(mediaUpload); // Loading state
+
   const ref = useRef();
 
   const openCamera = async () => {
@@ -58,13 +59,13 @@ const PromiseStatement = ({ onTextChange }) => {
     const result = await launchCamera({ mediaType: 'video', quality: 1 });
 
     if (result.assets && result.assets.length > 0) {
-      const selectedFileSize = result.assets[0].fileSize; // Size in bytes
+      const selectedFileSize = result.assets[0].fileSize;
       const maxSizeInBytes = 20 * 1024 * 1024;
       const allowedFormats = [".mp4", ".mov", ".wmv", ".qt"];
       const selectedFileType = result.assets[0].type;
       if (selectedFileSize <= maxSizeInBytes) {
         setSelectedVideo(result.assets[0].uri);
-        handelUpload();
+        handelUpload(result.assets[0].uri);
       } else {
         alert(
           `Invalid file format. Please choose a valid video format${allowedFormats}`,
@@ -78,24 +79,24 @@ const PromiseStatement = ({ onTextChange }) => {
     const result = await launchImageLibrary({ mediaType: 'video', quality: 1 });
 
     if (result.assets && result.assets.length > 0) {
-      const selectedFileSize = result.assets[0].fileSize; // Size in bytes
-      const maxSizeInBytes = 20 * 1024 * 1024; // Convert MB to bytes
-      const allowedFormats = VideoFarmats; // Check allowed formats
+      const selectedFileSize = result.assets[0].fileSize;
+      const maxSizeInBytes = 20 * 1024 * 1024;
+      const allowedFormats = VideoFarmats;
       const selectedFileType = result.assets[0].type;
 
       if (selectedFileSize <= maxSizeInBytes) {
         setSelectedVideo(result.assets[0].uri);
-        handelUpload();
+        handelUpload(result.assets[0].uri);
       } else {
         alert(`Selected file size exceeds. Please choose a smaller file.`);
       }
     }
   };
 
-  const handelUpload = async () => {
-    setIsLoading(true); // Start loading
+  const handelUpload = async (videoUri) => {
+    setIsLoading(true);
     let newfile = {
-      uri: selectedVideo,
+      uri: videoUri,
       type: 'test/mp4',
       name: 'test-unoqe-name12',
     };
@@ -108,7 +109,7 @@ const PromiseStatement = ({ onTextChange }) => {
     var formdata = new FormData();
     formdata.append('file', newfile, 'video.mp4');
     formdata.append('upload_preset', 'SnapPromise');
-    formdata.append('public_id', selectedVideo);
+    formdata.append('public_id', videoUri);
     formdata.append('api_key', '{{199266658813937}}');
 
     var requestOptions = {
@@ -127,11 +128,11 @@ const PromiseStatement = ({ onTextChange }) => {
         const url = result.secure_url;
         setAttachMedia(url);
         setIsModalV(false);
-        setIsLoading(false); // Stop loading
+        setIsLoading(false);
       })
       .catch(error => {
         console.log('error', error);
-        setIsLoading(false); // Stop loading in case of error
+        setIsLoading(false);
       });
   };
 
@@ -175,7 +176,7 @@ const PromiseStatement = ({ onTextChange }) => {
                 borderColor: '#652D90',
                 borderRadius: wp(3),
                 color: '#000',
-                height: hp(15), // Set the height as needed
+                height: hp(15),
                 textAlignVertical: 'top',
                 fontSize: hp(1.6)
               }}
@@ -203,10 +204,6 @@ const PromiseStatement = ({ onTextChange }) => {
             </TouchableOpacity>
           </View>
         </View>
-        {/* 
-        {isLoading && (
-          <ActivityIndicator size="small" color="#0000ff" />
-        )} */}
 
         <Modal
           animationType="slide"
@@ -216,7 +213,6 @@ const PromiseStatement = ({ onTextChange }) => {
           <TouchableWithoutFeedback onPress={() => setIsModalV(false)}>
             <View style={{ flex: 1 }}>
               <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}></BlurView>
-
               <View
                 style={{
                   borderWidth: 0.5,
@@ -230,7 +226,6 @@ const PromiseStatement = ({ onTextChange }) => {
                   backgroundColor: 'white',
                 }}>
                 <View style={{ marginTop: hp(1), marginHorizontal: 30 }}>
-
                   <View
                     style={{
                       justifyContent: 'space-between',
@@ -251,11 +246,9 @@ const PromiseStatement = ({ onTextChange }) => {
                         <Text style={{ color: '#000', marginLeft: wp(-4) }}>Select Media</Text>
                       </View>
                     </TouchableOpacity>
-
                   </View>
                 </View>
               </View>
-
               <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}></BlurView>
             </View>
           </TouchableWithoutFeedback>

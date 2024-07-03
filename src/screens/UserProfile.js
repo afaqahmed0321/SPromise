@@ -690,6 +690,7 @@ const UserProfile = () => {
       </TouchableOpacity>
     </View>
           ) : ( */}
+
             <View
               style={{
                 flexDirection: 'row',
