@@ -663,20 +663,22 @@ const UserProfile = () => {
           }}>
           {editProfile ? (
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', gap: 50, marginTop: 10, zIndex: -10 }}>
-      <TouchableOpacity
-        onPress={() => UpdateProfile()} // Ensure function is called only on press
-        style={{ marginLeft: wp(0) }}>
-        <Font color="green" name="check" size={30} />
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          setEditProfile(false);
-          setStartDate('');
-        }}
-        style={{ marginLeft: wp(0) }}>
-        <Font color="#652D90" name="close" size={30} />
-      </TouchableOpacity>
-    </View>
+              <TouchableOpacity
+                onPress={() => {UpdateProfile()
+                  setRefresh(!refresh)
+                }} // Ensure function is called only on press
+                style={{ marginLeft: wp(0) }}>
+                <Font color="green" name="check" size={30} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setEditProfile(false);
+                  setStartDate('');
+                }}
+                style={{ marginLeft: wp(0) }}>
+                <Font color="#652D90" name="close" size={30} />
+              </TouchableOpacity>
+            </View>
           ) : (
             <View
               style={{
