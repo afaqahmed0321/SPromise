@@ -328,7 +328,7 @@ const NotificationCard = () => {
                       </View>
                       
                       <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                        <View
+                        {/* <View
                           style={{
                             flexDirection: 'row',
                             justifyContent: 'space-around',
@@ -402,7 +402,7 @@ const NotificationCard = () => {
                               );
                             }
                           })}
-                        </View>
+                        </View> */}
                         <TouchableOpacity
                           onPress={() => {
                             setEditPReq(selectitem);
