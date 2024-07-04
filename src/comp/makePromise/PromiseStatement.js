@@ -60,7 +60,7 @@ const PromiseStatement = ({ onTextChange }) => {
 
     if (result.assets && result.assets.length > 0) {
       const selectedFileSize = result.assets[0].fileSize;
-      const maxSizeInBytes = 20 * 1024 * 1024;
+      const maxSizeInBytes = 200 * 1024 * 1024;
       const allowedFormats = [".mp4", ".mov", ".wmv", ".qt"];
       const selectedFileType = result.assets[0].type;
       if (selectedFileSize <= maxSizeInBytes) {
@@ -68,8 +68,7 @@ const PromiseStatement = ({ onTextChange }) => {
         handelUpload(result.assets[0].uri);
       } else {
         alert(
-          `Invalid file format. Please choose a valid video format${allowedFormats}`,
-        );
+          "Selected file size exceeds. Please choose a smaller file.");
       }
     }
   };
@@ -80,7 +79,7 @@ const PromiseStatement = ({ onTextChange }) => {
 
     if (result.assets && result.assets.length > 0) {
       const selectedFileSize = result.assets[0].fileSize;
-      const maxSizeInBytes = 20 * 1024 * 1024;
+      const maxSizeInBytes = 200 * 1024 * 1024;
       const allowedFormats = VideoFarmats;
       const selectedFileType = result.assets[0].type;
 
@@ -195,7 +194,7 @@ const PromiseStatement = ({ onTextChange }) => {
               )}
             </TouchableOpacity>
             {attachMedia && (
-              <TouchableOpacity onPress={() => setAttachMedia(null)}>
+              <TouchableOpacity onPress={() => setAttachMedia(null)} style={{ marginHorizontal: hp(1) }}>
                 <Ionicons color="red" name="close" size={30} />
               </TouchableOpacity>
             )}

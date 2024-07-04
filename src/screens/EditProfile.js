@@ -313,18 +313,6 @@ const EditProfile = () => {
     return (
         <ScrollView>
             <View>
-                {!editProfile && (
-                    <TouchableOpacity
-                        onPress={() => navigation.goBack()}
-                        style={{
-                            marginLeft: wp(5),
-                            height: hp(5),
-                            marginTop: hp(1),
-                        }}>
-                        <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
-                    </TouchableOpacity>
-                )}
-
                 <View>
                     {isWebView == false ? (
                         <View

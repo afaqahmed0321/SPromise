@@ -30,6 +30,7 @@ import {
   RatingImapect,
   RewardPoints,
   RewardPointsState,
+  selectMedia,
 } from '../../recoil/AddPromise';
 import ToggleSwitch from 'toggle-switch-react-native';
 import { commonStyles } from '../../Styling/buttons';
@@ -42,6 +43,7 @@ import LoadingOverlay from '../Global/LoadingOverlay';
 import axios from 'axios';
 import { RadioButton } from 'react-native-paper';
 import debounce from 'lodash.debounce';
+import FontAw from 'react-native-vector-icons/FontAwesome6';
 
 const Review = ({ navigation }) => {
   const [Promiseze, setSelectedPromisee] = useRecoilState(selectedPromisee);
@@ -50,7 +52,7 @@ const Review = ({ navigation }) => {
 
   const handlePromiseApi = async () => {
     setIsLoading(true);
- 
+
     const expiryDate = isTimeB ? deadlinedate : dateString;
     const IsTimeBound = isTimeB;
     const promiseGoal = generatedTexts;
@@ -238,6 +240,8 @@ const Review = ({ navigation }) => {
   const [promidate, setPromidate] = useRecoilState(startDate);
   const [generatedTexts, setGeneratedTexts] = useRecoilState(promiseStatement);
   const [rewardPoints, setRewardPoints] = useRecoilState(RewardPoints);
+  const [video, setVideo] = useRecoilState(selectMedia);
+
   const [rewardPointState, setRewardPointState] =
     useRecoilState(RewardPointsState);
 
@@ -251,6 +255,7 @@ const Review = ({ navigation }) => {
   const dateString = currentDate.toISOString();
 
   const [fbtoggle, setFBTogel] = useState(false);
+  
   const [Igtoggle, setIgTogel] = useState(false);
   const [mNtoggle, setMNTogel] = useState(false);
   const [userData, setUserData] = useState();
@@ -440,16 +445,27 @@ const Review = ({ navigation }) => {
                   <View style={styles.Line}></View>
                 </View>
               ) : null}
+              {generatedTexts &&
+                (
+                  <View style={{paddingVertical:hp(1)}}>
+                    <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}>Promise Statement</Text>
+                    <View style={{  width: wp(80) }}>
+                      <View style={[styles.generatedBox, { padding: 0, margin: 0 }]}>
 
-              <View style={{}}>
-                <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}>Promise Statement</Text>
-                <View style={{ height: hp(8), width: wp(80) }}>
-                  <View style={[styles.generatedBox, { padding: 0, margin: 0 }]}>
-
-                    <Text style={{ color: '#FFFFFF',fontSize: hp(2) }}> {generatedTexts} </Text>
+                        <Text style={{ color: '#FFFFFF', fontSize: hp(2) }}> {generatedTexts} </Text>
+                      </View>
+                    </View>
                   </View>
-                </View>
-              </View>
+
+                )
+              }
+              {selectMedia != null && (
+                <>
+                 <View style={styles.Line}></View>
+                <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}> Attached Media</Text>
+            <FontAw name="youtube"  size={30} light style={{paddingHorizontal:hp(1)}} />
+            </>
+          )}
             </View>
           </LinearGradient>
           {/* Share  */}
@@ -538,23 +554,23 @@ const Review = ({ navigation }) => {
             </View>
           </View>
           <View style={{ marginTop: hp(2.5), paddingVertical: wp(2) }}>
-  <TouchableOpacity
-    onPress={handleDebouncedPress}
-    disabled={!Promiseze}
-    style={[commonStyles.lognBtn1, { opacity: Promiseze ? 1 : 0.5 }]}>
-    <LinearGradient
-      colors={!makePromise ? bgBtnrqstprms : bgBtnmakeprms}
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        borderRadius: wp(50),
-      }}>
-      <Text style={{ color: 'white', textAlign: 'center' }}>Next</Text>
-    </LinearGradient>
-  </TouchableOpacity>
-</View>
+            <TouchableOpacity
+              onPress={handleDebouncedPress}
+              disabled={!Promiseze}
+              style={[commonStyles.lognBtn1, { opacity: Promiseze ? 1 : 0.5 }]}>
+              <LinearGradient
+                colors={!makePromise ? bgBtnrqstprms : bgBtnmakeprms}
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '100%',
+                  borderRadius: wp(50),
+                }}>
+                <Text style={{ color: 'white', textAlign: 'center' }}>Next</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
 
         </View>
       </View>
