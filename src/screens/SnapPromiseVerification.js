@@ -17,10 +17,12 @@ import {
   RatingImapect,
   IsTimeBound,
   selectedMedia,
+  selectMedia,
 } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import { Headings } from '../Styling/Headings';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import FontAw from 'react-native-vector-icons/FontAwesome6';
 
 const SnapPromiseVerification = ({ navigation }) => {
   const bgBtnmakeprms = ['#E4A936', '#EE8347'];
@@ -42,6 +44,7 @@ const SnapPromiseVerification = ({ navigation }) => {
   const [isRating, setIsRating] = useRecoilState(RatingImapect);
   const [isTimeB, setIsTimeB] = useRecoilState(IsTimeBound);
   const [attachMedia, setAttachMedia] = useRecoilState(selectedMedia);
+  const [video, setVideo] = useRecoilState(selectMedia);
 
 
 
@@ -194,7 +197,7 @@ const SnapPromiseVerification = ({ navigation }) => {
               </Text>
             </>
           )}
-          {deadlinedate ? (
+          {deadlinedate != 'Select Date' ? (
             <View
               style={{
                 flexDirection: '',
@@ -232,7 +235,15 @@ const SnapPromiseVerification = ({ navigation }) => {
               </Text>
 
             </View>
+
           </View>
+          {/* {selectMedia != null && (
+                <>
+                 <View style={styles.Line}></View>
+                <Text style={[Headings.h3ForReviewpage]}> Attached Media</Text>
+            <FontAw name="youtube"  size={30} light style={{paddingHorizontal:hp(1)}} />
+            </>
+          )} */}
         </LinearGradient>
         <TouchableOpacity
           onPress={goToPending}
