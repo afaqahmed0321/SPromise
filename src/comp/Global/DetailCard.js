@@ -96,7 +96,7 @@ const DetailCard = ({
 
 
     setIsLoading1(true);
-    setIsLoading2(true);
+    // setIsLoading2(true);
 
     const res = handleCompletePromise(promiseID, userN, textareaValue);
     if (res === 1) {
@@ -1351,7 +1351,7 @@ const DetailCard = ({
                           style={[commonStyles.ActionBtn]}
                           key={index}
                           onPress={() => {
-                            setIsLoading1(true);
+                            // setIsLoading1(true);
                             const res = handleCompletePromiseWithModal(promiseID, userN);
                             if (res === 1) {
                               setIsLoading1(false);
@@ -1392,7 +1392,7 @@ const DetailCard = ({
                           style={commonStyles.ActionBtn}
                           key={index}
                           onPress={() => {
-                            setIsLoading1(true);
+                            // setIsLoading1(true);
                             const res = setIsPaymentWebViewVisible(true);
                             if (res === 1) {
                               setIsLoading1(false);
@@ -1716,7 +1716,7 @@ const DetailCard = ({
                           style={[commonStyles.ActionBtn]}
                           key={index}
                           onPress={() => {
-                            setIsLoading1(true);
+                            // setIsLoading1(true);
                             const res = handleCompletePromiseWithModal(promiseID, userN);
                             if (res === 1) {
                               setIsLoading1(false);
@@ -1758,7 +1758,7 @@ const DetailCard = ({
                           style={commonStyles.ActionBtn}
                           key={index}
                           onPress={() => {
-                            setIsLoading1(true);
+                            // setIsLoading1(true);
                             const res = setIsPaymentWebViewVisible(true);
                             if (res === 1) {
                               setIsLoading1(false);
