@@ -103,13 +103,8 @@ const Rewards = ({ navigation }) => {
                 }}>
                 <View>
                   <Image
-                    source={
-                      item?.imageURL === ''
-                        ? {
-                          uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                        }
-                        : { uri: item?.imageURL }
-                    }
+                    source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
+
                     style={{
                       width: wp(12),
                       height: hp(6),

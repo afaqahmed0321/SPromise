@@ -66,13 +66,7 @@ const LeaderBoard = () => {
       </View>
       <View>
         <Image
-          source={
-            item.imageURL === ''
-              ? {
-                uri: 'https://th.bing.com/th/id/OIP.aWYpRbe6Tbsr_1W42rUwVAAAAA?rs=1&pid=ImgDetMain',
-              }
-              : { uri: item.imageURL }
-          }
+          source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
           style={{
             width: wp(6),
             height: hp(3),

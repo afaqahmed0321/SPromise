@@ -383,7 +383,7 @@ const EditProfile = () => {
                                     placeholderTextColor="grey"
                                     placeholder={userData.phone}
                                     keyboardType="numeric"
-                                    maxLength={10}
+                                    // maxLength={10}
                                     onChangeText={text => {
                                         const numericText = text.replace(/[^0-9]/g, '');
                                         setPhoneNo(numericText);

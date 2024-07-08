@@ -255,7 +255,7 @@ const Review = ({ navigation }) => {
   const dateString = currentDate.toISOString();
 
   const [fbtoggle, setFBTogel] = useState(false);
-  
+
   const [Igtoggle, setIgTogel] = useState(false);
   const [mNtoggle, setMNTogel] = useState(false);
   const [userData, setUserData] = useState();
@@ -317,13 +317,7 @@ const Review = ({ navigation }) => {
                 }}>
 
                 <Image
-                  source={
-                    Promiseze?.imageURL === ''
-                      ? {
-                        uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                      }
-                      : { uri: Promiseze.imageURL }
-                  }
+                  source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
                   style={{
                     width: wp(12),
                     height: hp(6),
@@ -447,9 +441,9 @@ const Review = ({ navigation }) => {
               ) : null}
               {generatedTexts &&
                 (
-                  <View style={{paddingVertical:hp(1)}}>
+                  <View style={{ paddingVertical: hp(1) }}>
                     <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}>Promise Statement</Text>
-                    <View style={{  width: wp(80) }}>
+                    <View style={{ width: wp(80) }}>
                       <View style={[styles.generatedBox, { padding: 0, margin: 0 }]}>
 
                         <Text style={{ color: '#FFFFFF', fontSize: hp(2) }}> {generatedTexts} </Text>
@@ -461,11 +455,11 @@ const Review = ({ navigation }) => {
               }
               {selectMedia != null && (
                 <>
-                 <View style={styles.Line}></View>
-                <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}> Attached Media</Text>
-            <FontAw name="youtube"  size={30} light style={{paddingHorizontal:hp(1)}} />
-            </>
-          )}
+                  <View style={styles.Line}></View>
+                  <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}> Attached Media</Text>
+                  <FontAw name="youtube" size={30} light style={{ paddingHorizontal: hp(1) }} />
+                </>
+              )}
             </View>
           </LinearGradient>
           {/* Share  */}

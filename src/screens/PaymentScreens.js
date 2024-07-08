@@ -5,7 +5,7 @@ import { CreditCardInput } from 'react-native-credit-card-input';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { StripeProvider } from '@stripe/stripe-react-native';
-import {  STRIPE_PUBLIC_KEY, Secret_key } from '../comp/Payment/helper';
+import { STRIPE_PUBLIC_KEY, Secret_key } from '../comp/Payment/helper';
 import axios from 'axios';
 import LoadingOverlay from '../comp/Global/LoadingOverlay';
 
@@ -43,7 +43,7 @@ function subscribeUser(creditCardToken) {
   });
 };
 
-const PaymentScreens = ({ promiseID, userN, amount,handleCloseModal }) => {
+const PaymentScreens = ({ promiseID, userN, amount, handleCloseModal }) => {
   const [CardInput, setCardInput] = useState({})
   const [isLoading, setIsLoading] = useState(false)
 
@@ -75,6 +75,7 @@ const PaymentScreens = ({ promiseID, userN, amount,handleCloseModal }) => {
     } else {
 
       let pament_data = await charges();
+      console.log("statussssss", pament_data)
       if (pament_data.status == 'succeeded') {
         setIsLoading(false);
         ToastAndroid.show('Payment Successfull.', ToastAndroid.LONG);
@@ -105,11 +106,14 @@ const PaymentScreens = ({ promiseID, userN, amount,handleCloseModal }) => {
   const charges = async () => {
 
     const card = {
-      'amount': amount,
+      'amount': amount * 100,
       'currency': CURRENCY,
       'source': CARD_TOKEN,
       'description': "Developers Sin Subscription"
     };
+
+    console.log("cardddddd", card);
+
 
     return fetch('https://api.stripe.com/v1/charges', {
       headers: {
@@ -139,16 +143,16 @@ const PaymentScreens = ({ promiseID, userN, amount,handleCloseModal }) => {
           }}
         />
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center", marginTop: hp(10) }}>
-          <LinearGradient
-            colors={['#E4A936', '#EE8347']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.lognBtn}
-          >
-            <TouchableOpacity onPress={onSubmit}>
+          <TouchableOpacity onPress={onSubmit}>
+            <LinearGradient
+              colors={['#E4A936', '#EE8347']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.lognBtn}
+            >
               <Text style={styles.LogInButton}>Pay now</Text>
-            </TouchableOpacity>
-          </LinearGradient>
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
       </View>
     </StripeProvider>
@@ -161,7 +165,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 5,
     marginBottom: 10,
-    flexDirection: 'column', 
+    flexDirection: 'column',
     marginBottom: 10,
   },
   inputStyle: {
@@ -183,8 +187,8 @@ const styles = StyleSheet.create({
 
   },
   LogInButton: {
-    fontSize: hp(1.8), 
-    fontWeight: 'bold', 
+    fontSize: hp(1.8),
+    fontWeight: 'bold',
     color: 'white',
   }
 });

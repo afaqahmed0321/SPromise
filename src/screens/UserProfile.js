@@ -72,6 +72,8 @@ const UserProfile = () => {
   const [open1, setOpen1] = useState(false);
   const [pinCode, setPinCode] = useState('');
   const [country, setCountry] = useState('');
+  const [loginType, setLoginType] = useState('');
+
   const [dob, setDob] = useState('');
   const navigation = useNavigation();
 
@@ -143,6 +145,7 @@ const UserProfile = () => {
       const data = await response;
       setUserData(data);
       setEmailId(data.emailID);
+      setLoginType(data.loginType);
       setFName(data.firstName);
       setLName(data.lastName);
       setGender(data.gender);
@@ -703,6 +706,7 @@ const UserProfile = () => {
                 onPress={() => navigation.navigate('EditProfile') }>
                 <Text style={{ color: "white" }}> Edit Profile</Text>
               </TouchableOpacity>
+              { loginType === 'Manual' && (
               <TouchableOpacity
                 style={[
                   commonStyles.ActionBtn,
@@ -714,6 +718,7 @@ const UserProfile = () => {
                 }}>
                 <Text style={{ color: "white" }}> Change Password</Text>
               </TouchableOpacity>
+              )}
             </View>
           {/* )} */}
         </View>
