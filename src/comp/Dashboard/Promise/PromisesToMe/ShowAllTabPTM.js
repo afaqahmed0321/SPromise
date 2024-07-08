@@ -70,7 +70,7 @@ const ShowAllTabPTM = ({ navigation }) => {
               titleColor="white" // iOS
             />
           }
-          data={promises.filter(item => item.status === 'Completed' || item.status === 'Rejected' || item.status === 'AmountDue' || item.status === 'MarkedforCompletion' || item.status === 'Pending' || item.status === 'Accepted' || item.status === 'Canceled')}
+          data={promises.filter(item => item.status === 'Completed' || item.status === 'Rejected' || item.status === 'AmountDue' || item.status === 'MarkedforCompletion' || item.status === 'Pending' || item.status === 'Accepted' || item.status === 'Canceled' || item.status === 'Failed')}
           keyExtractor={item => item.promiseID.toString()} // Use a unique identifier as the key
           renderItem={({ item }) => (
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
