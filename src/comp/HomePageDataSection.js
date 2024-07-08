@@ -166,13 +166,7 @@ const HomePageDataSection = () => {
                       borderRadius: wp(4),
                     }}>
                     <Image
-                      source={
-                        item?.promiseeProfileImageUrl === ''
-                          ? {
-                            uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                          }
-                          : { uri: item?.promiseeProfileImageUrl }
-                      }
+                      source={{uri: 'https://freesvg.org/img/abstract-user-flat-4.png'}}
                       style={{
                         width: wp(8),
                         height: hp(4),

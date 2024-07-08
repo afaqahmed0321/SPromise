@@ -172,13 +172,13 @@ const SignUpScreen = ({ navigation }) => {
   }
 
   const handleFNameChange = (text) => {
-    const formattedText = text.replace(/[^a-zA-Z]/g, '');
-    setFName(formattedText);
+    // const formattedText = text.replace(/[^a-zA-Z]/g, '');
+    setFName(text);
   };
 
   const handleLNameChange = (text) => {
-    const formattedText = text.replace(/[^a-zA-Z]/g, '');
-    setLName(formattedText);
+    // const formattedText = text.replace(/[^a-zA-Z]/g, '');
+    setLName(text);
   };
 
   const handlePasswordChange = (text) => {

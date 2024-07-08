@@ -154,26 +154,23 @@ const PromiseNetwork = ({ navigation }) => {
       ) : (
         <ScrollView>
           <FlatList
-          style={{marginVertical:hp(2)}}
+            style={{ marginVertical: hp(2) }}
             data={searchText.length > 0 ? filteredData : userData}
             keyExtractor={item => item.serialNo.toString()}
             renderItem={({ item }) => (
               <View style={{
-                flex:1,
+                flex: 1,
                 flexDirection: 'row',
                 marginVertical: hp(1),
                 marginHorizontal: hp(2.2),
                 alignItems: 'center',
-                justifyContent:"space-between"
+                justifyContent: "space-between"
               }}>
-                <View style={{flexDirection:"row", flex:1}}>
+                <View style={{ flexDirection: "row", flex: 1 }}>
                   <View>
                     <Image
-                      source={
-                        item.imageURL === ''
-                          ? { uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }
-                          : { uri: item.imageURL }
-                      }
+                      source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
+
                       style={{
                         width: wp(12),
                         height: hp(6),

@@ -29,7 +29,7 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
         }
         const mail = email.toLowerCase();
         const encodedEmail = encodeURIComponent(mail);
-
+ 
         await axios.get(`https://snappromise.com:8080/api/Users/getUsers?searchString=${mail}`)
 
             .then(async (response) => {

@@ -99,13 +99,8 @@ const Notifications = ({ navigation }) => {
               alignItems: 'center',
             }}>
             <Image
-              source={
-                item.imageURL === ''
-                  ? {
-                    uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                  }
-                  : { uri: item.imageURL }
-              }
+              source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
+
               style={{
                 width: wp(13),
                 height: hp(6),
@@ -167,10 +162,10 @@ const Notifications = ({ navigation }) => {
               <RefreshControl
                 refreshing={isLoading}
                 onRefresh={onRefresh}
-                colors={['#E4A936', '#EE8347']} 
-                tintColor="white" 
-                title="Refreshing..." 
-                titleColor="white" 
+                colors={['#E4A936', '#EE8347']}
+                tintColor="white"
+                title="Refreshing..."
+                titleColor="white"
               />
             }
             data={filteredNotifications}

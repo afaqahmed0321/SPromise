@@ -8,7 +8,9 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
   ActivityIndicator,
-  TextInput
+  KeyboardAvoidingView,
+  TextInput,
+  Keyboard
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import {
@@ -79,7 +81,7 @@ const DetailCard = ({
   const [textareaValue, setTextareaValue] = useState('');
   const [isLoading1, setIsLoading1] = useState(false);
   const [isLoading2, setIsLoading2] = useState(false);
-
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
   const handleCompletePromiseWithModal = (promiseID, userN) => {
     // Additional logic to handle complete promise with modal
@@ -91,6 +93,8 @@ const DetailCard = ({
   };
 
   const handleCompleteAction = () => {
+
+
     setIsLoading1(true);
     setIsLoading2(true);
 
@@ -154,6 +158,17 @@ const DetailCard = ({
 
     useEffect(() => {
       // DetailCard();
+      const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+        setIsKeyboardVisible(true);
+      });
+      const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+        setIsKeyboardVisible(false);
+      });
+
+      return () => {
+        keyboardDidHideListener.remove();
+        keyboardDidShowListener.remove();
+      };
     }, [actionState]);
 
 
@@ -218,13 +233,7 @@ const DetailCard = ({
                   marginTop: hp(1),
                 }}>
                 <Image
-                  source={
-                    promiseeProfileImageUrl === ''
-                      ? {
-                        uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                      }
-                      : { uri: promiseeProfileImageUrl }
-                  }
+                  source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
                   style={{
                     width: wp(12),
                     height: hp(6),
@@ -534,13 +543,7 @@ const DetailCard = ({
                   marginTop: hp(1),
                 }}>
                 <Image
-                  source={
-                    promiseeProfileImageUrl === ''
-                      ? {
-                        uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                      }
-                      : { uri: promiseeProfileImageUrl }
-                  }
+                  source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
                   style={{
                     width: wp(13),
                     height: hp(6),
@@ -1000,34 +1003,37 @@ const DetailCard = ({
                 }
               })}
               <Modal visible={isModalVisible} transparent={true}>
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                  <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%' }}>
-                    <TextInput
-                      multiline
-                      numberOfLines={4}
-                      placeholder="Enter your completion message..."
-                      value={textareaValue}
-                      onChangeText={handleTextareaChange}
-                      style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 5, marginBottom: 10, color: "black" }}
-                    />
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                      <TouchableOpacity
-                        style={{ backgroundColor: '#32C35B', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginRight: 5 }}
-                        onPress={handleCompleteAction}>
-                        <Text style={{ color: 'white', fontWeight: 'bold' }}>Complete</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={{ backgroundColor: 'red', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginLeft: 5 }}
-                        onPress={() => {
-                          setIsModalVisible(false);
-                          setIsLoading1(false);
-                          setIsLoading2(false);
-                        }}>
-                        <Text style={{ color: 'white', fontWeight: 'bold' }}>Close</Text>
-                      </TouchableOpacity>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
+                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%' }}>
+                      <TextInput
+                        multiline
+                        numberOfLines={4}
+                        placeholder="Enter your completion message..."
+                        value={textareaValue}
+                        onChangeText={handleTextareaChange}
+                        style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 5, marginBottom: 10, color: "black" }}
+                      />
+
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <TouchableOpacity
+                          style={{ backgroundColor: '#32C35B', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginRight: 5 }}
+                          onPress={handleCompleteAction}>
+                          <Text style={{ color: 'white', fontWeight: 'bold' }}>Complete</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={{ backgroundColor: 'red', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginLeft: 5 }}
+                          onPress={() => {
+                            setIsModalVisible(false);
+                            setIsLoading1(false);
+                            setIsLoading2(false);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: 'bold' }}>Close</Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   </View>
-                </View>
+                </TouchableWithoutFeedback>
               </Modal>
 
 
@@ -1055,13 +1061,7 @@ const DetailCard = ({
                     marginBottom: hp(1.2)
                   }}>
                   <Image
-                    source={
-                      promiseeProfileImageUrl === ''
-                        ? {
-                          uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                        }
-                        : { uri: promiseeProfileImageUrl }
-                    }
+                    source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
                     style={{
                       width: wp(13),
                       height: hp(6),
@@ -1455,13 +1455,7 @@ const DetailCard = ({
                     marginBottom: hp(1.2)
                   }}>
                   <Image
-                    source={
-                      promiseeProfileImageUrl === ''
-                        ? {
-                          uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                        }
-                        : { uri: promiseeProfileImageUrl }
-                    }
+                    source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
                     style={{
                       width: wp(13),
                       height: hp(6),

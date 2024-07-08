@@ -127,13 +127,8 @@ const SnapPromiseVerification = ({ navigation }) => {
           </View>
 
           <Image
-            source={
-              Promiseze.imageURL === ''
-                ? {
-                  uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                }
-                : { uri: Promiseze.imageURL }
-            }
+            source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
+
 
             style={styles.profilePic}
           />

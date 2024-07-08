@@ -149,7 +149,7 @@ const NotificationCard = () => {
               );
           }
 
-         
+
         })
         .catch(error => {
           console.error('Error fetching promise:', error);
@@ -199,13 +199,13 @@ const NotificationCard = () => {
                     height: hp(35),
                     width: wp(90),
                     alignSelf: 'center',
-                    padding:0,
-                    margin:0,
-                    
+                    padding: 0,
+                    margin: 0,
+
                     backgroundColor: '#E4EEE6',
-               
+
                   }}>
-                  
+
                   <LinearGradient
                     colors={
                       noti.notificationMethodAction == 'MakePromiseRequest'
@@ -227,13 +227,7 @@ const NotificationCard = () => {
                             marginTop: hp(1),
                           }}>
                           <Image
-                            source={
-                              selectitem.promiseeProfileImageUrl === ''
-                                ? {
-                                  uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                                }
-                                : { uri: selectitem.promiseeProfileImageUrl }
-                            }
+                            source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
                             style={{
                               width: wp(13),
                               height: hp(6),
@@ -255,7 +249,7 @@ const NotificationCard = () => {
                         </View>
 
                         <View style={{ width: wp(15) }}>
-                          
+
                           <Text
                             style={[
                               Headings.Input6,
@@ -311,7 +305,7 @@ const NotificationCard = () => {
                           </Text>
                         </View>
                       ) : null}
-                     
+
                       <View style={DashBoardStyling.PromiseGoal}>
                         <View>
                           <Text
@@ -326,7 +320,7 @@ const NotificationCard = () => {
                           </Text>
                         </View>
                       </View>
-                      
+
                       <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                         {/* <View
                           style={{
@@ -440,7 +434,7 @@ const NotificationCard = () => {
                             setGeneratedTexts(selectitem.promiseGoal);
                             setSelectedMedia(selectitem.promiseMediaURL);
                             setEditPromiseReq(true);
-                           
+
                             setSelectedPromisee({
                               networkUserName: selectitem.promiseeName,
                               networkUserNo: selectitem.promisee,
@@ -520,6 +514,6 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: '#E4EEE6' ,
-   },
+    backgroundColor: '#E4EEE6',
+  },
 });

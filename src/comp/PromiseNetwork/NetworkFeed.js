@@ -298,14 +298,8 @@ const NetworkFeed = ({ navigation }) => {
               marginTop: hp(1),
             }}>
             <Image
-              source={
-                item.promisorProfileImageUrl === '' ||
-                  item.promisorProfileImageUrl === 'string'
-                  ? {
-                    uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                  }
-                  : { uri: item.promisorProfileImageUrl }
-              }
+              source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
+
               style={{
                 width: wp(13),
                 height: hp(6),
@@ -483,14 +477,8 @@ const NetworkFeed = ({ navigation }) => {
                       marginVertical: hp(1),
                     }}>
                     <Image
-                      source={
-                        comment.userImageURL === '' ||
-                          comment.userImageURL === 'string'
-                          ? {
-                            uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                          }
-                          : { uri: comment.userImageURL }
-                      }
+                      source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
+
                       style={{
                         width: wp(10),
                         height: hp(5),
@@ -500,12 +488,12 @@ const NetworkFeed = ({ navigation }) => {
                   </View>
                   <View
                     style={{
-                      flex:1,
+                      flex: 1,
                       flexDirection: 'column',
-                      justifyContent:"flex-start",
-                      alignItems:"flex-start",
-                      textAlign:"justify",
-                      height:hp(4)
+                      justifyContent: "flex-start",
+                      alignItems: "flex-start",
+                      textAlign: "justify",
+                      height: hp(4)
 
                     }}>
                     <Text style={{ color: "black" }}>{comment.userName}</Text>

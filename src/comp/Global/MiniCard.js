@@ -120,13 +120,7 @@ const MiniCard = ({
                   marginTop: hp(1),
                 }}>
                 <Image
-                  source={
-                    promiseeProfileImageUrl === ''
-                      ? {
-                        uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                      }
-                      : { uri: promiseeProfileImageUrl }
-                  }
+                  source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
                   style={{
                     width: wp(13),
                     height: hp(6),
@@ -167,12 +161,12 @@ const MiniCard = ({
               )}
             </View>
 
-            <View  style={[
-                DashBoardStyling.PromiseReward1,
-                {
-                  justifyContent: (promisetype === 'GUARANTEE' && amount > 0) || (promisetype === 'COMMITMENT' && amount > 0) || rewardPoints ? 'center' : 'center'
-                }
-              ]}>
+            <View style={[
+              DashBoardStyling.PromiseReward1,
+              {
+                justifyContent: (promisetype === 'GUARANTEE' && amount > 0) || (promisetype === 'COMMITMENT' && amount > 0) || rewardPoints ? 'center' : 'center'
+              }
+            ]}>
               {guaranteedWithMoney ? (
                 <Text
                   style={[
@@ -215,13 +209,7 @@ const MiniCard = ({
                   marginTop: hp(1),
                 }}>
                 <Image
-                  source={
-                    promiseeProfileImageUrl === ''
-                      ? {
-                        uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
-                      }
-                      : { uri: promiseeProfileImageUrl }
-                  }
+                  source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
                   style={{
                     width: wp(13),
                     height: hp(6),
