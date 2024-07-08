@@ -82,7 +82,11 @@ const DetailCard = ({
   const [isLoading1, setIsLoading1] = useState(false);
   const [isLoading2, setIsLoading2] = useState(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const [showFullText, setShowFullText] = useState(false);
 
+  const toggleText = () => {
+    setShowFullText(!showFullText);
+  };
   const handleCompletePromiseWithModal = (promiseID, userN) => {
     // Additional logic to handle complete promise with modal
     setIsModalVisible(true);
@@ -330,8 +334,18 @@ const DetailCard = ({
             <View style={[styles.promiseGoalContainer, { marginTop: hp(1.2) }]}>
               <View>
                 <Text style={styles.promiseGoalText}>
-                  {promiseGoal}
+                  {showFullText ? promiseGoal : `${promiseGoal.slice(0, 90)}`}
                 </Text>
+                {promiseGoal.length > 90 && (
+                  <TouchableOpacity onPress={toggleText}>
+                    <Text style={{
+                      color: 'white', fontWeight: 'bold', fontSize: hp(1.6), marginHorizontal: hp(0),
+                      paddingHorizontal: hp(0.2), textDecorationLine: "underline", margin: 0
+                    }}>
+                      {showFullText ? 'Read Less' : 'Read More'}
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
 
@@ -808,8 +822,18 @@ const DetailCard = ({
             <View style={[styles.promiseGoalContainer, { marginTop: hp(1.2) }]}>
               <View>
                 <Text style={styles.promiseGoalText}>
-                  {promiseGoal}
+                  {showFullText ? promiseGoal : `${promiseGoal.slice(0, 90)}`}
                 </Text>
+                {promiseGoal.length > 90 && (
+                  <TouchableOpacity onPress={toggleText}>
+                    <Text style={{
+                      color: 'white', fontWeight: 'bold', fontSize: hp(1.6), marginHorizontal: hp(0),
+                      paddingHorizontal: hp(0.2), textDecorationLine: "underline", margin: 0
+                    }}>
+                      {showFullText ? 'Read Less' : 'Read More'}
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
 
@@ -1203,8 +1227,18 @@ const DetailCard = ({
               <View style={[DashBoardStyling.PromiseGoal, { marginTop: hp(1.2), marginBottom: hp(1.2) }]}>
                 <View>
                   <Text style={{ color: 'white', fontSize: hp(2), marginLeft: hp(2.8) }}>
-                    {promiseGoal}
+                    {showFullText ? promiseGoal : `${promiseGoal.slice(0, 90)}`}
                   </Text>
+                  {promiseGoal.length > 90 && (
+                    <TouchableOpacity onPress={toggleText}>
+                      <Text style={{
+                        color: 'white', fontWeight: 'bold', fontSize: hp(1.6), marginHorizontal: hp(1.5),
+                        paddingHorizontal: hp(1.4), textDecorationLine: "underline", margin: 0
+                      }}>
+                        {showFullText ? 'Read Less' : 'Read More'}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
                 </View>
               </View>
 
@@ -1570,8 +1604,18 @@ const DetailCard = ({
               <View style={[DashBoardStyling.PromiseGoal, { marginTop: hp(1.2), marginBottom: hp(1.2) }]}>
                 <View>
                   <Text style={{ color: 'white', fontSize: hp(2), marginLeft: hp(2.8) }}>
-                    {promiseGoal}
+                    {showFullText ? promiseGoal : `${promiseGoal.slice(0, 90)}`}
                   </Text>
+                  {promiseGoal.length > 90 && (
+                    <TouchableOpacity onPress={toggleText}>
+                      <Text style={{
+                        color: 'white', fontWeight: 'bold', fontSize: hp(1.6), marginHorizontal: hp(0),
+                        paddingHorizontal: hp(0.2), textDecorationLine: "underline", margin: 0
+                      }}>
+                        {showFullText ? 'Read Less' : 'Read More'}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
                 </View>
               </View>
 

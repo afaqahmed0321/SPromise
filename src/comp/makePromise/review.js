@@ -446,14 +446,14 @@ const Review = ({ navigation }) => {
                     <View style={{ width: wp(80) }}>
                       <View style={[styles.generatedBox, { padding: 0, margin: 0 }]}>
 
-                        <Text style={{ color: '#FFFFFF', fontSize: hp(2) }}> {generatedTexts} </Text>
+                        <Text style={{ color: '#FFFFFF', fontSize: hp(2) }}>{generatedTexts.length > 50 ? `${generatedTexts.slice(0, 50)}...` : generatedTexts} </Text>
                       </View>
                     </View>
                   </View>
 
                 )
               }
-              {selectMedia != null && (
+              {video != null && (
                 <>
                   <View style={styles.Line}></View>
                   <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}> Attached Media</Text>
