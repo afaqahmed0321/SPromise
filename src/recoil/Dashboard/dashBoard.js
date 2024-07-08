@@ -22,4 +22,12 @@ export const onGoingPromisesListCard = atom({
   key: 'onGoingPromisesListCard',
   default: true,
 });
+export const docNum = atom({
+  key: 'docNum',
+  default: '',
+});
+export const activeTabIndexState = atom({
+  key: 'activeTabIndexState',
+  default: 0, 
+});
 
