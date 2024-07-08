@@ -13,13 +13,11 @@ import { useIsFocused } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 
-
 const LeaderBoard = () => {
   dataa = PlayerData;
   const [topUserList, setTopUserList] = useState([]);
   const [userN, setUserN] = useRecoilState(UserNo);
   const [refresh, setRefresh] = useState(false);
-
   const focus = useIsFocused();
 
   const fetchTopUs = async () => {
@@ -43,8 +41,6 @@ const LeaderBoard = () => {
   }, [focus, refresh]);
 
   const renderItem = ({ item }) => (
-
-
     <LinearGradient
       colors={['#73B6BF', '#2E888C']}
       start={{ x: 0, y: 0 }}
@@ -52,15 +48,12 @@ const LeaderBoard = () => {
       style={{
         width: '95%',
         height: hp(4.5),
-        opacity: 0.7,
         borderRadius: wp(4),
         marginTop: hp(0.5),
         flexDirection: 'row',
         alignSelf: 'center',
         alignItems: 'center',
-      }}
-    >
-
+      }}>
       <View style={{ marginLeft: wp(1) }}>
         <Text style={{ color: 'white' }}>{item.id}</Text>
       </View>
@@ -132,8 +125,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-
   },
+
   barText: {
     fontSize: hp(1.5),
     marginRight: wp(1.4),
@@ -144,4 +137,5 @@ const styles = StyleSheet.create({
     paddingLeft: wp(2),
     paddingVertical: hp(.2)
   },
+
 });

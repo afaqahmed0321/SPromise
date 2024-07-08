@@ -21,7 +21,7 @@ import {
 } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import { Headings } from '../Styling/Headings';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import FontAw from 'react-native-vector-icons/FontAwesome6';
 
 const SnapPromiseVerification = ({ navigation }) => {
@@ -85,8 +85,9 @@ const SnapPromiseVerification = ({ navigation }) => {
     return `${month}/${day}/${year}`;
   };
   return (
-    <View style={{ backgroundColor: '#E4EEE6', flex: 1, alignItems: 'center' }}>
-      <View style={{ height: hp(30), height: hp(22) }}>
+    <ScrollView>
+    <View style={{ backgroundColor: '#E4EEE6', flex: 1, alignItems: 'center' , paddingBottom:wp(2)}}>
+      <View style={{height: hp(17) }}>
         <View style={styles.m}>
           <View style={styles.LogoC}>
             <Image
@@ -99,7 +100,7 @@ const SnapPromiseVerification = ({ navigation }) => {
               fontSize: hp(2.5),
               fontWeight: 'bold',
               color: 'black',
-              marginTop: hp(1),
+              marginTop: hp(0),
             }}>
             SNAP PROMISE
           </Text>
@@ -213,20 +214,19 @@ const SnapPromiseVerification = ({ navigation }) => {
                 <Text style={[Headings.h3ForReviewpage, { marginVertical: hp(.5) }]}>Rating will impact</Text>
               </View>) : null
           }
-          <Text style={[Headings.h3ForReviewpage, { fontSize: 18 }]}>Promise Statement</Text>
+          <Text style={[Headings.h3ForReviewpage, { fontSize: 18, marginVertical:wp(1) }]}>Promise Statement</Text>
           <View style={{ height: hp(7), width: wp(80) }}>
-            <View style={styles.generatedBox}>
-
+            <View >
               <Text
                 style={[
                   {
                     textAlign: 'center',
                     color: '#FFFFFF',
                     fontSize: hp(1.8),
-                    marginHorizontal: wp(4),
+                    marginVertical: wp(0),
                   },
                 ]}>
-                {generatedTexts}
+               {generatedTexts.length > 50 ? `${generatedTexts.slice(0, 50)}...` : generatedTexts}
               </Text>
 
             </View>
@@ -252,6 +252,7 @@ const SnapPromiseVerification = ({ navigation }) => {
         </TouchableOpacity>
       </View>
     </View>
+    </ScrollView>
   );
 };
 
@@ -260,13 +261,13 @@ export default SnapPromiseVerification;
 const styles = StyleSheet.create({
   LogoC: {
     width: '100%',
-    height: hp(18),
+    height: hp(15),
     justifyContent: 'center',
     alignItems: 'center',
   },
   ImageStyle: {
-    width: hp(15),
-    height: hp(15),
+    width: hp(12),
+    height: hp(12),
     borderRadius: hp(25) / 2,
     resizeMode: 'cover',
   },

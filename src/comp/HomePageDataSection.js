@@ -269,7 +269,7 @@ const HomePageDataSection = () => {
           </View>
         ) : (
           <FlatList
-            data={data.sort((a, b) => new Date(a.promiseDate) - new Date(b.promiseDate))}
+            data={data.sort((a, b) => new Date(b.promiseDate) - new Date(a.promiseDate))}
             renderItem={renderItem}
             keyExtractor={(item, index) => item.promiseID.toString()}
             style={{ marginBottom: hp(.2) }}

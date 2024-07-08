@@ -6,24 +6,24 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AppLaunchScreen from './src/screens/AppLaunchScreen';
 
 export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000); // Delay for 4 seconds
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 3000); // Delay for 4 seconds
 
-    return () => clearTimeout(timer); // Clean up the timer on unmount
-  }, []);
+  //   return () => clearTimeout(timer); // Clean up the timer on unmount
+  // }, []);
 
-  if (isLoading) {
-    // Render loading indicator or splash screen
-    return (
-      <RecoilRoot>
-      <AppLaunchScreen />
-    </RecoilRoot>
-    );
-  }
+  // if (isLoading) {
+  //   // Render loading indicator or splash screen
+    // return (
+    //   <RecoilRoot>
+    //   <AppLaunchScreen />
+    // </RecoilRoot>
+    // );
+  // }
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -34,8 +34,8 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-backgroundColor:"#fff"
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+// backgroundColor:"#fff"
+//   },
+// });

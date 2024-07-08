@@ -138,6 +138,7 @@ const PromiseNetwork = ({ navigation }) => {
           onPress={() => setMmodalVisible(true)}
           style={{ height: hp(4), flexDirection: 'row', alignItems: 'center', marginLeft: wp(6) }}>
           <Ionicons name="person-add-outline" size={30} color="#652D90" />
+        </TouchableOpacity>
           <Modal
             animationType="slide"
             transparent={true}
@@ -145,7 +146,6 @@ const PromiseNetwork = ({ navigation }) => {
             onRequestClose={() => setMmodalVisible(false)}>
             <AddToMyNetwork />
           </Modal>
-        </TouchableOpacity>
       </View>
       {isLoading ? (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

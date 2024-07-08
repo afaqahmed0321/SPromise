@@ -171,17 +171,7 @@ function HomeScreenn() {
             backgroundColor: '#E4EEE',
           },
           headerTitleAlign: 'center', // Center the title
-          headerLeft: () => (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <TouchableOpacity
-                onPress={() => navigation.goBack()}
-                style={{ marginHorizontal: 10 }} // Adjust margin as necessary
-              >
-                {/* <EvilIcon name="arrow-left" size={40} color="black" /> */}
-                <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
-              </TouchableOpacity>
-            </View>
-          ),
+         
         })}
       />
     </Tab.Navigator>
@@ -311,7 +301,7 @@ const Auth = () => {
               <Stack.Screen
                 name="Notifications"
                 component={Notifications}
-                options={{ headerShown: true }}
+                options={{ headerShown: false }}
               />
               <Stack.Screen
                 name="PromiseNetwork"

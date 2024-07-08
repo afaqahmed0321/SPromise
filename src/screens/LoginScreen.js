@@ -243,7 +243,7 @@ const LoginScreen = ({ navigation }) => {
     } catch (error) {
       console.error('Error in LoginPress:', error);
       setIsLoading(false);
-      ToastAndroid.show('An error occurred. Please try again later.', ToastAndroid.LONG);
+      ToastAndroid.show('Either you do not have permission or credentials are invalid.', ToastAndroid.LONG);
     }
   };
 

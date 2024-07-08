@@ -120,24 +120,14 @@ const Rewards = ({ navigation }) => {
                       <Text style={{ color: "black" }}>{item?.emailId}</Text>
                     </>
                   ) : null}
-
-
                 </View>
-
-
-
-                <View style={{}}>
+                <View >
                   <Text style={[
                     {
                       color: 'black',
                       marginLeft: hp(7),
                       fontSize: hp(1.8),
-                      // backgroundColor: "#e0e0e0",
                       borderRadius: 50,
-                      // paddingVertical: 5,
-                      // paddingHorizontal: 10,
-                      // marginHorizontal: 10
-
                     },
                   ]}>{item?.rewardPoints ? `${item?.rewardPoints} pts` : "0 pts"}
                   </Text>

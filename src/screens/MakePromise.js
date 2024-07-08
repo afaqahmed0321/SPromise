@@ -163,13 +163,6 @@ const MakePromise = ({ navigation }) => {
         height: '100%',
         alignItems: 'center',
       }}>
-      {navigation.canGoBack() && (
-        <TouchableOpacity style={{ position: 'absolute', left: wp(3), top: hp(1.5) }} onPress={handleBack}>
-
-          <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
-
-        </TouchableOpacity>
-      )}
       <View style={styles.LogoC}>
         <Image
           source={require('../source/mainLogo.jpg')}

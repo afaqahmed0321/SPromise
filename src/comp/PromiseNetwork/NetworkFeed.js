@@ -79,7 +79,7 @@ const NetworkFeed = ({ navigation }) => {
     const networkUserNo = userN;
     try {
       setIsLoading(true);
-      const response = await fetch(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${selectedItem}${selectedStatus == "All" ? '' : "&status="}${selectedStatus}&fromDate=${selectedRange.firstDate}&toDate=${selectedRange.secondDate}`, {
+      const response = await fetch(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${selectedItem}${selectedStatus == "All" ? '&All' : "&status="}${selectedStatus}&fromDate=${selectedRange.firstDate}&toDate=${selectedRange.secondDate}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
