@@ -37,7 +37,7 @@ import {
 } from '../Dashboard/ReqPromiseDashBoard/Action';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 import PaymentScreens from '../../screens/PaymentScreens';
-import { selectedVideoR } from '../../recoil/AddPromise';
+import { pay, selectedVideoR } from '../../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import { BlurView } from '@react-native-community/blur';
 import Video from 'react-native-video';
@@ -73,6 +73,8 @@ const DetailCard = ({
 }) => {
   const [isPaymentWebViewVisible, setIsPaymentWebViewVisible] = useState(false);
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
+  const [payButton, setPayButton] = useRecoilState(pay);
+
   const [isVideoModalVisible, setIsVideoModalVisible] = useState(false);
   const [markCompleted, setMarkCompleted] = useState(false);
   const [forName, setForName] = useState(false);
@@ -515,13 +517,13 @@ const DetailCard = ({
                 }
                 else if (action == 'Pay') {
                   return (
-                    isLoading1 ? (
-                      <ActivityIndicator size="large" color="white" />
-                    ) : (
+                   payButton && (
+
                       <TouchableOpacity
                         style={commonStyles.ActionBtn}
                         key={index}
                         onPress={() => {
+                          setPayButton(false);
                           setIsLoading1(true);
                           const res = setIsPaymentWebViewVisible(true);
                           if (res === 1) {
@@ -530,7 +532,8 @@ const DetailCard = ({
                         }}>
                         <Text style={{ color: "white" }}>{action}</Text>
                       </TouchableOpacity>
-                    )
+                   )
+                    
                   );
                 }
               })}
@@ -627,7 +630,7 @@ const DetailCard = ({
                             },
                           ]}>
                           <>
-                            $ {amount}
+                            ${amount}
                             {rewardPoints ? (
                               <Text style={[
                                 {
@@ -667,7 +670,7 @@ const DetailCard = ({
                     ]}>
                     {amount > 0 && (
                       <>
-                        $ {amount}
+                        ${amount}
                         {rewardPoints ? (
                           <Text style={[
                             {
@@ -1015,14 +1018,18 @@ const DetailCard = ({
                 }
                 else if (action == 'Pay') {
                   return (
+                    payButton && (
+
                     <TouchableOpacity
                       style={commonStyles.ActionBtn}
                       key={index}
                       onPress={() => {
+                        setPayButton(false);
                         setIsPaymentWebViewVisible(true);
                       }}>
                       <Text style={{ color: "white" }}>{action}</Text>
                     </TouchableOpacity>
+                    )
                   );
                 }
               })}
@@ -1144,7 +1151,7 @@ const DetailCard = ({
                       paddingHorizontal: 10,
                       // marginBottom: hp(1.2)
                     }}>
-                    $ {amount}
+                    ${amount}
                     {rewardPoints ? (
                       <Text style={{
                         color: 'black',
@@ -1419,13 +1426,13 @@ const DetailCard = ({
                     );
                   } else if (action == 'Pay') {
                     return (
-                      isLoading1 ? (
-                        <ActivityIndicator size="large" color="white" />
-                      ) : (
+                      payButton && (
+
                         <TouchableOpacity
                           style={commonStyles.ActionBtn}
                           key={index}
                           onPress={() => {
+                          setPayButton(false);
                             // setIsLoading1(true);
                             const res = setIsPaymentWebViewVisible(true);
                             if (res === 1) {
@@ -1435,6 +1442,7 @@ const DetailCard = ({
                           <Text style={{ color: "white" }}>{action}</Text>
                         </TouchableOpacity>
                       )
+                      
                     );
                   }
                 })}
@@ -1547,7 +1555,7 @@ const DetailCard = ({
                     paddingHorizontal: 10,
                     // marginBottom: hp(1.2)
                   }}>
-                  $ {amount}
+                  ${amount}
                   {rewardPoints ? (
                     <Text style={{
                       color: 'black',
@@ -1795,13 +1803,13 @@ const DetailCard = ({
                     );
                   } else if (action == 'Pay') {
                     return (
-                      isLoading1 ? (
-                        <ActivityIndicator size="large" color="white" />
-                      ) : (
+                      payButton && (
+
                         <TouchableOpacity
                           style={commonStyles.ActionBtn}
                           key={index}
                           onPress={() => {
+                          setPayButton(false);
                             // setIsLoading1(true);
                             const res = setIsPaymentWebViewVisible(true);
                             if (res === 1) {
@@ -1811,6 +1819,7 @@ const DetailCard = ({
                           <Text style={{ color: "white" }}>{action}</Text>
                         </TouchableOpacity>
                       )
+                      
                     );
                   }
                 })}

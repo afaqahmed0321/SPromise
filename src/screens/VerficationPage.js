@@ -87,18 +87,18 @@ const VerficationPage = ({ navigation }) => {
           />
         </View>
         <View style={{ marginTop: hp(3) }}>
+            <TouchableOpacity
+              onPress={() => verification()}
+            >
           <LinearGradient
             colors={['#73B6BF', '#2E888C']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={commonStyles.lognBtn}
           >
-            <TouchableOpacity
-              onPress={() => verification()}
-            >
               <Text style={{ color: 'white' }}>Verify</Text>
-            </TouchableOpacity>
           </LinearGradient>
+            </TouchableOpacity>
         </View>
         <View>
           {resendCooldown <= 0 ? (
