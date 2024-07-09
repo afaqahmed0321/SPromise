@@ -138,6 +138,10 @@ export const selectedVideoR = atom({
   key: 'selectedVideo',
   default: null,
 });
+export const pay = atom({
+  key: 'pay',
+  default: true,
+});
 export const selectMedia = atom({
   key: 'selectMedia',
   default: null,

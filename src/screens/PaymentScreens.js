@@ -8,6 +8,8 @@ import { StripeProvider } from '@stripe/stripe-react-native';
 import { STRIPE_PUBLIC_KEY, Secret_key } from '../comp/Payment/helper';
 import axios from 'axios';
 import LoadingOverlay from '../comp/Global/LoadingOverlay';
+import { pay } from '../recoil/AddPromise';
+import { useRecoilState } from 'recoil';
 
 const CURRENCY = 'USD';
 var CARD_TOKEN = null;
@@ -46,6 +48,8 @@ function subscribeUser(creditCardToken) {
 const PaymentScreens = ({ promiseID, userN, amount, handleCloseModal }) => {
   const [CardInput, setCardInput] = useState({})
   const [isLoading, setIsLoading] = useState(false)
+  const [payButton, setPayButton] = useRecoilState(pay);
+
 
   const onSubmit = async () => {
 
@@ -97,6 +101,7 @@ const PaymentScreens = ({ promiseID, userN, amount, handleCloseModal }) => {
           });
       }
       else {
+        setPayButton(true);
         setIsLoading(false);
         ToastAndroid.show('Payment Failed.', ToastAndroid.LONG);
       }

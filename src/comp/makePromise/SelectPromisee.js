@@ -242,6 +242,9 @@ const styles = StyleSheet.create({
     color: '#652D90',
     fontWeight: 'bold',
     paddingLeft: wp(4),
+    paddingVertical : 0,
+    marginVertical: 0,
+    height : wp(7.5),
   },
 });
 

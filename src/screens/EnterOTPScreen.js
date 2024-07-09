@@ -49,7 +49,7 @@ const EnterOTPScreen = ({ navigation }) => {
     }
     setTimeout(() => {
       setCode(null); 
-    }, 60000); 
+    }, 180000); 
   }, [resendCooldown, resendCode]);
   const verification = async () => {
     if (OutputCode == Code) {
@@ -82,18 +82,18 @@ const EnterOTPScreen = ({ navigation }) => {
           />
         </View>
         <View style={{ marginTop: hp(3) }}>
+            <TouchableOpacity
+              onPress={verification}
+            >
           <LinearGradient
             colors={['#73B6BF', '#2E888C']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={commonStyles.ForgetVerify}
           >
-            <TouchableOpacity
-              onPress={verification}
-            >
               <Text style={{ color: 'white', fontSize: hp(1.8), fontWeight: "800", width: wp(90), textAlign: "center" }}>Verify</Text>
-            </TouchableOpacity>
           </LinearGradient>
+            </TouchableOpacity>
         </View>
         <View>
 
