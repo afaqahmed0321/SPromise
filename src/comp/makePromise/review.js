@@ -31,6 +31,8 @@ import {
   RewardPoints,
   RewardPointsState,
   selectMedia,
+  selectedVideoR,
+  TouchableWithoutFeedback
 } from '../../recoil/AddPromise';
 import ToggleSwitch from 'toggle-switch-react-native';
 import { commonStyles } from '../../Styling/buttons';
@@ -41,9 +43,12 @@ import { ToastAndroid } from 'react-native';
 import GetUserData from '../../Network/Users/GetUserData';
 import LoadingOverlay from '../Global/LoadingOverlay';
 import axios from 'axios';
-import { RadioButton } from 'react-native-paper';
+import { ActivityIndicator, RadioButton } from 'react-native-paper';
 import debounce from 'lodash.debounce';
 import FontAw from 'react-native-vector-icons/FontAwesome6';
+import Video from 'react-native-video';
+import { BlurView } from '@react-native-community/blur';
+import VideoModal from './videoModal';
 
 const Review = ({ navigation }) => {
   const [Promiseze, setSelectedPromisee] = useRecoilState(selectedPromisee);
@@ -241,6 +246,7 @@ const Review = ({ navigation }) => {
   const [generatedTexts, setGeneratedTexts] = useRecoilState(promiseStatement);
   const [rewardPoints, setRewardPoints] = useRecoilState(RewardPoints);
   const [video, setVideo] = useRecoilState(selectMedia);
+  const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
 
   const [rewardPointState, setRewardPointState] =
     useRecoilState(RewardPointsState);
@@ -265,7 +271,9 @@ const Review = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [LinkedInCode, setLinkedInCode] = useState(null);
   const [twitterCode, setTwitterCode] = useState(null);
-
+  const [Media, setMedia] =useRecoilState(selectedMedia)
+  const [isVideoModalVisible, setIsVideoModalVisible] = useState(false);
+ 
   const getUser = async () => {
     const respon = await GetUserData(userN);
     const data = await respon;
@@ -292,6 +300,20 @@ const Review = ({ navigation }) => {
     getUser();
   }, [])
 
+  const cleanText = (text) => {
+    return text.replace(/\n\s*\n/g, '\n').trim();
+  };
+
+  const handelAttachedMedia = (Media) => {
+    setSelectedVideo(Media);
+    toggleVideoModal();
+  };
+
+  const toggleVideoModal = () => {
+    setIsVideoModalVisible(!isVideoModalVisible);
+  };
+
+  
   return (
     <ScrollView>
       {isLoading && <LoadingOverlay />}
@@ -300,7 +322,6 @@ const Review = ({ navigation }) => {
           <Text style={[Headings.Input3, { marginTop: hp(2) }]}>
             {makePromise ? 'Select Promisee' : 'Select Promiser'}
           </Text>
-
           <TouchableOpacity
             onPress={() => setModalVisible(true)}
             style={{ marginTop: hp(1) }}>
@@ -439,34 +460,49 @@ const Review = ({ navigation }) => {
                   <View style={styles.Line}></View>
                 </View>
               ) : null}
-              {generatedTexts &&
-                (
-                  <View style={{ paddingVertical: hp(1) }}>
-                    <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}>Promise Statement</Text>
-                    <View style={{ width: wp(80) }}>
-                      <View style={[styles.generatedBox, { padding: 0, margin: 0 }]}>
-
-                        <Text style={{ color: '#FFFFFF', fontSize: hp(2) }}>{generatedTexts.length > 50 ? `${generatedTexts.slice(0, 50)}...` : generatedTexts} </Text>
-                      </View>
+              {generatedTexts && (
+                <View style={{ paddingVertical: hp(1) }}>
+                  <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}>
+                    Promise Statement
+                  </Text>
+                  <View style={{ width: wp(80) }}>
+                    <View style={[styles.generatedBox, { padding: 0, margin: 0 }]}>
+                      <Text style={{ color: '#FFFFFF', fontSize: hp(2) }}>
+                        {cleanText(generatedTexts).length > 50 ? `${cleanText(generatedTexts).slice(0, 50)}...` : cleanText(generatedTexts)}
+                      </Text>
                     </View>
                   </View>
-
-                )
-              }
-              {video != null && (
+                </View>
+              )}
+              {/* {video != null && (
                 <>
                   <View style={styles.Line}></View>
                   <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}> Attached Media</Text>
                   <FontAw name="youtube" size={30} light style={{ paddingHorizontal: hp(1) }} />
                 </>
+              )} */}
+              {video != null &&  (
+                <>
+                <TouchableOpacity
+                  onPress={() => handelAttachedMedia(Media)}>
+                  <View style={styles.Line}></View>
+                  <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}> Attached Media</Text>
+                  <FontAw name="youtube" size={30} light style={{ paddingHorizontal: hp(1) }} />
+                  <VideoModal
+                    isVisible={isVideoModalVisible}
+                    toggleModal={toggleVideoModal} 
+                    videoUrl={Media}
+                  />
+                </TouchableOpacity>
+                </>
               )}
+
             </View>
           </LinearGradient>
-          {/* Share  */}
           <View style={{ marginTop: hp(1) }}>
             <Text style={Headings.Input3}>Also share on </Text>
             <View>
-              {/* <Text>Facebook</Text> */}
+              {/* {/ <Text>Facebook</Text> /} */}
               {twitterCode === 400 ? (
                 null
               ) : (
@@ -571,9 +607,9 @@ const Review = ({ navigation }) => {
     </ScrollView>
   );
 };
-
-export default Review;
-
+  
+  export default Review;
+  
 const styles = StyleSheet.create({
   Social: {
     flexDirection: 'row',
@@ -586,5 +622,51 @@ const styles = StyleSheet.create({
     borderWidth: wp(0.2),
     borderColor: 'white',
     marginTop: hp(0.5),
+  },
+  thumbnailContainer: {
+    width: 150,
+    height: 150,
+    backgroundColor: 'black',
+    marginHorizontal: hp(1.5), // Adjust this as needed
+    marginTop: 10, // Adjust this as needed
+    borderRadius: 20,
+    overflow: 'hidden', // Ensure child elements respect the border radius
+  },
+
+  homethumbnailContainer: {
+    width: 150,
+    height: 150,
+    backgroundColor: 'black',
+    marginHorizontal: hp(2.5), // Adjust this as needed
+    marginTop: 10, // Adjust this as needed
+    borderRadius: 20,
+    overflow: 'hidden', // Ensure child elements respect the border radius
+  },
+
+  videoThumbnail: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 20, // Apply border radius to the video as well
+  },
+  left: {
+    width: wp(33),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: hp(5),
+    height: hp(5),
+    paddingHorizontal: 10,
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  right: {
+    width: wp(30),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: hp(5),
+    height: hp(5)
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(10, 0, 0, 0.5)',
   },
 });
