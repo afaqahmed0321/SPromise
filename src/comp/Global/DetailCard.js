@@ -42,6 +42,7 @@ import { useRecoilState } from 'recoil';
 import { BlurView } from '@react-native-community/blur';
 import Video from 'react-native-video';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
 
 const DetailCard = ({
   promisorName,
@@ -66,14 +67,14 @@ const DetailCard = ({
   rewardPoints,
   refreshCallback,
   style,
-  navigation,
+  // navigation,
   jugaar,
   displayStatus,
   status
 }) => {
   const [isPaymentWebViewVisible, setIsPaymentWebViewVisible] = useState(false);
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
-  const [payButton, setPayButton] = useRecoilState(pay);
+  const [payButton, setPayButton] = useState(true);
 
   const [isVideoModalVisible, setIsVideoModalVisible] = useState(false);
   const [markCompleted, setMarkCompleted] = useState(false);
@@ -85,6 +86,7 @@ const DetailCard = ({
   const [isLoading2, setIsLoading2] = useState(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [showFullText, setShowFullText] = useState(false);
+  const navigation = useNavigation();
 
   const toggleText = () => {
     setShowFullText(!showFullText);
@@ -135,7 +137,7 @@ const DetailCard = ({
     rewardPoints,
     refreshCallback,
     style,
-    navigation,
+    // navigation,
     jugaar,
     "all dataaaaaa"
   )
@@ -162,20 +164,13 @@ const DetailCard = ({
 
 
 
-    useEffect(() => {
-      // DetailCard();
-      const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-        setIsKeyboardVisible(true);
-      });
-      const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-        setIsKeyboardVisible(false);
-      });
-
-      return () => {
-        keyboardDidHideListener.remove();
-        keyboardDidShowListener.remove();
-      };
-    }, [actionState]);
+    // useEffect(() => {
+    //   const timer = setTimeout(() => {
+    //     setPayButton(true);
+    //   }, 3000);
+  
+    //   return () => clearTimeout(timer);
+    // });
 
 
 
@@ -217,7 +212,15 @@ const DetailCard = ({
     setIsPaymentWebViewVisible(!isPaymentWebViewVisible);
     setActionState(!actionState);
   };
+  function payFalse(a){
+    setPayButton(a);
+  }
 
+  const navi =()=>{
+    console.log(promiseID, userN,amount)
+    payFalse(false);
+navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
+  }
   return (
     <>
       {tab == 'UserPromiseReq' || tab == 'ReqPromiseDashboard' ? (
@@ -367,9 +370,11 @@ const DetailCard = ({
                   );
                 } else if (action === 'Pay') {
                   return (
+                    payButton &&(
                     <>
                       <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
                     </>
+                    )
                   );
                 } else if (action === 'Complete') {
                   return (
@@ -522,14 +527,7 @@ const DetailCard = ({
                       <TouchableOpacity
                         style={commonStyles.ActionBtn}
                         key={index}
-                        onPress={() => {
-                          setPayButton(false);
-                          setIsLoading1(true);
-                          const res = setIsPaymentWebViewVisible(true);
-                          if (res === 1) {
-                            setIsLoading1(false);
-                          }
-                        }}>
+                        onPress={navi}>
                         <Text style={{ color: "white" }}>{action}</Text>
                       </TouchableOpacity>
                    )
@@ -720,9 +718,11 @@ const DetailCard = ({
                               );
                             } else if (action === 'Pay') {
                               return (
-                                <>
-                                  <Text style={{ color: "white", paddingLeft: 13 }}>Pay the amount to complete this promise</Text>
-                                </>
+                                payButton &&(
+                                  <>
+                                    <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
+                                  </>
+                                  )
                               );
                             } else if (action === 'Complete') {
                               return (
@@ -856,9 +856,11 @@ const DetailCard = ({
                   );
                 } else if (action === 'Pay') {
                   return (
-                    <>
-                      <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
-                    </>
+                    payButton &&(
+                      <>
+                        <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
+                      </>
+                      )
                   );
                 } else if (action === 'Complete') {
                   return (
@@ -1023,10 +1025,7 @@ const DetailCard = ({
                     <TouchableOpacity
                       style={commonStyles.ActionBtn}
                       key={index}
-                      onPress={() => {
-                        setPayButton(false);
-                        setIsPaymentWebViewVisible(true);
-                      }}>
+                      onPress={navi}>
                       <Text style={{ color: "white" }}>{action}</Text>
                     </TouchableOpacity>
                     )
@@ -1265,9 +1264,11 @@ const DetailCard = ({
                     );
                   } else if (action === 'Pay') {
                     return (
-                      <>
-                        <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
-                      </>
+                      payButton &&(
+                        <>
+                          <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
+                        </>
+                        )
                     );
                   } else if (action === 'Complete') {
                     return (
@@ -1431,14 +1432,7 @@ const DetailCard = ({
                         <TouchableOpacity
                           style={commonStyles.ActionBtn}
                           key={index}
-                          onPress={() => {
-                          setPayButton(false);
-                            // setIsLoading1(true);
-                            const res = setIsPaymentWebViewVisible(true);
-                            if (res === 1) {
-                              setIsLoading1(false);
-                            }
-                          }}>
+                          onPress={navi}>
                           <Text style={{ color: "white" }}>{action}</Text>
                         </TouchableOpacity>
                       )
@@ -1643,9 +1637,11 @@ const DetailCard = ({
                     );
                   } else if (action === 'Pay') {
                     return (
-                      <>
-                        <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
-                      </>
+                      payButton &&(
+                        <>
+                          <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
+                        </>
+                        )
                     );
                   } else if (action === 'Complete') {
                     return (
@@ -1808,14 +1804,7 @@ const DetailCard = ({
                         <TouchableOpacity
                           style={commonStyles.ActionBtn}
                           key={index}
-                          onPress={() => {
-                          setPayButton(false);
-                            // setIsLoading1(true);
-                            const res = setIsPaymentWebViewVisible(true);
-                            if (res === 1) {
-                              setIsLoading1(false);
-                            }
-                          }}>
+                          onPress={navi}>
                           <Text style={{ color: "white" }}>{action}</Text>
                         </TouchableOpacity>
                       )

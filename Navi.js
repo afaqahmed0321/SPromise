@@ -137,6 +137,16 @@ function HomeScreenn() {
           title: 'Ongoing Promises',
         }}
       />
+            <Tab.Screen
+        name="pay"
+        component={Dashboard}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <FontAw name="handshake-simple" color={color} size={size} light />
+          ),
+          title: 'Ongoing Promises',
+        }}
+      />
       <Tab.Screen
         name="MakePromise"
         component={MakePromise}
@@ -320,8 +330,8 @@ const Auth = () => {
                 options={{ headerShown: false }}
               />
               <Stack.Screen
-                name="PaymentScreen"
-                component={PaymentScreen}
+                name="Payment Screens"
+                component={PaymentScreens}
                 options={{ headerShown: true }}
               />
               <Stack.Screen

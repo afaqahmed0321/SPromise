@@ -10,6 +10,7 @@ import axios from 'axios';
 import LoadingOverlay from '../comp/Global/LoadingOverlay';
 import { pay } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
+import { useRoute } from '@react-navigation/native';
 
 const CURRENCY = 'USD';
 var CARD_TOKEN = null;
@@ -45,12 +46,18 @@ function subscribeUser(creditCardToken) {
   });
 };
 
-const PaymentScreens = ({ promiseID, userN, amount, handleCloseModal }) => {
+const PaymentScreens = () => {
+
+  const route = useRoute();
+    const { promiseID, userN, amount ,payFalse} = route.params;
+    console.log("pay", promiseID, userN, amount)
   const [CardInput, setCardInput] = useState({})
   const [isLoading, setIsLoading] = useState(false)
-  const [payButton, setPayButton] = useRecoilState(pay);
+  const [payButton, setPayButton] = useState(true);
 
-
+  const handleBack = () => {
+    navigation.goBack();
+  };
   const onSubmit = async () => {
 
     if (CardInput.valid == false || typeof CardInput.valid == "undefined") {
@@ -83,8 +90,8 @@ const PaymentScreens = ({ promiseID, userN, amount, handleCloseModal }) => {
       if (pament_data.status == 'succeeded') {
         setIsLoading(false);
         ToastAndroid.show('Payment Successfull.', ToastAndroid.LONG);
-        handleCloseModal();
-
+        payFalse(false);
+        navigation.goBack();
         const sourseID = pament_data?.source?.id;
         console.log("this is id for send new funcion", sourseID);
 
