@@ -43,6 +43,7 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
                         setCode(response);
                         navigation.navigate('EnterOTPScreen', { Code, email, userNumber });
                         setSemail(email);
+                        console.log(code)
                     }
                     catch {
                         console.log("Error in forgot password", error);
@@ -71,16 +72,16 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
                 placeholderTextColor={'grey'}
             />
             <View style={TextInP.lognBtnParent}>
+                <TouchableOpacity onPress={sendOTP}>
                 <LinearGradient
                     colors={['#E4A936', '#EE8347']}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 0 }}
                     style={TextInP.lognBtn}
                 >
-                    <TouchableOpacity onPress={sendOTP}>
                         <Text style={{ color: "#fff", fontWeight: '600' }}>Send OTP</Text>
-                    </TouchableOpacity>
                 </LinearGradient>
+                    </TouchableOpacity>
             </View>
         </View>
     );

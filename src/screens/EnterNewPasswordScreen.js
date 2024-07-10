@@ -6,6 +6,7 @@ import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
 import { uNumber, uemail } from '../recoil/Users/GetUsers';
 import { useRecoilState } from 'recoil';
 import UpdatedPassword from '../Network/Users/UpdatePassword';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const EnterNewPasswordScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
@@ -13,7 +14,8 @@ const EnterNewPasswordScreen = ({ navigation }) => {
   const [emailID, setEmail] = useRecoilState(uemail);
   const [userNumber, setUserNumber] = useRecoilState(uNumber);
   const [passwordError, setPasswordError] = useState('');
-
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isCPasswordVisible, setIsCPasswordVisible] = useState(false);
   const validatePassword = (password) => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(password)) {
@@ -26,6 +28,12 @@ const EnterNewPasswordScreen = ({ navigation }) => {
   const handlePasswordChange = (text) => {
     setPassword(text);
     validatePassword(text);
+  };
+  const toggleOldPasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
+  const toggleConfirmPasswordVisibility = () => {
+    setIsCPasswordVisible(!isCPasswordVisible);
   };
 
   const changePassword = async () => {
@@ -58,25 +66,38 @@ const EnterNewPasswordScreen = ({ navigation }) => {
     <View style={TextInP.container}>
       <LogoHeaderGlobel navigation={navigation} />
       <Text style={TextInP.heading}>Enter New Password</Text>
+      <View >
       <TextInput
         style={TextInP.Fileds}
         value={password}
         onChangeText={handlePasswordChange}
         placeholder="Password"
         placeholderTextColor={'grey'}
-        secureTextEntry
-      />
+        secureTextEntry={!isPasswordVisible}      />
+      <TouchableOpacity
+          style={{ position: 'absolute', right: wp(8.5), top: hp(3.2) }}
+          onPress={toggleOldPasswordVisibility}>
+          <Icon name={!isPasswordVisible ? 'eye-off' : 'eye'} size={24} color="black" />
+        </TouchableOpacity>
+      </View>
       {passwordError !== '' && (
         <Text style={TextInP.errorText}>{passwordError}</Text>
       )}
+       <View >
       <TextInput
         style={TextInP.Fileds}
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         placeholder="Confirm Password"
         placeholderTextColor={'grey'}
-        secureTextEntry
+        secureTextEntry={!isCPasswordVisible}      
       />
+      <TouchableOpacity
+          style={{ position: 'absolute', right: wp(8.5), top: hp(3.2) }}
+          onPress={toggleConfirmPasswordVisibility}>
+          <Icon name={!isCPasswordVisible ? 'eye-off' : 'eye'} size={24} color="black" />
+        </TouchableOpacity>
+      </View>
       <View style={TextInP.lognBtnParent}>
         <LinearGradient
           colors={['#E4A936', '#EE8347']}

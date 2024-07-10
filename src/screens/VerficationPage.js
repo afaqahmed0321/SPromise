@@ -129,5 +129,6 @@ const styles = StyleSheet.create({
     fontSize: hp(3),
     borderColor: "#652D90",
     borderWidth: 1,
+    paddingVertical:wp(2)
   }
 })

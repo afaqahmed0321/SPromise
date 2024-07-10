@@ -267,11 +267,12 @@ const SignUpScreen = ({ navigation }) => {
               style={[TextInP.Fileds, { borderRadius: open ? wp(6) : wp(50) }]}
               placeholder="Subscription"
               placeholderTextColor={'grey'}
-              dropDownContainerStyle={{ backgroundColor: '#F6E2FF', borderRadius: open ? wp(6) : wp(50), height: hp(12), borderColor: 'transparent', paddingLeft: 8, }}
+              dropDownContainerStyle={{ backgroundColor: '#F6E2FF', borderRadius: open ? wp(6) : wp(50),  borderColor: 'transparent', paddingLeft: 8, }}
               textStyle={{ color: 'grey' }}
+              DropDownDirectionType='TOP'
             />
-            {open && (
-              <View>
+            {/* {open && (
+              <View >
                 {items.map((item) => (
                   <TouchableOpacity
                     key={item.value}
@@ -284,7 +285,7 @@ const SignUpScreen = ({ navigation }) => {
                   </TouchableOpacity>
                 ))}
               </View>
-            )}
+            )} */}
           </View>
         </View>
         <View style={{ marginTop: hp(2), alignItems: 'center' }}>

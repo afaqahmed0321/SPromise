@@ -34,7 +34,7 @@ const UpdatePasswordModal = () => {
   const [userN, setUserN] = useRecoilState(UserNo);
   const [isDrawerV, setIsDrawerV] = useRecoilState(isChangePasswordModalV);
   const [passwordError, setPasswordError] = useState('');
-
+console.log("user pwd",currentPassword)
   const validatePassword = (password) => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(password)) {
@@ -51,12 +51,20 @@ const UpdatePasswordModal = () => {
 
   const UpdatePassword = async () => {
     if (currentPassword !== currentPasswor) {
+      console.log("pwd from recoil",currentPassword,"password from field",currentPasswor)
       ToastAndroid.show('Old password does not match', ToastAndroid.LONG);
       return;
     }
 
     if (passwordd !== Confirmpassword) {
-      ToastAndroid.show('Passwords do not match', ToastAndroid.LONG);
+      console.log("pwd from passwordd",passwordd,"password from Confirmpassword",Confirmpassword)
+
+      ToastAndroid.show('Confirm passwords do not match', ToastAndroid.LONG);
+      return;
+    }
+
+    if (passwordd === currentPasswor) {
+      ToastAndroid.show('Old password cannot be New password', ToastAndroid.LONG);
       return;
     }
 
@@ -65,6 +73,7 @@ const UpdatePasswordModal = () => {
       return;
     }
 
+    
     try {
       const res = await UpdatedPassword(userN, passwordd);
       if (res.status === 200) {
