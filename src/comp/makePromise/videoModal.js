@@ -10,7 +10,7 @@ import {
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-const VideoModal = ({ isVisible, toggleModal, videoUrl }) => {
+const VideoModal = ({ isVisible, toggleModal, videoUrl, navigation }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     const handleLoadStart = () => {
@@ -29,26 +29,22 @@ const VideoModal = ({ isVisible, toggleModal, videoUrl }) => {
                 visible={isVisible}
                 onRequestClose={isVisible}
             >
-                <TouchableWithoutFeedback onPress={toggleModal}>
-                    <View style={styles.modalContainer}>
-                        <TouchableWithoutFeedback>
-                            <View style={styles.modalContent}>
-                                {isLoading && <ActivityIndicator size="large" color="white" />}
-                                <TouchableOpacity style={styles.closeButton} onPress={isVisible}>
-                                    <FontAw5 name="times" size={wp(6)} color="white" />
-                                </TouchableOpacity>
-                                <Video
-                                    source={{ uri: videoUrl }}
-                                    style={[styles.video, isLoading && styles.hidden]}
-                                    controls={true}
-                                    resizeMode="contain"
-                                    onLoadStart={handleLoadStart}
-                                    onLoad={handleLoad}
-                                />
-                            </View>
-                        </TouchableWithoutFeedback>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        {isLoading && <ActivityIndicator size="large" color="white" />}
+                        <TouchableOpacity style={styles.closeButton} onPress={() => console.log("click")}>
+                            <FontAw5 name="times" size={wp(6)} color="white" />
+                        </TouchableOpacity>
+                        <Video
+                            source={{ uri: videoUrl }}
+                            style={[styles.video, isLoading && styles.hidden]}
+                            controls={true}
+                            resizeMode="contain"
+                            onLoadStart={handleLoadStart}
+                            onLoad={handleLoad}
+                        />
                     </View>
-                </TouchableWithoutFeedback>
+                </View>
             </Modal>
         </View>
     );
@@ -58,8 +54,11 @@ export default VideoModal;
 
 const styles = StyleSheet.create({
     modalContainer: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+
     },
     modalContent: {
         width: wp(90),
