@@ -14,7 +14,7 @@ import GetUserData from '../Network/Users/GetUserData';
 import { WebView } from 'react-native-webview';
 import { UserNo } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 import Font from 'react-native-vector-icons/Fontisto';
 import {
   widthPercentageToDP as wp,

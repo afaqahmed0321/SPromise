@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator, ToastAndroid } from 'react-native';
-import { BlurView } from '@react-native-community/blur';
 import Feather from 'react-native-vector-icons/Feather';
 import Font from 'react-native-vector-icons/Fontisto';
 import fetchUser from '../../Network/Users/GetUser';
 import InviteUser from '../../Network/Users/InviteUser';
 import AddUserNetwork from '../../Network/Users/AddToNetwork';
-import { UserNo } from '../../recoil/AddPromise';
+import { emailID, UserNo } from '../../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import { ismodalVisible, refreshPromiseNetwork } from '../../recoil/Globel';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { uemail } from '../../recoil/Users/GetUsers';
 
 const AddToMyNetwork = () => {
   const [userFound, setUserFound] = useState(null);
@@ -20,11 +20,18 @@ const AddToMyNetwork = () => {
   const [userN, setUserN] = useRecoilState(UserNo);
   const [modalVisible, setModalVisible] = useRecoilState(ismodalVisible);
   const [refreshnetwork, setRefreshNetwork] = useRecoilState(refreshPromiseNetwork);
+  const [emailId, setEmailId] = useRecoilState(uemail);
+
 
   const SearchUser = async () => {
     if (email === '') {
       ToastAndroid.show('Please enter an email address', ToastAndroid.LONG);
       return;
+    }
+    if(emailId === email){
+      ToastAndroid.show('You cannot add yourself', ToastAndroid.LONG);
+      return;
+
     }
 
     setIsLoading(true);
@@ -58,13 +65,20 @@ const AddToMyNetwork = () => {
       ToastAndroid.show('User Does not Exist! Invite has been sent', ToastAndroid.LONG);
     }
   };
+ 
 
   const handelAddtoNetwork = async () => {
+    console.log("email from recoil" ,emailID,"typed email ", email)
+
     if (!userData.userNo) {
       ToastAndroid.show('No user found to add to network.', ToastAndroid.LONG);
       return;
     }
-
+    if(emailId === email){
+      ToastAndroid.show('You cannot add yourself', ToastAndroid.LONG);
+      return;
+  
+    }
     const AddUserN = userData.userNo;
 
     try {

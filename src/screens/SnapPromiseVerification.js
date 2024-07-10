@@ -119,11 +119,11 @@ const SnapPromiseVerification = ({ navigation }) => {
           }}>
           <View style={{ marginTop: hp(1.5) }}>
             {makePromise ? (
-              <Text style={[Headings.h3ForReviewpage, { fontSize: 18 }]}>
+              <Text style={[Headings.h3ForReviewpage, { fontSize: hp(1.8)  }]}>
                 Your Promise has been sent to{' '}
               </Text>
             ) : (
-              <Text>Your Promise request has been sent to </Text>
+              <Text style={{color:"white"}}>Your Promise request has been sent to </Text>
             )}
           </View>
 
@@ -133,7 +133,7 @@ const SnapPromiseVerification = ({ navigation }) => {
 
             style={styles.profilePic}
           />
-          <Text style={[Headings.h3ForReviewpage, { fontSize: 18 }]}>
+          <Text style={[Headings.h3ForReviewpage, { fontSize: hp(1.8)  }]}>
             {Promiseze.firstName} {Promiseze.lastName}
           </Text>
           <Text
@@ -160,7 +160,7 @@ const SnapPromiseVerification = ({ navigation }) => {
                   {makePromise ? (
                     <Text
                       style={[
-                        Headings.h3ForReviewpage, { fontSize: 18 }
+                        Headings.h3ForReviewpage, { fontSize: hp(1.8)  }
                       ]}>
                       Promise Amount{' '}
                     </Text>
@@ -175,7 +175,7 @@ const SnapPromiseVerification = ({ navigation }) => {
                 </View>
                 <View>
                   <Text
-                    style={[Headings.h3ForReviewpage, { fontSize: 28 }]}>
+                    style={[Headings.h3ForReviewpage, {fontSize: hp(1.6)  }]}>
                     $ {amount}.00
                   </Text>
                 </View>
@@ -188,7 +188,7 @@ const SnapPromiseVerification = ({ navigation }) => {
                 Reward Points
               </Text>
               <Text
-                style={[Headings.h3ForReviewpage, { fontSize: 28 }]}>
+                style={[Headings.h3ForReviewpage, { fontSize: hp(1.6)  }]}>
                 {rewardPoints}
               </Text>
             </>
@@ -201,7 +201,7 @@ const SnapPromiseVerification = ({ navigation }) => {
                 marginVertical: hp(0.5),
               }}>
               <Text
-                style={[Headings.h3ForReviewpage, { marginVertical: hp(0.5), fontSize: 18 }]}>
+                style={[Headings.h3ForReviewpage, { marginVertical: hp(0.5), fontSize: hp(1.8)  }]}>
                 Completion Date
               </Text>
 
@@ -214,7 +214,7 @@ const SnapPromiseVerification = ({ navigation }) => {
                 <Text style={[Headings.h3ForReviewpage, { marginVertical: hp(.5) }]}>Rating will impact</Text>
               </View>) : null
           }
-          <Text style={[Headings.h3ForReviewpage, { fontSize: 18, marginVertical:wp(1) }]}>Promise Statement</Text>
+          <Text style={[Headings.h3ForReviewpage, {fontSize: hp(1.8) , marginVertical:wp(1) }]}>Promise Statement</Text>
           <View style={{ height: hp(7), width: wp(80) }}>
             <View >
               <Text
