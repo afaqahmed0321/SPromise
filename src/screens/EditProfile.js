@@ -8,10 +8,8 @@ import {
     TextInput,
     ScrollView,
     Modal,
-    SafeAreaView,
 } from 'react-native';
 import GetUserData from '../Network/Users/GetUserData';
-import { WebView } from 'react-native-webview';
 import { UserNo } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -20,7 +18,6 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { commonStyles } from '../Styling/buttons';
 import { useIsFocused } from '@react-navigation/native';
 import { TextInP } from '../Styling/TextInput';
 import { Headings } from '../Styling/Headings';
@@ -29,27 +26,29 @@ import UpdatePasswordModal from '../comp/UpdatePasswordModal';
 import {
     CurrentPassword,
     DobDate,
+    Firstname,
+    Lastname,
     RemoveSoicalLinkApprovalState,
     RemoveTwitterApicall,
+    adresss,
+    cityy,
+    countryy,
     isChangePasswordModalV,
+    phonenumber,
+    statee,
 } from '../recoil/Users/GetUsers';
 import { useNavigation } from '@react-navigation/native';
 import TwitterApiCallLogin from '../Network/Users/TwitterApiCallToLogin';
 import TwitterApiCallToCheckData from '../Network/Users/TwitterApiCallToCheckData';
 import LinkDinApiCallToCheckData from '../Network/Users/LinkdinApiCallToCheckData';
 import LinkDinApiCallLogin from '../Network/Users/LinkdinApiCallToLogin';
-import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 import { BlurView } from '@react-native-community/blur';
 import DropDownPicker from 'react-native-dropdown-picker';
 import AccountRemovedApiCall from '../Network/Users/RemoveUserSocialAccounts/TwitterAccountRemoveApiCall';
 
 
 const EditProfile = () => {
-    const [istwitterRemoveAccount, setIstwitterRemoveAccount] =
-        useRecoilState(RemoveTwitterApicall);
-    const [removeSLAModal, setRemoveSLAModal] = useRecoilState(
-        RemoveSoicalLinkApprovalState,
-    );
+    const [istwitterRemoveAccount, setIstwitterRemoveAccount] = useRecoilState(RemoveTwitterApicall);
 
     const [startDa, setStartDate] = useRecoilState(DobDate);
 
@@ -59,28 +58,24 @@ const EditProfile = () => {
     const [socialLogin, setSocialLogin] = useState(false);
     const [userN, setUserN] = useRecoilState(UserNo);
     const [editProfile, setEditProfile] = useState(false);
-    const [currentPassword, setCurrentPassword] = useRecoilState(CurrentPassword);
     const focus = useIsFocused();
 
     const [emailId, setEmailId] = useState('');
-    const [fName, setFName] = useState('');
-    const [lName, setLName] = useState('');
-    const [phonNo, setPhoneNo] = useState('');
-    const [address, setAddress] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
+    const [fName, setFName] = useRecoilState(Firstname);
+    const [lName, setLName] = useRecoilState(Lastname);
+    const [phonNo, setPhoneNo] = useRecoilState(phonenumber);
+    const [address, setAddress] = useRecoilState(adresss);
+    const [city, setCity] = useRecoilState(cityy);
+    const [state, setState] = useRecoilState(statee);
     const [open1, setOpen1] = useState(false);
     const [pinCode, setPinCode] = useState('');
-    const [country, setCountry] = useState('');
-    const [dob, setDob] = useState('');
+    const [country, setCountry] = useRecoilState(countryy);
     const navigation = useNavigation();
 
-    const [password, setPassword] = useState('');
     const [xtoggle, setXTogel] = useState(false);
     const [linkedInToggle, setLinkedInToggle] = useState(false);
     const [refresh, setRefresh] = useState(false);
 
-    const [isWebView, setIsWebView] = useState(false);
     const [twitterResponse, setTwitterResponse] = useState('');
     const [linkDinResponse, setLinkDinResponse] = useState('');
     const [isTwitterApiCall, setIsTwitterApiCall] = useState(false);
@@ -172,7 +167,6 @@ const EditProfile = () => {
         const countr = country;
         const dom = startDa === '' ? userData.dob : startDa;
         const socialLogi = socialLogin;
-
         const modifyApiRequest = await UpdateProfileApi(
             useN,
             email,
@@ -202,9 +196,7 @@ const EditProfile = () => {
         setCountry(countr);
         console.log(modifyApiRequest);
         if (modifyApiRequest.code === 200) {
-
             setEditProfile(false);
-
             console.log("code running");
             ToastAndroid.showWithGravityAndOffset(
                 'Data Successfully Updated',
@@ -214,7 +206,6 @@ const EditProfile = () => {
                 50,
             );
             navigation.navigate('UserProfile')
-
         }
     };
 
@@ -258,8 +249,6 @@ const EditProfile = () => {
             }
         }
     };
-
-
 
     const [open, setOpen] = useState(false);
     const [gender, setGender] = useState('');
@@ -318,220 +307,218 @@ const EditProfile = () => {
             </View>
         );
     }
-
     return (
         <ScrollView>
             <View>
                 <View>
-                        <View
-                            style={[
-                                styles.container,
-                                {
-                                    borderWidth: 0.5,
-                                    width: wp(90),
-                                    alignSelf: 'center',
-                                    borderRadius: wp(2),
-                                    borderColor: '#652D90',
-                                    backgroundColor: 'white',
-                                },
-                            ]}>
-                            <View>
-                                <Text style={Headings.Input3}>Email</Text>
-                                <TextInput
-                                    style={[TextInP.Fileds, { width: wp(82), }]}
-                                    value={userData.emailID}
-                                    placeholderTextColor="#000"
-                                    onChangeText={text => setEmailId(text)}
-                                />
-                            </View>
-                            <View style={[styles.Box, { paddingHorizontal: 0 }]}>
-                                <View styles={styles.InnerBox}>
-                                    <Text style={Headings.Input3}>First Name</Text>
-                                    <TextInput
-                                        style={[TextInP.Fileds, { width: wp(38) }]}
-                                        placeholder="First Name"
-                                        value={fName}
-                                        placeholderTextColor="grey"
-                                        onChangeText={text => setFName(text)}
-                                    />
-                                </View>
-                                <View styles={styles.InnerBox}>
-                                    <Text style={Headings.Input3}>Last Name</Text>
-                                    <TextInput
-                                        style={[TextInP.Fileds, { width: wp(38) }]}
-                                        placeholder="Last Name"
-                                        placeholderTextColor="grey"
-                                        value={lName}
-                                        onChangeText={text => setLName(text)}
-                                    />
-                                </View>
-                            </View>
-                            <View>
-                                <Text style={Headings.Input3}>Gender</Text>
-                                <DropDownPicker
-                                    open={open}
-                                    value={gender}
-                                    items={items}
-                                    setOpen={setOpen}
-                                    setValue={setGender}
-                                    setItems={setItems}
-                                    style={[TextInP.Fileds1, { borderRadius: open ? wp(6) : wp(50) }]}
-                                    placeholder="Select Gender"
-                                    placeholderStyle={{ color: 'grey' }}
-                                    dropDownContainerStyle={{ backgroundColor: '#F6E2FF', borderRadius: open ? wp(6) : wp(50), height: hp(12), borderColor: 'transparent', paddingLeft: 8, }}
-                                    textStyle={{ color: 'black' }}
-                                />
-                            </View>
-
+                    <View
+                        style={[
+                            styles.container,
+                            {
+                                borderWidth: 0.5,
+                                width: wp(90),
+                                alignSelf: 'center',
+                                borderRadius: wp(2),
+                                borderColor: '#652D90',
+                                backgroundColor: 'white',
+                            },
+                        ]}>
+                        <View>
+                            <Text style={Headings.Input3}>Email</Text>
+                            <TextInput
+                                style={[TextInP.Fileds, { width: wp(82), }]}
+                                value={userData.emailID}
+                                placeholderTextColor="#000"
+                                onChangeText={text => setEmailId(text)}
+                            />
+                        </View>
+                        <View style={[styles.Box, { paddingHorizontal: 0 }]}>
                             <View styles={styles.InnerBox}>
-                                <Text style={Headings.Input3}>Phone</Text>
+                                <Text style={Headings.Input3}>First Name</Text>
+                                <TextInput
+                                    style={[TextInP.Fileds, { width: wp(38) }]}
+                                    placeholder="First Name"
+                                    value={fName}
+                                    placeholderTextColor="grey"
+                                    onChangeText={text => setFName(text)}
+                                />
+                            </View>
+                            <View styles={styles.InnerBox}>
+                                <Text style={Headings.Input3}>Last Name</Text>
+                                <TextInput
+                                    style={[TextInP.Fileds, { width: wp(38) }]}
+                                    placeholder="Last Name"
+                                    placeholderTextColor="grey"
+                                    value={lName}
+                                    onChangeText={text => setLName(text)}
+                                />
+                            </View>
+                        </View>
+                        <View>
+                            <Text style={Headings.Input3}>Gender</Text>
+                            <DropDownPicker
+                                open={open}
+                                value={gender}
+                                items={items}
+                                setOpen={setOpen}
+                                setValue={setGender}
+                                setItems={setItems}
+                                style={[TextInP.Fileds1, { borderRadius: open ? wp(6) : wp(50) }]}
+                                placeholder="Select Gender"
+                                placeholderStyle={{ color: 'grey' }}
+                                dropDownContainerStyle={{ backgroundColor: '#F6E2FF', borderRadius: open ? wp(6) : wp(50), height: hp(12), borderColor: 'transparent', paddingLeft: 8, }}
+                                textStyle={{ color: 'black' }}
+                            />
+                        </View>
+
+                        <View styles={styles.InnerBox}>
+                            <Text style={Headings.Input3}>Phone</Text>
+                            <TextInput
+                                style={[TextInP.Fileds, { width: wp(82) }]}
+                                value={phonNo}
+                                placeholderTextColor="grey"
+                                placeholder={userData.phone}
+                                keyboardType="numeric"
+                                // maxLength={10}
+                                onChangeText={text => {
+                                    const numericText = text.replace(/[^0-9]/g, '');
+                                    setPhoneNo(numericText);
+                                }}
+                            />
+                        </View>
+
+                        <View>
+                            <Text style={Headings.Input3}>Address</Text>
+                            <TextInput
+                                style={[TextInP.Fileds, { width: wp(82) }]}
+                                value={
+                                    address
+                                }
+                                placeholderTextColor="grey"
+                                onChangeText={text => setAddress(text)}
+                            />
+                        </View>
+                        <View style={styles.Box}>
+                            <View styles={styles.InnerBox}>
+                                <Text style={Headings.Input3}>City</Text>
                                 <TextInput
                                     style={[TextInP.Fileds, { width: wp(82) }]}
-                                    value={phonNo}
+                                    value={city}
                                     placeholderTextColor="grey"
-                                    placeholder={userData.phone}
-                                    keyboardType="numeric"
-                                    // maxLength={10}
-                                    onChangeText={text => {
-                                        const numericText = text.replace(/[^0-9]/g, '');
-                                        setPhoneNo(numericText);
+                                    onChangeText={text => setCity(text)}
+                                />
+                            </View>
+                        </View>
+
+                        <View styles={styles.InnerBox}>
+                            <Text style={Headings.Input3}>Country</Text>
+                            <TextInput
+                                style={[TextInP.Fileds, { width: wp(82) }]}
+                                value={
+                                    country
+                                }
+                                placeholderTextColor="grey"
+                                onChangeText={text => setCountry(text)}
+                            />
+                        </View>
+
+                        {showStateDropdown ? (
+                            <View style={styles.Box}>
+                                <View style={styles.InnerBox}>
+                                    <Text style={Headings.Input3}>State</Text>
+                                    <DropDownPicker
+                                        open={open1}
+                                        value={state}
+                                        items={usStates}
+                                        setOpen={setOpen1}
+                                        setValue={setState}
+                                        placeholder="Select a state"
+                                        style={[TextInP.Fileds01, { borderRadius: open1 ? wp(3) : wp(50) }]}
+                                        dropDownContainerStyle={styles.dropDownContainer}
+                                        listItemContainerStyle={styles.listItemContainer}
+                                        listItemLabelStyle={styles.listItemLabel}
+                                    />
+                                </View>
+                            </View>
+                        ) : (
+
+                            <View styles={styles.Box}>
+                                <Text style={Headings.Input3}>State</Text>
+                                <TextInput
+                                    style={[TextInP.Fileds, { width: wp(82) }]}
+                                    value={state}
+                                    placeholderTextColor="grey"
+                                    onChangeText={(text) => setState(text)} />
+                            </View>
+                        )}
+
+                        <View style={styles.Social}>
+                            <View style={{ flexDirection: 'row', alignItems: "center", gap: 10 }}>
+                                <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
+                                    Twitter
+                                </Text>
+                                <ToggleSwitch
+                                    disabled={true}
+                                    isOn={xtoggle}
+                                    style={{ marginRight: wp(5) }}
+                                    onColor="#652D90"
+                                    offColor="#FFFFFF"
+                                    thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
+                                    thumbOnStyle={{ backgroundColor: '#fff' }}
+                                    size="small"
+                                    onToggle={() => {
+                                        setXTogel(!xtoggle)
+                                        xtoggle
+                                            ? (AccountRemovedApiCall(userN, 'Twitter'),
+                                                setIstwitterRemoveAccount(true),
+                                                setRefresh(!refresh)
+                                            )
+                                            :
+                                            (setIsTwitterApiCall(true));
+
+                                    }}
+                                />
+
+                            </View>
+                            <TouchableOpacity onPress={TwitterCallHandel} style={[styles.button, { backgroundColor: '#652D90' }]}>
+                                <Text style={styles.buttonText}>{xtoggle ? 'Disconnect' : 'Connect'}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.Social}>
+                            <View style={{ flexDirection: 'row', alignItems: "center", gap: 10 }}>
+                                <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
+                                    LinkedIn
+                                </Text>
+                                <ToggleSwitch
+                                    isOn={linkedInToggle}
+                                    style={{ marginRight: wp(5) }}
+                                    onColor="#652D90"
+                                    offColor="#FFFFFF"
+                                    disabled={true}
+                                    thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
+                                    thumbOnStyle={{ backgroundColor: '#fff' }}
+                                    size="small"
+                                    onToggle={() => {
+                                        setIsTwitterApiCall(false);
+                                        setLinkedInToggle(!linkedInToggle);
+                                        linkedInToggle
+                                            ? (AccountRemovedApiCall(userN, 'LinkedIn'),
+                                                setIstwitterRemoveAccount(true),
+                                                setRefresh(!refresh)
+                                            )
+                                            : (setIsTwitterApiCall(false));
                                     }}
                                 />
                             </View>
+                            <TouchableOpacity onPress={LinkDinallHandel} style={[styles.button, { backgroundColor: '#652D90' }]}>
+                                <Text style={styles.buttonText}>{linkedInToggle ? 'Disconnect' : 'Connect'}</Text>
+                            </TouchableOpacity>
 
-                            <View>
-                                <Text style={Headings.Input3}>Address</Text>
-                                <TextInput
-                                    style={[TextInP.Fileds, { width: wp(82) }]}
-                                    value={
-                                        address
-                                    }
-                                    placeholderTextColor="grey"
-                                    onChangeText={text => setAddress(text)}
-                                />
-                            </View>
-                            <View style={styles.Box}>
-                                <View styles={styles.InnerBox}>
-                                    <Text style={Headings.Input3}>City</Text>
-                                    <TextInput
-                                        style={[TextInP.Fileds, { width: wp(82) }]}
-                                        value={city}
-                                        placeholderTextColor="grey"
-                                        onChangeText={text => setCity(text)}
-                                    />
-                                </View>
-
-                            </View>
-
-                            <View styles={styles.InnerBox}>
-                                <Text style={Headings.Input3}>Country</Text>
-                                <TextInput
-                                    style={[TextInP.Fileds, { width: wp(82) }]}
-                                    value={
-                                        country
-                                    }
-                                    placeholderTextColor="grey"
-                                    onChangeText={text => setCountry(text)}
-                                />
-                            </View>
-
-                            {showStateDropdown ? (
-                                <View style={styles.Box}>
-                                    <View style={styles.InnerBox}>
-                                        <Text style={Headings.Input3}>State</Text>
-                                        <DropDownPicker
-                                            open={open1}
-                                            value={state}
-                                            items={usStates}
-                                            setOpen={setOpen1}
-                                            setValue={setState}
-                                            placeholder="Select a state"
-                                            style={[TextInP.Fileds01, { borderRadius: open1 ? wp(3) : wp(50) }]}
-                                            dropDownContainerStyle={styles.dropDownContainer}
-                                            listItemContainerStyle={styles.listItemContainer}
-                                            listItemLabelStyle={styles.listItemLabel}
-                                        />
-                                    </View>
-                                </View>
-                            ) : (
-
-                                <View styles={styles.Box}>
-                                    <Text style={Headings.Input3}>State</Text>
-                                    <TextInput
-                                        style={[TextInP.Fileds, { width: wp(82) }]}
-                                        value={state}
-                                        placeholderTextColor="grey"
-                                        onChangeText={(text) => setState(text)} />
-                                </View>
-                            )}
-
-                            <View style={styles.Social}>
-                                <View style={{ flexDirection: 'row', alignItems: "center", gap: 10 }}>
-                                    <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
-                                        Twitter
-                                    </Text>
-                                    <ToggleSwitch
-                                        disabled={true}
-                                        isOn={xtoggle}
-                                        style={{ marginRight: wp(5) }}
-                                        onColor="#652D90"
-                                        offColor="#FFFFFF"
-                                        thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
-                                        thumbOnStyle={{ backgroundColor: '#fff' }}
-                                        size="small"
-                                        onToggle={() => {
-                                            setXTogel(!xtoggle)
-                                            xtoggle
-                                                ? (AccountRemovedApiCall(userN, 'Twitter'),
-                                                    setIstwitterRemoveAccount(true),
-                                                    setRefresh(!refresh)
-                                                )
-                                                :
-                                                (setIsTwitterApiCall(true));
-
-                                        }}
-                                    />
-
-                                </View>
-                                <TouchableOpacity onPress={TwitterCallHandel} style={[styles.button, { backgroundColor: '#652D90' }]}>
-                                    <Text style={styles.buttonText}>{xtoggle ? 'Disconnect' : 'Connect'}</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.Social}>
-                                <View style={{ flexDirection: 'row', alignItems: "center", gap: 10 }}>
-                                    <Text style={[{ marginLeft: wp(5) }, Headings.Input5]}>
-                                        LinkedIn
-                                    </Text>
-                                    <ToggleSwitch
-                                        isOn={linkedInToggle}
-                                        style={{ marginRight: wp(5) }}
-                                        onColor="#652D90"
-                                        offColor="#FFFFFF"
-                                        disabled={true}
-                                        thumbOffStyle={{ backgroundColor: '#E4E4E4' }}
-                                        thumbOnStyle={{ backgroundColor: '#fff' }}
-                                        size="small"
-                                        onToggle={() => {
-                                            setIsTwitterApiCall(false);
-                                            setLinkedInToggle(!linkedInToggle);
-                                            linkedInToggle
-                                                ? (AccountRemovedApiCall(userN, 'LinkedIn'),
-                                                    setIstwitterRemoveAccount(true),
-                                                    setRefresh(!refresh)
-                                                )
-                                                : (setIsTwitterApiCall(false));
-                                        }}
-                                    />
-                                </View>
-                                <TouchableOpacity onPress={LinkDinallHandel} style={[styles.button, { backgroundColor: '#652D90' }]}>
-                                    <Text style={styles.buttonText}>{linkedInToggle ? 'Disconnect' : 'Connect'}</Text>
-                                </TouchableOpacity>
-
-
-                            </View>
 
                         </View>
-                   
+
+                    </View>
+
                 </View>
 
 

@@ -84,6 +84,8 @@ const SnapPromiseVerification = ({ navigation }) => {
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
   };
+
+  console.log("datttt", deadlinedate)
   return (
     <ScrollView>
     <View style={{ backgroundColor: '#E4EEE6', flex: 1, alignItems: 'center' , paddingBottom:wp(2)}}>
@@ -193,7 +195,7 @@ const SnapPromiseVerification = ({ navigation }) => {
               </Text>
             </>
           )}
-          {deadlinedate != 'Select Date' ? (
+          {deadlinedate != 'Select Date' && deadlinedate != '' && deadlinedate != null ? (
             <View
               style={{
                 flexDirection: '',

@@ -62,4 +62,38 @@ export const uemail = atom({
     default: false,
   });
 
+  export const Firstname = atom({
+    key: 'Firstname',
+    default: '',
+  });
+  export const Lastname = atom({
+    key: 'Lastname',
+    default: '',
+  });
+  export const gander = atom({
+    key: 'gander',
+    default: '',
+  });
+  export const phonenumber = atom({
+    key: 'phonenumber',
+    default: '',
+  });
+  export const adresss = atom({
+    key: 'adresss',
+    default: '',
+  });
+  export const cityy = atom({
+    key: 'cityy',
+    default: '',
+  });
+  export const countryy = atom({
+    key: 'countryy',
+    default: '',
+  });
+  export const statee = atom({
+    key: 'statee',
+    default: '',
+  });
+ 
+
   
