@@ -51,6 +51,7 @@ import CustomWebView from './src/screens/CustomWebView';
 import Rewards from './src/screens/Rewards';
 import ReportIssues from './src/screens/ReportIssues';
 import EditProfile from './src/screens/EditProfile';
+import SocialWeb from './src/screens/SocialWeb';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -279,6 +280,11 @@ const Auth = () => {
               <Stack.Screen
                 name="EditProfile"
                 component={EditProfile}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="SocialWeb"
+                component={SocialWeb}
                 options={{ headerShown: false }}
               />
               <Stack.Screen

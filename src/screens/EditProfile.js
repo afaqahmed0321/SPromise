@@ -218,38 +218,47 @@ const EditProfile = () => {
         }
     };
 
+
     const LinkDinallHandel = async () => {
         if (linkedInToggle) {
-            AccountRemovedApiCall(userN, "LinkedIn")
-        }
-        else {
+            AccountRemovedApiCall(userN, "LinkedIn");
+        } else {
             setLinkDinResponse('');
-            setIsTwitterApiCall(false)
+            setIsTwitterApiCall(false);
             const LinkDinApiRes = await LinkDinApiCallLogin(userN);
             setLinkDinResponse(LinkDinApiRes);
             if (LinkDinApiRes !== '') {
-                setIsWebView(true);
+                navigation.navigate('SocialWeb', {
+                    isTwitterApiCall: false,
+                    twitterResponse: '',
+                    linkDinResponse: LinkDinApiRes
+                });
             } else {
                 console.log('Error');
             }
         }
     };
+
     const TwitterCallHandel = async () => {
         if (xtoggle) {
-            AccountRemovedApiCall(userN, "Twitter")
-        }
-        else {
-            const twriterApiRes = await TwitterApiCallLogin(userN);
-            setTwitterResponse(twriterApiRes);
-            setIsTwitterApiCall(true)
-            if (twriterApiRes !== '') {
-                setIsWebView(true);
+            AccountRemovedApiCall(userN, "Twitter");
+        } else {
+            setLinkDinResponse('');  // Clear LinkedIn response when calling Twitter API
+            const twitterApiRes = await TwitterApiCallLogin(userN);
+            setTwitterResponse(twitterApiRes);
+            setIsTwitterApiCall(true);
+            if (twitterApiRes !== '') {
+                navigation.navigate('SocialWeb', {
+                    isTwitterApiCall: true,
+                    twitterResponse: twitterApiRes,
+                    linkDinResponse: ''
+                });
             } else {
                 console.log('Error');
             }
         }
-
     };
+
 
 
     const [open, setOpen] = useState(false);
@@ -314,7 +323,6 @@ const EditProfile = () => {
         <ScrollView>
             <View>
                 <View>
-                    {isWebView == false ? (
                         <View
                             style={[
                                 styles.container,
@@ -523,30 +531,7 @@ const EditProfile = () => {
                             </View>
 
                         </View>
-                    ) : (
-                        <SafeAreaView style={{ height: '100%' }}>
-                            <TouchableOpacity
-                                onPress={() => setIsWebView(false)}
-                                style={{
-                                    marginLeft: wp(2),
-                                    height: hp(5),
-                                    marginTop: hp(1),
-                                }}>
-                                <FontAw5
-                                    name="arrow-alt-circle-left"
-                                    size={30}
-                                    color="#6650A4"
-                                />
-                            </TouchableOpacity>
-                            <WebView
-                                source={{
-                                    uri: isTwitterApiCall ? twitterResponse : linkDinResponse,
-                                }}
-                                style={{ height: hp(90) }}
-
-                            />
-                        </SafeAreaView>
-                    )}
+                   
                 </View>
 
 
