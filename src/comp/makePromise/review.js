@@ -5,7 +5,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+// import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
+
 import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
 import { useRecoilState } from 'recoil';
@@ -32,7 +34,8 @@ import {
   RewardPointsState,
   selectMedia,
   selectedVideoR,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  videoM
 } from '../../recoil/AddPromise';
 import ToggleSwitch from 'toggle-switch-react-native';
 import { commonStyles } from '../../Styling/buttons';
@@ -272,7 +275,7 @@ const Review = ({ navigation }) => {
   const [LinkedInCode, setLinkedInCode] = useState(null);
   const [twitterCode, setTwitterCode] = useState(null);
   const [Media, setMedia] =useRecoilState(selectedMedia)
-  const [isVideoModalVisible, setIsVideoModalVisible] = useState(false);
+  const [isVideoModalVisible, setIsVideoModalVisible] = useRecoilState(videoM);
  
   const getUser = async () => {
     const respon = await GetUserData(userN);
@@ -306,14 +309,9 @@ const Review = ({ navigation }) => {
 
   const handelAttachedMedia = (Media) => {
     setSelectedVideo(Media);
-    toggleVideoModal();
+    setIsVideoModalVisible(true);
   };
 
-  const toggleVideoModal = () => {
-    setIsVideoModalVisible(!isVideoModalVisible);
-  };
-
-  
   return (
     <ScrollView>
       {isLoading && <LoadingOverlay />}
@@ -485,15 +483,15 @@ const Review = ({ navigation }) => {
                 <>
                 <TouchableOpacity
                   onPress={() => handelAttachedMedia(Media)}>
-                  <View style={styles.Line}></View>
+                  {/* <View style={styles.Line}></View> */}
                   <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}> Attached Media</Text>
                   <FontAw name="youtube" size={30} light style={{ paddingHorizontal: hp(1) }} />
-                  <VideoModal
-                    isVisible={isVideoModalVisible}
-                    toggleModal={toggleVideoModal} 
-                    videoUrl={Media}
-                  />
                 </TouchableOpacity>
+                {isVideoModalVisible && (
+              <VideoModal
+                videoUrl={selectedVideo}
+              />
+            )}
                 </>
               )}
 
