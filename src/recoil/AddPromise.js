@@ -174,6 +174,10 @@ export const EditPromiseReq = atom({
   key: 'EditPromiseReq',
   default: false,
 });
+export const videoM = atom({
+  key: 'videoM',
+  default: false,
+});
 export const Guaranteed = atom({
   key: 'Guaranteed',
   default: false,
