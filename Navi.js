@@ -137,7 +137,7 @@ function HomeScreenn() {
           title: 'Ongoing Promises',
         }}
       />
-            <Tab.Screen
+            {/* <Tab.Screen
         name="pay"
         component={Dashboard}
         options={{
@@ -146,7 +146,7 @@ function HomeScreenn() {
           ),
           title: 'Ongoing Promises',
         }}
-      />
+      /> */}
       <Tab.Screen
         name="MakePromise"
         component={MakePromise}
@@ -330,7 +330,7 @@ const Auth = () => {
                 options={{ headerShown: false }}
               />
               <Stack.Screen
-                name="Payment Screens"
+                name="PaymentScreens"
                 component={PaymentScreens}
                 options={{ headerShown: true }}
               />

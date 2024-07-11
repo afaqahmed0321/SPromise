@@ -60,7 +60,7 @@ const SnapPromiseVerification = ({ navigation }) => {
     setIsRating(false);
     setIsTimeB(false);
     setAttachMedia(null);
-    navigation.navigate('Dashboard')
+    navigation.navigate(makePromise ? 'Dashboard' : 'Promise Request Dashboard')
   }
   const goToHome = () => {
     setMakePromise(true);
@@ -84,7 +84,9 @@ const SnapPromiseVerification = ({ navigation }) => {
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
   };
-
+  const cleanText = (text) => {
+    return text.replace(/\n\s*\n/g, '\n').trim();
+  };
   console.log("datttt", deadlinedate)
   return (
     <ScrollView>
@@ -171,7 +173,7 @@ const SnapPromiseVerification = ({ navigation }) => {
                       style={[
                         Headings.h3ForReviewpage,
                       ]}>
-                      Promise Amount:{' '}
+                      Promise Amount{' '}
                     </Text>
                   )}
                 </View>
@@ -217,7 +219,7 @@ const SnapPromiseVerification = ({ navigation }) => {
               </View>) : null
           }
           <Text style={[Headings.h3ForReviewpage, {fontSize: hp(1.8) , marginVertical:wp(1) }]}>Promise Statement</Text>
-          <View style={{ height: hp(7), width: wp(80) }}>
+          <View style={{ width: wp(80) }}>
             <View >
               <Text
                 style={[
@@ -228,24 +230,23 @@ const SnapPromiseVerification = ({ navigation }) => {
                     marginVertical: wp(0),
                   },
                 ]}>
-               {generatedTexts.length > 50 ? `${generatedTexts.slice(0, 50)}...` : generatedTexts}
+               {cleanText(generatedTexts).length > 50 ? `${cleanText(generatedTexts).slice(0, 50)}...` : cleanText(generatedTexts)}
               </Text>
 
             </View>
 
           </View>
-          {/* {selectMedia != null && (
+          {attachMedia != null && (
                 <>
-                 <View style={styles.Line}></View>
                 <Text style={[Headings.h3ForReviewpage]}> Attached Media</Text>
             <FontAw name="youtube"  size={30} light style={{paddingHorizontal:hp(1)}} />
             </>
-          )} */}
+          )}
         </LinearGradient>
         <TouchableOpacity
           onPress={goToPending}
           style={[styles.btn, { marginTop: hp(2) }]}>
-          <Text style={{ color: '#652D90' }}> View in Pending Promises</Text>
+          <Text style={{ color: '#652D90' }}> View in listings</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={goToHome}

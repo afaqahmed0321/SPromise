@@ -274,9 +274,9 @@ const Review = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [LinkedInCode, setLinkedInCode] = useState(null);
   const [twitterCode, setTwitterCode] = useState(null);
-  const [Media, setMedia] =useRecoilState(selectedMedia)
+  const [Media, setMedia] = useRecoilState(selectedMedia)
   const [isVideoModalVisible, setIsVideoModalVisible] = useRecoilState(videoM);
- 
+
   const getUser = async () => {
     const respon = await GetUserData(userN);
     const data = await respon;
@@ -424,7 +424,7 @@ const Review = ({ navigation }) => {
                       }
                     </View>
                   </View>
-                  <View style={styles.Line}></View>
+
                 </View>
               ) : null}
 
@@ -443,7 +443,7 @@ const Review = ({ navigation }) => {
                       </Text>
                       <Text style={[Headings.h3ForReviewpage, { marginTop: 5 }]}>{deadlinedate}</Text>
                     </View>
-                    <View style={styles.Line}></View>
+
                   </>
                 ) : null}
               </View>
@@ -455,7 +455,7 @@ const Review = ({ navigation }) => {
                       Rating will Imapct
                     </Text>
                   </View>
-                  <View style={styles.Line}></View>
+
                 </View>
               ) : null}
               {generatedTexts && (
@@ -474,24 +474,23 @@ const Review = ({ navigation }) => {
               )}
               {/* {video != null && (
                 <>
-                  <View style={styles.Line}></View>
+                  
                   <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}> Attached Media</Text>
                   <FontAw name="youtube" size={30} light style={{ paddingHorizontal: hp(1) }} />
                 </>
               )} */}
-              {video != null &&  (
+              {attachMedia != null && (
                 <>
-                <TouchableOpacity
-                  onPress={() => handelAttachedMedia(Media)}>
-                  {/* <View style={styles.Line}></View> */}
-                  <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}> Attached Media</Text>
-                  <FontAw name="youtube" size={30} light style={{ paddingHorizontal: hp(1) }} />
-                </TouchableOpacity>
-                {isVideoModalVisible && (
-              <VideoModal
-                videoUrl={selectedVideo}
-              />
-            )}
+                  <TouchableOpacity
+                    onPress={() => handelAttachedMedia(Media)}>
+                    <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}> Attached Media</Text>
+                    <FontAw name="youtube" size={30} light style={{ paddingHorizontal: hp(1) }} />
+                  </TouchableOpacity>
+                  {isVideoModalVisible && (
+                    <VideoModal
+                      videoUrl={selectedVideo}
+                    />
+                  )}
                 </>
               )}
 
@@ -562,21 +561,26 @@ const Review = ({ navigation }) => {
                 />
               </View>
               {shareToggel ? (
-                <View style={styles.Social}>
-                  <Text style={Headings.Input5}>Public</Text>
-                  <RadioButton.Android
-                    value="public"
-                    status={mNtoggle === 'public' ? 'checked' : 'unchecked'}
-                    onPress={() => setMNTogel('public')}
-                    color="#652D90"
-                  />
-                  <Text style={Headings.Input5}>Network only</Text>
-                  <RadioButton.Android
-                    value="network"
-                    status={mNtoggle === 'network' ? 'checked' : 'unchecked'}
-                    onPress={() => setMNTogel('network')}
-                    color="#652D90"
-                  />
+                <View style={styles.Social1}>
+                  <View style={{ flex: 1, flexDirection: "row" }}>
+                    <Text style={Headings.Input5}>Public</Text>
+                    <RadioButton.Android
+                      value="public"
+                      status={mNtoggle === 'public' ? 'checked' : 'unchecked'}
+                      onPress={() => setMNTogel('public')}
+                      color="#652D90"
+                    />
+                  </View>
+                  <View style={{ flex: 1, flexDirection: "row" }}>
+
+                    <Text style={Headings.Input5}>Network only</Text>
+                    <RadioButton.Android
+                      value="network"
+                      status={mNtoggle === 'network' ? 'checked' : 'unchecked'}
+                      onPress={() => setMNTogel('network')}
+                      color="#652D90"
+                    />
+                  </View>
                 </View>
               ) : null}
             </View>
@@ -605,15 +609,22 @@ const Review = ({ navigation }) => {
     </ScrollView>
   );
 };
-  
-  export default Review;
-  
+
+export default Review;
+
 const styles = StyleSheet.create({
   Social: {
     flexDirection: 'row',
     width: wp(94),
     justifyContent: 'space-between',
     marginTop: hp(1),
+  },
+  Social1: {
+    flexDirection: 'column',
+    width: wp(94),
+    justifyContent: 'space-around',
+    marginTop: hp(1),
+    paddingHorizontal:wp(5)
   },
   Line: {
     width: wp(80),
