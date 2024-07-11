@@ -333,14 +333,14 @@ const MakePromise = ({ navigation }) => {
                     borderRadius: wp(5),
                     textAlign: "center"
                   }}
-                  placeholderTextColor="black"
+                  placeholderTextColor="grey"
                   onChangeText={text => setAmount(text)}
                   keyboardType="phone-pad"
                 />
                 {!makePromise && (
                   <TextInput
                     placeholder="Points"
-                    placeholderTextColor="black"
+                    placeholderTextColor="grey"
                     value={rewardPoints}
                     style={{
                       height: hp(5),

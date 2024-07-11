@@ -12,7 +12,7 @@ import {
 import GetUserData from '../Network/Users/GetUserData';
 import { UserNo } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 import Font from 'react-native-vector-icons/Fontisto';
 import {
     widthPercentageToDP as wp,
@@ -45,7 +45,7 @@ import LinkDinApiCallLogin from '../Network/Users/LinkdinApiCallToLogin';
 import { BlurView } from '@react-native-community/blur';
 import DropDownPicker from 'react-native-dropdown-picker';
 import AccountRemovedApiCall from '../Network/Users/RemoveUserSocialAccounts/TwitterAccountRemoveApiCall';
-
+import RNPickerSelect from 'react-native-picker-select';
 
 const EditProfile = () => {
     const [istwitterRemoveAccount, setIstwitterRemoveAccount] = useRecoilState(RemoveTwitterApicall);
@@ -426,17 +426,19 @@ const EditProfile = () => {
                             <View style={styles.Box}>
                                 <View style={styles.InnerBox}>
                                     <Text style={Headings.Input3}>State</Text>
-                                    <DropDownPicker
-                                        open={open1}
-                                        value={state}
+                                    <RNPickerSelect
+                                        onValueChange={(value) => setState(value)}
                                         items={usStates}
-                                        setOpen={setOpen1}
-                                        setValue={setState}
-                                        placeholder="Select a state"
-                                        style={[TextInP.Fileds01, { borderRadius: open1 ? wp(3) : wp(50) }]}
-                                        dropDownContainerStyle={styles.dropDownContainer}
-                                        listItemContainerStyle={styles.listItemContainer}
-                                        listItemLabelStyle={styles.listItemLabel}
+                                        style={{
+                                            ...pickerSelectStyles,
+                                            iconContainer: {
+                                                top: 10,
+                                                right: 12,
+                                            },
+                                        }}
+                                        useNativeAndroidPickerStyle={false}
+                                        placeholder={{ label: "Select a state", value: null }}
+                                        value={state}
                                     />
                                 </View>
                             </View>
@@ -583,6 +585,24 @@ const EditProfile = () => {
 };
 
 const styles = StyleSheet.create({
+
+    container: {
+        padding: 20,
+    },
+    label: {
+        fontSize: 16,
+        marginBottom: 10,
+    },
+    input: {
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 20,
+    },
+    dropdownContainer: {
+        borderRadius: 5,
+        padding: 10,
+    },
+
     container: {
         marginVertical: hp(1),
         padding: wp(4),
@@ -590,7 +610,6 @@ const styles = StyleSheet.create({
         width: wp(90),
         alignSelf: 'center',
         borderRadius: wp(2),
-        borderColor: '#652D90',
         marginHorizontal: wp(3),
         height: hp(45),
         backgroundColor: 'white',
@@ -662,11 +681,10 @@ const styles = StyleSheet.create({
         borderRadius: wp(2),
         minHeight: hp(25),
         overflow: "scroll",
-        borderColor: 'transparent',
         paddingLeft: 8,
     },
     listItemContainer: {
-        height: hp(5),
+        height: hp(3),
         overflow: "scroll",
     },
 
@@ -694,5 +712,35 @@ const styles = StyleSheet.create({
     },
 
 });
-
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderRadius: 4,
+        color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
+        backgroundColor: '#F6E2FF',
+        alignItems: 'center',
+        width: wp(82),
+        height: hp(6),
+        paddingLeft: 20,
+    },
+    inputAndroid: {
+        fontSize: 16,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        borderWidth: 0.5,
+        borderColor: 'transparent',
+        borderRadius: 50,
+        color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
+        backgroundColor: '#F6E2FF',
+        alignItems: 'center',
+        width: wp(82),
+        height: hp(6),
+        paddingLeft: 20,
+    },
+});
 export default EditProfile;
