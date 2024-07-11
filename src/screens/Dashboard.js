@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useRecoilState } from 'recoil';
-import { deadline, startDate } from '../recoil/AddPromise';
+import { deadline, pay, startDate } from '../recoil/AddPromise';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import ShowAllTab from '../comp/Dashboard/Promise/MyPromise/ShowAllTab';
@@ -22,6 +22,17 @@ const Tab = createMaterialTopTabNavigator();
 
 const DashboardTopTabs = () => {
   const [isMyPromisesV, setIsMyPromisesV] = useRecoilState(showMyPromises);
+  const [payButton, setPayButton] = useRecoilState(pay);
+
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setPayButton(true);
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  });
+
   return (
     <Tab.Navigator
       tabBarOptions={{

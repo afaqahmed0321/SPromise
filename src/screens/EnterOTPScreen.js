@@ -34,7 +34,7 @@ const EnterOTPScreen = ({ navigation }) => {
     let response = await PasswordVerification(mail)
 
       try {
-        setCode(response.code);
+        setCode(response);
       }
       catch {
         console.log("Error in forgot password");
@@ -44,13 +44,14 @@ const EnterOTPScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (resendCooldown > 0) {
-      const timer = setTimeout(() => setResendCooldown(resendCooldown - 1), 1500);
+      const timer = setTimeout(() => setResendCooldown(resendCooldown - 1), 1000);
       return () => clearTimeout(timer);
     }
     setTimeout(() => {
       setCode(null); 
-    }, 180000); 
+    }, 60000); 
   }, [resendCooldown, resendCode]);
+
   const verification = async () => {
     if (OutputCode == Code) {
       navigation.navigate('EnterNewPasswordScreen');
