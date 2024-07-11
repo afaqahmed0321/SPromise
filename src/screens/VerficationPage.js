@@ -29,7 +29,7 @@ const VerficationPage = ({ navigation }) => {
     setResendCooldown(60)
     const mail = emailID.toLowerCase();
     let response = await VerifyOTP(mail)
-
+ 
     try {
       setCode(response.code);
     }
@@ -39,7 +39,7 @@ const VerficationPage = ({ navigation }) => {
   };
   useEffect(() => {
     if (resendCooldown > 0) {
-      const timer = setTimeout(() => setResendCooldown(resendCooldown - 1), 1500);
+      const timer = setTimeout(() => setResendCooldown(resendCooldown - 1), 1000);
       return () => clearTimeout(timer);
     }
     setTimeout(() => {

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-
-import { View, Text, TouchableOpacity, Alert, StyleSheet, ToastAndroid } from 'react-native';
+import { View, Text, TouchableOpacity, ToastAndroid, StyleSheet } from 'react-native';
 import { CreditCardInput } from 'react-native-credit-card-input';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -8,9 +7,7 @@ import { StripeProvider } from '@stripe/stripe-react-native';
 import { STRIPE_PUBLIC_KEY, Secret_key } from '../comp/Payment/helper';
 import axios from 'axios';
 import LoadingOverlay from '../comp/Global/LoadingOverlay';
-import { pay } from '../recoil/AddPromise';
-import { useRecoilState } from 'recoil';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 const CURRENCY = 'USD';
 var CARD_TOKEN = null;
@@ -32,9 +29,7 @@ function getCreditCardToken(creditCardData) {
     body: Object.keys(card)
       .map(key => key + '=' + card[key])
       .join('&')
-  }).
-    then(response => response.json())
-    .catch((error) => console.log(error))
+  }).then(response => response.json());
 };
 
 function subscribeUser(creditCardToken) {
@@ -47,22 +42,20 @@ function subscribeUser(creditCardToken) {
 };
 
 const PaymentScreens = () => {
-
   const route = useRoute();
-    const { promiseID, userN, amount ,payFalse} = route.params;
-    console.log("pay", promiseID, userN, amount)
-  const [CardInput, setCardInput] = useState({})
-  const [isLoading, setIsLoading] = useState(false)
-  const [payButton, setPayButton] = useState(true);
+  const navigation = useNavigation();
+  const { promiseID, userN, amount, setPayButton } = route.params;
+  const [CardInput, setCardInput] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleBack = () => {
+    setPayButton(true);
     navigation.goBack();
   };
-  const onSubmit = async () => {
 
+  const onSubmit = async () => {
     if (CardInput.valid == false || typeof CardInput.valid == "undefined") {
       ToastAndroid.show('Invalid Credit Card', ToastAndroid.LONG);
-
       return false;
     }
 
@@ -72,60 +65,45 @@ const PaymentScreens = () => {
       creditCardToken = await getCreditCardToken(CardInput);
       if (creditCardToken.error) {
         ToastAndroid.show('creditCardToken error', ToastAndroid.LONG);
-
+        setIsLoading(false);
+        setPayButton(true);
         return;
       }
     } catch (e) {
       console.log("e", e);
+      setIsLoading(false);
+      setPayButton(true);
       return;
     }
+
     const { error } = await subscribeUser(creditCardToken);
     if (error) {
       ToastAndroid.show(error, ToastAndroid.LONG);
-
+      setIsLoading(false);
+      setPayButton(true);
     } else {
-
-      let pament_data = await charges();
-      console.log("statussssss", pament_data)
-      if (pament_data.status == 'succeeded') {
+      let payment_data = await charges();
+      if (payment_data.status == 'succeeded') {
         setIsLoading(false);
-        ToastAndroid.show('Payment Successfull.', ToastAndroid.LONG);
-        payFalse(false);
+        ToastAndroid.show('Payment Successful.', ToastAndroid.LONG);
         navigation.goBack();
-        const sourseID = pament_data?.source?.id;
-        console.log("this is id for send new funcion", sourseID);
-
-        const dataa = {
-          promiseID,
-          sourseID
-        }
-        await axios.post(`https://snappromise.com:8080/updatePaymentTransactionID?promiseID=${promiseID}&transactionID=${sourseID}`)
-          .then((response) => {
-            console.log("IDs has been send to new API");
-          })
-          .catch((error) => {
-            console.log("This is the error", error);
-          });
-      }
-      else {
-        setPayButton(true);
+        const sourceID = payment_data?.source?.id;
+        await axios.post(`https://snappromise.com:8080/updatePaymentTransactionID?promiseID=${promiseID}&transactionID=${sourceID}`);
+      } else {
         setIsLoading(false);
+        setPayButton(true);
         ToastAndroid.show('Payment Failed.', ToastAndroid.LONG);
       }
     }
   };
 
   const charges = async () => {
-
     const card = {
       'amount': amount * 100,
       'currency': CURRENCY,
       'source': CARD_TOKEN,
       'description': "Developers Sin Subscription"
     };
-
-    console.log("cardddddd", card);
-
 
     return fetch('https://api.stripe.com/v1/charges', {
       headers: {
@@ -139,10 +117,10 @@ const PaymentScreens = () => {
         .join('&')
     }).then(response => response.json());
   };
+
   return (
     <StripeProvider publishableKey={STRIPE_PUBLIC_KEY}>
       {isLoading && <LoadingOverlay />}
-
       <View>
         <CreditCardInput
           inputContainerStyle={styles.inputContainerStyle}
@@ -150,9 +128,7 @@ const PaymentScreens = () => {
           labelStyle={styles.labelStyle}
           validColor="#fff"
           placeholderColor="#ccc"
-          onChange={(data) => {
-            setCardInput(data);
-          }}
+          onChange={(data) => setCardInput(data)}
         />
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center", marginTop: hp(10) }}>
           <TouchableOpacity onPress={onSubmit}>
@@ -169,7 +145,6 @@ const PaymentScreens = () => {
       </View>
     </StripeProvider>
   );
-
 };
 
 const styles = StyleSheet.create({
@@ -196,7 +171,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: wp(50),
     height: hp(7),
-
   },
   LogInButton: {
     fontSize: hp(1.8),
@@ -204,6 +178,5 @@ const styles = StyleSheet.create({
     color: 'white',
   }
 });
-
 
 export default PaymentScreens;

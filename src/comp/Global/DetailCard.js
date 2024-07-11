@@ -74,7 +74,7 @@ const DetailCard = ({
 }) => {
   const [isPaymentWebViewVisible, setIsPaymentWebViewVisible] = useState(false);
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
-  const [payButton, setPayButton] = useState(true);
+  const [payButton, setPayButton] = useRecoilState(pay);
 
   const [isVideoModalVisible, setIsVideoModalVisible] = useState(false);
   const [markCompleted, setMarkCompleted] = useState(false);
@@ -164,13 +164,13 @@ const DetailCard = ({
 
 
 
-    // useEffect(() => {
-    //   const timer = setTimeout(() => {
-    //     setPayButton(true);
-    //   }, 3000);
-  
-    //   return () => clearTimeout(timer);
-    // });
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setPayButton(true);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    });
 
 
 
@@ -212,14 +212,14 @@ const DetailCard = ({
     setIsPaymentWebViewVisible(!isPaymentWebViewVisible);
     setActionState(!actionState);
   };
-  function payFalse(a){
+  function payFalse(a) {
     setPayButton(a);
   }
 
-  const navi =()=>{
-    console.log(promiseID, userN,amount)
+  const navi = () => {
+    console.log("payyyyyyyyyyyyy", promiseID, userN, amount)
     payFalse(false);
-navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
+    navigation?.navigate('PaymentScreens', { promiseID, userN, amount, payFalse })
   }
   return (
     <>
@@ -283,12 +283,12 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
               )}
 
             </View>
-            <View>
+            <View style={{marginBottom:hp(1) }}>
               <Text style={styles.promisingText}>
                 {promiseeName} is promising to {promisorName}
               </Text>
             </View>
-            <View style={DashBoardStyling.PromiseReward}>
+            <View style={[DashBoardStyling.PromiseReward,{marginBottom:hp(1) }]}>
               {guaranteedWithMoney ? (
                 <Text style={styles.baseText}>
                   ${amount}
@@ -299,7 +299,7 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
               ) : null}
             </View>
             {ratingImpact ? (
-              <View>
+              <View style={{marginBottom:hp(1) }}>
                 <Text style={styles.dynamicText}>
                   Rating Will Impact
                 </Text>
@@ -307,9 +307,9 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
             ) : null}
 
             {displayStatus ? (
-              <View>
+              <View style={{marginBottom:hp(1) }}>
                 <Text style={styles.statusText}>
-                  {displayStatus}
+                  Promise {displayStatus}
                 </Text>
               </View>
             ) : null}
@@ -336,7 +336,7 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
               </TouchableOpacity>
             ) : null}
 
-            <View style={[styles.promiseGoalContainer, { marginTop: hp(1.2) }]}>
+            <View style={[styles.promiseGoalContainer, { marginBottom:hp(1)  }]}>
               <View>
                 <Text style={styles.promiseGoalText}>
                   {showFullText ? promiseGoal : `${promiseGoal.slice(0, 90)}`}
@@ -370,10 +370,10 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                   );
                 } else if (action === 'Pay') {
                   return (
-                    payButton &&(
-                    <>
-                      <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
-                    </>
+                    payButton && (
+                      <>
+                        <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
+                      </>
                     )
                   );
                 } else if (action === 'Complete') {
@@ -522,7 +522,7 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                 }
                 else if (action == 'Pay') {
                   return (
-                   payButton && (
+                    payButton && (
 
                       <TouchableOpacity
                         style={commonStyles.ActionBtn}
@@ -530,8 +530,8 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                         onPress={navi}>
                         <Text style={{ color: "white" }}>{action}</Text>
                       </TouchableOpacity>
-                   )
-                    
+                    )
+
                   );
                 }
               })}
@@ -600,15 +600,15 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
 
 
             </View>
-            <View>
-              <Text style={styles.promisingText}>
+            <View style={{marginBottom:hp(1) }}>
+              <Text style={styles.promisingTextGaurantee}>
                 {promisorName} is promising to {promiseeName}
               </Text>
             </View>
 
             {(amount > 0 || rewardPoints > 0) && (
 
-              <View style={styles.amountRewardText}>
+              <View style={[styles.amountRewardText,{marginBottom:hp(1)}]}>
 
                 {promisetype == 'GUARANTEE' ? (
                   <>
@@ -624,7 +624,6 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                               paddingVertical: 5,
                               paddingHorizontal: 10,
                               alignSelf: 'flex-start', // Ensures the width adjusts according to the content
-                              marginBottom: hp(1.2),
                             },
                           ]}>
                           <>
@@ -663,7 +662,6 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                         paddingVertical: 5,
                         paddingHorizontal: 10,
                         alignSelf: 'flex-start', // Ensures the width adjusts according to the content
-                        marginBottom: hp(1.2),
                       },
                     ]}>
                     {amount > 0 && (
@@ -680,7 +678,6 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                               paddingVertical: 5,
                               paddingHorizontal: 10,
                               marginHorizontal: 10,
-                              marginBottom: hp(1.2)
                             },
                           ]}> & {rewardPoints} pts </Text>
                         ) : <Text style={[
@@ -693,7 +690,6 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                             paddingVertical: 5,
                             paddingHorizontal: 10,
                             marginHorizontal: 10,
-                            marginBottom: hp(1.2)
                           },
                         ]}> & {rewardPoints} pts </Text>}
                       </>
@@ -718,11 +714,11 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                               );
                             } else if (action === 'Pay') {
                               return (
-                                payButton &&(
+                                payButton && (
                                   <>
                                     <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
                                   </>
-                                  )
+                                )
                               );
                             } else if (action === 'Complete') {
                               return (
@@ -788,7 +784,7 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
             )}
 
             {ratingImpact ? (
-              <View>
+              <View style={{marginBottom:hp(1) }}>
                 <Text style={styles.dynamicText}>
                   Rating Will Impact
                 </Text>
@@ -796,9 +792,9 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
             ) : null}
 
             {displayStatus ? (
-              <View>
+              <View style={{marginBottom:hp(1),marginHorizontal: hp(1.2), }}>
                 <Text style={styles.statusText}>
-                  {displayStatus}
+                  Promise {displayStatus}
                 </Text>
               </View>
             ) : null}
@@ -822,7 +818,7 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                 />
               </TouchableOpacity>
             ) : null}
-            <View style={[styles.promiseGoalContainer, { marginTop: hp(1.2) }]}>
+            <View style={[styles.promiseGoalContainer,{marginBottom:hp(1)} ]}>
               <View>
                 <Text style={styles.promiseGoalText}>
                   {showFullText ? promiseGoal : `${promiseGoal.slice(0, 90)}`}
@@ -856,11 +852,11 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                   );
                 } else if (action === 'Pay') {
                   return (
-                    payButton &&(
+                    payButton && (
                       <>
                         <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
                       </>
-                      )
+                    )
                   );
                 } else if (action === 'Complete') {
                   return (
@@ -1022,12 +1018,12 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                   return (
                     payButton && (
 
-                    <TouchableOpacity
-                      style={commonStyles.ActionBtn}
-                      key={index}
-                      onPress={navi}>
-                      <Text style={{ color: "white" }}>{action}</Text>
-                    </TouchableOpacity>
+                      <TouchableOpacity
+                        style={commonStyles.ActionBtn}
+                        key={index}
+                        onPress={navi}>
+                        <Text style={{ color: "white" }}>{action}</Text>
+                      </TouchableOpacity>
                     )
                   );
                 }
@@ -1074,11 +1070,10 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
         promisetype === 'GUARANTEE' ? (
           <LinearGradient
             colors={
-              (promisor == userN)
-                ? ['#E4A936', '#EE8347']
-                : ['#73B6BF', '#2E888C']
+              promisor === userN ? ['#E4A936', '#EE8347'] : ['#73B6BF', '#2E888C']
             }
-            style={DashBoardStyling.MainCardHome}>
+            style={DashBoardStyling.MainCardHome}
+          >
             <View>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <View
@@ -1088,8 +1083,9 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                     borderRadius: wp(6.5),
                     marginLeft: wp(7),
                     marginTop: hp(1),
-                    marginBottom: hp(1.2)
-                  }}>
+                    marginBottom: hp(1.2),
+                  }}
+                >
                   <Image
                     source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
                     style={{
@@ -1103,12 +1099,24 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                   style={{
                     marginLeft: wp(-3),
                     width: wp(45),
-                  }}>
-                  <Text style={{ color: 'white', fontSize: hp(2), marginLeft: hp(1.8) }}>{promisor == userN ? promiseeName : promisorName ? promisorName : name}</Text>
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontSize: hp(2),
+                      marginLeft: hp(1.8),
+                    }}
+                  >
+                    {promisor === userN
+                      ? promiseeName
+                      : promisorName
+                        ? promisorName
+                        : name}
+                  </Text>
                 </View>
                 {isTimeBound ? (
                   <>
-
                     <View style={{ width: wp(5) }}>
                       <Entypo size={20} color="white" name="calendar" />
                     </View>
@@ -1122,70 +1130,83 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                             color: 'white',
                             marginTop: wp(0.3),
                           },
-                        ]}>
+                        ]}
+                      >
                         {format(new Date(date), 'MM/dd/yyyy')}
                       </Text>
                     </View>
                   </>
-                ) : (
-                  null
-                )}
+                ) : null}
               </View>
 
-              <View style={{ marginHorizontal: hp(1.2) }}>
+              <View style={{ marginHorizontal: hp(1.2),marginBottom:hp(1) }}>
                 <Text style={styles.promisingText}>
-                  {promisetype === 'GUARANTEE' ? `${promisorName} is promising to ${promiseeName}` : `${promiseeName} is promising to ${promisorName}`}
+                  {promisetype === 'GUARANTEE'
+                    ? `${promisorName} is promising to ${promiseeName}`
+                    : `${promiseeName} is promising to ${promisorName}`}
                 </Text>
               </View>
 
-              <View style={[DashBoardStyling.PromiseReward, { marginHorizontal: hp(2.4), marginBottom: hp(1.2) }]}>
+              <View
+                style={[
+                  DashBoardStyling.PromiseReward,
+                  { marginHorizontal: hp(2.4) ,marginBottom:hp(1) },
+                ]}
+              >
                 {promisetype === 'GUARANTEE' ? (
-                  <Text
-                    style={{
-                      color: 'black',
-                      fontSize: hp(1.8),
-                      backgroundColor: "#e0e0e0",
-                      borderRadius: 50,
-                      paddingVertical: 5,
-                      paddingHorizontal: 10,
-                      // marginBottom: hp(1.2)
-                    }}>
-                    ${amount}
-                    {rewardPoints ? (
-                      <Text style={{
+                  amount ? (
+                    <Text
+                      style={{
                         color: 'black',
                         fontSize: hp(1.8),
-                        backgroundColor: "#e0e0e0",
+                        backgroundColor: '#e0e0e0',
                         borderRadius: 50,
-                        paddingVertical: 5,
-                        paddingHorizontal: 10,
-                        marginLeft: 10,
-                      }}> & {rewardPoints} pts
-                      </Text>
-                    ) : null}
-                  </Text>
+                        paddingVertical: wp(1.2),
+                        paddingHorizontal: wp(2),
+                      }}
+                    >
+                      ${amount}
+                      {rewardPoints ? (
+                        <Text
+                          style={{
+                            color: 'black',
+                            fontSize: hp(1.8),
+                            backgroundColor: '#e0e0e0',
+                            borderRadius: 50,
+                            paddingVertical: wp(1.2),
+                            paddingHorizontal: wp(2),
+                            marginLeft: wp(2),
+                          }}
+                        >
+                          & {rewardPoints} pts
+                        </Text>
+                      ) : null}
+                    </Text>
+                  ) : null
                 ) : promisetype === 'COMMITMENT' ? (
                   <Text
                     style={{
                       color: 'black',
                       fontSize: hp(1.8),
-                      backgroundColor: "#e0e0e0",
+                      backgroundColor: '#e0e0e0',
                       borderRadius: 50,
-                      paddingVertical: 5,
-                      paddingHorizontal: 10,
-                      // marginBottom: hp(1.2)
-                    }}>
-                    ${amount} {' '}
+                      paddingVertical: wp(1.2),
+                      paddingHorizontal: wp(2),
+                    }}
+                  >
+                    ${amount}{' '}
                     {rewardPoints ? (
-                      <Text style={{
-                        color: 'black',
-                        fontSize: hp(1.8),
-                        backgroundColor: "#e0e0e0",
-                        borderRadius: 50,
-                        paddingVertical: 5,
-                        paddingHorizontal: 10,
-                        marginLeft: 20,
-                      }}>
+                      <Text
+                        style={{
+                          color: 'black',
+                          fontSize: hp(1.8),
+                          backgroundColor: '#e0e0e0',
+                          borderRadius: 50,
+                          paddingVertical: wp(1.2),
+                          paddingHorizontal: wp(2),
+                          marginLeft: wp(2),
+                        }}
+                      >
                         & {rewardPoints} pts
                       </Text>
                     ) : null}
@@ -1193,9 +1214,8 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                 ) : null}
               </View>
 
-
               {ratingImpact ? (
-                <View>
+                <View style={{marginBottom:hp(1) }}>
                   <Text style={[styles.dynamicText, { marginHorizontal: hp(2.4) }]}>
                     Rating Will Impact
                   </Text>
@@ -1203,16 +1223,15 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
               ) : null}
 
               {displayStatus ? (
-                <View>
+                <View style={{marginBottom:hp(1) }}>
                   <Text style={[styles.statusText, { marginHorizontal: hp(2.4) }]}>
-                    {displayStatus}
+                    Promise {displayStatus}
                   </Text>
                 </View>
               ) : null}
 
               {promiseMediaURL ? (
-                <TouchableOpacity
-                  onPress={() => handelAttachedMedia(promiseMediaURL)}>
+                <TouchableOpacity onPress={() => handelAttachedMedia(promiseMediaURL)}>
                   <View style={styles.homethumbnailContainer}>
                     <Video
                       source={{ uri: promiseMediaURL }}
@@ -1230,17 +1249,34 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                 </TouchableOpacity>
               ) : null}
 
-              <View style={[DashBoardStyling.PromiseGoal, { marginTop: hp(1.2), marginBottom: hp(1.2) }]}>
-                <View>
-                  <Text style={{ color: 'white', fontSize: hp(2), marginLeft: hp(2.8) }}>
+              <View
+                style={[
+                  DashBoardStyling.PromiseGoal,
+                  { marginBottom:hp(1)  },
+                ]}
+              >
+                <View sty={{marginBottom:hp(1) }}>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontSize: hp(2),
+                      marginLeft: hp(2.8),
+                    }}
+                  >
                     {showFullText ? promiseGoal : `${promiseGoal.slice(0, 90)}`}
                   </Text>
                   {promiseGoal.length > 90 && (
                     <TouchableOpacity onPress={toggleText}>
-                      <Text style={{
-                        color: 'white', fontWeight: 'bold', fontSize: hp(1.6), marginHorizontal: hp(1.5),
-                        paddingHorizontal: hp(1.4), textDecorationLine: "underline", margin: 0
-                      }}>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontWeight: 'bold',
+                          fontSize: hp(1.6),
+                          marginLeft: hp(2.8),
+                          paddingHorizontal: hp(0.2),
+                          textDecorationLine: 'underline',
+                        }}
+                      >
                         {showFullText ? 'Read Less' : 'Read More'}
                       </Text>
                     </TouchableOpacity>
@@ -1248,33 +1284,34 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                 </View>
               </View>
 
-              <View style={[styles.actionTextContainer, { marginHorizontal: hp(1, 2) }]}>
+              <View style={[styles.actionTextContainer, { marginHorizontal: hp(1.2),marginBottom:hp(1)  }]}>
                 {actions.map((action, index) => {
                   if (action === 'Accept') {
                     return (
-                      <>
-                        <Text style={styles.actionText}>You can either accept or reject this promise</Text>
-                      </>
+                      <Text key={index} style={styles.actionText}>
+                        You can either accept or reject this promise
+                      </Text>
                     );
                   } else if (action === 'Fulfilled') {
                     return (
-                      <>
-                        <Text style={styles.actionText}>Promisor has met the terms of the Promise, you can now accept or reject the resolution.</Text>
-                      </>
+                      <Text key={index} style={styles.actionText}>
+                        Promisor has met the terms of the Promise, you can now accept or
+                        reject the resolution.
+                      </Text>
                     );
                   } else if (action === 'Pay') {
                     return (
-                      payButton &&(
-                        <>
-                          <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
-                        </>
-                        )
+                      payButton && (
+                        <Text key={index} style={styles.actionText}>
+                          Pay the amount to complete this promise
+                        </Text>
+                      )
                     );
                   } else if (action === 'Complete') {
                     return (
-                      <>
-                        <Text style={styles.actionText}>You can either complete or fail this promise</Text>
-                      </>
+                      <Text key={index} style={styles.actionText}>
+                        You can either complete or fail this promise
+                      </Text>
                     );
                   }
                 })}
@@ -1286,191 +1323,176 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                   justifyContent: 'space-around',
                   marginTop: hp(0.5),
                   width: wp(90),
-                }}>
+                }}
+              >
                 {actions.map((action, index) => {
                   if (action === 'Accept') {
-                    return (
-                      isLoading1 ? (
-                        <ActivityIndicator size="large" color="white" />
-                      ) : (
-                        <TouchableOpacity
-                          style={commonStyles.ActionBtn}
-                          key={index}
-                          onPress={() => {
-                            if (promisetype === 'GUARANTEE') {
-                              setIsLoading1(true);
-                              const res = handleAcceptPromise(promiseID, userN);
-                              if (res === 1) {
-                                setIsLoading1(false);
-                              }
-                              refreshCallback();
-                              setActionState(!actionState);
-                            } else {
-                              setIsLoading1(true);
-                              const res = handleAccept(promiseID, userN);
-                              if (res === 1) {
-                                setIsLoading1(false);
-                              }
-                              refreshCallback();
-                              setActionState(!actionState);
+                    return isLoading1 ? (
+                      <ActivityIndicator key={index} size="large" color="white" />
+                    ) : (
+                      <TouchableOpacity
+                        style={commonStyles.ActionBtn}
+                        key={index}
+                        onPress={() => {
+                          if (promisetype === 'GUARANTEE') {
+                            setIsLoading1(true);
+                            const res = handleAcceptPromise(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
                             }
-
-
-                          }}>
-                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                        </TouchableOpacity>
-                      )
+                            refreshCallback();
+                            setActionState(!actionState);
+                          } else {
+                            setIsLoading1(true);
+                            const res = handleAccept(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }
+                        }}
+                      >
+                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                      </TouchableOpacity>
                     );
                   } else if (action === 'Reject') {
-                    return (
-                      isLoading2 ? (
-                        <ActivityIndicator size="large" color="white" />
-                      ) : (
-                        <TouchableOpacity
-                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                          key={index}
-                          onPress={() => {
-                            setIsLoading2(true);
-                            const res = handleRejectPromise(promiseID, userN);
-                            if (res === 1) {
-                              setIsLoading2(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
-                          }}>
-                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                        </TouchableOpacity>
-                      )
+                    return isLoading2 ? (
+                      <ActivityIndicator key={index} size="large" color="white" />
+                    ) : (
+                      <TouchableOpacity
+                        style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                        key={index}
+                        onPress={() => {
+                          setIsLoading2(true);
+                          const res = handleRejectPromise(promiseID, userN);
+                          if (res === 1) {
+                            setIsLoading2(false);
+                          }
+                          refreshCallback();
+                          setActionState(!actionState);
+                        }}
+                      >
+                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                      </TouchableOpacity>
                     );
                   } else if (action === 'Fulfilled') {
-                    return (
-                      isLoading1 ? (
-                        <ActivityIndicator size="large" color="white" />
-                      ) : (
-                        <TouchableOpacity
-                          style={commonStyles.ActionBtn}
-                          key={index}
-                          onPress={() => {
+                    return isLoading1 ? (
+                      <ActivityIndicator key={index} size="large" color="white" />
+                    ) : (
+                      <TouchableOpacity
+                        style={commonStyles.ActionBtn}
+                        key={index}
+                        onPress={() => {
+                          if (promisetype === 'GUARANTEE') {
                             setIsLoading1(true);
-                            const res = handleFulfilledPromiseApi(promiseID, userN);
+                            const res = handleFulfillPromise(promiseID, userN);
                             if (res === 1) {
                               setIsLoading1(false);
                             }
                             refreshCallback();
                             setActionState(!actionState);
-                          }}>
-                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                        </TouchableOpacity>
-                      )
-                    );
-                  } else if (action === 'Failed') {
-                    return (
-                      isLoading2 ? (
-                        <ActivityIndicator size="large" color="white" />
-                      ) : (
-                        <TouchableOpacity
-                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                          key={index}
-                          onPress={() => {
-                            setIsLoading2(true);
-                            const res = handleFailedPromiseApi(promiseID, userN);
+                          } else {
+                            setIsLoading1(true);
+                            const res = handleFulfill(promiseID, userN);
                             if (res === 1) {
-                              setIsLoading2(false);
+                              setIsLoading1(false);
                             }
                             refreshCallback();
                             setActionState(!actionState);
-                          }}>
-                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                        </TouchableOpacity>
-                      )
+                          }
+                        }}
+                      >
+                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                      </TouchableOpacity>
+                    );
+                  } else if (action === 'Pay') {
+                    return isLoading1 ? (
+                      <ActivityIndicator key={index} size="large" color="white" />
+                    ) : (
+                      <TouchableOpacity
+                        style={commonStyles.ActionBtn}
+                        key={index}
+                        onPress={() => {
+                          if (promisetype === 'GUARANTEE') {
+                            setIsLoading1(true);
+                            const res = handlePaymentPromise(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          } else {
+                            setIsLoading1(true);
+                            const res = handlePayment(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }
+                        }}
+                      >
+                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                      </TouchableOpacity>
                     );
                   } else if (action === 'Complete') {
-                    return (
-                      isLoading1 ? (
-                        <ActivityIndicator size="large" color="white" />
-                      ) : (
-                        <TouchableOpacity
-                          style={[commonStyles.ActionBtn]}
-                          key={index}
-                          onPress={() => {
-                            // setIsLoading1(true);
-                            const res = handleCompletePromiseWithModal(promiseID, userN);
+                    return isLoading1 ? (
+                      <ActivityIndicator key={index} size="large" color="white" />
+                    ) : (
+                      <TouchableOpacity
+                        style={commonStyles.ActionBtn}
+                        key={index}
+                        onPress={() => {
+                          if (promisetype === 'GUARANTEE') {
+                            setIsLoading1(true);
+                            const res = handleCompletePromise(promiseID, userN);
                             if (res === 1) {
                               setIsLoading1(false);
                             }
-                          }}>
-                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                        </TouchableOpacity>
-                      )
-                    );
-
-                  } else if (action === 'Fail') {
-                    return (
-                      isLoading2 ? (
-                        <ActivityIndicator size="large" color="white" />
-                      ) : (
-                        <TouchableOpacity
-                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                          key={index}
-                          onPress={() => {
-                            setIsLoading2(true);
-                            const res = handleFailPromise(promiseID, userN);
+                            refreshCallback();
+                            setActionState(!actionState);
+                          } else {
+                            setIsLoading1(true);
+                            const res = handleComplete(promiseID, userN);
                             if (res === 1) {
-                              setIsLoading2(false);
+                              setIsLoading1(false);
                             }
                             refreshCallback();
                             setActionState(!actionState);
-                          }}>
-                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                        </TouchableOpacity>
-                      )
+                          }
+                        }}
+                      >
+                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                      </TouchableOpacity>
                     );
-                  } else if (action == 'Pay') {
-                    return (
-                      payButton && (
-
-                        <TouchableOpacity
-                          style={commonStyles.ActionBtn}
-                          key={index}
-                          onPress={navi}>
-                          <Text style={{ color: "white" }}>{action}</Text>
-                        </TouchableOpacity>
-                      )
-                      
-                    );
-                  }
+                  }else if (action === 'Fail') {
+                  return (
+                    isLoading2 ? (
+                      <ActivityIndicator size="large" color="white" />
+                    ) : (
+                      <TouchableOpacity
+                        style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                        key={index}
+                        onPress={() => {
+                          setIsLoading2(true);
+                          const res = handleFailPromise(promiseID, userN);
+                          if (res === 1) {
+                            setIsLoading2(false);
+                          }
+                          refreshCallback();
+                          setActionState(!actionState);
+                        }}>
+                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                      </TouchableOpacity>
+                    )
+                  );
+                }
                 })}
-
-                <Modal visible={isModalVisible} transparent={true}>
-                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%' }}>
-                      <TextInput
-                        multiline
-                        numberOfLines={4}
-                        placeholder="Enter your completion message..."
-                        value={textareaValue}
-                        onChangeText={handleTextareaChange}
-                        style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 5, marginBottom: 10, color: "black" }}
-                      />
-                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <TouchableOpacity
-                          style={{ backgroundColor: '#32C35B', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginRight: 5 }}
-                          onPress={handleCompleteAction}>
-                          <Text style={{ color: 'white', fontWeight: 'bold' }}>Complete</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={{ backgroundColor: 'red', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginLeft: 5 }}
-                          onPress={() => setIsModalVisible(false)}>
-                          <Text style={{ color: 'white', fontWeight: 'bold' }}>Close</Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  </View>
-                </Modal>
               </View>
-
             </View>
           </LinearGradient>
+
         ) : (
           <LinearGradient
             colors={
@@ -1532,43 +1554,48 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                 )}
               </View>
 
-              <View style={{ marginHorizontal: hp(1.2) }}>
-                <Text style={styles.promisingText}>
+              <View style={{ marginHorizontal: hp(1.2),marginBottom:hp(1)  }}>
+                <Text style={styles.promisingTextHome}>
                   {status === 'Pending' ? `${promiseeName} is promising to ${promisorName}` : `${promisorName} is promising to ${promiseeName}`}
                 </Text>
               </View>
 
-              <View style={[DashBoardStyling.PromiseReward, { marginHorizontal: hp(2.4), marginBottom: hp(1.2) }]}>
-                <Text
-                  style={{
-                    color: 'black',
-                    fontSize: hp(1.8),
-                    backgroundColor: "#e0e0e0",
-                    borderRadius: 50,
-                    paddingVertical: 5,
-                    paddingHorizontal: 10,
-                    // marginBottom: hp(1.2)
-                  }}>
-                  ${amount}
-                  {rewardPoints ? (
-                    <Text style={{
+              <View style={[DashBoardStyling.PromiseReward, { marginHorizontal: hp(2.4),marginBottom:hp(1)  }]}>
+
+                {amount ? (
+                  <Text
+                    style={{
                       color: 'black',
                       fontSize: hp(1.8),
                       backgroundColor: "#e0e0e0",
                       borderRadius: 50,
                       paddingVertical: 5,
                       paddingHorizontal: 10,
-                      marginLeft: 10,
-                    }}> & {rewardPoints} pts
-                    </Text>
-                  ) : null}
-                </Text>
+                    }}>
+                    ${amount}
+                    {rewardPoints ? (
+                      <Text style={{
+                        color: 'black',
+                        fontSize: hp(1.8),
+                        backgroundColor: "#e0e0e0",
+                        borderRadius: 50,
+                        paddingVertical: 5,
+                        paddingHorizontal: 10,
+                        marginLeft: 10,
+                      }}> & {rewardPoints} pts
+                      </Text>
+                    ) : null}
+                  </Text>
+                ) : (
+                  null
+                )}
+
 
               </View>
 
 
               {ratingImpact ? (
-                <View>
+                <View style={{marginBottom:hp(1) }}>
                   <Text style={[styles.dynamicText, { marginHorizontal: hp(2.4) }]}>
                     Rating Will Impact
                   </Text>
@@ -1576,7 +1603,7 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
               ) : null}
 
               {displayStatus ? (
-                <View>
+                <View style={{marginBottom:hp(1) }}>
                   <Text style={[styles.statusText, { marginHorizontal: hp(2.4) }]}>
                     Promise {displayStatus}
                   </Text>
@@ -1603,7 +1630,7 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                 </TouchableOpacity>
               ) : null}
 
-              <View style={[DashBoardStyling.PromiseGoal, { marginTop: hp(1.2), marginBottom: hp(1.2) }]}>
+              <View style={[DashBoardStyling.PromiseGoal, {  marginBottom: hp(1) }]}>
                 <View>
                   <Text style={{ color: 'white', fontSize: hp(2), marginLeft: hp(2.8) }}>
                     {showFullText ? promiseGoal : `${promiseGoal.slice(0, 90)}`}
@@ -1611,7 +1638,7 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                   {promiseGoal.length > 90 && (
                     <TouchableOpacity onPress={toggleText}>
                       <Text style={{
-                        color: 'white', fontWeight: 'bold', fontSize: hp(1.6), marginHorizontal: hp(0),
+                        color: 'white', fontWeight: 'bold', fontSize: hp(1.6), marginLeft: hp(2.8),
                         paddingHorizontal: hp(0.2), textDecorationLine: "underline", margin: 0
                       }}>
                         {showFullText ? 'Read Less' : 'Read More'}
@@ -1621,7 +1648,7 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                 </View>
               </View>
 
-              <View style={[styles.actionTextContainer, { marginHorizontal: hp(1, 2) }]}>
+              <View style={[styles.actionTextContainer, { marginHorizontal: hp(1, 2),marginBottom:hp(1) }]}>
                 {actions.map((action, index) => {
                   if (action === 'Accept') {
                     return (
@@ -1637,11 +1664,11 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                     );
                   } else if (action === 'Pay') {
                     return (
-                      payButton &&(
+                      payButton && (
                         <>
                           <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
                         </>
-                        )
+                      )
                     );
                   } else if (action === 'Complete') {
                     return (
@@ -1808,7 +1835,7 @@ navigation?.navigate('PaymentScreens', {promiseID, userN,amount,payFalse} )
                           <Text style={{ color: "white" }}>{action}</Text>
                         </TouchableOpacity>
                       )
-                      
+
                     );
                   }
                 })}
@@ -1880,10 +1907,34 @@ const styles = StyleSheet.create({
     fontSize: hp(1.8),
     backgroundColor: "#e0e0e0",
     borderRadius: 50,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingVertical: wp(1.2),
+    paddingHorizontal: wp(1.2),
     alignSelf: 'flex-start', // Ensures the width adjusts according to the content
-    marginBottom: hp(1.2),
+    // marginBottom: hp(1.2),
+  },
+
+  promisingTextGaurantee: {
+    color: 'black',
+    marginHorizontal: hp(1.2),
+    marginTop: hp(1.2),
+    fontSize: hp(1.8),
+    backgroundColor: "#e0e0e0",
+    borderRadius: 50,
+    paddingVertical: wp(1.2),
+    paddingHorizontal: wp(1.2),
+    alignSelf: 'flex-start', // Ensures the width adjusts according to the content
+  },
+
+  promisingTextHome: {
+    color: 'black',
+    marginHorizontal: hp(1.2),
+    marginTop: hp(1.2),
+    fontSize: hp(1.8),
+    backgroundColor: "#e0e0e0",
+    borderRadius: 50,
+    paddingVertical: wp(1.2),
+    paddingHorizontal: wp(1.2),
+    alignSelf: 'flex-start',
   },
 
   amountRewardText: {
@@ -1901,7 +1952,6 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 10,
     marginHorizontal: hp(1.2),
-    marginBottom: hp(1.2),
     alignSelf: 'flex-start', // Ensures the width adjusts according to the content
   },
 
@@ -1914,13 +1964,11 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     paddingVertical: 5,
     paddingHorizontal: 10,
-    marginBottom: hp(1.2),
     alignSelf: 'flex-start', // Ensures the width adjusts according to the content
   },
 
   statusText: {
     color: 'black',
-    marginHorizontal: hp(1.2),
     fontSize: hp(1.8),
     backgroundColor: "#e0e0e0",
     borderRadius: 50,
@@ -1955,9 +2003,9 @@ const styles = StyleSheet.create({
     height: 150,
     backgroundColor: 'black',
     marginHorizontal: hp(1.5), // Adjust this as needed
-    marginTop: 10, // Adjust this as needed
     borderRadius: 20,
     overflow: 'hidden', // Ensure child elements respect the border radius
+    marginBottom:hp(1) 
   },
 
   homethumbnailContainer: {
@@ -1968,6 +2016,7 @@ const styles = StyleSheet.create({
     marginTop: 10, // Adjust this as needed
     borderRadius: 20,
     overflow: 'hidden', // Ensure child elements respect the border radius
+    marginBottom:hp(1) 
   },
 
   videoThumbnail: {
