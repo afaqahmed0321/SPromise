@@ -562,24 +562,24 @@ const Review = ({ navigation }) => {
               </View>
               {shareToggel ? (
                 <View style={styles.Social1}>
-                  <View style={{ flex: 1, flexDirection: "row" }}>
-                    <Text style={Headings.Input5}>Public</Text>
+                  <View style={{ flex: 1, flexDirection: "row",alignItems:"center" }}>
                     <RadioButton.Android
                       value="public"
                       status={mNtoggle === 'public' ? 'checked' : 'unchecked'}
                       onPress={() => setMNTogel('public')}
                       color="#652D90"
                     />
+                    <Text style={Headings.Input5}>Public</Text>
                   </View>
-                  <View style={{ flex: 1, flexDirection: "row" }}>
+                  <View style={{ flex: 1, flexDirection: "row",alignItems:"center" }}>
 
-                    <Text style={Headings.Input5}>Network only</Text>
                     <RadioButton.Android
                       value="network"
                       status={mNtoggle === 'network' ? 'checked' : 'unchecked'}
                       onPress={() => setMNTogel('network')}
                       color="#652D90"
                     />
+                    <Text style={Headings.Input5}>Network only</Text>
                   </View>
                 </View>
               ) : null}
@@ -620,9 +620,11 @@ const styles = StyleSheet.create({
     marginTop: hp(1),
   },
   Social1: {
-    flexDirection: 'column',
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'row',
     width: wp(94),
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     marginTop: hp(1),
     paddingHorizontal:wp(5)
   },

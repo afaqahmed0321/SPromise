@@ -435,6 +435,9 @@ const EditProfile = () => {
                                                 top: 10,
                                                 right: 12,
                                             },
+                                            placeholder: {
+                                                color: 'black', // Set the placeholder color to black
+                                            },
                                         }}
                                         useNativeAndroidPickerStyle={false}
                                         placeholder={{ label: "Select a state", value: null }}
