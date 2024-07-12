@@ -1386,8 +1386,8 @@ const DetailCard = ({
                         onPress={() => {
                           if (promisetype === 'GUARANTEE') {
                             setIsLoading1(true);
-                            const res = handleFulfillPromise(promiseID, userN);
-                            if (res === 1) {
+                            const res = handleFulfilledPromiseApi(promiseID, userN);
+                            if (res == 1) {
                               setIsLoading1(false);
                             }
                             refreshCallback();
@@ -1395,7 +1395,7 @@ const DetailCard = ({
                           } else {
                             setIsLoading1(true);
                             const res = handleFulfill(promiseID, userN);
-                            if (res === 1) {
+                            if (res == 1) {
                               setIsLoading1(false);
                             }
                             refreshCallback();
@@ -1406,65 +1406,57 @@ const DetailCard = ({
                         <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                       </TouchableOpacity>
                     );
-                  } else if (action === 'Pay') {
+                  } else if (action === 'Failed') {
+                    return (
+                      isLoading2 ? (
+                        <ActivityIndicator size="large" color="white" />
+                      ) : (
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                          key={index}
+                          onPress={() => {
+                            setIsLoading2(true);
+                            const res = handleFailedPromiseApi(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading2(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      ));
+                  } 
+                  else if (action == 'Pay') {
                     return isLoading1 ? (
                       <ActivityIndicator key={index} size="large" color="white" />
                     ) : (
                       <TouchableOpacity
                         style={commonStyles.ActionBtn}
                         key={index}
-                        onPress={() => {
-                          if (promisetype === 'GUARANTEE') {
-                            setIsLoading1(true);
-                            const res = handlePaymentPromise(promiseID, userN);
-                            if (res === 1) {
-                              setIsLoading1(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
-                          } else {
-                            setIsLoading1(true);
-                            const res = handlePayment(promiseID, userN);
-                            if (res === 1) {
-                              setIsLoading1(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
-                          }
-                        }}
+                        onPress={navi}
                       >
                         <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                       </TouchableOpacity>
                     );
                   } else if (action === 'Complete') {
-                    return isLoading1 ? (
-                      <ActivityIndicator key={index} size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={commonStyles.ActionBtn}
-                        key={index}
-                        onPress={() => {
-                          if (promisetype === 'GUARANTEE') {
-                            setIsLoading1(true);
-                            const res = handleCompletePromise(promiseID, userN);
+                    return (
+                      isLoading1 ? (
+                        <ActivityIndicator size="large" color="white" />
+                      ) : (
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn]}
+                          key={index}
+                          onPress={() => {
+                            // setIsLoading1(true);
+                            const res = handleCompletePromiseWithModal(promiseID, userN)
                             if (res === 1) {
                               setIsLoading1(false);
                             }
-                            refreshCallback();
-                            setActionState(!actionState);
-                          } else {
-                            setIsLoading1(true);
-                            const res = handleComplete(promiseID, userN);
-                            if (res === 1) {
-                              setIsLoading1(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
-                          }
-                        }}
-                      >
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      )
                     );
                   }else if (action === 'Fail') {
                   return (
@@ -1489,6 +1481,32 @@ const DetailCard = ({
                   );
                 }
                 })}
+                <Modal visible={isModalVisible} transparent={true}>
+                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%' }}>
+                      <TextInput
+                        multiline
+                        numberOfLines={4}
+                        placeholder="Enter your completion message..."
+                        value={textareaValue}
+                        onChangeText={handleTextareaChange}
+                        style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 5, marginBottom: 10, color: "black" }}
+                      />
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <TouchableOpacity
+                          style={{ backgroundColor: '#32C35B', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginRight: 5 }}
+                          onPress={handleCompleteAction}>
+                          <Text style={{ color: 'white', fontWeight: 'bold' }}>Complete</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={{ backgroundColor: 'red', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginLeft: 5 }}
+                          onPress={() => setIsModalVisible(false)}>
+                          <Text style={{ color: 'white', fontWeight: 'bold' }}>Close</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                </Modal>
               </View>
             </View>
           </LinearGradient>
@@ -1729,7 +1747,7 @@ const DetailCard = ({
                           key={index}
                           onPress={() => {
                             setIsLoading2(true);
-                            const res = handleRejectPromise(promiseID, userN);
+                            const res = handleReject(promiseID, userN);
                             if (res === 1) {
                               setIsLoading2(false);
                             }

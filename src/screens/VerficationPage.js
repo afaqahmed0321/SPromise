@@ -15,7 +15,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import VerifyOTP from '../Network/Verification';
 
 const VerficationPage = ({ navigation }) => {
-  const [resendCooldown, setResendCooldown] = useState(0);
+  const [resendCooldown, setResendCooldown] = useState(30);
   const [Code, setCode] = useRecoilState(code);
   const [fName, setFName] = useRecoilState(ufName);
   const [lName, setLName] = useRecoilState(ulName);
