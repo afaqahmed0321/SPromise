@@ -100,16 +100,17 @@ const DetailCard = ({
     setTextareaValue(text);
   };
 
-  const handleCompleteAction = () => {
+  const handleCompleteAction = async () => {
 
 
     setIsLoading1(true);
-    // setIsLoading2(true);
+    // setIsLoading1(true);
 
-    const res = handleCompletePromise(promiseID, userN, textareaValue);
-    if (res === 1) {
+    const res = await handleCompletePromise(promiseID, userN, textareaValue);
+    console.log("responseeeeeaaaa", res);
+    if (res == 1) {
       setIsLoading1(false);
-      setIsLoading2(false);
+      // setIsLoading1(false);
 
     }
     refreshCallback();
@@ -221,6 +222,28 @@ const DetailCard = ({
     payFalse(false);
     navigation?.navigate('PaymentScreens', { promiseID, userN, amount, payFalse })
   }
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setIsKeyboardVisible(true);
+        console.log('Keyboard is visible');
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setIsKeyboardVisible(false);
+        console.log('done');
+      }
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
   return (
     <>
       {tab == 'UserPromiseReq' || tab == 'ReqPromiseDashboard' ? (
@@ -283,12 +306,12 @@ const DetailCard = ({
               )}
 
             </View>
-            <View style={{marginBottom:hp(1) }}>
+            <View style={{ marginBottom: hp(1) }}>
               <Text style={styles.promisingText}>
                 {promiseeName} is promising to {promisorName}
               </Text>
             </View>
-            <View style={[DashBoardStyling.PromiseReward,{marginBottom:hp(1) }]}>
+            <View style={[DashBoardStyling.PromiseReward, { marginBottom: hp(1) }]}>
               {guaranteedWithMoney ? (
                 <Text style={styles.baseText}>
                   ${amount}
@@ -299,7 +322,7 @@ const DetailCard = ({
               ) : null}
             </View>
             {ratingImpact ? (
-              <View style={{marginBottom:hp(1) }}>
+              <View style={{ marginBottom: hp(1) }}>
                 <Text style={styles.dynamicText}>
                   Rating Will Impact
                 </Text>
@@ -307,7 +330,7 @@ const DetailCard = ({
             ) : null}
 
             {displayStatus ? (
-              <View style={{marginBottom:hp(1) }}>
+              <View style={{ marginBottom: hp(1) }}>
                 <Text style={styles.statusText}>
                   Promise {displayStatus}
                 </Text>
@@ -336,7 +359,7 @@ const DetailCard = ({
               </TouchableOpacity>
             ) : null}
 
-            <View style={[styles.promiseGoalContainer, { marginBottom:hp(1)  }]}>
+            <View style={[styles.promiseGoalContainer, { marginBottom: hp(1) }]}>
               <View>
                 <Text style={styles.promiseGoalText}>
                   {showFullText ? promiseGoal : `${promiseGoal.slice(0, 90)}`}
@@ -355,35 +378,41 @@ const DetailCard = ({
             </View>
 
             <View style={styles.actionTextContainer}>
-              {actions.map((action, index) => {
-                if (action === 'Accept') {
-                  return (
-                    <>
-                      <Text style={styles.actionText}>You can either accept or reject this promise</Text>
-                    </>
-                  );
-                } else if (action === 'Fulfilled') {
-                  return (
-                    <>
-                      <Text style={styles.actionText}>Promisor has met the terms of the Promise, you can now accept or reject the resolution.</Text>
-                    </>
-                  );
-                } else if (action === 'Pay') {
-                  return (
-                    payButton && (
-                      <>
-                        <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
-                      </>
-                    )
-                  );
-                } else if (action === 'Complete') {
-                  return (
-                    <>
-                      <Text style={styles.actionText}>You can either complete or fail this promise</Text>
-                    </>
-                  );
-                }
-              })}
+              {isLoading1 ? (
+                <></>
+              ) : (
+                actions.map((action, index) => {
+                  if (action === 'Accept') {
+                    return (
+                      <View key={index}>
+                        <Text style={styles.actionText}>You can either accept or reject this promise</Text>
+                      </View>
+                    );
+                  } else if (action === 'Fulfilled') {
+                    return (
+                      <View key={index}>
+                        <Text style={styles.actionText}>Promisor has met the terms of the Promise, you can now accept or reject the resolution.</Text>
+                      </View>
+                    );
+                  } else if (action === 'Pay') {
+                    return (
+                      payButton && (
+                        <View key={index}>
+                          <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
+                        </View>
+                      )
+                    );
+                  } else if (action === 'Complete') {
+                    return (
+                      <View key={index}>
+                        <Text style={styles.actionText}>You can either complete or fail this promise</Text>
+                      </View>
+                    );
+                  } else {
+                    return null;
+                  }
+                })
+              )}
             </View>
 
             <View
@@ -394,147 +423,139 @@ const DetailCard = ({
                 marginTop: hp(1),
                 width: wp(90),
               }}>
-              {actions.map((action, index) => {
-                if (action === 'Accept') {
-                  return (
-                    isLoading1 ? (
-                      <ActivityIndicator size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={commonStyles.ActionBtn}
-                        key={index}
-                        onPress={() => {
-                          setIsLoading1(true);
-                          const res = handleAccept(promiseID, userN);
-                          if (res === 1) {
-                            setIsLoading1(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
-                        }}>
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    )
-                  );
-                } else if (action === 'Reject') {
-                  return (
-                    isLoading2 ? (
-                      <ActivityIndicator size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                        key={index}
-                        onPress={() => {
-                          setIsLoading2(true);
-                          const res = handleReject(promiseID, userN);
-                          if (res === 1) {
-                            setIsLoading2(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
-                        }}>
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    )
-                  );
-                } else if (action === 'Complete') {
-                  return (
-                    isLoading1 ? (
-                      <ActivityIndicator size="large" color="white" />
-                    ) : (
+              {isLoading1 ? (
+                <ActivityIndicator size="large" color="white" />
+              ) : (
+                actions.map((action, index) => {
+                  if (action === 'Accept') {
+                    return (
+                      
+                        <TouchableOpacity
+                          style={commonStyles.ActionBtn}
+                          key={index}
+                          onPress={() => {
+                            setIsLoading1(true);
+                            const res = handleAccept(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      
+                    );
+                  } else if (action === 'Reject') {
+                    return (
+                     
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                          key={index}
+                          onPress={() => {
+                            setIsLoading1(true);
+                            const res = handleReject(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      
+                    );
+                  } else if (action === 'Complete') {
+                    return (
+                      
 
-                      <TouchableOpacity
-                        style={[commonStyles.ActionBtn]}
-                        key={index}
-                        onPress={() => {
-                          // handleCompletePromise(promiseID, userN);
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn]}
+                          key={index}
+                          onPress={() => {
+                            // handleCompletePromise(promiseID, userN);
 
-                          refreshCallback();
-                          setActionState(!actionState);
-                        }}>
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    )
-                  );
-                } else if (action === 'Fail') {
-                  return (
-                    isLoading2 ? (
-                      <ActivityIndicator size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                        key={index}
-                        onPress={() => {
-                          setIsLoading2(true);
-                          const res = handleFailPromise(promiseID, userN);
-                          if (res === 1) {
-                            setIsLoading2(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
-                        }}>
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    ));
-                }
-                else if (action === 'Fulfilled') {
-                  return (
-                    isLoading1 ? (
-                      <ActivityIndicator size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={[commonStyles.ActionBtn]}
-                        key={index}
-                        onPress={() => {
-                          setIsLoading1(true);
-                          const res = handleFulfilledPromiseApi(promiseID, userN);
-                          if (res === 1) {
-                            setIsLoading1(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
-                        }}>
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    )
-                  );
-                } else if (action === 'Failed') {
-                  return (
-                    isLoading2 ? (
-                      <ActivityIndicator size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                        key={index}
-                        onPress={() => {
-                          setIsLoading2(true);
-                          const res = handleFailedPromiseApi(promiseID, userN);
-                          if (res === 1) {
-                            setIsLoading2(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
-                        }}>
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    )
-                  );
-                }
-                else if (action == 'Pay') {
-                  return (
-                    payButton && (
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      
+                    );
+                  } else if (action === 'Fail') {
+                    return (
+                     
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                          key={index}
+                          onPress={() => {
+                            setIsLoading1(true);
+                            const res = handleFailPromise(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      );
+                  }
+                  else if (action === 'Fulfilled') {
+                    return (
+                      
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn]}
+                          key={index}
+                          onPress={() => {
+                            setIsLoading1(true);
+                            const res = handleFulfilledPromiseApi(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      
+                    );
+                  } else if (action === 'Failed') {
+                    return (
+                     
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                          key={index}
+                          onPress={() => {
+                            setIsLoading1(true);
+                            const res = handleFailedPromiseApi(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      
+                    );
+                  }
+                  else if (action == 'Pay') {
+                    return (
+                      payButton && (
 
-                      <TouchableOpacity
-                        style={commonStyles.ActionBtn}
-                        key={index}
-                        onPress={navi}>
-                        <Text style={{ color: "white" }}>{action}</Text>
-                      </TouchableOpacity>
-                    )
+                        <TouchableOpacity
+                          style={commonStyles.ActionBtn}
+                          key={index}
+                          onPress={navi}>
+                          <Text style={{ color: "white" }}>{action}</Text>
+                        </TouchableOpacity>
+                      )
 
-                  );
-                }
-              })}
+                    );
+                  }
+                })
+              )}
             </View>
           </View>
         </LinearGradient>
@@ -600,7 +621,7 @@ const DetailCard = ({
 
 
             </View>
-            <View style={{marginBottom:hp(1) }}>
+            <View style={{ marginBottom: hp(1) }}>
               <Text style={styles.promisingTextGaurantee}>
                 {promisorName} is promising to {promiseeName}
               </Text>
@@ -608,7 +629,7 @@ const DetailCard = ({
 
             {(amount > 0 || rewardPoints > 0) && (
 
-              <View style={[styles.amountRewardText,{marginBottom:hp(1)}]}>
+              <View style={[styles.amountRewardText, { marginBottom: hp(1) }]}>
 
                 {promisetype == 'GUARANTEE' ? (
                   <>
@@ -696,85 +717,86 @@ const DetailCard = ({
                     )}
 
 
-                    {actions.map((action, index) => {
-                      {
-                        <View style={DashBoardStyling.PromiseGoal}>
-                          {actions.map((action, index) => {
-                            if (action === 'Accept') {
-                              return (
-                                <>
-                                  <Text style={{ color: "white", paddingLeft: 13 }}>You can either accept or reject this promise</Text>
-                                </>
-                              );
-                            } else if (action === 'Fulfilled') {
-                              return (
-                                <>
-                                  <Text style={{ color: "white", paddingLeft: 13 }}>Promisor has met the terms of the Promise, you can now accept or reject the resolution.</Text>
-                                </>
-                              );
-                            } else if (action === 'Pay') {
-                              return (
-                                payButton && (
+                    {isLoading1 ? (
+                      <></>
+                    ) : (
+                      actions.map((action, index) => {
+                        {
+                          <View style={DashBoardStyling.PromiseGoal}>
+                            {actions.map((action, index) => {
+                              if (action === 'Accept') {
+                                return (
                                   <>
-                                    <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
+                                    <Text style={{ color: "white", paddingLeft: 13 }}>You can either accept or reject this promise</Text>
                                   </>
-                                )
-                              );
-                            } else if (action === 'Complete') {
-                              return (
-                                <>
-                                  <Text style={{ color: "white", paddingLeft: 13 }}>You can either complete or fail this promise</Text>
-                                </>
-                              );
-                            }
-                          })}
-                        </View>
+                                );
+                              } else if (action === 'Fulfilled') {
+                                return (
+                                  <>
+                                    <Text style={{ color: "white", paddingLeft: 13 }}>Promisor has met the terms of the Promise, you can now accept or reject the resolution.</Text>
+                                  </>
+                                );
+                              } else if (action === 'Pay') {
+                                return (
+                                  payButton && (
+                                    <>
+                                      <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
+                                    </>
+                                  )
+                                );
+                              } else if (action === 'Complete') {
+                                return (
+                                  <>
+                                    <Text style={{ color: "white", paddingLeft: 13 }}>You can either complete or fail this promise</Text>
+                                  </>
+                                );
+                              }
+                            })}
+                          </View>
 
-                        if (action === 'Accept') {
-                          return (
-                            isLoading1 ? (
-                              <ActivityIndicator size="large" color="white" />
-                            ) : (
-                              <TouchableOpacity
-                                style={commonStyles.ActionBtn}
-                                key={index}
-                                onPress={() => {
-                                  setIsLoading1(true);
-                                  const res = handleAcceptPromise(promiseID, userN);
-                                  if (res === 1) {
-                                    setIsLoading1(false);
-                                  }
-                                  refreshCallback();
-                                  setActionState(!actionState);
-                                }}>
-                                <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                              </TouchableOpacity>
-                            )
-                          );
-                        } else if (action === 'Reject') {
-                          return (
-                            isLoading2 ? (
-                              <ActivityIndicator size="large" color="white" />
-                            ) : (
-                              <TouchableOpacity
-                                style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                                key={index}
-                                onPress={() => {
-                                  setIsLoading2(true);
-                                  const res = handleRejectPromise(promiseID, userN);
-                                  if (res === 1) {
-                                    setIsLoading2(false);
-                                  }
-                                  refreshCallback();
-                                  setActionState(!actionState);
-                                }}>
-                                <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                              </TouchableOpacity>
-                            )
-                          );
+                          if (action === 'Accept') {
+                            return (
+                             
+                                <TouchableOpacity
+                                  style={commonStyles.ActionBtn}
+                                  key={index}
+                                  onPress={() => {
+                                    setIsLoading1(true);
+                                    const res = handleAcceptPromise(promiseID, userN);
+                                    if (res === 1) {
+                                      setIsLoading1(false);
+                                    }
+                                    refreshCallback();
+                                    setActionState(!actionState);
+                                  }}>
+                                  <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                                </TouchableOpacity>
+                              
+                            );
+                          } else if (action === 'Reject') {
+                            return (
+                             
+                                <TouchableOpacity
+                                  style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                                  key={index}
+                                  onPress={() => {
+                                    setIsLoading1(true);
+                                    const res = handleRejectPromise(promiseID, userN);
+                                    if (res === 1) {
+                                      setIsLoading1(false);
+                                    }
+                                    refreshCallback();
+                                    setActionState(!actionState);
+                                  }}>
+                                  <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                                </TouchableOpacity>
+                              
+                            );
+                          }
                         }
-                      }
-                    })}
+                      })
+                    )
+                    }
 
 
                   </Text>
@@ -784,7 +806,7 @@ const DetailCard = ({
             )}
 
             {ratingImpact ? (
-              <View style={{marginBottom:hp(1) }}>
+              <View style={{ marginBottom: hp(1) }}>
                 <Text style={styles.dynamicText}>
                   Rating Will Impact
                 </Text>
@@ -792,7 +814,7 @@ const DetailCard = ({
             ) : null}
 
             {displayStatus ? (
-              <View style={{marginBottom:hp(1),marginHorizontal: hp(1.2), }}>
+              <View style={{ marginBottom: hp(1), marginHorizontal: hp(1.2), }}>
                 <Text style={styles.statusText}>
                   Promise {displayStatus}
                 </Text>
@@ -818,7 +840,7 @@ const DetailCard = ({
                 />
               </TouchableOpacity>
             ) : null}
-            <View style={[styles.promiseGoalContainer,{marginBottom:hp(1)} ]}>
+            <View style={[styles.promiseGoalContainer, { marginBottom: hp(1) }]}>
               <View>
                 <Text style={styles.promiseGoalText}>
                   {showFullText ? promiseGoal : `${promiseGoal.slice(0, 90)}`}
@@ -837,35 +859,40 @@ const DetailCard = ({
             </View>
 
             <View style={styles.actionTextContainer}>
-              {actions.map((action, index) => {
-                if (action === 'Accept') {
-                  return (
-                    <>
-                      <Text style={styles.actionText}>You can either accept or reject this promise</Text>
-                    </>
-                  );
-                } else if (action === 'Fulfilled') {
-                  return (
-                    <>
-                      <Text style={styles.actionText}>Promisor has met the terms of the Promise, you can now accept or reject the resolution.</Text>
-                    </>
-                  );
-                } else if (action === 'Pay') {
-                  return (
-                    payButton && (
+              {isLoading1 ? (
+                <></>
+              ) : (
+                actions.map((action, index) => {
+                  if (action === 'Accept') {
+                    return (
                       <>
-                        <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
+                        <Text style={styles.actionText}>You can either accept or reject this promise</Text>
                       </>
-                    )
-                  );
-                } else if (action === 'Complete') {
-                  return (
-                    <>
-                      <Text style={styles.actionText}>You can either complete or fail this promise</Text>
-                    </>
-                  );
-                }
-              })}
+                    );
+                  } else if (action === 'Fulfilled') {
+                    return (
+                      <>
+                        <Text style={styles.actionText}>Promisor has met the terms of the Promise, you can now accept or reject the resolution.</Text>
+                      </>
+                    );
+                  } else if (action === 'Pay') {
+                    return (
+                      payButton && (
+                        <>
+                          <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
+                        </>
+                      )
+                    );
+                  } else if (action === 'Complete') {
+                    return (
+                      <>
+                        <Text style={styles.actionText}>You can either complete or fail this promise</Text>
+                      </>
+                    );
+                  }
+                })
+              )
+              }
             </View>
 
             <View
@@ -875,159 +902,150 @@ const DetailCard = ({
                 marginTop: hp(0.5),
                 width: wp(90),
               }}>
-              {actions.map((action, index) => {
-                if (action === 'Accept') {
-                  return (
-                    isLoading1 ? (
-                      <ActivityIndicator size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={commonStyles.ActionBtn}
-                        key={index}
-                        onPress={() => {
-                          setIsLoading1(true);
-                          const res = handleAcceptPromise(promiseID, userN);
-                          if (res === 1) {
-                            setIsLoading1(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
-                        }}>
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    )
-                  );
-                } else if (action === 'Reject') {
-                  return (
-                    isLoading2 ? (
-                      <ActivityIndicator size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                        key={index}
-                        onPress={() => {
-                          setIsLoading2(true);
-                          const res = handleRejectPromise(promiseID, userN);
-                          if (res === 1) {
-                            setIsLoading2(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
-                        }}>
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    )
-                  );
-                } else if (action === 'Complete') {
-                  // return (
-                  //   <TouchableOpacity
-                  //     style={[commonStyles.ActionBtn]}
-                  //     key={index}
-                  //     onPress={() => {
-                  //       handleCompletePromise(promiseID, userN);
-                  //       refreshCallback();
-                  //       setActionState(!actionState);
-                  //     }}>
-                  //     <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                  //   </TouchableOpacity>
-                  // );
-                  return (
-                    isLoading1 ? (
-                      <ActivityIndicator size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={[commonStyles.ActionBtn]}
-                        key={index}
-                        onPress={() => {
-                          // setIsLoading1(true);
-                          const res = handleCompletePromiseWithModal(promiseID, userN)
-                          if (res === 1) {
-                            setIsLoading1(false);
-                          }
-                        }}>
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    )
-                  );
+              {isLoading1 ? (
+                <ActivityIndicator size="large" color="white" />
+              ) : (
+                actions.map((action, index) => {
+                  if (action === 'Accept') {
+                    return (
+                     
+                        <TouchableOpacity
+                          style={commonStyles.ActionBtn}
+                          key={index}
+                          onPress={() => {
+                            setIsLoading1(true);
+                            const res = handleAcceptPromise(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      
+                    );
+                  } else if (action === 'Reject') {
+                    return (
+                    
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                          key={index}
+                          onPress={() => {
+                            setIsLoading1(true);
+                            const res = handleRejectPromise(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      
+                    );
+                  } else if (action === 'Complete') {
+                    // return (
+                    //   <TouchableOpacity
+                    //     style={[commonStyles.ActionBtn]}
+                    //     key={index}
+                    //     onPress={() => {
+                    //       handleCompletePromise(promiseID, userN);
+                    //       refreshCallback();
+                    //       setActionState(!actionState);
+                    //     }}>
+                    //     <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                    //   </TouchableOpacity>
+                    // );
+                    return (
+                      
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn]}
+                          key={index}
+                          onPress={() => {
+                            // setIsLoading1(true);
+                            const res = handleCompletePromiseWithModal(promiseID, userN)
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      
+                    );
 
-                } else if (action === 'Fail') {
-                  return (
-                    isLoading2 ? (
-                      <ActivityIndicator size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                        key={index}
-                        onPress={() => {
-                          setIsLoading2(true);
-                          const res = handleFailPromise(promiseID, userN);
-                          if (res === 1) {
-                            setIsLoading2(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
-                        }}>
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    )
-                  );
-                }
-                else if (action === 'Fulfilled') {
-                  return (
-                    isLoading1 ? (
-                      <ActivityIndicator size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={[commonStyles.ActionBtn]}
-                        key={index}
-                        onPress={() => {
-                          setIsLoading1(true);
-                          const res = handleFulfilledPromiseApi(promiseID, userN);
-                          if (res === 1) {
-                            setIsLoading1(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
-                        }}>
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    )
-                  );
-                } else if (action === 'Failed') {
-                  return (
-                    isLoading2 ? (
-                      <ActivityIndicator size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                        key={index}
-                        onPress={() => {
-                          setIsLoading2(true);
-                          const res = handleFailedPromiseApi(promiseID, userN);
-                          if (res === 1) {
-                            setIsLoading2(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
-                        }}>
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    ));
-                }
-                else if (action == 'Pay') {
-                  return (
-                    payButton && (
+                  } else if (action === 'Fail') {
+                    return (
+                    
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                          key={index}
+                          onPress={() => {
+                            setIsLoading1(true);
+                            const res = handleFailPromise(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      
+                    );
+                  }
+                  else if (action === 'Fulfilled') {
+                    return (
+                      
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn]}
+                          key={index}
+                          onPress={() => {
+                            setIsLoading1(true);
+                            const res = handleFulfilledPromiseApi(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      
+                    );
+                  } else if (action === 'Failed') {
+                    return (
+                     
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                          key={index}
+                          onPress={() => {
+                            setIsLoading1(true);
+                            const res = handleFailedPromiseApi(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      );
+                  }
+                  else if (action == 'Pay') {
+                    return (
+                      payButton && (
 
-                      <TouchableOpacity
-                        style={commonStyles.ActionBtn}
-                        key={index}
-                        onPress={navi}>
-                        <Text style={{ color: "white" }}>{action}</Text>
-                      </TouchableOpacity>
-                    )
-                  );
-                }
-              })}
+                        <TouchableOpacity
+                          style={commonStyles.ActionBtn}
+                          key={index}
+                          onPress={navi}>
+                          <Text style={{ color: "white" }}>{action}</Text>
+                        </TouchableOpacity>
+                      )
+                    );
+                  }
+                })
+              )
+
+              }
               <Modal visible={isModalVisible} transparent={true}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -1042,20 +1060,26 @@ const DetailCard = ({
                       />
 
                       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <TouchableOpacity
-                          style={{ backgroundColor: '#32C35B', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginRight: 5 }}
-                          onPress={handleCompleteAction}>
-                          <Text style={{ color: 'white', fontWeight: 'bold' }}>Complete</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={{ backgroundColor: 'red', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginLeft: 5 }}
-                          onPress={() => {
-                            setIsModalVisible(false);
-                            setIsLoading1(false);
-                            setIsLoading2(false);
-                          }}>
-                          <Text style={{ color: 'white', fontWeight: 'bold' }}>Close</Text>
-                        </TouchableOpacity>
+                        {!isKeyboardVisible && (
+                          <>
+                            <TouchableOpacity
+                              style={{ backgroundColor: '#32C35B', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginRight: 5 }}
+                              onPress={handleCompleteAction}>
+                              <Text style={{ color: 'white', fontWeight: 'bold' }}>Complete</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                              style={{ backgroundColor: 'red', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginLeft: 5 }}
+                              onPress={() => {
+                                setIsModalVisible(false);
+                                setIsLoading1(false);
+                                setIsLoading1(false);
+                              }}>
+                              <Text style={{ color: 'white', fontWeight: 'bold' }}>Close</Text>
+                            </TouchableOpacity>
+                          </>
+                        )}
+
+
                       </View>
                     </View>
                   </View>
@@ -1139,7 +1163,7 @@ const DetailCard = ({
                 ) : null}
               </View>
 
-              <View style={{ marginHorizontal: hp(1.2),marginBottom:hp(1) }}>
+              <View style={{ marginHorizontal: hp(1.2), marginBottom: hp(1) }}>
                 <Text style={styles.promisingText}>
                   {promisetype === 'GUARANTEE'
                     ? `${promisorName} is promising to ${promiseeName}`
@@ -1150,7 +1174,7 @@ const DetailCard = ({
               <View
                 style={[
                   DashBoardStyling.PromiseReward,
-                  { marginHorizontal: hp(2.4) ,marginBottom:hp(1) },
+                  { marginHorizontal: hp(2.4), marginBottom: hp(1) },
                 ]}
               >
                 {promisetype === 'GUARANTEE' ? (
@@ -1215,7 +1239,7 @@ const DetailCard = ({
               </View>
 
               {ratingImpact ? (
-                <View style={{marginBottom:hp(1) }}>
+                <View style={{ marginBottom: hp(1) }}>
                   <Text style={[styles.dynamicText, { marginHorizontal: hp(2.4) }]}>
                     Rating Will Impact
                   </Text>
@@ -1223,7 +1247,7 @@ const DetailCard = ({
               ) : null}
 
               {displayStatus ? (
-                <View style={{marginBottom:hp(1) }}>
+                <View style={{ marginBottom: hp(1) }}>
                   <Text style={[styles.statusText, { marginHorizontal: hp(2.4) }]}>
                     Promise {displayStatus}
                   </Text>
@@ -1252,10 +1276,10 @@ const DetailCard = ({
               <View
                 style={[
                   DashBoardStyling.PromiseGoal,
-                  { marginBottom:hp(1)  },
+                  { marginBottom: hp(1) },
                 ]}
               >
-                <View sty={{marginBottom:hp(1) }}>
+                <View sty={{ marginBottom: hp(1) }}>
                   <Text
                     style={{
                       color: 'white',
@@ -1284,37 +1308,41 @@ const DetailCard = ({
                 </View>
               </View>
 
-              <View style={[styles.actionTextContainer, { marginHorizontal: hp(1.2),marginBottom:hp(1)  }]}>
-                {actions.map((action, index) => {
+              <View style={[styles.actionTextContainer, { marginHorizontal: hp(1.2), marginBottom: hp(1) }]}>
+              {isLoading1 ? (
+                <></>
+              ) : (
+                actions.map((action, index) => {
                   if (action === 'Accept') {
                     return (
-                      <Text key={index} style={styles.actionText}>
-                        You can either accept or reject this promise
-                      </Text>
+                      <>
+                        <Text style={styles.actionText}>You can either accept or reject this promise</Text>
+                      </>
                     );
                   } else if (action === 'Fulfilled') {
                     return (
-                      <Text key={index} style={styles.actionText}>
-                        Promisor has met the terms of the Promise, you can now accept or
-                        reject the resolution.
-                      </Text>
+                      <>
+                        <Text style={styles.actionText}>Promisor has met the terms of the Promise, you can now accept or reject the resolution.</Text>
+                      </>
                     );
                   } else if (action === 'Pay') {
                     return (
                       payButton && (
-                        <Text key={index} style={styles.actionText}>
-                          Pay the amount to complete this promise
-                        </Text>
+                        <>
+                          <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
+                        </>
                       )
                     );
                   } else if (action === 'Complete') {
                     return (
-                      <Text key={index} style={styles.actionText}>
-                        You can either complete or fail this promise
-                      </Text>
+                      <>
+                        <Text style={styles.actionText}>You can either complete or fail this promise</Text>
+                      </>
                     );
                   }
-                })}
+                })
+              )
+              }
               </View>
 
               <View
@@ -1325,162 +1353,150 @@ const DetailCard = ({
                   width: wp(90),
                 }}
               >
-                {actions.map((action, index) => {
+                {isLoading1 ? (
+                <ActivityIndicator size="large" color="white" />
+              ) : (
+                actions.map((action, index) => {
                   if (action === 'Accept') {
-                    return isLoading1 ? (
-                      <ActivityIndicator key={index} size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={commonStyles.ActionBtn}
-                        key={index}
-                        onPress={() => {
-                          if (promisetype === 'GUARANTEE') {
-                            setIsLoading1(true);
-                            const res = handleAcceptPromise(promiseID, userN);
-                            if (res === 1) {
-                              setIsLoading1(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
-                          } else {
-                            setIsLoading1(true);
-                            const res = handleAccept(promiseID, userN);
-                            if (res === 1) {
-                              setIsLoading1(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
-                          }
-                        }}
-                      >
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    );
-                  } else if (action === 'Reject') {
-                    return isLoading2 ? (
-                      <ActivityIndicator key={index} size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                        key={index}
-                        onPress={() => {
-                          setIsLoading2(true);
-                          const res = handleRejectPromise(promiseID, userN);
-                          if (res === 1) {
-                            setIsLoading2(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
-                        }}
-                      >
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    );
-                  } else if (action === 'Fulfilled') {
-                    return isLoading1 ? (
-                      <ActivityIndicator key={index} size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={commonStyles.ActionBtn}
-                        key={index}
-                        onPress={() => {
-                          if (promisetype === 'GUARANTEE') {
-                            setIsLoading1(true);
-                            const res = handleFulfilledPromiseApi(promiseID, userN);
-                            if (res == 1) {
-                              setIsLoading1(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
-                          } else {
-                            setIsLoading1(true);
-                            const res = handleFulfill(promiseID, userN);
-                            if (res == 1) {
-                              setIsLoading1(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
-                          }
-                        }}
-                      >
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    );
-                  } else if (action === 'Failed') {
                     return (
-                      isLoading2 ? (
-                        <ActivityIndicator size="large" color="white" />
-                      ) : (
+                     
                         <TouchableOpacity
-                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                          style={commonStyles.ActionBtn}
                           key={index}
-                          onPress={() => {
-                            setIsLoading2(true);
-                            const res = handleFailedPromiseApi(promiseID, userN);
+                          onPress={async () => {
+                            setIsLoading1(true);
+                            const res = await handleAcceptPromise(promiseID, userN);
                             if (res === 1) {
-                              setIsLoading2(false);
+                              setIsLoading1(false);
                             }
                             refreshCallback();
                             setActionState(!actionState);
                           }}>
                           <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                         </TouchableOpacity>
-                      ));
-                  } 
-                  else if (action == 'Pay') {
-                    return isLoading1 ? (
-                      <ActivityIndicator key={index} size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={commonStyles.ActionBtn}
-                        key={index}
-                        onPress={navi}
-                      >
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
+                      
+                    );
+                  } else if (action === 'Reject') {
+                    return (
+                    
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                          key={index}
+                          onPress={() => {
+                            setIsLoading1(true);
+                            const res = handleRejectPromise(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      
                     );
                   } else if (action === 'Complete') {
+                    // return (
+                    //   <TouchableOpacity
+                    //     style={[commonStyles.ActionBtn]}
+                    //     key={index}
+                    //     onPress={() => {
+                    //       handleCompletePromise(promiseID, userN);
+                    //       refreshCallback();
+                    //       setActionState(!actionState);
+                    //     }}>
+                    //     <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                    //   </TouchableOpacity>
+                    // );
                     return (
-                      isLoading1 ? (
-                        <ActivityIndicator size="large" color="white" />
-                      ) : (
+                      
                         <TouchableOpacity
                           style={[commonStyles.ActionBtn]}
                           key={index}
                           onPress={() => {
                             // setIsLoading1(true);
                             const res = handleCompletePromiseWithModal(promiseID, userN)
-                            if (res === 1) {
-                              setIsLoading1(false);
-                            }
                           }}>
                           <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                         </TouchableOpacity>
+                      
+                    );
+
+                  } else if (action === 'Fail') {
+                    return (
+                    
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                          key={index}
+                          onPress={() => {
+                            setIsLoading1(true);
+                            const res = handleFailPromise(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      
+                    );
+                  }
+                  else if (action === 'Fulfilled') {
+                    return (
+                      
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn]}
+                          key={index}
+                          onPress={() => {
+                            setIsLoading1(true);
+                            const res = handleFulfilledPromiseApi(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      
+                    );
+                  } else if (action === 'Failed') {
+                    return (
+                     
+                        <TouchableOpacity
+                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                          key={index}
+                          onPress={() => {
+                            setIsLoading1(true);
+                            const res = handleFailedPromiseApi(promiseID, userN);
+                            if (res === 1) {
+                              setIsLoading1(false);
+                            }
+                            refreshCallback();
+                            setActionState(!actionState);
+                          }}>
+                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                        </TouchableOpacity>
+                      );
+                  }
+                  else if (action == 'Pay') {
+                    return (
+                      payButton && (
+
+                        <TouchableOpacity
+                          style={commonStyles.ActionBtn}
+                          key={index}
+                          onPress={navi}>
+                          <Text style={{ color: "white" }}>{action}</Text>
+                        </TouchableOpacity>
                       )
                     );
-                  }else if (action === 'Fail') {
-                  return (
-                    isLoading2 ? (
-                      <ActivityIndicator size="large" color="white" />
-                    ) : (
-                      <TouchableOpacity
-                        style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                        key={index}
-                        onPress={() => {
-                          setIsLoading2(true);
-                          const res = handleFailPromise(promiseID, userN);
-                          if (res === 1) {
-                            setIsLoading2(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
-                        }}>
-                        <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                      </TouchableOpacity>
-                    )
-                  );
-                }
-                })}
+                  }
+                })
+              )
+
+              }
                 <Modal visible={isModalVisible} transparent={true}>
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%' }}>
@@ -1493,16 +1509,23 @@ const DetailCard = ({
                         style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 5, marginBottom: 10, color: "black" }}
                       />
                       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <TouchableOpacity
-                          style={{ backgroundColor: '#32C35B', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginRight: 5 }}
-                          onPress={handleCompleteAction}>
-                          <Text style={{ color: 'white', fontWeight: 'bold' }}>Complete</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={{ backgroundColor: 'red', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginLeft: 5 }}
-                          onPress={() => setIsModalVisible(false)}>
-                          <Text style={{ color: 'white', fontWeight: 'bold' }}>Close</Text>
-                        </TouchableOpacity>
+
+                        {!isKeyboardVisible && (
+                          <>
+
+                            <TouchableOpacity
+                              style={{ backgroundColor: '#32C35B', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginRight: 5 }}
+                              onPress={handleCompleteAction}>
+                              <Text style={{ color: 'white', fontWeight: 'bold' }}>Complete</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                              style={{ backgroundColor: 'red', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginLeft: 5 }}
+                              onPress={() => setIsModalVisible(false)}>
+                              <Text style={{ color: 'white', fontWeight: 'bold' }}>Close</Text>
+                            </TouchableOpacity>
+                          </>
+                        )}
+
                       </View>
                     </View>
                   </View>
@@ -1572,13 +1595,13 @@ const DetailCard = ({
                 )}
               </View>
 
-              <View style={{ marginHorizontal: hp(1.2),marginBottom:hp(1)  }}>
+              <View style={{ marginHorizontal: hp(1.2), marginBottom: hp(1) }}>
                 <Text style={styles.promisingTextHome}>
                   {status === 'Pending' ? `${promiseeName} is promising to ${promisorName}` : `${promisorName} is promising to ${promiseeName}`}
                 </Text>
               </View>
 
-              <View style={[DashBoardStyling.PromiseReward, { marginHorizontal: hp(2.4),marginBottom:hp(1)  }]}>
+              <View style={[DashBoardStyling.PromiseReward, { marginHorizontal: hp(2.4), marginBottom: hp(1) }]}>
 
                 {amount ? (
                   <Text
@@ -1613,7 +1636,7 @@ const DetailCard = ({
 
 
               {ratingImpact ? (
-                <View style={{marginBottom:hp(1) }}>
+                <View style={{ marginBottom: hp(1) }}>
                   <Text style={[styles.dynamicText, { marginHorizontal: hp(2.4) }]}>
                     Rating Will Impact
                   </Text>
@@ -1621,7 +1644,7 @@ const DetailCard = ({
               ) : null}
 
               {displayStatus ? (
-                <View style={{marginBottom:hp(1) }}>
+                <View style={{ marginBottom: hp(1) }}>
                   <Text style={[styles.statusText, { marginHorizontal: hp(2.4) }]}>
                     Promise {displayStatus}
                   </Text>
@@ -1648,7 +1671,7 @@ const DetailCard = ({
                 </TouchableOpacity>
               ) : null}
 
-              <View style={[DashBoardStyling.PromiseGoal, {  marginBottom: hp(1) }]}>
+              <View style={[DashBoardStyling.PromiseGoal, { marginBottom: hp(1) }]}>
                 <View>
                   <Text style={{ color: 'white', fontSize: hp(2), marginLeft: hp(2.8) }}>
                     {showFullText ? promiseGoal : `${promiseGoal.slice(0, 90)}`}
@@ -1666,36 +1689,42 @@ const DetailCard = ({
                 </View>
               </View>
 
-              <View style={[styles.actionTextContainer, { marginHorizontal: hp(1, 2),marginBottom:hp(1) }]}>
-                {actions.map((action, index) => {
-                  if (action === 'Accept') {
-                    return (
-                      <>
-                        <Text style={styles.actionText}>You can either accept or reject this promise</Text>
-                      </>
-                    );
-                  } else if (action === 'Fulfilled') {
-                    return (
-                      <>
-                        <Text style={styles.actionText}>Promisor has met the terms of the Promise, you can now accept or reject the resolution.</Text>
-                      </>
-                    );
-                  } else if (action === 'Pay') {
-                    return (
-                      payButton && (
+              <View style={[styles.actionTextContainer, { marginHorizontal: hp(1, 2), marginBottom: hp(1) }]}>
+                {isLoading1 ? (
+                  <></>
+                ) : (
+                  actions.map((action, index) => {
+                    if (action === 'Accept') {
+                      return (
                         <>
-                          <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
+                          <Text style={styles.actionText}>You can either accept or reject this promise</Text>
                         </>
-                      )
-                    );
-                  } else if (action === 'Complete') {
-                    return (
-                      <>
-                        <Text style={styles.actionText}>You can either complete or fail this promise</Text>
-                      </>
-                    );
-                  }
-                })}
+                      );
+                    } else if (action === 'Fulfilled') {
+                      return (
+                        <>
+                          <Text style={styles.actionText}>Promisor has met the terms of the Promise, you can now accept or reject the resolution.</Text>
+                        </>
+                      );
+                    } else if (action === 'Pay') {
+                      return (
+                        payButton && (
+                          <>
+                            <Text style={styles.actionText}>Pay the amount to complete this promise</Text>
+                          </>
+                        )
+                      );
+                    } else if (action === 'Complete') {
+                      return (
+                        <>
+                          <Text style={styles.actionText}>You can either complete or fail this promise</Text>
+                        </>
+                      );
+                    }
+                  })
+                )
+
+                }
               </View>
 
               <View
@@ -1705,158 +1734,152 @@ const DetailCard = ({
                   marginTop: hp(0.5),
                   width: wp(90),
                 }}>
-                {actions.map((action, index) => {
-                  if (action === 'Accept') {
-                    return (
-                      isLoading1 ? (
-                        <ActivityIndicator size="large" color="white" />
-                      ) : (
-                        <TouchableOpacity
-                          style={commonStyles.ActionBtn}
-                          key={index}
-                          onPress={() => {
-                            if (promisetype === 'GUARANTEE') {
+                {isLoading1 ? (
+                  <ActivityIndicator size="large" color="white" />
+                ) : (
+                  actions.map((action, index) => {
+                    if (action === 'Accept') {
+                      return (
+                       
+                          <TouchableOpacity
+                            style={commonStyles.ActionBtn}
+                            key={index}
+                            onPress={() => {
+                              if (promisetype === 'GUARANTEE') {
+                                setIsLoading1(true);
+                                const res = handleAcceptPromise(promiseID, userN);
+                                if (res === 1) {
+                                  setIsLoading1(false);
+                                }
+                                refreshCallback();
+                                setActionState(!actionState);
+                              } else {
+                                setIsLoading1(true);
+                                const res = handleAccept(promiseID, userN);
+                                if (res === 1) {
+                                  setIsLoading1(false);
+                                }
+                                refreshCallback();
+                                setActionState(!actionState);
+                              }
+                            }}>
+                            <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                          </TouchableOpacity>
+                        )
+                      
+                    } else if (action === 'Reject') {
+                      return (
+                       
+                          <TouchableOpacity
+                            style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                            key={index}
+                            onPress={() => {
                               setIsLoading1(true);
-                              const res = handleAcceptPromise(promiseID, userN);
+                              const res = handleReject(promiseID, userN);
                               if (res === 1) {
                                 setIsLoading1(false);
                               }
                               refreshCallback();
                               setActionState(!actionState);
-                            } else {
+                            }}>
+                            <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                          </TouchableOpacity>
+                        
+                      );
+                    } else if (action === 'Fulfilled') {
+                      return (
+                       
+                          <TouchableOpacity
+                            style={commonStyles.ActionBtn}
+                            key={index}
+                            onPress={() => {
                               setIsLoading1(true);
-                              const res = handleAccept(promiseID, userN);
+                              const res = handleFulfilledPromiseApi(promiseID, userN);
                               if (res === 1) {
                                 setIsLoading1(false);
                               }
                               refreshCallback();
                               setActionState(!actionState);
-                            }
-                          }}>
-                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                        </TouchableOpacity>
-                      )
-                    );
-                  } else if (action === 'Reject') {
-                    return (
-                      isLoading2 ? (
-                        <ActivityIndicator size="large" color="white" />
-                      ) : (
-                        <TouchableOpacity
-                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                          key={index}
-                          onPress={() => {
-                            setIsLoading2(true);
-                            const res = handleReject(promiseID, userN);
-                            if (res === 1) {
-                              setIsLoading2(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
-                          }}>
-                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                        </TouchableOpacity>
-                      )
-                    );
-                  } else if (action === 'Fulfilled') {
-                    return (
-                      isLoading1 ? (
-                        <ActivityIndicator size="large" color="white" />
-                      ) : (
-                        <TouchableOpacity
-                          style={commonStyles.ActionBtn}
-                          key={index}
-                          onPress={() => {
-                            setIsLoading1(true);
-                            const res = handleFulfilledPromiseApi(promiseID, userN);
-                            if (res === 1) {
-                              setIsLoading1(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
-                          }}>
-                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                        </TouchableOpacity>
-                      )
-                    );
-                  } else if (action === 'Failed') {
-                    return (
-                      isLoading2 ? (
-                        <ActivityIndicator size="large" color="white" />
-                      ) : (
-                        <TouchableOpacity
-                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                          key={index}
-                          onPress={() => {
-                            setIsLoading2(true);
-                            const res = handleFailedPromiseApi(promiseID, userN);
-                            if (res === 1) {
-                              setIsLoading2(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
-                          }}>
-                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                        </TouchableOpacity>
-                      )
-                    );
-                  } else if (action === 'Complete') {
-                    return (
-                      isLoading1 ? (
-                        <ActivityIndicator size="large" color="white" />
-                      ) : (
-                        <TouchableOpacity
-                          style={[commonStyles.ActionBtn]}
-                          key={index}
-                          onPress={() => {
-                            // setIsLoading1(true);
-                            const res = handleCompletePromiseWithModal(promiseID, userN);
-                            if (res === 1) {
-                              setIsLoading1(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
-                          }}>
-                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                        </TouchableOpacity>
-                      )
-                    );
-                  } else if (action === 'Fail') {
-                    return (
-                      isLoading2 ? (
-                        <ActivityIndicator size="large" color="white" />
-                      ) : (
-                        <TouchableOpacity
-                          style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
-                          key={index}
-                          onPress={() => {
-                            setIsLoading2(true);
-                            const res = handleFailPromise(promiseID, userN);
-                            if (res === 1) {
-                              setIsLoading2(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
-                          }}>
-                          <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
-                        </TouchableOpacity>
-                      )
-                    );
-                  } else if (action == 'Pay') {
-                    return (
-                      payButton && (
+                            }}>
+                            <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                          </TouchableOpacity>
+                        
+                      );
+                    } else if (action === 'Failed') {
+                      return (
 
-                        <TouchableOpacity
-                          style={commonStyles.ActionBtn}
-                          key={index}
-                          onPress={navi}>
-                          <Text style={{ color: "white" }}>{action}</Text>
-                        </TouchableOpacity>
-                      )
+                          <TouchableOpacity
+                            style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                            key={index}
+                            onPress={() => {
+                              setIsLoading1(true);
+                              const res = handleFailedPromiseApi(promiseID, userN);
+                              if (res === 1) {
+                                setIsLoading1(false);
+                              }
+                              refreshCallback();
+                              setActionState(!actionState);
+                            }}>
+                            <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                          </TouchableOpacity>
+                        
+                      );
+                    } else if (action === 'Complete') {
+                      return (
+                       
+                          <TouchableOpacity
+                            style={[commonStyles.ActionBtn]}
+                            key={index}
+                            onPress={() => {
+                              // setIsLoading1(true);
+                              const res = handleCompletePromiseWithModal(promiseID, userN);
+                              if (res === 1) {
+                                setIsLoading1(false);
+                              }
+                              refreshCallback();
+                              setActionState(!actionState);
+                            }}>
+                            <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                          </TouchableOpacity>
+                        
+                      );
+                    } else if (action === 'Fail') {
+                      return (
+                       
+                          <TouchableOpacity
+                            style={[commonStyles.ActionBtn, { backgroundColor: 'red' }]}
+                            key={index}
+                            onPress={() => {
+                              setIsLoading1(true);
+                              const res = handleFailPromise(promiseID, userN);
+                              if (res === 1) {
+                                setIsLoading1(false);
+                              }
+                              refreshCallback();
+                              setActionState(!actionState);
+                            }}>
+                            <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
+                          </TouchableOpacity>
+                        
+                      );
+                    } else if (action == 'Pay') {
+                      return (
+                        payButton && (
 
-                    );
-                  }
-                })}
+                          <TouchableOpacity
+                            style={commonStyles.ActionBtn}
+                            key={index}
+                            onPress={navi}>
+                            <Text style={{ color: "white" }}>{action}</Text>
+                          </TouchableOpacity>
+                        )
+
+                      );
+                    }
+                  })
+                )
+
+                }
 
                 <Modal visible={isModalVisible} transparent={true}>
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -1870,16 +1893,23 @@ const DetailCard = ({
                         style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5, marginBottom: 10, color: "black", fontSize: hp(1.8) }}
                       />
                       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <TouchableOpacity
-                          style={{ backgroundColor: '#32C35B', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginRight: 5 }}
-                          onPress={handleCompleteAction}>
-                          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: hp(1.6) }}>Complete</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={{ backgroundColor: 'red', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginLeft: 5 }}
-                          onPress={() => setIsModalVisible(false)}>
-                          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: hp(1.6) }}>Close</Text>
-                        </TouchableOpacity>
+
+                        {!isKeyboardVisible && (
+                          <>
+
+                            <TouchableOpacity
+                              style={{ backgroundColor: '#32C35B', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginRight: 5 }}
+                              onPress={handleCompleteAction}>
+                              <Text style={{ color: 'white', fontWeight: 'bold', fontSize: hp(1.6) }}>Complete</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                              style={{ backgroundColor: 'red', padding: 10, borderRadius: 5, alignItems: 'center', flex: 1, marginLeft: 5 }}
+                              onPress={() => setIsModalVisible(false)}>
+                              <Text style={{ color: 'white', fontWeight: 'bold', fontSize: hp(1.6) }}>Close</Text>
+                            </TouchableOpacity>
+                          </>
+                        )}
+
                       </View>
                     </View>
                   </View>
@@ -2023,7 +2053,7 @@ const styles = StyleSheet.create({
     marginHorizontal: hp(1.5), // Adjust this as needed
     borderRadius: 20,
     overflow: 'hidden', // Ensure child elements respect the border radius
-    marginBottom:hp(1) 
+    marginBottom: hp(1)
   },
 
   homethumbnailContainer: {
@@ -2034,7 +2064,7 @@ const styles = StyleSheet.create({
     marginTop: 10, // Adjust this as needed
     borderRadius: 20,
     overflow: 'hidden', // Ensure child elements respect the border radius
-    marginBottom:hp(1) 
+    marginBottom: hp(1)
   },
 
   videoThumbnail: {

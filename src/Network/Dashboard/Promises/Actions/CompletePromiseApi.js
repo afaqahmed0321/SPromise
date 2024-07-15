@@ -20,6 +20,7 @@ export default CompletePromiseApi = async (promiseID, userNo, note) => {
           500,
           50,
         );
+        return 1;
       } else {
         console.warn('Unexpected response code:', result.code);
       }
