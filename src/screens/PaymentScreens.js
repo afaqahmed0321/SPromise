@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ToastAndroid, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { CreditCardInput } from 'react-native-credit-card-input';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -8,6 +8,7 @@ import { STRIPE_PUBLIC_KEY, Secret_key } from '../comp/Payment/helper';
 import axios from 'axios';
 import LoadingOverlay from '../comp/Global/LoadingOverlay';
 import { useRoute, useNavigation } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 const CURRENCY = 'USD';
 var CARD_TOKEN = null;
@@ -54,45 +55,70 @@ const PaymentScreens = () => {
   };
 
   const onSubmit = async () => {
-    if (CardInput.valid == false || typeof CardInput.valid == "undefined") {
-      ToastAndroid.show('Invalid Credit Card', ToastAndroid.LONG);
+    if (CardInput.valid === false || typeof CardInput.valid === "undefined") {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Credit Card',
+        visibilityTime: 3000, // 3 sec
+        position: 'bottom',
+      });
       return false;
     }
-
+  
     let creditCardToken;
     try {
       setIsLoading(true);
       creditCardToken = await getCreditCardToken(CardInput);
       if (creditCardToken.error) {
-        ToastAndroid.show('creditCardToken error', ToastAndroid.LONG);
+        Toast.show({
+          type: 'error',
+          text1: 'Credit Card Token Error',
+          visibilityTime: 3000, // 3 sec
+          position: 'bottom',
+        });
         setIsLoading(false);
         setPayButton(true);
         return;
       }
     } catch (e) {
-      console.log("e", e);
+      console.log("Error:", e);
       setIsLoading(false);
       setPayButton(true);
       return;
     }
-
+  
     const { error } = await subscribeUser(creditCardToken);
     if (error) {
-      ToastAndroid.show(error, ToastAndroid.LONG);
+      Toast.show({
+        type: 'info',
+        text1: `${error}`,
+        visibilityTime: 3000, // 3 sec
+        position: 'bottom',
+      });
       setIsLoading(false);
       setPayButton(true);
     } else {
       let payment_data = await charges();
-      if (payment_data.status == 'succeeded') {
+      if (payment_data.status === 'succeeded') {
         setIsLoading(false);
-        ToastAndroid.show('Payment Successful.', ToastAndroid.LONG);
+        Toast.show({
+          type: 'success',
+          text1: 'Payment Successful',
+          visibilityTime: 3000, // 3 sec
+          position: 'bottom',
+        });
         navigation.goBack();
         const sourceID = payment_data?.source?.id;
         await axios.post(`https://snappromise.com:8080/updatePaymentTransactionID?promiseID=${promiseID}&transactionID=${sourceID}`);
       } else {
         setIsLoading(false);
         setPayButton(true);
-        ToastAndroid.show('Payment Failed.', ToastAndroid.LONG);
+        Toast.show({
+          type: 'error',
+          text1: 'Payment Failed',
+          visibilityTime: 3000, // 3 sec
+          position: 'bottom',
+        });
       }
     }
   };
@@ -143,6 +169,8 @@ const PaymentScreens = () => {
           </TouchableOpacity>
         </View>
       </View>
+      <Toast ref={ref => Toast.setRef(ref)} />
+
     </StripeProvider>
   );
 };

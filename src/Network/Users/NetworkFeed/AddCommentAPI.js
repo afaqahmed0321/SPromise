@@ -1,4 +1,4 @@
-import { ToastAndroid } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 const url = 'https://snappromise.com:8080/addPromiseComment';
 
@@ -23,13 +23,30 @@ const PromiseComment = async (userNN, PID, commen) => {
     console.log(result);
 
     if (result.code === 100) {
-      ToastAndroid.showWithGravityAndOffset(
-        'Comment has been added to the Promise',
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        25,
-        50,
-      );
+      Toast.show({
+        type: 'success',
+        text1: 'Comment has been added ',
+        text2: 'to the promise.',
+        text1Style: {
+          fontSize: 14,
+          color: 'black',
+          flexWrap: 'wrap',
+          textAlign: 'center',
+        },
+        text2Style: {
+          fontSize: 14,
+          color: 'black',
+          flexWrap: 'wrap',
+          textAlign: 'center',
+        },
+        swipeable: true,
+        text1NumberOfLines: 0,
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
+
       return result; // Return the result if the comment is added successfully
     } else {
       console.warn('Unexpected response code:', result.code);

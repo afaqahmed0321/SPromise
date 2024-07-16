@@ -1,6 +1,6 @@
 import ToggleSwitch from 'toggle-switch-react-native';
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, ToastAndroid } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import {
     View,
     Text,
@@ -46,6 +46,9 @@ import { BlurView } from '@react-native-community/blur';
 import DropDownPicker from 'react-native-dropdown-picker';
 import AccountRemovedApiCall from '../Network/Users/RemoveUserSocialAccounts/TwitterAccountRemoveApiCall';
 import RNPickerSelect from 'react-native-picker-select';
+import FontAw5 from 'react-native-vector-icons/FontAwesome5';
+import Toast from 'react-native-toast-message';
+
 
 const EditProfile = () => {
     const [istwitterRemoveAccount, setIstwitterRemoveAccount] = useRecoilState(RemoveTwitterApicall);
@@ -198,13 +201,14 @@ const EditProfile = () => {
         if (modifyApiRequest.code === 200) {
             setEditProfile(false);
             console.log("code running");
-            ToastAndroid.showWithGravityAndOffset(
-                'Data Successfully Updated',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50,
-            );
+            Toast.show({
+                type: 'success',
+                text1: 'Data successfully updated',
+                swipeable: true,
+                autoHide: true,
+                topOffset: 30,
+                bottomOffset: 40,
+              });
             navigation.navigate('UserProfile')
         }
     };
@@ -354,7 +358,7 @@ const EditProfile = () => {
                                 />
                             </View>
                         </View>
-                        <View>
+                        <View style={{ zIndex:100}}>
                             <Text style={Headings.Input3}>Gender</Text>
                             <DropDownPicker
                                 open={open}
@@ -568,7 +572,7 @@ const EditProfile = () => {
                         <TouchableOpacity
                             onPress={() => UpdateProfile()} // Ensure function is called only on press
                             style={{ marginLeft: wp(0) }}>
-                            <Font color="green" name="check" size={30} />
+                            <FontAw5 color="green" name="check" size={30} />
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => {
@@ -577,12 +581,13 @@ const EditProfile = () => {
                                 navigation.navigate('UserProfile')
                             }}
                             style={{ marginLeft: wp(0) }}>
-                            <Font color="#652D90" name="close" size={30} />
+                            <FontAw5 color="#652D90" name="times" size={30} />
                         </TouchableOpacity>
                     </View>
 
                 </View>
             </View>
+            <Toast ref={ref => Toast.setRef(ref)} />
         </ScrollView>
     );
 };
@@ -628,7 +633,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-    InnerBox: { with: wp(40) },
+    InnerBox: { with: wp(40), },
     InputConD: {
         flexDirection: 'row',
     },
@@ -717,33 +722,33 @@ const styles = StyleSheet.create({
 });
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
+        marginTop: hp(1.3),
         fontSize: 16,
-        paddingVertical: 12,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderRadius: 4,
+        paddingVertical: hp(1.5),
+        paddingHorizontal: wp(2),
+        borderWidth: 0,
+        borderRadius: wp(20),
         color: 'black',
-        paddingRight: 30, // to ensure the text is never behind the icon
+        paddingRight: wp(8), // to ensure the text is never behind the icon
         backgroundColor: '#F6E2FF',
         alignItems: 'center',
         width: wp(82),
         height: hp(6),
-        paddingLeft: 20,
+        paddingLeft: wp(5),
     },
     inputAndroid: {
         fontSize: 16,
-        paddingHorizontal: 10,
-        paddingVertical: 8,
-        borderWidth: 0.5,
+        paddingHorizontal: wp(2),
+        paddingVertical: hp(1),
         borderColor: 'transparent',
-        borderRadius: 50,
+        borderRadius: wp(20),
         color: 'black',
-        paddingRight: 30, // to ensure the text is never behind the icon
+        paddingRight: wp(8), // to ensure the text is never behind the icon
         backgroundColor: '#F6E2FF',
         alignItems: 'center',
         width: wp(82),
         height: hp(6),
-        paddingLeft: 20,
+        paddingLeft: wp(5),
     },
 });
 export default EditProfile;

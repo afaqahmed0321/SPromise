@@ -6,7 +6,6 @@ import {
     TextInput,
     StyleSheet,
     Alert,
-    ToastAndroid,
   } from 'react-native';
   import EvilIcon from 'react-native-vector-icons/FontAwesome5';
   import axios from 'axios';
@@ -15,6 +14,7 @@ import {
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
 
 
@@ -25,7 +25,7 @@ const ReportIssues = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     const handleSubmit = async () => {
-        setIsLoading(true)
+        setIsLoading(true);
         let userNo = await AsyncStorage.getItem('userNo');
         let emailID = await AsyncStorage.getItem('Email');
         const userData = {
@@ -34,53 +34,52 @@ const ReportIssues = ({ navigation }) => {
           status: 'NEW',
           emailID: emailID,
           createdBy: userNo
-        };    
+        };
+      
         if (title && description) {
           try {
             const response = await axios.post('https://snappromise.com:8080/api/Report/reportSave', userData);
             if (response.data.code === 100) {
-              ToastAndroid.showWithGravityAndOffset(
-                'A report has been created',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50,
-              );
+              Toast.show({
+                type: 'success',
+                text1: 'A report has been created',
+                visibilityTime: 3000, // 3 sec
+                position: 'bottom',
+              });
               setTitle('');
               setDescription('');
               setIsLoading(false);
             } else {
-                ToastAndroid.showWithGravityAndOffset(
-                    'Failed', 'Report Failed.',
-                    ToastAndroid.LONG,
-                    ToastAndroid.BOTTOM,
-                    25,
-                    50,
-                  );
+              Toast.show({
+                type: 'error',
+                text1: 'Report Failed',
+                text2: 'Failed to create report. Please try again.',
+                visibilityTime: 3000, // 3 sec
+                position: 'bottom',
+              });
               setIsLoading(false);
             }
           } catch (error) {
             console.error('Error:', error);
             setIsLoading(false);
-            ToastAndroid.showWithGravityAndOffset(
-                'Error', 'Failed to report issue. Please try again.',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50,
-              );
+            Toast.show({
+              type: 'error',
+              text1: 'Error',
+              text2: 'Failed to report issue. Please try again.',
+              visibilityTime: 3000, // 3 sec
+              position: 'bottom',
+            });
           }
         } else {
           setIsLoading(false);
-          ToastAndroid.showWithGravityAndOffset(
-            'Invalid Data', 'Please make sure all fields are filled correctly.',
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50,
-          );
+          Toast.show({
+            type: 'info',
+            text1: 'Invalid Data',
+            text2: 'Please make sure all fields are filled correctly.',
+            visibilityTime: 3000, // 3 sec
+            position: 'bottom',
+          });
         }
-        setIsLoading(false); 
       };
     
 
@@ -139,6 +138,7 @@ const ReportIssues = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
             </View>
+            <Toast ref={ref => Toast.setRef(ref)} />
         </View>
     );
 };

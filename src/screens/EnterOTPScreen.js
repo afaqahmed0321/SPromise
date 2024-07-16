@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, ToastAndroid } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel'
 import { Headings } from '../Styling/Headings'
@@ -13,6 +13,7 @@ import OtpInputs from 'react-native-otp-inputs';
 import LinearGradient from 'react-native-linear-gradient';
 import { useRoute } from '@react-navigation/native';
 import PasswordVerification from '../Network/PasswordVerification';
+import Toast from 'react-native-toast-message';
 
 const EnterOTPScreen = ({ navigation }) => {
   const [isCodeSent, setIsCodeSent] = useState(false);
@@ -57,7 +58,29 @@ const EnterOTPScreen = ({ navigation }) => {
       navigation.navigate('EnterNewPasswordScreen');
     }
     else {
-      ToastAndroid.show('OTP is incorrect, Please try again', ToastAndroid.LONG);
+Toast.show({
+        type: 'error',
+        text1: 'OTP is incorrect ',
+        text2: 'please try again.',
+        text1Style: {
+          fontSize: 14,
+          color: 'black',
+          flexWrap: 'wrap',
+          textAlign: 'center',
+        },
+        text2Style: {
+          fontSize: 14,
+          color: 'black',
+          flexWrap: 'wrap',
+          textAlign: 'center',
+        },
+        swipeable: true,
+        text1NumberOfLines: 0,
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
     }
   }
   return (
@@ -73,6 +96,7 @@ const EnterOTPScreen = ({ navigation }) => {
         <Text style={[Headings.Input31]}>
           We've sent a code to user {emailID}
         </Text>
+        <TouchableOpacity>
         <View style={{ alignItems: 'center', justifyContent: "space-around", marginTop: hp(2.5), flexDirection: 'row', }}>
           <OtpInputs
             autofillFromClipboard={false}
@@ -82,6 +106,7 @@ const EnterOTPScreen = ({ navigation }) => {
             inputStyles={{ textAlign: 'center', fontSize: hp(3), color: '#000' }}
           />
         </View>
+        </TouchableOpacity>
         <View style={{ marginTop: hp(3) }}>
             <TouchableOpacity
               onPress={verification}
@@ -108,6 +133,7 @@ const EnterOTPScreen = ({ navigation }) => {
 
         </View>
       </View>
+      <Toast ref={ref => Toast.setRef(ref)} />
     </View>
   )
 }
@@ -129,7 +155,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 0,
     margin: 0,
-    paddingVertical:wp(2)
+    paddingVertical:wp(5)
 
   }
 })

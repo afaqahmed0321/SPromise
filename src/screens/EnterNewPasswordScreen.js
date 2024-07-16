@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ToastAndroid } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
@@ -7,7 +7,7 @@ import { uNumber, uemail } from '../recoil/Users/GetUsers';
 import { useRecoilState } from 'recoil';
 import UpdatedPassword from '../Network/Users/UpdatePassword';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import Toast from 'react-native-toast-message';
 const EnterNewPasswordScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -38,27 +38,57 @@ const EnterNewPasswordScreen = ({ navigation }) => {
 
   const changePassword = async () => {
     if (password === '') {
-      ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
+      Toast.show({
+        type: 'info',
+        text1: 'Please Enter Password',
+        visibilityTime: 3000, // 3 sec
+        position: 'bottom',
+      });
       return;
     } else if (passwordError !== '') {
-      ToastAndroid.show('Please enter a valid password', ToastAndroid.LONG);
+      Toast.show({
+        type: 'info',
+        text1: 'Please enter a valid password',
+        visibilityTime: 3000, // 3 sec
+        position: 'bottom',
+      });
       return;
     } else if (password !== confirmPassword) {
-      ToastAndroid.show('Password is not Confirmed', ToastAndroid.LONG);
+      Toast.show({
+        type: 'info',
+        text1: 'Password is not Confirmed',
+        visibilityTime: 3000, // 3 sec
+        position: 'bottom',
+      });
       return;
     }
-
+  
     try {
       const response = await UpdatedPassword(userNumber, password);
       if (response.status === 200) {
-        ToastAndroid.show('Password changed successfully', ToastAndroid.LONG);
+        Toast.show({
+          type: 'success',
+          text1: 'Password changed successfully',
+          visibilityTime: 3000, // 3 sec
+          position: 'bottom',
+        });
         navigation.navigate('LoginScreen');
       } else {
-        ToastAndroid.show('Failed to change password. Please try again.', ToastAndroid.LONG);
+        Toast.show({
+          type: 'error',
+          text1: 'Failed to change password. Please try again.',
+          visibilityTime: 3000, // 3 sec
+          position: 'bottom',
+        });
       }
     } catch (error) {
       console.error('Error changing password:', error);
-      ToastAndroid.show('An unexpected error occurred. Please try again.', ToastAndroid.LONG);
+      Toast.show({
+        type: 'error',
+        text1: 'An unexpected error occurred. Please try again.',
+        visibilityTime: 3000, // 3 sec
+        position: 'bottom',
+      });
     }
   };
 
@@ -75,7 +105,7 @@ const EnterNewPasswordScreen = ({ navigation }) => {
         placeholderTextColor={'grey'}
         secureTextEntry={!isPasswordVisible}      />
       <TouchableOpacity
-          style={{ position: 'absolute', right: wp(8.5), top: hp(3.2) }}
+          style={{ position: 'absolute', right: wp(8.5), top: hp(2.7) }}
           onPress={toggleOldPasswordVisibility}>
           <Icon name={!isPasswordVisible ? 'eye-off' : 'eye'} size={24} color="black" />
         </TouchableOpacity>
@@ -93,7 +123,7 @@ const EnterNewPasswordScreen = ({ navigation }) => {
         secureTextEntry={!isCPasswordVisible}      
       />
       <TouchableOpacity
-          style={{ position: 'absolute', right: wp(8.5), top: hp(3.2) }}
+          style={{ position: 'absolute', right: wp(8.5), top: hp(2.7) }}
           onPress={toggleConfirmPasswordVisibility}>
           <Icon name={!isCPasswordVisible ? 'eye-off' : 'eye'} size={24} color="black" />
         </TouchableOpacity>
@@ -110,6 +140,7 @@ const EnterNewPasswordScreen = ({ navigation }) => {
           </TouchableOpacity>
         </LinearGradient>
       </View>
+      <Toast ref={ref => Toast.setRef(ref)} />
     </View>
   );
 };
@@ -128,16 +159,24 @@ export const TextInP = StyleSheet.create({
     padding: 10
   },
   Fileds: {
-    marginTop: hp(2),
+    marginVertical: hp(1),
     backgroundColor: '#F6E2FF',
     borderRadius: wp(50),
     alignItems: 'center',
+    width: wp(90),
+    height: hp(6),
     paddingLeft: 20,
-    color: "#000",
+    // borderTopWidth:1,
+    borderColor: 'transparent',
+    borderCurve:'',
+    color: "black",
+    // borderColor:'#652D90'
+    placeholderTextColor:'grey',
   },
   lognBtnParent: {
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center'
   },
   lognBtn: {
     width: wp(40),

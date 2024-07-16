@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator, ToastAndroid } from 'react-native';
+import { Modal, StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import Font from 'react-native-vector-icons/Fontisto';
 import fetchUser from '../../Network/Users/GetUser';
@@ -10,7 +10,8 @@ import { useRecoilState } from 'recoil';
 import { ismodalVisible, refreshPromiseNetwork } from '../../recoil/Globel';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { uemail } from '../../recoil/Users/GetUsers';
-
+import FontAw5 from 'react-native-vector-icons/FontAwesome5';
+import Toast from 'react-native-toast-message';
 const AddToMyNetwork = () => {
   const [userFound, setUserFound] = useState(null);
   const [searching, setSearching] = useState(false);
@@ -25,23 +26,36 @@ const AddToMyNetwork = () => {
 
   const SearchUser = async () => {
     if (email === '') {
-      ToastAndroid.show('Please enter an email address', ToastAndroid.LONG);
+      Toast.show({
+        type: 'error',
+        text1: 'Please enter an email address',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 70,
+        bottomOffset: 40,
+      });
       return;
     }
-    if(emailId === email){
-      ToastAndroid.show('You cannot add yourself', ToastAndroid.LONG);
+    if (emailId === email) {
+      Toast.show({
+        type: 'error',
+        text1: 'You cannot add yourself',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 70,
+        bottomOffset: 40,
+      });
       return;
-
     }
-
+  
     setIsLoading(true);
     setSearching(true);
     const mail = email.toLowerCase();
-
+  
     try {
       const data = await fetchUser(mail);
       setIsLoading(false);
-
+  
       if (data === 'User Does not Exist') {
         setUserFound(false);
         handelInviteUser();
@@ -51,44 +65,88 @@ const AddToMyNetwork = () => {
       }
     } catch (error) {
       console.error('Error fetching data:', error);
-      ToastAndroid.show('Error fetching user data.', ToastAndroid.LONG);
+      Toast.show({
+        type: 'error',
+        text1: 'Error fetching user data.',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 70,
+        bottomOffset: 40,
+      });
       setIsLoading(false);
       setSearching(false);
     }
   };
+  
 
   const handelInviteUser = async () => {
-    if (email == '') {
-      ToastAndroid.show('Please enter email address', ToastAndroid.LONG);
+    if (email === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Please enter an email address',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 70,
+        bottomOffset: 40,
+      });
     } else {
       await InviteUser(email);
-      ToastAndroid.show('User Does not Exist! Invite has been sent', ToastAndroid.LONG);
+      Toast.show({
+        type: 'success',
+        text1: 'User does not exist! Invite has been sent',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 70,
+        bottomOffset: 40,
+      });
     }
   };
+  
  
 
   const handelAddtoNetwork = async () => {
-    console.log("email from recoil" ,emailID,"typed email ", email)
-
+    console.log("email from recoil", emailID, "typed email", email);
+  
     if (!userData.userNo) {
-      ToastAndroid.show('No user found to add to network.', ToastAndroid.LONG);
+      Toast.show({
+        type: 'error',
+        text1: 'No user found to add to network.',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 70,
+        bottomOffset: 40,
+      });
       return;
     }
-    if(emailId === email){
-      ToastAndroid.show('You cannot add yourself', ToastAndroid.LONG);
+    if (emailId === email) {
+      Toast.show({
+        type: 'error',
+        text1: 'You cannot add yourself',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 70,
+        bottomOffset: 40,
+      });
       return;
-  
     }
     const AddUserN = userData.userNo;
-
+  
     try {
       await AddUserNetwork(AddUserN, userN);
       setRefreshNetwork(!refreshnetwork);
     } catch (error) {
       console.error('Error adding user to network:', error);
-      ToastAndroid.show('Error adding user to network.', ToastAndroid.LONG);
+      Toast.show({
+        type: 'error',
+        text1: 'Error adding user to network.',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 50,
+        bottomOffset: 40,
+      });
     }
   };
+  
   useEffect(() => {
   }, [ refreshnetwork]);
   return (
@@ -101,7 +159,8 @@ const AddToMyNetwork = () => {
             style={styles.closeButton}
             onPress={() => setModalVisible(false)}
           >
-            <Font color="#652D90" name="close" size={30} />
+           
+            <FontAw5 name="times" color="#652D90" size={30} light />
           </TouchableOpacity>
           <View style={styles.searchContainer}>
             <TextInput
@@ -142,6 +201,7 @@ const AddToMyNetwork = () => {
           ) : null}
 
         </View>
+        <Toast ref={ref => Toast.setRef(ref)} />
       </View>
   );
 };
@@ -190,6 +250,7 @@ const styles = StyleSheet.create({
     paddingLeft: wp(4),
     fontSize: hp(1.8),
     flex: 1,
+    height:hp(5)
   },
   searchButton: {
     marginLeft: wp(2),

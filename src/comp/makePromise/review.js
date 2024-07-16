@@ -42,7 +42,6 @@ import { commonStyles } from '../../Styling/buttons';
 import SelectPromise from './SelectPromisee';
 import MakePromiseApi from '../../Network/MakePromiseApi';
 import ReqPromiseApi from '../../Network/ReqPromiseApi';
-import { ToastAndroid } from 'react-native';
 import GetUserData from '../../Network/Users/GetUserData';
 import LoadingOverlay from '../Global/LoadingOverlay';
 import axios from 'axios';
@@ -52,6 +51,7 @@ import FontAw from 'react-native-vector-icons/FontAwesome6';
 import Video from 'react-native-video';
 import { BlurView } from '@react-native-community/blur';
 import VideoModal from './videoModal';
+import Toast from 'react-native-toast-message';
 
 const Review = ({ navigation }) => {
   const [Promiseze, setSelectedPromisee] = useRecoilState(selectedPromisee);
@@ -121,23 +121,25 @@ const Review = ({ navigation }) => {
       console.log("prommmmmm", prom);
       if (prom === 100) {
         console.log("running in make promise at line 96");
-        ToastAndroid.showWithGravityAndOffset(
-          'Promise created successfully.',
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-          25,
-          50,
-        );
+        Toast.show({
+          type: 'success',
+          text1: 'Promise created successfully',
+          swipeable: true,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
         navigation.navigate('SnapPromiseVerification');
       } else {
         console.log("error in make promise at line 96");
-        ToastAndroid.showWithGravityAndOffset(
-          'Please select promisee first',
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-          25,
-          50,
-        );
+        Toast.show({
+          type: 'info',
+          text1: 'Please Select Promisee first',
+          swipeable: true,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
       }
     }
     catch (error) {
@@ -606,6 +608,7 @@ const Review = ({ navigation }) => {
 
         </View>
       </View>
+      <Toast ref={ref => Toast.setRef(ref)} />
     </ScrollView>
   );
 };

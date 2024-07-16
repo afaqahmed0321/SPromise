@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
 } from 'react-native';
+import Toast from 'react-native-toast-message';
 import LinearGradient from 'react-native-linear-gradient';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {
@@ -62,7 +63,6 @@ import {
   handleCompletePromise,
   handleFailPromise,
 } from '../Dashboard/Promise/PromiseAction';
-import { ToastAndroid } from 'react-native';
 
 const NotificationCard = () => {
   const navigation = useNavigation();
@@ -110,61 +110,63 @@ const NotificationCard = () => {
 
   const fetchPromise = async () => {
     const docNo = noti.docNo;
-
+  
     // setSelectitem(data);([]);
-    if (notiMethod == 'Promise') {
+    if (notiMethod === 'Promise') {
       await GetPromiseById(docNo)
         .then(data => {
           if (data.code === 200) {
             setSelectitem(data.promisesList[0]);
             setIsLoading(false);
           } else {
-            setIsModalV(false),
-              ToastAndroid.showWithGravityAndOffset(
-                "There's no data",
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50,
-              );
+            setIsModalV(false);
+            Toast.show({
+              type: 'error',
+              text1: "There's no data",
+              visibilityTime: 4000,
+              autoHide: true,
+              position: 'bottom',
+              bottomOffset: 50,
+            });
           }
         })
         .catch(error => {
+          console.error('Error fetching promise:', error);
         });
-    } else if (notiMethod == 'RequestPromise') {
-
+    } else if (notiMethod === 'RequestPromise') {
       await GetPromiseRequestById(docNo)
         .then(data => {
           if (data.code === 200) {
             setSelectitem(data.promiseRequestList[0]);
             setIsLoading(false);
           } else {
-            setIsModalV(false),
-              ToastAndroid.showWithGravityAndOffset(
-                "There's no data",
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50,
-              );
+            setIsModalV(false);
+            Toast.show({
+              type: 'error',
+              text1: "There's no data",
+              visibilityTime: 4000,
+              autoHide: true,
+              position: 'bottom',
+              bottomOffset: 50,
+            });
           }
-
-
         })
         .catch(error => {
           console.error('Error fetching promise:', error);
         });
     } else {
       setIsModalV(false);
-      ToastAndroid.showWithGravityAndOffset(
-        "There's no data",
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        25,
-        50,
-      );
+      Toast.show({
+        type: 'error',
+        text1: "There's no data",
+        visibilityTime: 4000,
+        autoHide: true,
+        position: 'bottom',
+        bottomOffset: 50,
+      });
     }
   };
+  
 
   useEffect(() => {
     fetchPromise();
@@ -452,6 +454,8 @@ const NotificationCard = () => {
             )}
           </View>
         </View>
+        <Toast ref={ref => Toast.setRef(ref)} />
+
       </TouchableWithoutFeedback>
     </>
   );

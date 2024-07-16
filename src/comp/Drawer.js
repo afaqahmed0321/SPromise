@@ -284,7 +284,7 @@ const Drawer = () => {
 
 
         <TouchableOpacity
-          style={[styles.listContainer, { position: 'absolute', bottom: 20, marginLeft: hp(2) }]}
+          style={[styles.listContainer, { position: 'absolute', bottom: 0,  marginLeft: hp(2) }]}
           onPress={() => logout()}
         >
           <MaterialIcons
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
   Main: {
     backgroundColor: '#E4EEE6',
     width: wp(80),
-    height: hp(100),
+    height: "100%",
     borderRadius: 10,
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },

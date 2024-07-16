@@ -1,6 +1,6 @@
 import ToggleSwitch from 'toggle-switch-react-native';
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, ToastAndroid } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import {
   View,
   Text,
@@ -42,7 +42,7 @@ import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 import { BlurView } from '@react-native-community/blur';
 import DropDownPicker from 'react-native-dropdown-picker';
 import AccountRemovedApiCall from '../Network/Users/RemoveUserSocialAccounts/TwitterAccountRemoveApiCall';
-
+import Toast from 'react-native-toast-message';
 
 const UserProfile = () => {
   const [istwitterRemoveAccount, setIstwitterRemoveAccount] =
@@ -209,13 +209,14 @@ const UserProfile = () => {
     setEditProfile(false);
       
       console.log("code running");
-      ToastAndroid.showWithGravityAndOffset(
-        'Data Successfully Updated',
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        25,
-        50,
-      );
+      Toast.show({
+        type: 'success',
+        text1: 'Data successfully updated',
+        swipeable: true,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
     }
   };
 
@@ -468,6 +469,7 @@ const UserProfile = () => {
           {/* )} */}
         </View>
       </View>
+      <Toast ref={ref => Toast.setRef(ref)} />
     </ScrollView>
   );
 };

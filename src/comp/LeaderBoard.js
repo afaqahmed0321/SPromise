@@ -8,7 +8,6 @@ import { PlayerData } from '../Data/Data';
 import TopUsers from '../Network/Users/TopUsers';
 import { UserNo } from '../recoil/AddPromise';
 import { useRecoilState } from 'recoil';
-import { ToastAndroid } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';

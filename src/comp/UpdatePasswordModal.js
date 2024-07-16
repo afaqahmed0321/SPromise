@@ -5,7 +5,6 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  ToastAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Font from 'react-native-vector-icons/Fontisto';
@@ -22,6 +21,8 @@ import {
 import { useRecoilState } from 'recoil';
 import UpdatedPassword from '../Network/Users/UpdatePassword';
 import { UserNo } from '../recoil/AddPromise';
+import FontAw5 from 'react-native-vector-icons/FontAwesome5';
+import Toast from 'react-native-toast-message';
 
 const UpdatePasswordModal = () => {
   const [passwordd, setPasswordd] = useState('');
@@ -51,40 +52,87 @@ console.log("user pwd",currentPassword)
 
   const UpdatePassword = async () => {
     if (currentPassword !== currentPasswor) {
-      console.log("pwd from recoil",currentPassword,"password from field",currentPasswor)
-      ToastAndroid.show('Old password does not match', ToastAndroid.LONG);
+      console.log("pwd from recoil", currentPassword, "password from field", currentPasswor);
+      Toast.show({
+        type: 'error',
+        text1: 'Old password does not match',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
       return;
     }
-
+  
     if (passwordd !== Confirmpassword) {
-      console.log("pwd from passwordd",passwordd,"password from Confirmpassword",Confirmpassword)
-
-      ToastAndroid.show('Confirm passwords do not match', ToastAndroid.LONG);
+      console.log("pwd from passwordd", passwordd, "password from Confirmpassword", Confirmpassword);
+      Toast.show({
+        type: 'error',
+        text1: 'Confirm passwords do not match',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
       return;
     }
-
+  
     if (passwordd === currentPasswor) {
-      ToastAndroid.show('Old password cannot be New password', ToastAndroid.LONG);
+      Toast.show({
+        type: 'error',
+        text1: 'Old password cannot be new password',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
       return;
     }
-
+  
     if (passwordError !== '') {
-      ToastAndroid.show('Please enter a valid password', ToastAndroid.LONG);
+      Toast.show({
+        type: 'error',
+        text1: 'Please enter a valid password',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
       return;
     }
-
-    
+  
     try {
       const res = await UpdatedPassword(userN, passwordd);
       if (res.status === 200) {
-        ToastAndroid.show('Password changed successfully', ToastAndroid.LONG);
+        Toast.show({
+          type: 'success',
+          text1: 'Password changed successfully',
+          visibilityTime: 4000,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
         setIsDrawerV(false);
       } else {
-        ToastAndroid.show('Failed to change password. Please try again.', ToastAndroid.LONG);
+        Toast.show({
+          type: 'error',
+          text1: 'Failed to change password. Please try again.',
+          visibilityTime: 4000,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
       }
     } catch (error) {
       console.error('Error changing password:', error);
-      ToastAndroid.show('An unexpected error occurred. Please try again.', ToastAndroid.LONG);
+      Toast.show({
+        type: 'error',
+        text1: 'An unexpected error occurred. Please try again.',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
     }
   };
 
@@ -113,7 +161,7 @@ console.log("user pwd",currentPassword)
       <TouchableOpacity
         onPress={() => setIsDrawerV(false)}
         style={{ marginLeft: wp(79) }}>
-        <Font color="#652D90" name="close" size={30} />
+        <FontAw5 color="#652D90" name="times" size={30} />
       </TouchableOpacity>
       <Text
         style={[Headings.Input3, { alignSelf: 'flex-start', marginLeft: wp(8) }]}>
@@ -179,9 +227,10 @@ console.log("user pwd",currentPassword)
         <TouchableOpacity
           onPress={UpdatePassword}
           style={{ marginLeft: wp(6) }}>
-          <Font color="green" name="check" size={30} />
+         <FontAw5 color="green" name="check" size={30} />
         </TouchableOpacity>
       </View>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </View>
   );
 };

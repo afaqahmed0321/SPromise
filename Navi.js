@@ -99,7 +99,7 @@ function HomeScreenn() {
           height: hp(8),
           // marginLeft: wp(4),
           // marginHorizontal: wp()
-          marginBottom: hp(2),
+          marginBottom: hp(0),
           // bottom: hp(5),
           justifyContent: 'center',
           alignContent: 'center',
@@ -132,7 +132,7 @@ function HomeScreenn() {
         component={Dashboard}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAw name="handshake-simple" color={color} size={size} light />
+            <FontAw5 name="handshake" color={color} size={size} light />
           ),
           title: 'Ongoing Promises',
         }}
@@ -160,13 +160,17 @@ function HomeScreenn() {
       <Tab.Screen
         name="Promise Request Dashboard"
         component={ReqDashboard}
-        options={{
+        options={({ navigation }) => ({
+          title: 'Promise Request Dashboard',
           tabBarIcon: ({ color, size }) => (
-            <FontAw name="handshake-angle" color={color} size={size} />
-
+            <FontAw5 name="handshake" color={color} size={size} light />
           ),
-          title: 'Promise Requests'
-        }}
+          headerStyle: {
+            backgroundColor: '#E4EEE',
+          },
+          headerTitleAlign: 'center', // Center the title
+         
+        })}
       />
 
 

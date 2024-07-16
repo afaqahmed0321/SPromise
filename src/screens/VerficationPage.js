@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, ToastAndroid } from 'react-native'
+import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel'
 import { Headings } from '../Styling/Headings'
@@ -13,6 +13,7 @@ import OtpInputs from 'react-native-otp-inputs';
 import { signup } from '../Network/SignUpApi';
 import LinearGradient from 'react-native-linear-gradient';
 import VerifyOTP from '../Network/Verification';
+import Toast from 'react-native-toast-message';
 
 const VerficationPage = ({ navigation }) => {
   const [resendCooldown, setResendCooldown] = useState(30);
@@ -48,23 +49,34 @@ const VerficationPage = ({ navigation }) => {
   }, [resendCooldown, resendCode]);
 
   const verification = async () => {
-    if (OutputCode == Code) {
+    if (OutputCode === Code) {
       const mail = emailID.toLowerCase();
       let response = await signup(mail, password, fName, lName, subscription);
-      if (response == "Registered") {
-        ToastAndroid.show('Registered Sucessfully!', ToastAndroid.LONG);
-        navigation.navigate('LoginScreen')
-
+      if (response === "Registered") {
+        Toast.show({
+          type: 'success',
+          text1: 'Registered Successfully!',
+          visibilityTime: 3000, // 3 sec
+          position: 'bottom',
+        });
+        navigation.navigate('LoginScreen');
+      } else {
+        Toast.show({
+          type: 'info',
+          text1: `${response}`,
+          visibilityTime: 3000, // 3 sec
+          position: 'bottom',
+        });
       }
-      else {
-        ToastAndroid.show(response, ToastAndroid.LONG);
-      }
+    } else {
+      Toast.show({
+        type: 'info',
+        text1: 'OTP is incorrect. Please try again.',
+        visibilityTime: 3000, // 3 sec
+        position: 'bottom',
+      });
     }
-    else {
-      ToastAndroid.show('OTP is incorrect, Please try again', ToastAndroid.LONG);
-
-    }
-  }
+  };
   return (
     <View style={{ backgroundColor: '#e4eee6', flex: 1 }}>
       <LogoHeaderGlobel />
@@ -111,6 +123,8 @@ const VerficationPage = ({ navigation }) => {
 
         </View>
       </View>
+      <Toast ref={ref => Toast.setRef(ref)} />
+
     </View>
   )
 }
