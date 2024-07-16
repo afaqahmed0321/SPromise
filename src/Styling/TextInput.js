@@ -79,17 +79,16 @@ export const TextInP = StyleSheet.create({
     fontSize: hp(1.6), // Adjust as needed
     fontWeight: 'bold', // or 'normal', '600', '700', etc.
     color:'white',
-    flex:1,
     flexDirection:"column",
-    textAlignVertical:"center"
+    textAlignVertical:"center",
+    textAlign:"center"
   },
   SignInButton: {
     // backgroundImage: 'linear-gradient(180deg, #E4A936 0%, #EE8347 100%)',
     fontSize: hp(1.6), // Adjust as needed
     fontWeight: 'bold', // or 'normal', '600', '700', etc.
     color:'white',
-    flex:1,
-    flex:1,
+ 
     flexDirection:"column",
     textAlignVertical:"center",
   },
@@ -98,7 +97,6 @@ export const TextInP = StyleSheet.create({
     fontSize: hp(1.6), // Adjust as needed
     fontWeight: 'bold', // or 'normal', '600', '700', etc.
     color:'white',
-    flex:1,
     flexDirection:"column",
     textAlignVertical:"center",
     width:wp(90),

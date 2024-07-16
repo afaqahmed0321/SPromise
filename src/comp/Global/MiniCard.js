@@ -8,20 +8,20 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { DashBoardStyling } from '../../Styling/DashBoard';
+import {DashBoardStyling} from '../../Styling/DashBoard';
 import LinearGradient from 'react-native-linear-gradient';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { Headings } from '../../Styling/Headings';
-import { format } from 'date-fns';
-import { useRecoilState } from 'recoil';
+import {Headings} from '../../Styling/Headings';
+import {format} from 'date-fns';
+import {useRecoilState} from 'recoil';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
-import { selectedVideoR } from '../../recoil/AddPromise';
-import { BlurView } from '@react-native-community/blur';
+import {selectedVideoR} from '../../recoil/AddPromise';
+import {BlurView} from '@react-native-community/blur';
 import Video from 'react-native-video';
 
 const MiniCard = ({
@@ -36,13 +36,12 @@ const MiniCard = ({
   rewardPoints,
   isTimeBound,
 }) => {
-
   const [markCompleted, setMarkCompleted] = useState(false);
   const [markFailed, setMarkFailed] = useState(false);
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
   const [isVideoModalVisible, setIsVideoModalVisible] = useState(false);
 
-  const handelAttachedMedia = (urll) => {
+  const handelAttachedMedia = urll => {
     setSelectedVideo(urll);
     toggleVideoModal(); // Open the video modal
   };
@@ -51,7 +50,7 @@ const MiniCard = ({
     setIsVideoModalVisible(!isVideoModalVisible);
   };
 
-  const VideoModal = ({ isVisible, toggleModal, videoUrl }) => {
+  const VideoModal = ({isVisible, toggleModal, videoUrl}) => {
     const [isLoading, setIsLoading] = useState(true);
 
     const handleLoadStart = () => {
@@ -67,34 +66,49 @@ const MiniCard = ({
         animationType="none"
         transparent={true}
         visible={isVideoModalVisible}
-        onRequestClose={toggleVideoModal}
-      >
+        onRequestClose={toggleVideoModal}>
         <TouchableWithoutFeedback>
           <View style={styles.overlay}>
-            <View style={{ height: hp(35) }}>
-              <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}></BlurView>
+            <View style={{height: hp(35)}}>
+              <BlurView
+                blurType="light"
+                blurAmount={10}
+                style={{flex: 1}}></BlurView>
             </View>
-            <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', justifyContent: 'center', alignItems: 'center' }}>
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               {isLoading && <ActivityIndicator size="large" color="white" />}
               <Video
-                source={{ uri: selectedVideo }}
-                style={{ width: '100%', height: 240, display: isLoading ? 'none' : 'flex' }}
+                source={{uri: selectedVideo}}
+                style={{
+                  width: '100%',
+                  height: 240,
+                  display: isLoading ? 'none' : 'flex',
+                }}
                 controls={true}
                 resizeMode="contain"
                 onLoadStart={handleLoadStart}
                 onLoad={handleLoad}
               />
-              <TouchableOpacity style={{ position: 'absolute', top: 20, right: 20 }} onPress={toggleVideoModal}>
+              <TouchableOpacity
+                style={{position: 'absolute', top: 20, right: 20}}
+                onPress={toggleVideoModal}>
                 {/* Close button */}
-                <Text style={{ color: 'white', fontSize: wp(4) }}>X</Text>
+                <Text style={{color: 'white', fontSize: wp(4)}}>X</Text>
               </TouchableOpacity>
             </View>
-            <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}>
-            </BlurView>
+            <BlurView
+              blurType="light"
+              blurAmount={10}
+              style={{flex: 1}}></BlurView>
           </View>
         </TouchableWithoutFeedback>
       </Modal>
-
     );
   };
 
@@ -109,8 +123,7 @@ const MiniCard = ({
           }
           style={DashBoardStyling.MiniCard}>
           <View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View
                 style={{
                   width: wp(13),
@@ -120,7 +133,9 @@ const MiniCard = ({
                   marginTop: hp(1),
                 }}>
                 <Image
-                  source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
+                  source={{
+                    uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
+                  }}
                   style={{
                     width: wp(13),
                     height: hp(6),
@@ -133,11 +148,14 @@ const MiniCard = ({
                   marginLeft: wp(3),
                   width: wp(45),
                 }}>
-                <Text style={{ color: 'white', fontSize: hp(2), fontWeight: 'bold', }}>{name}</Text>
+                <Text
+                  style={{color: 'white', fontSize: hp(2), fontWeight: 'bold'}}>
+                  {name}
+                </Text>
               </View>
               {isTimeBound ? (
                 <>
-                  <View style={{ width: wp(8) }}>
+                  <View style={{width: wp(8)}}>
                     <Entypo size={25} color="white" name="calendar" />
                   </View>
 
@@ -154,41 +172,37 @@ const MiniCard = ({
                       {format(new Date(date), 'MM/dd/yyyy')}
                     </Text>
                   </View>
-
                 </>
-              ) : (
-                null
-              )}
-            </View>
-
-            <View style={[
-              DashBoardStyling.PromiseReward1,
-              {
-                justifyContent: (promisetype === 'GUARANTEE' && amount > 0) || (promisetype === 'COMMITMENT' && amount > 0) || rewardPoints ? 'center' : 'center'
-              }
-            ]}>
-              {guaranteedWithMoney ? (
-                <Text
-                  style={[
-                    {
-                      color: 'black',
-                      marginHorizontal: hp(8.2),
-                      fontSize: hp(1.8),
-                      backgroundColor: "#e0e0e0",
-                      borderRadius: 50,
-                      paddingVertical: wp(1),
-                      paddingHorizontal: hp(1),
-                    },
-                  ]}>
-                  ${amount} {rewardPoints ? (
-                    <Text> & {rewardPoints} pts</Text>
-                  ) : null}
-                </Text>
-
               ) : null}
-
-
             </View>
+
+            {guaranteedWithMoney ? (
+              <View
+                style={[
+                  DashBoardStyling.PromiseReward1,
+                  {
+                    justifyContent:
+                      (promisetype === 'GUARANTEE' && amount > 0) ||
+                      (promisetype === 'COMMITMENT' && amount > 0) ||
+                      rewardPoints
+                        ? 'center'
+                        : 'center',
+                    color: 'black',
+                    marginHorizontal: hp(8.2),
+                    fontSize: hp(1.8),
+                    backgroundColor: '#e0e0e0',
+                    borderRadius: 50,
+                    paddingVertical: wp(1),
+                    paddingHorizontal: hp(1),
+                    alignSelf: 'flex-start',
+                  },
+                ]}>
+                <Text style={[{}]}>
+                  ${amount}{' '}
+                  {rewardPoints ? <Text> & {rewardPoints} pts</Text> : null}
+                </Text>
+              </View>
+            ) : null}
           </View>
         </LinearGradient>
       ) : tab == 'PromisestoMe' || tab == 'Promise' ? (
@@ -197,9 +211,8 @@ const MiniCard = ({
             tab == 'Promise' ? ['#E4A936', '#EE8347'] : ['#73B6BF', '#2E888C']
           }
           style={DashBoardStyling.MiniCard}>
-          <View style={{ paddingBottom: 20 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-
+          <View style={{paddingBottom: 20}}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View
                 style={{
                   width: wp(13),
@@ -209,7 +222,9 @@ const MiniCard = ({
                   marginTop: hp(1),
                 }}>
                 <Image
-                  source={{ uri: 'https://freesvg.org/img/abstract-user-flat-4.png' }}
+                  source={{
+                    uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
+                  }}
                   style={{
                     width: wp(13),
                     height: hp(6),
@@ -223,12 +238,15 @@ const MiniCard = ({
                   marginLeft: wp(3),
                   width: wp(45),
                 }}>
-                <Text style={{ color: 'white', fontSize: hp(2), fontWeight: 'bold', }}>{name}</Text>
+                <Text
+                  style={{color: 'white', fontSize: hp(2), fontWeight: 'bold'}}>
+                  {name}
+                </Text>
               </View>
 
               {isTimeBound ? (
                 <>
-                  <View style={{ width: wp(8) }}>
+                  <View style={{width: wp(8)}}>
                     <Entypo size={25} color="white" name="calendar" />
                   </View>
 
@@ -246,93 +264,95 @@ const MiniCard = ({
                     </Text>
                   </View>
                 </>
-              ) : (
-                null
-              )}
-
+              ) : null}
             </View>
 
-            <View style={{ paddingHorizontal: 15 }}>
-
-              <View style={[
-                DashBoardStyling.PromiseReward1,
-                {
-                  justifyContent: (promisetype === 'GUARANTEE' && amount > 0) || (promisetype === 'COMMITMENT' && amount > 0) || rewardPoints ? 'center' : 'center'
-                }
-              ]}>
-                <View>
-                  {promisetype == 'GUARANTEE' && amount > 0 ? (
-                    <Text
-                      style={[
-                        {
-                          color: 'black',
-                          marginHorizontal: hp(1.2),
-                          fontSize: hp(1.8),
-                          backgroundColor: "#e0e0e0",
-                          borderRadius: 50,
-                          paddingVertical: 5,
-                          paddingHorizontal: 10,
-                        },
-                      ]}>
-                      {amount > 0 ? (
-                        <>
-                          ${amount}
-                          {rewardPoints ? <Text >& {rewardPoints} pts</Text>
-                            : null}
-                        </>
-                      ) : (
-                        null
-                      )}
-                    </Text>
-                  ) : promisetype == 'COMMITMENT' && amount > 0 ? (
-                    <Text
-                      style={[
-                        {
-                          color: 'black',
-                          marginHorizontal: hp(1.2),
-                          fontSize: hp(1.8),
-                          backgroundColor: "#e0e0e0",
-                          borderRadius: 50,
-                          paddingVertical: 5,
-                          paddingHorizontal: 10,
-
-                        },
-                      ]}>
-                      {amount > 0 ? (
-                        <>
-                          ${amount} &nbsp;
-                          {rewardPoints ? <Text >& {rewardPoints} pts</Text>
-                            : null}
-                        </>
-                      ) : (
-                        null
-                      )}
-                    </Text>
-                  ) : (
-                    rewardPoints ? (
-
-                      <Text
-                        style={[
-                          {
-                            color: 'black',
-                            marginHorizontal: hp(1.2),
-                            fontSize: hp(1.8),
-                            backgroundColor: "#e0e0e0",
-                            borderRadius: 50,
-                            paddingVertical: 5,
-                            paddingHorizontal: 10,
-                          },
-                        ]}>
-                        {rewardPoints ? <Text style={{}}>Reward: ${amount} & {rewardPoints} Pts</Text>
-                          : null}
-                      </Text>
-                    ) : (
-                      null
-                    )
-                  )
-                  }
-                </View>
-              </View>
+            <View
+  style={{
+    paddingHorizontal: 15,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center', 
+  }}>
+  <View>
+    {promisetype === 'GUARANTEE' && amount > 0 ? (
+      <View
+        style={[
+          DashBoardStyling.PromiseReward1,
+          {
+            justifyContent: 'center',
+            backgroundColor: '#e0e0e0',
+            borderRadius: 50,
+            paddingVertical: 5,
+            paddingHorizontal: 10,
+            alignSelf: 'center', 
+            textAlign: 'center',
+          },
+        ]}>
+        <Text
+          style={{
+            color: 'black',
+            fontSize: hp(1.8),
+            textAlign: 'center', 
+          }}>
+          {amount > 0 && (
+            <>
+              ${amount}
+              {rewardPoints ? (
+                <Text> & {rewardPoints} pts</Text>
+              ) : null}
+            </>
+          )}
+        </Text>
+      </View>
+    ) : promisetype === 'COMMITMENT' && amount > 0 ? (
+      <View
+        style={{
+          backgroundColor: '#e0e0e0',
+          borderRadius: wp(10),
+          alignSelf: 'center', 
+          paddingVertical: 5,
+          paddingHorizontal: 10,
+        }}>
+        <Text
+          style={{
+            textAlign: 'center', 
+            fontSize: hp(1.8),
+          }}>
+          {amount > 0 && (
+            <>
+              ${amount}
+              {rewardPoints ? (
+                <Text> & {rewardPoints} pts</Text>
+              ) : null}
+            </>
+          )}
+        </Text>
+      </View>
+    ) : rewardPoints ? (
+      <View
+        style={{
+          backgroundColor: '#e0e0e0',
+          borderRadius: 50,
+          paddingVertical: 5,
+          paddingHorizontal: 10,
+          alignSelf: 'center',
+        }}>
+        <Text
+          style={{
+            color: 'black',
+            fontSize: hp(1.8),
+            textAlign: 'center', 
+          }}>
+          {rewardPoints && (
+            <Text>
+              Reward: ${amount} & {rewardPoints} Pts
+            </Text>
+          )}
+        </Text>
+      </View>
+    ) : null}
+  </View>
             </View>
           </View>
         </LinearGradient>
@@ -340,7 +360,6 @@ const MiniCard = ({
     </>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -362,7 +381,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: hp(5),
-    height: hp(5)
+    height: hp(5),
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

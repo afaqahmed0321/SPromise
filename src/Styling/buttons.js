@@ -13,7 +13,8 @@ export const commonStyles = StyleSheet.create({
     borderRadius: wp(50),
     height: hp(7),
     borderRadius: 50,
-  },
+    textAlign:"center" 
+   },
   lognBtn1: {
     width: wp(90),
     justifyContent: 'center',

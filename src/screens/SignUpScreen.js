@@ -6,7 +6,6 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  ToastAndroid,
 } from 'react-native';
 import React, { useState } from 'react';
 import {
@@ -30,7 +29,7 @@ import { token, UserNo } from '../recoil/AddPromise';
 import LinearGradient from 'react-native-linear-gradient';
 import DropDownPicker from 'react-native-dropdown-picker';
 import LoadingOverlay from '../comp/Global/LoadingOverlay';
-
+import Toast from 'react-native-toast-message';
 
 GoogleSignin.configure({
   webClientId: '297781393287-082ioneo7rm34l59ia7qd027vspk82vd.apps.googleusercontent.com',
@@ -94,26 +93,75 @@ const SignUpScreen = ({ navigation }) => {
         return emailRegex.test(email.toLowerCase());
       };
 
-      if (fName === '') {
-        ToastAndroid.show('Please Enter First Name', ToastAndroid.LONG);
+      if (fName === '') {        
+        Toast.show({
+          type: 'error',
+          text1: 'Please Enter First Name',
+          swipeable:"true",
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
         return;
       } else if (lName === '') {
-        ToastAndroid.show('Please Enter Last Name', ToastAndroid.LONG);
+        Toast.show({
+          type: 'error',
+          text1: 'Please Enter Last Name',
+          swipeable: true,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
         return;
       } else if (emailID === '') {
-        ToastAndroid.show('Please Enter Email', ToastAndroid.LONG);
+        Toast.show({
+          type: 'error',
+          text1: 'Please Enter Email',
+          swipeable: true,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
         return;
       } else if (!isValidEmail(emailID)) {
-        ToastAndroid.show('Please Enter a Valid Email Address', ToastAndroid.LONG);
+        Toast.show({
+          type: 'error',
+          text1: 'Please Enter a Valid Email Address',
+          swipeable: true,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
         return;
       } else if (password === '') {
-        ToastAndroid.show('Please Enter Password', ToastAndroid.LONG);
+        Toast.show({
+          type: 'error',
+          text1: 'Please Enter Password',
+          swipeable: true,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
         return;
       } else if (passwordError !== '') {
-        ToastAndroid.show('Please enter a valid password', ToastAndroid.LONG);
+        Toast.show({
+          type: 'error',
+          text1: 'Please enter a valid password',
+          swipeable: true,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
         return;
       } else if (password !== Confirmpassword) {
-        ToastAndroid.show('Password do not match', ToastAndroid.LONG);
+        Toast.show({
+          type: 'error',
+          text1: 'Password do not match',
+          swipeable: true,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
         return;
       }
 
@@ -130,7 +178,14 @@ const SignUpScreen = ({ navigation }) => {
         setSSubscription(subscription)
         navigation.navigate('VerficationPage');
       } else {
-        ToastAndroid.show('User Already Exists!', ToastAndroid.LONG);
+        Toast.show({
+          type: 'error',
+          text1: 'User Already Exists!',
+          swipeable: true,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
       }
     } catch (error) {
       console.error('Signup Error:', error);
@@ -156,13 +211,34 @@ const SignUpScreen = ({ navigation }) => {
         const mail = user_sign_in.user.email.toLowerCase();
         let responses = await Socialsignup(mail, user_sign_in.user.displayName, true, user_sign_in.user.photoURL, sSubscription);  
         if (responses === "Registered") {
-          ToastAndroid.show('Registered Successfully!', ToastAndroid.LONG);
+          Toast.show({
+            type: 'success',
+            text1: 'Registered Successfully!',
+            swipeable: true,
+            autoHide: true,
+            topOffset: 30,
+            bottomOffset: 40,
+          });
           navigation.navigate('LoginScreen');
         } else {
-          ToastAndroid.show(responses, ToastAndroid.LONG);
+          Toast.show({
+            type: 'error',
+            text1: `${responses}`,
+            swipeable: true,
+            autoHide: true,
+            topOffset: 30,
+            bottomOffset: 40,
+          });
         }
       } else {
-        ToastAndroid.show('User is already registered...!', ToastAndroid.LONG);
+        Toast.show({
+          type: 'info',
+          text1: 'User is already registered...!',
+          swipeable: true,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
       }
     } catch (error) {
       console.log('Google sign-in error:', error);
@@ -256,7 +332,7 @@ const SignUpScreen = ({ navigation }) => {
               <Icon name={isCPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
             </TouchableOpacity>
           </View>
-          <View>
+          <View style={{zIndex:-100}}>
             <DropDownPicker
               open={open}
               value={subscription}
@@ -271,24 +347,10 @@ const SignUpScreen = ({ navigation }) => {
               textStyle={{ color: 'grey' }}
               DropDownDirectionType='TOP'
             />
-            {/* {open && (
-              <View >
-                {items.map((item) => (
-                  <TouchableOpacity
-                    key={item.value}
-                    onPress={() => handleDropdownSelect(item)}
-                  >
-                    <Text >
-                      {item.label}
-                      {item.value === value && <Icon name="checkmark" size={20} />}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )} */}
+            
           </View>
         </View>
-        <View style={{ marginTop: hp(2), alignItems: 'center' }}>
+        <View style={{ marginTop: hp(2), alignItems: 'center' ,zIndex:-100}}>
           <View>
             <LinearGradient
               colors={['#73B6BF', '#2E888C']}
@@ -320,6 +382,8 @@ const SignUpScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
+        <Toast ref={ref => Toast.setRef(ref)} />
+
       </ScrollView>
     </View>
   );

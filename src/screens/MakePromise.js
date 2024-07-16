@@ -46,7 +46,7 @@ import { commonStyles } from '../Styling/buttons';
 import StartModal from '../comp/makePromise/Calender/StartModal';
 import { useIsFocused } from '@react-navigation/native';
 import ToggleSwitch from 'toggle-switch-react-native';
-import { ToastAndroid } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 const MakePromise = ({ navigation }) => {
   const [financial, setFinancial] = useRecoilState(promiseType);
@@ -110,13 +110,12 @@ const MakePromise = ({ navigation }) => {
     if ((isTimeB && selectEndDate) || !isTimeB) {
       if (financial && (amount > 0 || rewardPoints > 0) || !financial) {
         if ((!promiseText || promiseText.trim() === '') && !selectedVideo) {
-          ToastAndroid.showWithGravityAndOffset(
-            'Please attach video or write promise statement',
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50,
-          );
+          Toast.show({
+            type: 'info',
+            text1: 'Please attach video or write promise statement',
+            visibilityTime: 3000, // 3 sec
+            position: 'bottom',
+          });
         } else {
           navigation.navigate('Review');
           console.log('Reward points', rewardPoints);
@@ -124,31 +123,28 @@ const MakePromise = ({ navigation }) => {
         }
       } else {
         if (makePromise) {
-          ToastAndroid.showWithGravityAndOffset(
-            'Please Enter Amount',
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50,
-          );
+          Toast.show({
+            type: 'info',
+            text1: 'Please Enter Amount',
+            visibilityTime: 3000, // 3 sec
+            position: 'bottom',
+          });
         } else {
-          ToastAndroid.showWithGravityAndOffset(
-            'Please Enter Amount or Reward Points',
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50,
-          );
+          Toast.show({
+            type: 'info',
+            text1: 'Please Enter Amount or Reward Points',
+            visibilityTime: 3000, // 3 sec
+            position: 'bottom',
+          });
         }
       }
     } else {
-      ToastAndroid.showWithGravityAndOffset(
-        'Please select compilation date',
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        25,
-        50,
-      );
+      Toast.show({
+        type: 'info',
+        text1: 'Please select compilation date',
+        visibilityTime: 3000, // 3 sec
+        position: 'bottom',
+      });
     }
   };
 
@@ -415,6 +411,8 @@ const MakePromise = ({ navigation }) => {
           </TouchableOpacity>
 
         </View>
+        <Toast ref={ref => Toast.setRef(ref)} />
+
       </ScrollView>
     </View>
   );

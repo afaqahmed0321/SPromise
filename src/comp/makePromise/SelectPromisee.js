@@ -11,6 +11,7 @@ import {
   Modal,
   Image,
   ActivityIndicator,
+  SafeAreaView,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -94,6 +95,7 @@ const SelectPromise = () => {
   
 
   return (
+    <SafeAreaView style={styles.safeArea}>
     <View style={styles.main}>
       <View
         style={{
@@ -200,23 +202,12 @@ const SelectPromise = () => {
                   </Text>
                 ) : null}
               </View>
-              {/* <View style={styles.container}>{renderStars(5)}</View> */}
-              <View style={{marginLeft: wp(20)}}>
-                <TouchableOpacity onPress={toggleFavorite}>
-                  <View style={{padding: 0.2, borderRadius: 50}}>
-                    {isFavorited ? (
-                      <Ionicons name="heart" size={15} color="#652D90" />
-                    ) : (
-                      <Feather name="heart" size={15} color="#652D90" />
-                    )}
-                  </View>
-                </TouchableOpacity>
-              </View>
             </TouchableOpacity>
           )}
         />
       )}
     </View>
+    </SafeAreaView>
   );
 };
 
@@ -244,7 +235,11 @@ const styles = StyleSheet.create({
     paddingLeft: wp(4),
     paddingVertical : 0,
     marginVertical: 0,
-    height : wp(7.5),
+    height : wp(9.5),
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#FFF',
   },
 });
 

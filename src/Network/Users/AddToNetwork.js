@@ -1,4 +1,4 @@
-import { ToastAndroid } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 const url = 'https://snappromise.com:8080/saveUsertoNetwork';
 
@@ -21,13 +21,30 @@ const AddUserNetwork = async (AddUserN,userN )=> {
 
     result = await result.json();
     if (result.code === 100) {
-      ToastAndroid.showWithGravityAndOffset(
-        'User has been added to the network',
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        25,
-        50,
-      );
+      Toast.show({
+        type: 'success',
+        text1: 'User has been added ',
+        text2: 'to the nwtwork.',
+        text1Style: {
+          fontSize: 14,
+          color: 'black',
+          flexWrap: 'wrap',
+          textAlign: 'center',
+        },
+        text2Style: {
+          fontSize: 14,
+          color: 'black',
+          flexWrap: 'wrap',
+          textAlign: 'center',
+        },
+        swipeable: true,
+        text1NumberOfLines: 0,
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
+
     } else {
       console.warn('Unexpected response code:', result.code);
     }

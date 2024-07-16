@@ -1,4 +1,4 @@
-import {ToastAndroid} from 'react-native';
+import Toast from 'react-native-toast-message';
 export default RejectPromiseRequest = async (promiseID,userNo) => {
   const url = `https://snappromise.com:8080/rejectPromiseRequest?promiseID=${promiseID}&userNo=${userNo}`;
 
@@ -12,13 +12,15 @@ export default RejectPromiseRequest = async (promiseID,userNo) => {
     });
     const data = await response.json();
     if (data.code === 100) {
-      ToastAndroid.showWithGravityAndOffset(
-        'Rejected',
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        25,
-        50,
-      );
+      Toast.show({
+        type: 'success',
+        text1: 'Rejected',
+        swipeable: true,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
+
     } else {
       console.warn('Unexpected response code:', result.code);
     }

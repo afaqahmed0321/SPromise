@@ -170,14 +170,14 @@ const PromiseStatement = ({ onTextChange }) => {
               placeholderTextColor="grey"
               style={{
                 width: wp(80),
-                paddingHorizontal: wp(4),
+                padding: wp(4),
                 borderWidth: wp(0.6),
                 borderColor: '#652D90',
                 borderRadius: wp(3),
                 color: '#000',
                 height: hp(15),
-                textAlignVertical: 'top',
-                fontSize: hp(1.6)
+                fontSize: hp(1.6),
+                
               }}
               multiline={true}
               value={generatedTexts}

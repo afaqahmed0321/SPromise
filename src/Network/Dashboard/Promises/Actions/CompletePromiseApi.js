@@ -1,4 +1,4 @@
-import { ToastAndroid } from 'react-native';
+import Toast from 'react-native-toast-message';
 export default CompletePromiseApi = async (promiseID, userNo, note) => {
     const url = `https://snappromise.com:8080/completePromise?promiseID=${promiseID}&userNo=${userNo}&note=${note}`;
   
@@ -13,13 +13,15 @@ export default CompletePromiseApi = async (promiseID, userNo, note) => {
       });
       const data = await response.json();
       if (data.code === 100) {
-        ToastAndroid.showWithGravityAndOffset(
-          'Completed',
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-          500,
-          50,
-        );
+        Toast.show({
+          type: 'success',
+          text1: 'Completed',
+          swipeable: true,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
+
         return 1;
       } else {
         console.warn('Unexpected response code:', result.code);

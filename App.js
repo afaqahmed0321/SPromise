@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View ,SafeAreaView} from 'react-native';
 import Auth from './Navi';
 import { RecoilRoot } from 'recoil';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -26,16 +26,19 @@ export default function App() {
   // }
 
   return (
+    <SafeAreaView style={styles.safeArea}>
     <GestureHandlerRootView style={{ flex: 1 }}>
       <RecoilRoot>
           <Auth />
       </RecoilRoot>
     </GestureHandlerRootView>
+    </SafeAreaView>
   );
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-// backgroundColor:"#fff"
-//   },
-// });
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#FFF',
+  },
+});

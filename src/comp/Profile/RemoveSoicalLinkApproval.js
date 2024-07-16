@@ -11,7 +11,6 @@ import {
 } from 'react-native-responsive-screen';
 import {commonStyles} from '../../Styling/buttons';
 import {UserNo} from '../../recoil/AddPromise';
-import {ToastAndroid} from 'react-native';
 import AccountRemovedApiCall from '../../Network/Users/RemoveUserSocialAccounts/TwitterAccountRemoveApiCall';
 
 const RemoveSoicalLinkApproval = () => {

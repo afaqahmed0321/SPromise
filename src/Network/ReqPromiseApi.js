@@ -1,4 +1,4 @@
-import { ToastAndroid } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 const url = 'https://snappromise.com:8080/savePromiseRequest';
 
@@ -21,8 +21,7 @@ const ReqPromiseApi = async (
   PromiseStatus,
   visibility,
 ) => {
-
-  console.log("before call appi in review",
+  console.log("before call api in review",
     {
       expiryDate: expiryDate,
       isTimeBound: IsTimeBound,
@@ -41,8 +40,7 @@ const ReqPromiseApi = async (
         paymentAmount: paymentAmount,
       },
       userPromiseReward:
-        PromiseReward !== null ? { rewardPoints: PromiseReward } : null,
-
+        PromiseReward !== null ? { rewardPoints: PromiseReward, Status: 'Pending' } : null,
       visibility: visibility,
     }
   )
@@ -64,12 +62,9 @@ const ReqPromiseApi = async (
       PaymentStatus: paymentStatus,
       paymentAmount: paymentAmount,
     },
-    userPromiseReward: PromiseReward !== null ? { 
-        rewardPoints: PromiseReward,
-        Status : 'Pending'
-      } : null,
-      visibility: visibility,
-    };
+    userPromiseReward: PromiseReward !== null ? { rewardPoints: PromiseReward, Status: 'Pending' } : null,
+    visibility: visibility,
+  };
 
   console.log(requestBody, 'Api Call');
 
@@ -84,26 +79,43 @@ const ReqPromiseApi = async (
     });
 
     const results = await result.json();
-    console.log('resultttt', results);
+    console.log('result', results);
+
     if (results.code === 100) {
-      ToastAndroid.showWithGravityAndOffset(
-        'Your promise request has been successfully Sent',
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        25,
-        50,
-      );
-      return results.code;
+      Toast.show({
+        type: 'success',
+        text1: 'Your promise request has been ',
+        text2: 'successfully sent.',
+        text1Style: {
+          fontSize: 14,
+          color: 'black',
+          flexWrap: 'wrap',
+          textAlign: 'center',
+        },
+        text2Style: {
+          fontSize: 14,
+          color: 'black',
+          flexWrap: 'wrap',
+          textAlign: 'center',
+        },
+        swipeable: true,
+        text1NumberOfLines: 0,
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
     } else {
-      ToastAndroid.showWithGravityAndOffset(
-        'Unexpected Error',
-        result.code,
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        25,
-        50,
-      );
+      Toast.show({
+        type: 'error',
+        text1: 'Unexpected Error',
+        swipeable: true,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
     }
+
     return results.code;
 
   } catch (error) {

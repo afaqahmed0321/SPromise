@@ -10,58 +10,70 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { useNavigation } from '@react-navigation/native';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 
-
 const LogoHeaderGlobel = () => {
   const navigation = useNavigation();
 
   const handleBack = () => {
-    navigation.goBack();
+    console.log('Back button pressed'); // Debugging
+    if (navigation.canGoBack()) {
+      console.log('Can go back');
+      navigation.goBack();
+    } else {
+      console.log('Cannot go back');
+    }
   };
 
   return (
-    <View style={{ alignItems: 'center' }}>
+    <View style={styles.container}>
       {navigation.canGoBack() && (
-        <TouchableOpacity style={{ position: 'absolute', left: wp(3), top: hp(1.5) }} onPress={handleBack}>
-         <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
-
+        <TouchableOpacity style={styles.backButton} onPress={handleBack}>
+          <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
         </TouchableOpacity>
       )}
-      <View style={{ width: wp(100), height: hp(20), justifyContent: 'center', alignItems: 'center' }}>
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <View style={styles.LogoC}>
-            <Image
-              source={require('../source/mainLogo.jpg')}
-              style={styles.ImageStyle}
-            />
-          </View>
-          <Text
-            style={{
-              fontSize: 24,
-              fontWeight: 'bold',
-              color: 'black',
-              marginTop: hp(1.5),
-            }}>
-            SNAP PROMISE
-          </Text>
+      <View style={styles.header}>
+        <View style={styles.logoContainer}>
+          <Image
+            source={require('../source/mainLogo.jpg')}
+            style={styles.imageStyle}
+          />
+          <Text style={styles.title}>SNAP PROMISE</Text>
         </View>
       </View>
     </View>
   );
 };
 
-export default LogoHeaderGlobel;
-
 const styles = StyleSheet.create({
-  LogoC: {
-    width: hp(10),
-    height: hp(10),
+  container: {
+    alignItems: 'center',
+  },
+  backButton: {
+    position: 'absolute',
+    left: wp(3),
+    top: hp(1.5),
+  },
+  header: {
+    width: wp(100),
+    height: hp(20),
     justifyContent: 'center',
     alignItems: 'center',
   },
-  ImageStyle: {
+  logoContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imageStyle: {
     width: hp(10),
     height: hp(10),
-    borderRadius: hp(25) / 2,
+    borderRadius: hp(5),
     resizeMode: 'cover',
   },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'black',
+    marginTop: hp(1.5),
+  },
 });
+
+export default LogoHeaderGlobel;
