@@ -3,7 +3,8 @@
 import axios from 'axios';
 
 const fetchUser = async (email) => {
-  const apiUrl = 'https://snappromise.com:8080/api/Users/getUsers?searchString='+email;
+  const mail = email.toLowerCase();
+  const apiUrl = 'https://snappromise.com:8080/api/Users/getUsers?searchString='+mail;
 
   try {
     const response = await axios.get(apiUrl);
