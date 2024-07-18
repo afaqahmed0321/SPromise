@@ -30,7 +30,7 @@ const VerficationPage = ({ navigation }) => {
     setResendCooldown(60)
     const mail = emailID.toLowerCase();
     let response = await VerifyOTP(mail)
- 
+    console.log("respppp", response);
     try {
       setCode(response.code);
     }
@@ -39,17 +39,23 @@ const VerficationPage = ({ navigation }) => {
     };
   };
   useEffect(() => {
+
+    console.log("codeeee", Code);
+
     if (resendCooldown > 0) {
       const timer = setTimeout(() => setResendCooldown(resendCooldown - 1), 1000);
       return () => clearTimeout(timer);
     }
     setTimeout(() => {
       setCode(null);
-    }, 60000);
+    }, 600000);
   }, [resendCooldown, resendCode]);
 
   const verification = async () => {
-    if (OutputCode === Code) {
+
+    console.log("codessss", OutputCode, Code);
+
+    if (OutputCode == Code) {
       const mail = emailID.toLowerCase();
       let response = await signup(mail, password, fName, lName, subscription);
       if (response === "Registered") {
@@ -113,13 +119,11 @@ const VerficationPage = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <View>
-          {resendCooldown <= 0 ? (
+          {resendCooldown <= 0 && (
             <TouchableOpacity onPress={resendCode}>
               <Text style={{ color: 'black', textAlign: 'center', marginTop: hp(2), fontWeight: '600', fontSize: hp(1.6) }}>Send code again</Text>
             </TouchableOpacity>
-          ) : (
-            null
-          )}
+           ) } 
 
         </View>
       </View>
@@ -143,6 +147,6 @@ const styles = StyleSheet.create({
     fontSize: hp(3),
     borderColor: "#652D90",
     borderWidth: 1,
-    paddingVertical:wp(2)
+    paddingVertical:wp(5)
   }
 })

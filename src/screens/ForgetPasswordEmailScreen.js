@@ -36,8 +36,8 @@ const ForgetPasswordEmailScreen = ({navigation}) => {
         text1: 'Please Try Again !',
         visibilityTime: 4000, // duration in milliseconds
         autoHide: true,
-        topOffset: 0,
-        bottomOffset: 0,
+        topOffset: 30,
+        bottomOffset: 40,
       });
       return;
     }
@@ -57,8 +57,8 @@ const ForgetPasswordEmailScreen = ({navigation}) => {
             text1: 'User should logged in with google !',
             visibilityTime: 4000, // duration in milliseconds
             autoHide: true,
-            topOffset: 0,
-            bottomOffset: 0,
+            topOffset: 30,
+            bottomOffset: 40,
           });
         } else {
           let response = await PasswordVerification(mail);
@@ -103,9 +103,9 @@ const ForgetPasswordEmailScreen = ({navigation}) => {
             </LinearGradient>
           </TouchableOpacity>
         </View>
-        <Toast  ref={(ref) => Toast.setRef(ref)} />
-
       </View>
+      <Toast  ref={(ref) => Toast.setRef(ref)} />
+
     </>
   );
 };

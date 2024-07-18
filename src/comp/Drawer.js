@@ -96,7 +96,9 @@ const Drawer = () => {
       console.error('Error clearing AsyncStorage:', error);
     }
   };
-
+  const getEmailDisplay = (email) => {
+    return email.length > 30 ? email.slice(0, 30) + '...' : email;
+  };
   const handleOverlayPress = () => {
     setIsDrawerV(false);
   };
@@ -136,8 +138,8 @@ const Drawer = () => {
               />
             </View>
             <View style={{ marginLeft: wp(2) }}>
-              <Text style={{ color: '#6650A4', fontSize:hp(1.8), fontWeight:'bold' }}>{email}</Text>
-            </View>
+            <Text style={{ color: '#6650A4', fontSize: hp(1.6), fontWeight: 'bold', width: wp(65) }}>{getEmailDisplay(email)}</Text> 
+           </View>
           </View>
 
         </TouchableOpacity>

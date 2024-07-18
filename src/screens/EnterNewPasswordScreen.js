@@ -42,7 +42,8 @@ const EnterNewPasswordScreen = ({ navigation }) => {
         type: 'info',
         text1: 'Please Enter Password',
         visibilityTime: 3000, // 3 sec
-        position: 'bottom',
+          topOffset: 30,
+          bottomOffset: 40,
       });
       return;
     } else if (passwordError !== '') {
@@ -50,7 +51,8 @@ const EnterNewPasswordScreen = ({ navigation }) => {
         type: 'info',
         text1: 'Please enter a valid password',
         visibilityTime: 3000, // 3 sec
-        position: 'bottom',
+          topOffset: 30,
+          bottomOffset: 40,
       });
       return;
     } else if (password !== confirmPassword) {
@@ -58,7 +60,8 @@ const EnterNewPasswordScreen = ({ navigation }) => {
         type: 'info',
         text1: 'Password is not Confirmed',
         visibilityTime: 3000, // 3 sec
-        position: 'bottom',
+          topOffset: 30,
+          bottomOffset: 40,
       });
       return;
     }
@@ -70,7 +73,8 @@ const EnterNewPasswordScreen = ({ navigation }) => {
           type: 'success',
           text1: 'Password changed successfully',
           visibilityTime: 3000, // 3 sec
-          position: 'bottom',
+            topOffset: 30,
+          bottomOffset: 40,
         });
         navigation.navigate('LoginScreen');
       } else {
@@ -78,7 +82,8 @@ const EnterNewPasswordScreen = ({ navigation }) => {
           type: 'error',
           text1: 'Failed to change password. Please try again.',
           visibilityTime: 3000, // 3 sec
-          position: 'bottom',
+            topOffset: 30,
+          bottomOffset: 40,
         });
       }
     } catch (error) {
@@ -87,7 +92,8 @@ const EnterNewPasswordScreen = ({ navigation }) => {
         type: 'error',
         text1: 'An unexpected error occurred. Please try again.',
         visibilityTime: 3000, // 3 sec
-        position: 'bottom',
+          topOffset: 30,
+          bottomOffset: 40,
       });
     }
   };
@@ -148,15 +154,18 @@ const EnterNewPasswordScreen = ({ navigation }) => {
 export const TextInP = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'start',
+    justifyContent: 'flex-start',
     alignItems: 'start',
-    paddingHorizontal: 10
+    paddingHorizontal: wp(5),
+    alignSelf:"center"
   },
   heading: {
     color: "#000",
     fontWeight: '700',
     fontSize: hp(2.5),
-    padding: 10
+    padding: 10,
+    marginHorizontal: wp(4),
+
   },
   Fileds: {
     marginVertical: hp(1),
@@ -165,7 +174,9 @@ export const TextInP = StyleSheet.create({
     alignItems: 'center',
     width: wp(90),
     height: hp(6),
-    paddingLeft: 20,
+    marginHorizontal: wp(4),
+    paddingHorizontal: wp(4),
+
     // borderTopWidth:1,
     borderColor: 'transparent',
     borderCurve:'',
@@ -188,8 +199,8 @@ export const TextInP = StyleSheet.create({
   },
   errorText: {
     color: 'red',
-    marginTop: 5,
-    marginLeft: 10,
+    marginTop: 0,
+    marginLeft: 30,
   },
 });
 

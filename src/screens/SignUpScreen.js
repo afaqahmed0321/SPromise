@@ -168,6 +168,7 @@ const SignUpScreen = ({ navigation }) => {
       setIsLoading(true);
       const mail = emailID.toLowerCase();
       let response = await VerifyOTP(mail);
+      console.log("ssssssssssss", response);
 
       if (response.description === "Operation completed successfully.") {
         setCode(response.code)
@@ -317,7 +318,7 @@ const SignUpScreen = ({ navigation }) => {
           {passwordError !== '' && (
             <Text style={styles.errorText}>{passwordError}</Text>
           )}
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' ,zIndex:-100}}>
             <TextInput
               style={TextInP.Fileds}
               placeholder="*******"
