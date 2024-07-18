@@ -170,11 +170,14 @@ const NetworkFeed = ({navigation}) => {
 
   const onHandelComment = async promiseID => {
     const email = await AsyncStorage.getItem('Email');
+    console.log("mail",email);
     let fullName = '';
   
     try {
       const res = await fetchUser(email);
+      console.log("fetch user",res);
       fullName = `${res.firstName} ${res.lastName}`;
+      console.log("name",fullName);
     } catch (error) {
       console.error('Error fetching user:', error);
     }

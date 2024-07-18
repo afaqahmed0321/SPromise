@@ -50,10 +50,14 @@ const EnterOTPScreen = ({ navigation }) => {
     }
     setTimeout(() => {
       setCode(null); 
-    }, 60000); 
+    }, 600000); 
+
+    console.log("codeeeeee", Code);
+
   }, [resendCooldown, resendCode]);
 
   const verification = async () => {
+    console.log("codessss", OutputCode, Code);
     if (OutputCode == Code) {
       navigation.navigate('EnterNewPasswordScreen');
     }
@@ -123,13 +127,11 @@ Toast.show({
         </View>
         <View>
 
-          {resendCooldown <= 0 ? (
+          {/* {resendCooldown <= 0 && ( */}
             <TouchableOpacity onPress={resendCode}>
               <Text style={{ color: 'black', textAlign: 'center', marginTop: hp(2), fontWeight: '600', fontSize: hp(1.8) }}>Send code again</Text>
             </TouchableOpacity>
-          ) : (
-            null 
-          )}
+          {/* ) } */}
 
         </View>
       </View>

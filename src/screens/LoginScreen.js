@@ -168,7 +168,6 @@ const LoginScreen = ({navigation}) => {
         Toast.show({
           type: 'error',
           text1: 'Please Enter Email',
-
           autoHide: true,
           topOffset: 30,
           bottomOffset: 40,

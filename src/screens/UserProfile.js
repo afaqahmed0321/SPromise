@@ -431,24 +431,18 @@ const UserProfile = () => {
             blurAmount={10}
           ></BlurView>
         </Modal>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: wp(100),
-            height: hp(8),
-          }}>
-          
 
             <View
               style={{
-                flexDirection: 'row',
+                flexDirection: 'column',
                 width: wp(100),
                 justifyContent: 'space-evenly',
                 alignItems: 'center',
+                gap:15,
+                marginVertical:wp(5)
               }}>
               <TouchableOpacity
-                style={[commonStyles.ActionBtn, { width: wp(35) }]}
+                style={[commonStyles.ActionBtn, { width: wp(55) }]}
                 onPress={() => navigation.navigate('EditProfile') }>
                 <Text style={{ color: "white" }}> Edit Profile</Text>
               </TouchableOpacity>
@@ -456,7 +450,7 @@ const UserProfile = () => {
               <TouchableOpacity
                 style={[
                   commonStyles.ActionBtn,
-                  { width: wp(35), backgroundColor: '#1C819E' },
+                  { width: wp(55), backgroundColor: '#1C819E' },
                 ]}
                 onPress={() => {
                   setCurrentPassword(userData.password);
@@ -466,8 +460,7 @@ const UserProfile = () => {
               </TouchableOpacity>
               )}
             </View>
-          {/* )} */}
-        </View>
+   
       </View>
       <Toast ref={ref => Toast.setRef(ref)} />
     </ScrollView>
