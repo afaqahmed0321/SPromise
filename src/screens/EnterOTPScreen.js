@@ -49,7 +49,7 @@ const EnterOTPScreen = ({ navigation }) => {
     }
     setTimeout(() => {
       setCode(null); 
-    }, 60000); 
+    }, 600000); 
   }, [resendCooldown, resendCode]);
 
   const verification = async () => {

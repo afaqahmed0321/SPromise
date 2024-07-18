@@ -206,8 +206,8 @@ const UserProfile = () => {
     console.log(modifyApiRequest);
     if (modifyApiRequest.code === 200) {
 
-    setEditProfile(false);
-      
+      setEditProfile(false);
+
       console.log("code running");
       ToastAndroid.showWithGravityAndOffset(
         'Data Successfully Updated',
@@ -325,80 +325,80 @@ const UserProfile = () => {
             <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
           </TouchableOpacity>
         )}
-        
-            <View style={styles.container}>
-              <View style={styles.row}>
-                <Text style={styles.InputCustom}>Email:</Text>
-                <TextInput
-                  style={[TextInP.Fileds, { width: wp(61) }]}
-                  value={userData.emailID}
-                  placeholderTextColor="#000"
-                  onChangeText={text => setEmailId(text)}
-                  editable={false}
-                />
-              </View>
 
-              <View style={styles.row}>
-                <Text style={styles.InputCustom}>Name:</Text>
-                <TextInput
-                  style={[TextInP.Fileds, { width: wp(61), }]}
-                  value={`${userData.firstName} ${userData.lastName}`}
-                  placeholderTextColor="grey"
-                  onChangeText={text => setEmailId(text)}
-                  editable={false} />
-              </View>
+        <View style={styles.container}>
+          <View style={styles.row}>
+            <Text style={styles.InputCustom}>Email:</Text>
+            <TextInput
+              style={[TextInP.Fileds, { width: wp(61) }]}
+              value={userData.emailID}
+              placeholderTextColor="#000"
+              onChangeText={text => setEmailId(text)}
+              editable={false}
+            />
+          </View>
 
-              <View style={styles.row}>
-                <Text style={styles.InputCustom}>Phone Number:</Text>
-                <TextInput
-                  style={[TextInP.Fileds, { width: wp(61) }]}
-                  value={userData.phoneNo == '' ? 'N/A' : userData.phoneNo}
-                  placeholderTextColor="grey"
-                  onChangeText={text => setEmailId(text)}
-                  editable={false} />
-              </View>
+          <View style={styles.row}>
+            <Text style={styles.InputCustom}>Name:</Text>
+            <TextInput
+              style={[TextInP.Fileds, { width: wp(61), }]}
+              value={`${userData.firstName} ${userData.lastName}`}
+              placeholderTextColor="grey"
+              onChangeText={text => setEmailId(text)}
+              editable={false} />
+          </View>
 
-              <View style={styles.row}>
-                <Text style={styles.InputCustom}>Address:</Text>
-                <TextInput
-                  style={[TextInP.Fileds, { width: wp(61), }]}
-                  value={userData.address1 == '' ? 'N/A' : userData.address1}
-                  placeholderTextColor="grey"
-                  onChangeText={text => setEmailId(text)}
-                  editable={false} />
-              </View>
+          <View style={styles.row}>
+            <Text style={styles.InputCustom}>Phone Number:</Text>
+            <TextInput
+              style={[TextInP.Fileds, { width: wp(61) }]}
+              value={userData.phoneNo == '' ? 'N/A' : userData.phoneNo}
+              placeholderTextColor="grey"
+              onChangeText={text => setEmailId(text)}
+              editable={false} />
+          </View>
 
-              <View style={styles.row}>
-                <Text style={styles.InputCustom}>Gender:</Text>
-                <TextInput
-                  style={[TextInP.Fileds, { width: wp(61), }]}
-                  value={userData.gender == '' ? 'N/A' : userData.gender}
-                  placeholderTextColor="grey"
-                  onChangeText={text => setEmailId(text)}
-                  editable={false} />
-              </View>
+          <View style={styles.row}>
+            <Text style={styles.InputCustom}>Address:</Text>
+            <TextInput
+              style={[TextInP.Fileds, { width: wp(61), }]}
+              value={userData.address1 == '' ? 'N/A' : userData.address1}
+              placeholderTextColor="grey"
+              onChangeText={text => setEmailId(text)}
+              editable={false} />
+          </View>
 
-              <View style={styles.row}>
-                <Text style={styles.InputCustom}>City:</Text>
-                <TextInput
-                  style={[TextInP.Fileds, { width: wp(61), }]}
-                  value={userData.city == '' ? 'N/A' : userData.city}
-                  placeholderTextColor="grey"
-                  onChangeText={text => setEmailId(text)}
-                  editable={false} />
-              </View>
+          <View style={styles.row}>
+            <Text style={styles.InputCustom}>Gender:</Text>
+            <TextInput
+              style={[TextInP.Fileds, { width: wp(61), }]}
+              value={userData.gender == '' ? 'N/A' : userData.gender}
+              placeholderTextColor="grey"
+              onChangeText={text => setEmailId(text)}
+              editable={false} />
+          </View>
 
-              <View style={styles.row}>
-                <Text style={styles.InputCustom}>Country:</Text>
-                <TextInput
-                  style={[TextInP.Fileds, { width: wp(61), }]}
-                  value={userData.country == '' ? 'N/A' : userData.country}
-                  placeholderTextColor="grey"
-                  onChangeText={text => setEmailId(text)}
-                  editable={false} />
-              </View>
-            </View>
-          {/* </>
+          <View style={styles.row}>
+            <Text style={styles.InputCustom}>City:</Text>
+            <TextInput
+              style={[TextInP.Fileds, { width: wp(61), }]}
+              value={userData.city == '' ? 'N/A' : userData.city}
+              placeholderTextColor="grey"
+              onChangeText={text => setEmailId(text)}
+              editable={false} />
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.InputCustom}>Country:</Text>
+            <TextInput
+              style={[TextInP.Fileds, { width: wp(61), }]}
+              value={userData.country == '' ? 'N/A' : userData.country}
+              placeholderTextColor="grey"
+              onChangeText={text => setEmailId(text)}
+              editable={false} />
+          </View>
+        </View>
+        {/* </>
         )} */}
 
         <Modal
@@ -430,44 +430,42 @@ const UserProfile = () => {
             blurAmount={10}
           ></BlurView>
         </Modal>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: wp(100),
-            height: hp(8),
-          }}>
-          
 
-            <View
-              style={{
-                flexDirection: 'row',
-                width: wp(100),
-                justifyContent: 'space-evenly',
-                alignItems: 'center',
-              }}>
+
+
+          <View
+            style={{
+              flexDirection: 'column',
+              width: wp(100),
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingVertical: hp(1),
+              gap:20
+            }}>
+            <View>
               <TouchableOpacity
-                style={[commonStyles.ActionBtn, { width: wp(35) }]}
-                onPress={() => navigation.navigate('EditProfile') }>
+                style={[commonStyles.ActionBtn, { width: wp(55) }]}
+                onPress={() => navigation.navigate('EditProfile')}>
                 <Text style={{ color: "white" }}> Edit Profile</Text>
               </TouchableOpacity>
-              { loginType === 'Manual' && (
-              <TouchableOpacity
-                style={[
-                  commonStyles.ActionBtn,
-                  { width: wp(35), backgroundColor: '#1C819E' },
-                ]}
-                onPress={() => {
-                  setCurrentPassword(userData.password);
-                  setIsDrawerV(true);
-                }}>
-                <Text style={{ color: "white" }}> Change Password</Text>
-              </TouchableOpacity>
+            </View>
+            <View>
+              {loginType === 'Manual' && (
+                <TouchableOpacity
+                  style={[
+                    commonStyles.ActionBtn,
+                    { width: wp(55), backgroundColor: '#1C819E' },
+                  ]}
+                  onPress={() => {
+                    setCurrentPassword(userData.password);
+                    setIsDrawerV(true);
+                  }}>
+                  <Text style={{ color: "white" }}> Change Password</Text>
+                </TouchableOpacity>
               )}
             </View>
-          {/* )} */}
+          </View>
         </View>
-      </View>
     </ScrollView>
   );
 };
@@ -482,7 +480,6 @@ const styles = StyleSheet.create({
     borderRadius: wp(2),
     borderColor: '#652D90',
     marginHorizontal: wp(3),
-    height: hp(45),
     backgroundColor: 'white',
     shadowOffset: { width: 0, height: hp(2) },
     shadowOpacity: 0.25,
