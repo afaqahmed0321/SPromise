@@ -21,7 +21,6 @@ export const DashBoardStyling = StyleSheet.create({
     borderRadius: wp(2),
     alignItems: '',
     borderRadius: 32,
-
   },
   PromiseGoal: { width: wp(75) },
   acionStatement: { width: wp(75) },

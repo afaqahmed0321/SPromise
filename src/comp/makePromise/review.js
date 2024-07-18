@@ -398,7 +398,9 @@ const Review = ({ navigation }) => {
                       ) : (
                         <>
                           <View>
-                            <Text
+                            {amount > 0 && (
+                              <>
+                              <Text
                               style={[
                                 Headings.h3ForReviewpage,
                                 { marginVertical: hp(0.5), fontSize: hp(2) },
@@ -408,6 +410,9 @@ const Review = ({ navigation }) => {
                             <Text style={[Headings.h3ForReviewpage, { fontSize: hp(2.5) }]}>
                               $ <Text>{amount}.00</Text>
                             </Text>
+                            </>
+                            )}
+                            
                           </View>
                         </>
                       )}

@@ -133,6 +133,7 @@ const AddToMyNetwork = () => {
   
     try {
       await AddUserNetwork(AddUserN, userN);
+      
       setRefreshNetwork(!refreshnetwork);
     } catch (error) {
       console.error('Error adding user to network:', error);
