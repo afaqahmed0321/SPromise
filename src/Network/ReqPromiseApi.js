@@ -111,7 +111,7 @@ const ReqPromiseApi = async (
         text1: 'Unexpected Error',
         swipeable: true,
         autoHide: true,
-        topOffset: 30,
+        topOffset: 0,
         bottomOffset: 40,
       });
     }

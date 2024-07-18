@@ -283,8 +283,8 @@ const MiniCard = ({
             justifyContent: 'center',
             backgroundColor: '#e0e0e0',
             borderRadius: 50,
-            paddingVertical: 5,
-            paddingHorizontal: 10,
+            paddingVertical: wp(1),
+          paddingHorizontal: wp(2),
             alignSelf: 'center', 
             textAlign: 'center',
           },
@@ -308,11 +308,16 @@ const MiniCard = ({
     ) : promisetype === 'COMMITMENT' && amount > 0 ? (
       <View
         style={{
+          justifyContent:"center",
+          flexDirection:"row",
+          width:wp(85)
+        }}>
+          <View style={{
           backgroundColor: '#e0e0e0',
           borderRadius: wp(10),
-          alignSelf: 'center', 
-          paddingVertical: 5,
-          paddingHorizontal: 10,
+          paddingVertical: wp(1),
+          paddingHorizontal: wp(2),
+          
         }}>
         <Text
           style={{
@@ -328,14 +333,15 @@ const MiniCard = ({
             </>
           )}
         </Text>
+        </View>
       </View>
     ) : rewardPoints ? (
       <View
         style={{
           backgroundColor: '#e0e0e0',
           borderRadius: 50,
-          paddingVertical: 5,
-          paddingHorizontal: 10,
+          paddingVertical: wp(1),
+          paddingHorizontal: wp(2),
           alignSelf: 'center',
         }}>
         <Text

@@ -468,6 +468,8 @@ const NetworkFeed = ({navigation}) => {
             paddingTop: 10,
             justifyContent: 'flex-start',
             textAlign: 'start',
+            paddingVertical:wp(1)
+
           }}>
           <Text>
             {showFullText
@@ -507,6 +509,7 @@ const NetworkFeed = ({navigation}) => {
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
+                    // paddingVertical:wp(1)
                   }}>
                   <View
                     style={{
@@ -514,7 +517,7 @@ const NetworkFeed = ({navigation}) => {
                       height: hp(6),
                       borderRadius: wp(6.5),
                       marginLeft: wp(2),
-                      marginVertical: hp(1),
+                      marginVertical: hp(0),
                     }}>
                     <Image
                       source={{

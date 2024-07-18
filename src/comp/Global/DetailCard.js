@@ -726,32 +726,15 @@ const DetailCard = ({
                   <Text
                     style={[
                       {
-                        color: 'black',
-                        fontSize: hp(1.8),
-                        backgroundColor: '#e0e0e0',
-                        borderRadius: 50,
-                        paddingVertical: 5,
-                        paddingHorizontal: 10,
-                        alignSelf: 'flex-start', // Ensures the width adjusts according to the content
+                         // Ensures the width adjusts according to the content
+                         
                       },
                     ]}>
                     {amount > 0 && (
                       <>
                         ${amount}
                         {rewardPoints ? (
-                          <Text
-                            style={[
-                              {
-                                color: 'black',
-                                marginHorizontal: hp(4),
-                                fontSize: hp(1.8),
-                                backgroundColor: '#e0e0e0',
-                                borderRadius: 50,
-                                paddingVertical: 5,
-                                paddingHorizontal: 10,
-                                marginHorizontal: 10,
-                              },
-                            ]}>
+                          <Text>
                             {' '}
                             & {rewardPoints} pts{' '}
                           </Text>

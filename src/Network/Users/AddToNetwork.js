@@ -24,7 +24,7 @@ const AddUserNetwork = async (AddUserN,userN )=> {
       Toast.show({
         type: 'success',
         text1: 'User has been added ',
-        text2: 'to the nwtwork.',
+        text2: 'to the network.',
         text1Style: {
           fontSize: 14,
           color: 'black',
@@ -41,8 +41,8 @@ const AddUserNetwork = async (AddUserN,userN )=> {
         text1NumberOfLines: 0,
         visibilityTime: 4000,
         autoHide: true,
-        topOffset: 30,
-        bottomOffset: 40,
+        topOffset: -70,
+        bottomOffset: 0,
       });
 
     } else {
