@@ -15,6 +15,7 @@ import ShowAllTabPRTM from '../comp/Dashboard/ReqPromiseDashBoard/PromisesReqToU
 import PendingPRTM from '../comp/Dashboard/ReqPromiseDashBoard/PromisesReqToUser/PendingPRTM';
 import CompletePRTM from '../comp/Dashboard/ReqPromiseDashBoard/PromisesReqToUser/CompletePTM';
 import FailedPRTM from '../comp/Dashboard/ReqPromiseDashBoard/PromisesReqToUser/FailedPTM';
+import Toast from 'react-native-toast-message';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -123,6 +124,8 @@ const ReqDashboard = () => {
         </View>
       </View>
       <DashboardTopTabs initialTabIndex={activeTabIndex} />
+      <Toast ref={ref => Toast.setRef(ref)} />
+
     </View>
   );
 };

@@ -1,17 +1,18 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {View, Image, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { useNavigation } from '@react-navigation/native';
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import {useNavigation} from '@react-navigation/native';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 
 const LogoHeaderGlobel = () => {
   const navigation = useNavigation();
+
+  useEffect(() => {
+    console.log('Can go back:', navigation.canGoBack());
+  }, [navigation]);
 
   const handleBack = () => {
     console.log('Back button pressed'); // Debugging
@@ -25,11 +26,13 @@ const LogoHeaderGlobel = () => {
 
   return (
     <View style={styles.container}>
-      {navigation.canGoBack() && (
-        <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-          <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
-        </TouchableOpacity>
-      )}
+      <View style={{alignSelf:'flex-start', padding:wp(4), paddingBottom:0}}>
+        {navigation.canGoBack() && (
+          <TouchableOpacity style={styles.backButton} onPress={handleBack}>
+            <FontAw5 name="arrow-alt-circle-left" size={30} color="#6650A4" />
+          </TouchableOpacity>
+        )}
+      </View>
       <View style={styles.header}>
         <View style={styles.logoContainer}>
           <Image
@@ -48,9 +51,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   backButton: {
-    position: 'absolute',
-    left: wp(3),
-    top: hp(1.5),
+    // position: 'absolute',
+    // left: wp(3),
+    // top: hp(1.5),
   },
   header: {
     width: wp(100),

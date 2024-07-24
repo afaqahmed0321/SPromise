@@ -268,97 +268,97 @@ const MiniCard = ({
             </View>
 
             <View
-  style={{
-    paddingHorizontal: 15,
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center', 
-  }}>
-  <View>
-    {promisetype === 'GUARANTEE' && amount > 0 ? (
-      <View
-        style={[
-          DashBoardStyling.PromiseReward1,
-          {
-            justifyContent: 'center',
-            backgroundColor: '#e0e0e0',
-            borderRadius: 50,
-            paddingVertical: wp(1),
-          paddingHorizontal: wp(2),
-            alignSelf: 'center', 
-            textAlign: 'center',
-          },
-        ]}>
-        <Text
-          style={{
-            color: 'black',
-            fontSize: hp(1.8),
-            textAlign: 'center', 
-          }}>
-          {amount > 0 && (
-            <>
-              ${amount}
-              {rewardPoints ? (
-                <Text> & {rewardPoints} pts</Text>
-              ) : null}
-            </>
-          )}
-        </Text>
-      </View>
-    ) : promisetype === 'COMMITMENT' && amount > 0 ? (
-      <View
-        style={{
-          justifyContent:"center",
-          flexDirection:"row",
-          width:wp(85)
-        }}>
-          <View style={{
-          backgroundColor: '#e0e0e0',
-          borderRadius: wp(10),
-          paddingVertical: wp(1),
-          paddingHorizontal: wp(2),
-          
-        }}>
-        <Text
-          style={{
-            textAlign: 'center', 
-            fontSize: hp(1.8),
-          }}>
-          {amount > 0 && (
-            <>
-              ${amount}
-              {rewardPoints ? (
-                <Text> & {rewardPoints} pts</Text>
-              ) : null}
-            </>
-          )}
-        </Text>
-        </View>
-      </View>
-    ) : rewardPoints ? (
-      <View
-        style={{
-          backgroundColor: '#e0e0e0',
-          borderRadius: 50,
-          paddingVertical: wp(1),
-          paddingHorizontal: wp(2),
-          alignSelf: 'center',
-        }}>
-        <Text
-          style={{
-            color: 'black',
-            fontSize: hp(1.8),
-            textAlign: 'center', 
-          }}>
-          {rewardPoints && (
-            <Text>
-              Reward: ${amount} & {rewardPoints} Pts
-            </Text>
-          )}
-        </Text>
-      </View>
-    ) : null}
-  </View>
+              style={{
+                paddingHorizontal: 15,
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <View>
+                {promisetype === 'GUARANTEE' && amount > 0 ? (
+                  <View
+                  style={{
+                    justifyContent: 'center',
+                    flexDirection: 'row',
+                    width: wp(85),
+                  }}>
+                  <View
+                    style={{
+                      backgroundColor: '#e0e0e0',
+                      borderRadius: wp(10),
+                      paddingVertical: wp(1),
+                      paddingHorizontal: wp(2),
+                    }}>
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        fontSize: hp(1.8),
+                      }}>
+                      {amount > 0 && (
+                        <>
+                          ${amount}
+                          {rewardPoints ? (
+                            <Text> & {rewardPoints} pts</Text>
+                          ) : null}
+                        </>
+                      )}
+                    </Text>
+                  </View>
+                </View>
+                ) : promisetype === 'COMMITMENT' && amount > 0 ? (
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      flexDirection: 'row',
+                      width: wp(85),
+                    }}>
+                    <View
+                      style={{
+                        backgroundColor: '#e0e0e0',
+                        borderRadius: wp(10),
+                        paddingVertical: wp(1),
+                        paddingHorizontal: wp(2),
+                      }}>
+                      <Text
+                        style={{
+                          textAlign: 'center',
+                          fontSize: hp(1.8),
+                        }}>
+                        {amount > 0 && (
+                          <>
+                            ${amount}
+                            {rewardPoints ? (
+                              <Text> & {rewardPoints} pts</Text>
+                            ) : null}
+                          </>
+                        )}
+                      </Text>
+                    </View>
+                  </View>
+                ) : rewardPoints ? (
+                  <View
+                    style={{
+                      backgroundColor: '#e0e0e0',
+                      borderRadius: 50,
+                      paddingVertical: wp(1),
+                      paddingHorizontal: wp(2),
+                      alignSelf: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        color: 'black',
+                        fontSize: hp(1.8),
+                        textAlign: 'center',
+                      }}>
+                      {rewardPoints && (
+                        <Text>
+                          Reward: ${amount} & {rewardPoints} Pts
+                        </Text>
+                      )}
+                    </Text>
+                  </View>
+                ) : null}
+              </View>
             </View>
           </View>
         </LinearGradient>

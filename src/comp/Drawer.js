@@ -87,10 +87,11 @@ const Drawer = () => {
 
   const logout = async () => {
     console.log('Logging Out');
+    setIsDrawerV(false);
     try {
       await AsyncStorage.clear();
       setToken('');
-      setIsDrawerV(false);
+      
       console.log('AsyncStorage cleared successfully');
     } catch (error) {
       console.error('Error clearing AsyncStorage:', error);
@@ -215,7 +216,10 @@ const Drawer = () => {
             <View>
               <TouchableOpacity
                 style={styles.listContainer}
-                onPress={handleSubscriptionChange}
+                onPress={() => {
+                  handleSubscriptionChange
+                  setIsDrawerV(false);
+                }}
               >
                 <MaterialIcons
                   color="#652D90"

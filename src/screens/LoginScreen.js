@@ -359,13 +359,14 @@ const LoginScreen = ({navigation}) => {
             />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('ForgetPasswordEmailScreen')}
-          style={{alignItems: 'flex-end'}}>
-          <Text style={{fontWeight: 'bold', color: '#000'}}>
-            Forgot Password?
-          </Text>
-        </TouchableOpacity>
+        <View style={{alignItems: 'flex-end'}}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ForgetPasswordEmailScreen')}>
+            <Text style={{fontWeight: 'bold', color: '#000'}}>
+              Forgot Password?
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={{marginTop: hp(3), alignItems: 'center'}}>

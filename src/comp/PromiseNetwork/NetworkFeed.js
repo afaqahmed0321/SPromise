@@ -629,7 +629,7 @@ const NetworkFeed = ({navigation}) => {
           onPress={handleNextButtonPress}
           style={[
             {
-              marginVertical: 5,
+              marginVertical: wp(3),
               backgroundColor: '#652D90',
               paddingVertical: 10,
               borderRadius: 50,

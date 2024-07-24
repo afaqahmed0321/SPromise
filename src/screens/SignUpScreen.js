@@ -197,14 +197,11 @@ const SignUpScreen = ({ navigation }) => {
 
   async function onGoogleButtonPress() {
     setIsLoading(true);
-  
     try {
       await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
       await GoogleSignin.signOut();
-  
       const { idToken } = await GoogleSignin.signIn();
       setSSubscription(subscription);
-  
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
       const user_sign_in = await auth().signInWithCredential(googleCredential);  
       let person = await fetchUser(user_sign_in.user.email);  

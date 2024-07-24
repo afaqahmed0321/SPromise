@@ -6,29 +6,31 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { format } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import {format} from 'date-fns';
+import React, {useEffect, useState} from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { PlayerData } from '../Data/Data';
-import { Headings } from '../Styling/Headings';
+import {PlayerData} from '../Data/Data';
+import {Headings} from '../Styling/Headings';
 import Entypo from 'react-native-vector-icons/Entypo';
 import LinearGradient from 'react-native-linear-gradient';
 import PromiseStatusData from './PromiseStatusData';
 import LeaderBoard from './LeaderBoard';
-import { useRecoilState } from 'recoil';
-import { UserNo } from '../recoil/AddPromise';
-import { useIsFocused } from '@react-navigation/native';
+import {useRecoilState} from 'recoil';
+import {UserNo} from '../recoil/AddPromise';
+import {useIsFocused} from '@react-navigation/native';
 import DetailCard from './Global/DetailCard';
-import { onGoingPromisesListCard } from '../recoil/Dashboard/dashBoard';
+import {onGoingPromisesListCard} from '../recoil/Dashboard/dashBoard';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 import MyPromisesApi from '../Network/Dashboard/Promises/MyPromisesApi/MyPromisesApi';
 import PromisesToMeApi from '../Network/Dashboard/Promises/PromisesToMeApi/PromisesToMeApi';
 import GetPromiseRequestToUser from '../Network/Dashboard/PromiseReq/GetPromiseReqToUser';
 import GetUserPromiseRequest from '../Network/Dashboard/PromiseReq/GetUserPromiseReq';
 import RewardPoints from './RewardPoints';
+import Toast from 'react-native-toast-message';
+
 
 data = PlayerData;
 
@@ -38,11 +40,13 @@ const HomePageDataSection = () => {
   const [promisesToMe, setpromisesToMe] = useState([]);
   const [promisesReq, setPromisesReq] = useState([]);
   const [promisesReqToMe, setpromisesReqToMe] = useState([]);
-  const [myPromisesLis, setMyPromisesLis] = useState([])
-  const [promisesToMeList, setPromisesToMeList] = useState([])
+  const [myPromisesLis, setMyPromisesLis] = useState([]);
+  const [promisesToMeList, setPromisesToMeList] = useState([]);
   const [userN, setUserN] = useRecoilState(UserNo);
   const [showDetail, setshowDetail] = useState('');
-  const [onGoingPromises, setOnGoingPromises] = useRecoilState(onGoingPromisesListCard);
+  const [onGoingPromises, setOnGoingPromises] = useRecoilState(
+    onGoingPromisesListCard,
+  );
   const [forName, setForName] = useState(false);
   const [timer, setTimer] = useState(true);
 
@@ -86,7 +90,6 @@ const HomePageDataSection = () => {
         setIsLoading(false);
       });
 
-
     setIsLoading(true);
   };
   const onRefresh = () => {
@@ -100,25 +103,38 @@ const HomePageDataSection = () => {
     fetchData();
     setTimeout(() => {
       setTimer(false);
-    }, 500)
+    }, 500);
   }, [timer]);
   const data = [
-    ...promises.filter(item => item.status === 'AmountDue' || item.status === 'MarkedforCompletion' || item.status === 'Accepted' || item.status === 'Pending'),
-    ...promisesToMe.filter(item => item.status === 'AmountDue' || item.status === 'MarkedforCompletion' || item.status === 'Accepted' || item.status === 'Pending'),
-    ...promisesReq.filter(item => item.status === 'Pending') ,
-    ...promisesReqToMe.filter(item =>  item.status === 'Pending'),
+    ...promises.filter(
+      item =>
+        item.status === 'AmountDue' ||
+        item.status === 'MarkedforCompletion' ||
+        item.status === 'Accepted' ||
+        item.status === 'Pending',
+    ),
+    ...promisesToMe.filter(
+      item =>
+        item.status === 'AmountDue' ||
+        item.status === 'MarkedforCompletion' ||
+        item.status === 'Accepted' ||
+        item.status === 'Pending',
+    ),
+    ...promisesReq.filter(item => item.status === 'Pending'),
+    ...promisesReqToMe.filter(item => item.status === 'Pending'),
   ];
 
-  const renderItem = ({ item, index }) => (
+  const renderItem = ({item, index}) => (
     <>
       {item.status == 'Pay' && setForName(true)}
       {showDetail == item.promiseID ? (
         <TouchableOpacity
-          style={{ justifyContent: 'center', alignItems: 'center', }}
+          style={{justifyContent: 'center', alignItems: 'center'}}
           onPress={() => {
             setshowDetail('');
           }}>
-          <View style={{ flex: 1, marginHorizontal: hp(1), paddingHorizontal: 10 }} >
+          <View
+            style={{flex: 1, marginHorizontal: hp(1), paddingHorizontal: 10}}>
             <DetailCard
               promiseeProfileImageUrl={item?.promiseeProfileImageUrl}
               isTimeBound={item?.isTimeBound}
@@ -128,8 +144,10 @@ const HomePageDataSection = () => {
               promiseeName={item?.promiseeName}
               promisorName={item.promisorName}
               date={item.expiryDate}
-              promiseMediaURL={item?.promiseMediaURL ? item?.promiseMediaURL : null}
-              promisor = {item?.promisor}
+              promiseMediaURL={
+                item?.promiseMediaURL ? item?.promiseMediaURL : null
+              }
+              promisor={item?.promisor}
               ratingImpact={item.ratingImpact}
               promiseGoal={item.promiseGoal}
               actions={item.actions}
@@ -138,145 +156,168 @@ const HomePageDataSection = () => {
               rewardPoints={item.rewardPoints}
               onGoingPromises={onGoingPromises}
               userN={userN}
-              tab={
-                'Home'
-              }
+              tab={'Home'}
               jugaar="abc"
-              status = {item?.status}
-              promisorImageUrl = {item.promisorProfileImageUrl}
+              status={item?.status}
+              promisorImageUrl={item.promisorProfileImageUrl}
             />
           </View>
         </TouchableOpacity>
       ) : (
         <TouchableOpacity onPress={() => setshowDetail(item.promiseID)}>
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <LinearGradient
               colors={
-                (item.promisor == userN ) ? ['#E4A936', '#EE8347']
+                item.promisor == userN
+                  ? ['#E4A936', '#EE8347']
                   : ['#73B6BF', '#2E888C']
               }
               style={styles.Card}>
-              <View style={{ margin: hp(0.8) }}>
-                <View style={{ flexDirection: 'row', marginLeft: wp(2) }}>
-                  <View
-                    style={{
-                      backgroundColor: '#888888',
-                      width: wp(8),
-                      height: hp(4),
-                      borderRadius: wp(4),
-                    }}>
-                    <Image
-                      source={{uri: 'https://freesvg.org/img/abstract-user-flat-4.png'}}
+              <View style={{margin: hp(0.8)}}>
+                <View style={{flexDirection: 'row', marginLeft: wp(2),}}>
+                    <View
                       style={{
+                        backgroundColor: '#888888',
                         width: wp(8),
                         height: hp(4),
                         borderRadius: wp(4),
-                      }}
-                    />
-                  </View>
-                  <View
-                    style={{
-                      marginLeft: wp(2),
-                      justifyContent: 'center',
-                      width: wp(33),
-                    }}>
-                    <Text
-                      style={[
-                        Headings.Input6,
-                        { marginLeft: wp(0.7), color: 'white', marginTop: wp(1) },
-                      ]}>
-                      {item.promisor == userN ? item?.promiseeName : item?.promisorName}
-                      { }
-                    </Text>
-                  </View>
+                      }}>
+                      <Image
+                        source={{
+                          uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
+                        }}
+                        style={{
+                          width: wp(8),
+                          height: hp(4),
+                          borderRadius: wp(4),
+                        }}
+                      />
+                    </View>
+
+                    <View
+                      style={{
+                        marginLeft: wp(2),
+                        justifyContent: 'center',
+                        width: wp(33),
+                      }}>
+                      <Text
+                        style={[
+                          Headings.Input6,
+                          {
+                            marginLeft: wp(0.7),
+                            color: 'white',
+                            marginTop: wp(1),
+                          },
+                        ]}>
+                        {item.promisor == userN
+                          ? item?.promiseeName
+                          : item?.promisorName}
+                        {}
+                      </Text>
+                    </View>
 
                   <View
                     style={{
                       flexDirection: 'row',
                       justifyContent: 'space-between',
                       alignItems: 'center',
-                      marginLeft: wp(17),
+                      marginLeft: wp(14),
                     }}>
-                    <View style={{ flexDirection: 'row' }}>
-
+                    <View style={{flexDirection: 'row'}}>
                       {item?.isTimeBound ? (
                         <>
                           <View>
                             <Entypo size={18} color="white" name="calendar" />
                           </View>
 
-                          <View style={{ alignSelf: 'center', marginHorizontal: hp(0.2) }}>
+                          <View
+                            style={{
+                              alignSelf: 'center',
+                              marginHorizontal: hp(0.2),
+                            }}>
                             <Text
                               style={[
                                 Headings.Input6,
-                                { color: 'white', textAlign: 'center' },
+                                {color: 'white', textAlign: 'center'},
                               ]}>
                               {format(new Date(item.expiryDate), 'MM/dd/yyyy')}
                             </Text>
                           </View>
                         </>
-                      ) : (
-                        null
-                      )}
-
+                      ) : null}
                     </View>
                   </View>
                 </View>
               </View>
             </LinearGradient>
           </View>
+      <Toast ref={ref => Toast.setRef(ref)} />
         </TouchableOpacity>
       )}
     </>
   );
 
   return (
-    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <View style={{ width: wp(90), marginBottom: hp(2) }}>
-        <View style={[styles.statesSecOne, { height: hp(21) }]}>
+    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{width: wp(90), marginBottom: hp(2)}}>
+        <View style={[styles.statesSecOne, {height: hp(21)}]}>
           <PromiseStatusData />
         </View>
       </View>
       <View style={styles.mainContainer}>
-
         <View style={styles.SubContainter}>
-          <View style={[styles.statesSecOne, { height: hp(21) }]}>
+          <View style={[styles.statesSecOne, {height: hp(21)}]}>
             <LeaderBoard />
           </View>
         </View>
       </View>
       <View style={styles.DataSection}>
         <View>
-          <View style={{ flexDirection: "row", justifyContent: "space-around", alignItems: "center", alignContent: "center", marginHorizontal: 10, marginVertical: 3 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              alignContent: 'center',
+              marginHorizontal: 10,
+              marginVertical: 3,
+            }}>
             <View style={styles.bar}>
               <Text style={styles.barText}>Ongoing Promises</Text>
             </View>
             <TouchableOpacity onPress={() => setrefresh(!refersh)}>
-              <View style={{ marginRight: 15 }}>
-                <FontAw5
-                  name="sync"
-                  size={15}
-                  color="#6650A4"
-
-                />
+              <View style={{marginRight: 15}}>
+                <FontAw5 name="sync" size={15} color="#6650A4" />
               </View>
             </TouchableOpacity>
           </View>
         </View>
         {data.length === 0 ? (
-          <View style={{ width: "100%", height: "100%", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-            <Text style={{ fontSize: 16, textAlign: "center", color: "grey" }}>No Ongoing Promises</Text>
+          <View
+            style={{
+              width: '100%',
+              height: '100%',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={{fontSize: 16, textAlign: 'center', color: 'grey'}}>
+              No Ongoing Promises
+            </Text>
           </View>
         ) : (
           <FlatList
-            data={data.sort((a, b) => new Date(b.promiseDate) - new Date(a.promiseDate))}
+            data={data.sort(
+              (a, b) => new Date(b.promiseDate) - new Date(a.promiseDate),
+            )}
             renderItem={renderItem}
             keyExtractor={(item, index) => item.promiseID.toString()}
-            style={{ marginBottom: hp(.2) }}
+            style={{marginBottom: hp(0.2)}}
             showsVerticalScrollIndicator={false}
           />
         )}
       </View>
+      <Toast ref={ref => Toast.setRef(ref)} />
     </View>
   );
 };
@@ -338,4 +379,3 @@ const styles = StyleSheet.create({
     borderRadius: wp(5),
   },
 });
-

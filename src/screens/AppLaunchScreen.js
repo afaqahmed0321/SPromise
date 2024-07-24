@@ -6,8 +6,11 @@ import { commonStyles } from '../Styling/buttons';
 import LinearGradient from 'react-native-linear-gradient';
 import { TextInP } from '../Styling/TextInput';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { isLeftDrawerV } from '../recoil/HomeScreenStates';
+import { useRecoilState } from 'recoil';
 
 const AppLaunchScreen = ({ navigation }) => {
+  const [isDrawerV, setIsDrawerV] = useRecoilState(isLeftDrawerV);
   const [JWTToken, setJWTToken] = useState('');
   const fetchToken = async () => {
     const Token = await AsyncStorage.getItem('token');
@@ -15,6 +18,7 @@ const AppLaunchScreen = ({ navigation }) => {
   }
   useEffect(() => {
     fetchToken();
+    setIsDrawerV(false);
   }, [])
   return (
     <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: "#fff" }}>

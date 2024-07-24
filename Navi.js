@@ -163,10 +163,10 @@ function HomeScreenn() {
         options={({ navigation }) => ({
           title: 'Promise Request Dashboard',
           tabBarIcon: ({ color, size }) => (
-            <FontAw5 name="handshake" color={color} size={size} light />
+            <FontAw5 name="handshake" color={color} size={size} light style={{ transform: [{ scaleX: -1 }] }} />
           ),
           headerStyle: {
-            backgroundColor: '#E4EEE',
+            backgroundColor: '#fff',
           },
           headerTitleAlign: 'center', // Center the title
          
@@ -183,7 +183,7 @@ function HomeScreenn() {
             <AntDesi name="addusergroup" color={color} size={size} />
           ),
           headerStyle: {
-            backgroundColor: '#E4EEE',
+            backgroundColor: '#fff',
           },
           headerTitleAlign: 'center', // Center the title
          

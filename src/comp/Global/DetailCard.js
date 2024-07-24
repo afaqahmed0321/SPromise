@@ -333,7 +333,8 @@ const DetailCard = ({
                   {marginBottom: hp(1)},
                 ]}>
                 <Text>
-                  ${amount}
+                <Text style={styles.baseText}>${amount}</Text>
+                  {/* ${amount} */}
                   {alotRewardPoints ? (
                     <Text style={styles.baseText}> & {rewardPoints} pts </Text>
                   ) : null}

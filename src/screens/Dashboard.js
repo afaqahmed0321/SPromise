@@ -17,6 +17,8 @@ import OngoingPTM from '../comp/Dashboard/Promise/PromisesToMe/OngoingPTM';
 import CompletePTM from '../comp/Dashboard/Promise/PromisesToMe/CompletePTM';
 import FailedPTM from '../comp/Dashboard/Promise/PromisesToMe/FailedPTM';
 import PendingPTM from '../comp/Dashboard/Promise/PromisesToMe/PendingPTM';
+import Toast from 'react-native-toast-message';
+
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -122,6 +124,8 @@ const Dashboard = () => {
         </View>
       </View>
       {isMyPromisesV ? <DashboardTopTabs /> : <DashboardTopTabs />}
+      <Toast ref={ref => Toast.setRef(ref)} />
+
     </View>
   );
 };
