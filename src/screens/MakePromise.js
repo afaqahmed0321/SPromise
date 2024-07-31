@@ -7,6 +7,7 @@ import {
   TextInput,
   Modal,
   ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import {
@@ -168,8 +169,11 @@ const MakePromise = ({ navigation }) => {
       <View style={{ borderWidth: 1 }}>
         <PromiseButtons />
       </View>
-
-      <ScrollView>
+      <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={{ marginTop: hp(2) }}>
           <Text style={Headings.Input3}>Promise Time Bound</Text>
           <View
@@ -414,6 +418,7 @@ const MakePromise = ({ navigation }) => {
         <Toast ref={ref => Toast.setRef(ref)} />
 
       </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -493,5 +498,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: wp(90),
     height: hp(7),
+  },
+  container: {
+    flex: 1,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingBottom:hp(15)
   },
 });

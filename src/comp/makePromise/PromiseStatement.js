@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -15,7 +15,7 @@ import {
 } from 'react-native-responsive-screen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Mater from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useRecoilState } from 'recoil';
+import {useRecoilState} from 'recoil';
 import {
   promiseStatement,
   MakeaPromise,
@@ -23,16 +23,16 @@ import {
   selectMedia,
   mediaUpload,
 } from '../../recoil/AddPromise';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { useNavigation } from '@react-navigation/native';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {useNavigation} from '@react-navigation/native';
 import {
   AllowedVideoFormatsState,
   AllowedVideoSizeState,
 } from '../../recoil/Globel';
-import { BlurView } from '@react-native-community/blur';
+import {BlurView} from '@react-native-community/blur';
 import axios from 'axios';
 
-const PromiseStatement = ({ onTextChange }) => {
+const PromiseStatement = ({onTextChange}) => {
   const navigation = useNavigation();
   const [inputText, setInputText] = useState('');
   const [isModalV, setIsModalV] = useState(false);
@@ -44,7 +44,7 @@ const PromiseStatement = ({ onTextChange }) => {
   const [videoUri, setVideoUri] = useState(null);
   const [licked, setClicked] = useState(false);
   const [paused, setPaused] = useState(false);
-  const [progress, setProgress] = useState({ currentTime: 0 });
+  const [progress, setProgress] = useState({currentTime: 0});
   const [VideoFarmats, setVideoFarmats] = useRecoilState(
     AllowedVideoFormatsState,
   );
@@ -56,26 +56,27 @@ const PromiseStatement = ({ onTextChange }) => {
 
   const openCamera = async () => {
     setIsModalV(false);
-    const result = await launchCamera({ mediaType: 'video', quality: 1 });
+    const result = await launchCamera({mediaType: 'video', quality: 1});
+    console.log('camera opened', result);
 
     if (result.assets && result.assets.length > 0) {
+      console.log("if camera");
       const selectedFileSize = result.assets[0].fileSize;
       const maxSizeInBytes = 200 * 1024 * 1024;
-      const allowedFormats = [".mp4", ".mov", ".wmv", ".qt"];
+      const allowedFormats = ['.mp4', '.mov', '.wmv', '.qt'];
       const selectedFileType = result.assets[0].type;
       if (selectedFileSize <= maxSizeInBytes) {
         setSelectedVideo(result.assets[0].uri);
         handelUpload(result.assets[0].uri);
       } else {
-        alert(
-          "Selected file size exceeds. Please choose a smaller file.");
+        alert('Selected file size exceeds. Please choose a smaller file.');
       }
     }
   };
 
   const chooseVideo = async () => {
     setIsModalV(false);
-    const result = await launchImageLibrary({ mediaType: 'video', quality: 1 });
+    const result = await launchImageLibrary({mediaType: 'video', quality: 1});
 
     if (result.assets && result.assets.length > 0) {
       const selectedFileSize = result.assets[0].fileSize;
@@ -92,7 +93,7 @@ const PromiseStatement = ({ onTextChange }) => {
     }
   };
 
-  const handelUpload = async (videoUri) => {
+  const handelUpload = async videoUri => {
     setIsLoading(true);
     let newfile = {
       uri: videoUri,
@@ -135,19 +136,22 @@ const PromiseStatement = ({ onTextChange }) => {
       });
   };
 
-  const handleTextChange = (text) => {
+  const handleTextChange = text => {
     setGeneratedTexts(text);
     onTextChange && onTextChange(text);
   };
 
   const suggest = async () => {
-    await axios.post(`https://snappromise.com:8080/suggestPromiseText?promiseStatement=${generatedTexts}`)
-      .then((response) => {
+    await axios
+      .post(
+        `https://snappromise.com:8080/suggestPromiseText?promiseStatement=${generatedTexts}`,
+      )
+      .then(response => {
         setGeneratedTexts(response.data.description);
       })
-      .catch((error) => {
-        console.log("this is sugesstion error", error);
-      })
+      .catch(error => {
+        console.log('this is sugesstion error', error);
+      });
   };
 
   return (
@@ -177,14 +181,15 @@ const PromiseStatement = ({ onTextChange }) => {
                 color: '#000',
                 height: hp(15),
                 fontSize: hp(1.6),
-                
               }}
               multiline={true}
               value={generatedTexts}
             />
           </View>
           <View>
-            <TouchableOpacity onPress={() => setIsModalV(true)} style={{ marginTop: 10, marginStart: 10 }}>
+            <TouchableOpacity
+              onPress={() => setIsModalV(true)}
+              style={{marginTop: 10, marginStart: 10}}>
               {isLoading ? (
                 <ActivityIndicator size="small" color="#0000ff" />
               ) : !attachMedia ? (
@@ -194,11 +199,15 @@ const PromiseStatement = ({ onTextChange }) => {
               )}
             </TouchableOpacity>
             {attachMedia && (
-              <TouchableOpacity onPress={() => setAttachMedia(null)} style={{ marginHorizontal: hp(1) }}>
+              <TouchableOpacity
+                onPress={() => setAttachMedia(null)}
+                style={{marginHorizontal: hp(1)}}>
                 <Ionicons color="red" name="close" size={30} />
               </TouchableOpacity>
             )}
-            <TouchableOpacity onPress={suggest} style={{ marginTop: 30, marginStart: 10 }}>
+            <TouchableOpacity
+              onPress={suggest}
+              style={{marginTop: 30, marginStart: 10}}>
               <Ionicons color="#652D90" name="flash-outline" size={30} />
             </TouchableOpacity>
           </View>
@@ -210,8 +219,11 @@ const PromiseStatement = ({ onTextChange }) => {
           visible={isModalV}
           onRequestClose={() => setIsModalV(false)}>
           <TouchableWithoutFeedback onPress={() => setIsModalV(false)}>
-            <View style={{ flex: 1 }}>
-              <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}></BlurView>
+            <View style={{flex: 1}}>
+              <BlurView
+                blurType="light"
+                blurAmount={10}
+                style={{flex: 1}}></BlurView>
               <View
                 style={{
                   borderWidth: 0.5,
@@ -224,7 +236,7 @@ const PromiseStatement = ({ onTextChange }) => {
                   marginTop: hp(0),
                   backgroundColor: 'white',
                 }}>
-                <View style={{ marginTop: hp(1), marginHorizontal: 30 }}>
+                <View style={{marginTop: hp(1), marginHorizontal: 30}}>
                   <View
                     style={{
                       justifyContent: 'space-between',
@@ -233,22 +245,35 @@ const PromiseStatement = ({ onTextChange }) => {
                       marginHorizontal: wp(8),
                       marginVertical: hp(3.5),
                     }}>
-                    <TouchableOpacity onPress={openCamera} style={{ color: '#000' }}>
+                    <TouchableOpacity
+                      onPress={openCamera}
+                      style={{color: '#000'}}>
                       <Mater color="#652D90" name="camera" size={40} />
                       <View>
-                        <Text style={{ color: '#000', marginLeft: wp(-4) }}>Capture Now</Text>
+                        <Text style={{color: '#000', marginLeft: wp(-4)}}>
+                          Capture Now
+                        </Text>
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={chooseVideo} style={{}}>
-                      <Mater color="#652D90" name="image-size-select-actual" size={40} />
+                      <Mater
+                        color="#652D90"
+                        name="image-size-select-actual"
+                        size={40}
+                      />
                       <View>
-                        <Text style={{ color: '#000', marginLeft: wp(-4) }}>Select Media</Text>
+                        <Text style={{color: '#000', marginLeft: wp(-4)}}>
+                          Select Media
+                        </Text>
                       </View>
                     </TouchableOpacity>
                   </View>
                 </View>
               </View>
-              <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}></BlurView>
+              <BlurView
+                blurType="light"
+                blurAmount={10}
+                style={{flex: 1}}></BlurView>
             </View>
           </TouchableWithoutFeedback>
         </Modal>

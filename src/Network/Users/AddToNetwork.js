@@ -21,30 +21,8 @@ const AddUserNetwork = async (AddUserN,userN )=> {
 
     result = await result.json();
     if (result.code === 100) {
-      Toast.show({
-        type: 'success',
-        text1: 'User has been added ',
-        text2: 'to the network.',
-        text1Style: {
-          fontSize: 14,
-          color: 'black',
-          flexWrap: 'wrap',
-          textAlign: 'center',
-        },
-        text2Style: {
-          fontSize: 14,
-          color: 'black',
-          flexWrap: 'wrap',
-          textAlign: 'center',
-        },
-        swipeable: true,
-        text1NumberOfLines: 0,
-        visibilityTime: 4000,
-        autoHide: true,
-        topOffset: -70,
-        bottomOffset: 0,
-      });
-
+      
+return result.code;
     } else {
       console.warn('Unexpected response code:', result.code);
     }

@@ -132,7 +132,32 @@ const AddToMyNetwork = () => {
     const AddUserN = userData.userNo;
   
     try {
-      await AddUserNetwork(AddUserN, userN);
+     const result= await AddUserNetwork(AddUserN, userN);
+     if(result === 100){
+      Toast.show({
+        type: 'success',
+        text1: 'User has been added ',
+        text2: 'to the network.',
+        text1Style: {
+          fontSize: 14,
+          color: 'black',
+          flexWrap: 'wrap',
+          textAlign: 'center',
+        },
+        text2Style: {
+          fontSize: 14,
+          color: 'black',
+          flexWrap: 'wrap',
+          textAlign: 'center',
+        },
+        swipeable: true,
+        text1NumberOfLines: 0,
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 70,
+        bottomOffset: 40,
+      });
+     }
       
       setRefreshNetwork(!refreshnetwork);
     } catch (error) {
