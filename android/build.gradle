@@ -12,8 +12,8 @@ buildscript {
         googlePlayServicesAuthVersion = "19.2.0"
     }
     repositories {
-        google()
-        mavenCentral()
+        google();
+        mavenCentral();
     }
     dependencies {
         classpath("com.android.tools.build:gradle")

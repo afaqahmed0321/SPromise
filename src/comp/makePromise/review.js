@@ -395,18 +395,22 @@ const Review = ({ navigation }) => {
                         </>
                       ) : (
                         <>
-                          <View>
-                            <Text
-                              style={[
-                                Headings.h3ForReviewpage,
-                                { marginVertical: hp(0.5), fontSize: hp(2) },
-                              ]}>
-                              Reward Amount
-                            </Text>
-                            <Text style={[Headings.h3ForReviewpage, { fontSize: hp(2.5) }]}>
-                              $ <Text>{amount}.00</Text>
-                            </Text>
-                          </View>
+                          {amount > 0 && (
+                            <>
+                              <View>
+                                <Text
+                                  style={[
+                                    Headings.h3ForReviewpage,
+                                    { marginVertical: hp(0.5), fontSize: hp(2) },
+                                  ]}>
+                                  Reward Amount
+                                </Text>
+                                <Text style={[Headings.h3ForReviewpage, { fontSize: hp(2.5) }]}>
+                                  $ <Text>{amount}.00</Text>
+                                </Text>
+                              </View>
+                            </>
+                          )}
                         </>
                       )}
                     </View>
@@ -562,7 +566,7 @@ const Review = ({ navigation }) => {
               </View>
               {shareToggel ? (
                 <View style={styles.Social1}>
-                  <View style={{ flex: 1, flexDirection: "row",alignItems:"center" }}>
+                  <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
                     <RadioButton.Android
                       value="public"
                       status={mNtoggle === 'public' ? 'checked' : 'unchecked'}
@@ -571,7 +575,7 @@ const Review = ({ navigation }) => {
                     />
                     <Text style={Headings.Input5}>Public</Text>
                   </View>
-                  <View style={{ flex: 1, flexDirection: "row",alignItems:"center" }}>
+                  <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
 
                     <RadioButton.Android
                       value="network"
@@ -626,7 +630,7 @@ const styles = StyleSheet.create({
     width: wp(94),
     justifyContent: 'space-between',
     marginTop: hp(1),
-    paddingHorizontal:wp(5)
+    paddingHorizontal: wp(5)
   },
   Line: {
     width: wp(80),

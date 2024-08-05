@@ -4,38 +4,49 @@ import Auth from './Navi';
 import { RecoilRoot } from 'recoil';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AppLaunchScreen from './src/screens/AppLaunchScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
-  // const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState('');
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 3000); // Delay for 4 seconds
+  const loadToken = async () => {
+    try {
+      const storedToken = await AsyncStorage.getItem('token');
+      if (storedToken) {
+        setToken(storedToken);
+        // Delay for 4 seconds if token is present
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 4000);
+      } else {
+        // If no token is present, immediately navigate to Auth component
+        setIsLoading(false);
+      }
+    } catch (e) {
+      console.error('Failed to load token from AsyncStorage', e);
+      setIsLoading(false);
+    }
+  };
 
-  //   return () => clearTimeout(timer); // Clean up the timer on unmount
-  // }, []);
+  useEffect(() => {
+    loadToken();
+  }, []);
 
-  // if (isLoading) {
-  //   // Render loading indicator or splash screen
-    // return (
-    //   <RecoilRoot>
-    //   <AppLaunchScreen />
-    // </RecoilRoot>
-    // );
-  // }
+  if (isLoading) {
+    // Render loading indicator or splash screen
+    return (
+      <RecoilRoot>
+        <AppLaunchScreen />
+      </RecoilRoot>
+    );
+  }
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <RecoilRoot>
-          <Auth />
+        <Auth />
       </RecoilRoot>
     </GestureHandlerRootView>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-// backgroundColor:"#fff"
-//   },
-// });

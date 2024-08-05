@@ -1533,7 +1533,6 @@ const DetailCard = ({
               </View>
             </View>
           </LinearGradient>
-
         ) : (
           <LinearGradient
             colors={
