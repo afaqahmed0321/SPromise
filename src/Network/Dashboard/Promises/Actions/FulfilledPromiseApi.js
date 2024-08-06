@@ -1,32 +1,38 @@
 import { ToastAndroid } from 'react-native';
 
-export default FulfilledPromiseApi = async (promiseID, userNo) => {
+const FulfilledPromiseApi = (promiseID, userNo) => {
+  const url = `https://snappromise.com:8080/fulfilledPromise?promiseID=${promiseID}&userNo=${userNo}`;
 
-    const url = `https://snappromise.com:8080/fulfilledPromise?promiseID=${promiseID}&userNo=${userNo}`;
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'accept': 'text/plain',
-        },
-        
+  return new Promise((resolve, reject) => {
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'accept': 'text/plain',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("response from service", data);
+        if (data.code === 100) {
+          ToastAndroid.showWithGravityAndOffset(
+            'Fulfilled',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+          resolve(data);
+        } else {
+          console.warn('Unexpected response code:', data);
+          reject(new Error('Unexpected response code'));
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error.message);
+        reject(error);
       });
-      const data = await response.json();
-      if (data.code == 100) {
-        ToastAndroid.showWithGravityAndOffset(
-          'FulFilled',
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-          500,
-          50,
-        );
-      } else {
-        console.warn('Unexpected response code:', data);
-      }
-  
-    } catch (error) {
-      console.error('Error:', error.message);
-      
-    }
-  };
+  });
+};
+
+export default FulfilledPromiseApi;
