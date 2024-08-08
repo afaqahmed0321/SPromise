@@ -10,6 +10,7 @@ import { View, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Dashboard from './src/screens/Dashboard';
 import MakePromise from './src/screens/MakePromise';
+import CameraScreen from './src/comp/makePromise/CameraScreen';
 import Notifications from './src/screens/Notifications';
 // import Users from './src/screens/Users';
 import {
@@ -306,7 +307,11 @@ const Auth = () => {
                 component={CustomWebView}
                 options={{ headerShown: false }}
               />
-
+              <Stack.Screen
+                name="CameraScreen"
+                component={CameraScreen}
+                options={{ headerShown: false }}
+              />
               {/* <Stack.Screen
 
               name="AdminPanel"

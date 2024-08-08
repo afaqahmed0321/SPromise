@@ -23,7 +23,7 @@ import {
   selectMedia,
   mediaUpload,
 } from '../../recoil/AddPromise';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {RNCamera} from 'react-native-camera';
 import {useNavigation} from '@react-navigation/native';
 import {
   AllowedVideoFormatsState,
@@ -31,6 +31,7 @@ import {
 } from '../../recoil/Globel';
 import {BlurView} from '@react-native-community/blur';
 import axios from 'axios';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const PromiseStatement = ({onTextChange}) => {
   const navigation = useNavigation();
@@ -52,25 +53,25 @@ const PromiseStatement = ({onTextChange}) => {
   const [fullScreen, setFullScreen] = useState(false);
   const [isLoading, setIsLoading] = useRecoilState(mediaUpload); // Loading state
 
-  const ref = useRef();
+  const cameraRef = useRef(null);
 
-  const openCamera = async () => {
+  const openCamera = () => {
     setIsModalV(false);
-    const result = await launchCamera({mediaType: 'video', quality: 1});
-    console.log('camera opened', result);
+    navigation.navigate('CameraScreen', {
+      onVideoRecorded: handleVideoRecorded,
+    });
+  };
 
-    if (result.assets && result.assets.length > 0) {
-      console.log("if camera");
-      const selectedFileSize = result.assets[0].fileSize;
-      const maxSizeInBytes = 200 * 1024 * 1024;
-      const allowedFormats = ['.mp4', '.mov', '.wmv', '.qt'];
-      const selectedFileType = result.assets[0].type;
-      if (selectedFileSize <= maxSizeInBytes) {
-        setSelectedVideo(result.assets[0].uri);
-        handelUpload(result.assets[0].uri);
-      } else {
-        alert('Selected file size exceeds. Please choose a smaller file.');
-      }
+  const handleVideoRecorded = (videoUri) => {
+    console.log("urllll", videoUri);
+    const selectedFileSize = videoUri.fileSize;
+    const maxSizeInBytes = 100 * 1024 * 1024;
+
+    if (selectedFileSize <= maxSizeInBytes) {
+      setSelectedVideo(videoUri);
+      handelUpload(videoUri);
+    } else {
+      alert('Selected file size exceeds. Please choose a smaller file.');
     }
   };
 
