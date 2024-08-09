@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { API_URL } from '../../helper';
 
-const url = 'https://snappromise.com:8080/savePromise';
+const url = `${API_URL}/savePromise`;
 
 const MakePromiseApi = async (
   expiryDate,

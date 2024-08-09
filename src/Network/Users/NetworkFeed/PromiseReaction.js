@@ -1,6 +1,7 @@
 import Toast from 'react-native-toast-message';
+import { API_URL } from '../../../../helper';
 
-const url = 'https://snappromise.com:8080/promiseReact';
+const url = `${API_URL}/promiseReact`;
 
 const PromiseReaction = async (userNN, PIDd, Reac) => {
   const requestBody = {

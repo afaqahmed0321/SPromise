@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { API_URL } from '../../helper';
 import {
   View,
   Text,
@@ -50,7 +51,7 @@ const Rewards = ({ navigation }) => {
   };
 
   const fetchData = async () => {
-    const resp = axios.get(`https://snappromise.com:8080/api/Users/getNetworkUsersRewards?userNo=${userN}`)
+    const resp = axios.get(`${API_URL}/api/Users/getNetworkUsersRewards?userNo=${userN}`)
       .then((response) => {
         setUserData(response.data.userRewards);
         setIsLoading(false);

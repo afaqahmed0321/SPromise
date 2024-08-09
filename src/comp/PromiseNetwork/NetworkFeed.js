@@ -33,6 +33,7 @@ import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import fetchUser from '../../Network/Users/GetUser';
 import Toast from 'react-native-toast-message';
+import { API_URL } from '../../../helper';
 const NetworkFeed = ({navigation}) => {
   const today = moment().format('YYYY-MM-DD');
 
@@ -86,7 +87,7 @@ const NetworkFeed = ({navigation}) => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${selectedItem}${
+        `${API_URL}/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${selectedItem}${
           selectedStatus == 'All' ? '&All' : '&status='
         }${selectedStatus}&fromDate=${selectedRange.firstDate}&toDate=${
           selectedRange.secondDate

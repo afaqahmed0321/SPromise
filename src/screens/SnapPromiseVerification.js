@@ -23,6 +23,7 @@ import { useRecoilState } from 'recoil';
 import { Headings } from '../Styling/Headings';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import FontAw from 'react-native-vector-icons/FontAwesome6';
+import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 
 const SnapPromiseVerification = ({ navigation }) => {
   const bgBtnmakeprms = ['#E4A936', '#EE8347'];
@@ -239,7 +240,7 @@ const SnapPromiseVerification = ({ navigation }) => {
           {attachMedia != null && (
                 <>
                 <Text style={[Headings.h3ForReviewpage]}> Attached Media</Text>
-            <FontAw name="youtube"  size={30} light style={{paddingHorizontal:hp(1)}} />
+            <FontAw5 name="youtube"  size={30} light style={{paddingHorizontal:hp(1)}} />
             </>
           )}
         </LinearGradient>

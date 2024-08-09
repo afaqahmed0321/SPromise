@@ -1,6 +1,9 @@
 import Toast from 'react-native-toast-message';
+import { API_URL } from '../../../../../helper';
+
+
 export default CompletePromiseApi = async (promiseID, userNo, note) => {
-    const url = `https://snappromise.com:8080/completePromise?promiseID=${promiseID}&userNo=${userNo}&note=${note}`;
+    const url = `${API_URL}/completePromise?promiseID=${promiseID}&userNo=${userNo}&note=${note}`;
   
     try {
       const response = await fetch(url, {

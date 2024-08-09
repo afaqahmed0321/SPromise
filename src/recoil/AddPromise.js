@@ -142,6 +142,10 @@ export const pay = atom({
   key: 'pay',
   default: true,
 });
+export const payVisible = atom({
+  key: 'payVisible',
+  default: false,
+});
 export const selectMedia = atom({
   key: 'selectMedia',
   default: null,

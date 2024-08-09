@@ -54,6 +54,7 @@ const AddToMyNetwork = () => {
   
     try {
       const data = await fetchUser(mail);
+      console.log("user data", data);
       setIsLoading(false);
   
       if (data === 'User Does not Exist') {
@@ -215,7 +216,7 @@ const AddToMyNetwork = () => {
             <View style={styles.userDataContainer}>
               <Text style={styles.userDataText}>Email: {userData.emailID}</Text>
               <Text style={styles.userDataText}>Name: {userData.firstName} {userData.lastName}</Text>
-              <Text style={styles.userDataText}>Promisibility: {userData.promisibility}</Text>
+              <Text style={styles.userDataText}>Promisibility: {userData.promisibility == 0 ? '0%' : userData.promisibility }</Text>
             </View>
             <TouchableOpacity
               style={styles.addButton}

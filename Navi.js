@@ -280,6 +280,7 @@ const Auth = () => {
                 options={{
                   title: 'Make Promise',
                   headerStyle: { backgroundColor: '#E4EEE6' },
+                  headerShown: false
                 }}
               />
               <Stack.Screen
@@ -341,7 +342,7 @@ const Auth = () => {
               <Stack.Screen
                 name="PaymentScreens"
                 component={PaymentScreens}
-                options={{ headerShown: true }}
+                options={{ headerShown: false }}
               />
               <Stack.Screen
                 name="ReportIssues"

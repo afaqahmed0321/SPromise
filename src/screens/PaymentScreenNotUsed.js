@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { API_URL } from '../../helper';
 import { View, Text, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import { CreditCardInput } from 'react-native-credit-card-input';
 import LinearGradient from 'react-native-linear-gradient';
@@ -14,7 +15,7 @@ const PaymentScreen = ({ promiseID, userN }) => {
 
   const onSubmit = async () => {
     const promise = "4e8d1ffe-d6f8-4035-819f-e98197163e61"
-    axios.post(`https://snappromise.com:8080/getPaymentIntent?promiseId=${promiseID}`)
+    axios.post(`${API_URL}/getPaymentIntent?promiseId=${promiseID}`)
       .then((response) => {
         setPaymentIntent(response.data)
       })

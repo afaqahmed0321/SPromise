@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { API_URL } from '../../helper';
 import {
   View,
   Text,
@@ -46,15 +47,15 @@ const ForgetPasswordEmailScreen = ({navigation}) => {
 
     await axios
       .get(
-        `https://snappromise.com:8080/api/Users/getUsers?searchString=${mail}`,
+        `${API_URL}/api/Users/getUsers?searchString=${mail}`,
       )
 
       .then(async response => {
         setUserNumber(response?.data?.users?.[0].userNo);
         if (response?.data?.users?.[0].loginType !== 'Manual') {
           Toast.show({
-            type: 'success', // 'success', 'error', 'info'
-            text1: 'User should logged in with google !',
+            type: 'info', // 'success', 'error', 'info'
+            text1: 'User should login with google !',
             visibilityTime: 4000, // duration in milliseconds
             autoHide: true,
             topOffset: 30,

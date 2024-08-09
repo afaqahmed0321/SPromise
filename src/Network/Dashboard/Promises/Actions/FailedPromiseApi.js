@@ -1,7 +1,8 @@
 import Toast from 'react-native-toast-message';
+import { API_URL } from '../../../../../helper';
 export default FailedPromiseApi = async (promiseID, userNo) => {
 
-    const url = `https://snappromise.com:8080/failedPromise?promiseID=${promiseID}&userNo=${userNo}`;
+    const url = `${API_URL}/failedPromise?promiseID=${promiseID}&userNo=${userNo}`;
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -14,7 +15,7 @@ export default FailedPromiseApi = async (promiseID, userNo) => {
       const data = await response.json();
       if (data.code == 100) {
         Toast.show({
-          type: 'success',
+          type: 'error',
           text1: 'Failed',
           swipeable: true,
           autoHide: true,

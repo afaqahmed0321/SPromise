@@ -37,7 +37,7 @@ import {
 } from '../Dashboard/ReqPromiseDashBoard/Action';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 import PaymentScreens from '../../screens/PaymentScreens';
-import {pay, selectedVideoR} from '../../recoil/AddPromise';
+import {pay, selectedVideoR, payVisible} from '../../recoil/AddPromise';
 import {useRecoilState} from 'recoil';
 import {BlurView} from '@react-native-community/blur';
 import Video from 'react-native-video';
@@ -75,6 +75,8 @@ const DetailCard = ({
   const [isPaymentWebViewVisible, setIsPaymentWebViewVisible] = useState(false);
   const [selectedVideo, setSelectedVideo] = useRecoilState(selectedVideoR);
   const [payButton, setPayButton] = useRecoilState(pay);
+  const [hidePayButton, setHidePayButton] = useRecoilState(payVisible);
+
 
   const [isVideoModalVisible, setIsVideoModalVisible] = useState(false);
   const [markCompleted, setMarkCompleted] = useState(false);
@@ -86,6 +88,7 @@ const DetailCard = ({
   const [isLoading2, setIsLoading2] = useState(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [showFullText, setShowFullText] = useState(false);
+  const [blank, setBlank] = useState(false);
   const navigation = useNavigation();
 
   const toggleText = () => {
@@ -107,8 +110,11 @@ const DetailCard = ({
     const res = await handleCompletePromise(promiseID, userN, textareaValue);
     console.log('responseeeeeaaaa', res);
     if (res == 1) {
+      setBlank(true);
       setIsLoading1(false);
       // setIsLoading1(false);
+    }else {
+      setBlank(false);
     }
     refreshCallback();
     setActionState(!actionState);
@@ -161,6 +167,7 @@ const DetailCard = ({
     };
 
     useEffect(() => {
+      setHidePayButton(false);
       const timer = setTimeout(() => {
         setPayButton(true);
       }, 3000);
@@ -237,6 +244,8 @@ const DetailCard = ({
   };
 
   useEffect(() => {
+    setHidePayButton(false);
+
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => {
@@ -410,20 +419,28 @@ const DetailCard = ({
                 actions.map((action, index) => {
                   if (action === 'Accept') {
                     return (
+                      blank ? (
+                        <></>
+                      ):(
                       <View key={index}>
                         <Text style={styles.actionText}>
                           You can either accept or reject this promise
                         </Text>
                       </View>
+                      )
                     );
                   } else if (action === 'Fulfilled') {
                     return (
+                      blank ? (
+                        <></>
+                      ):(
                       <View key={index}>
                         <Text style={styles.actionText}>
                           Promisor has met the terms of the Promise, you can now
-                          accept or reject the resolution.
+                          Fulfill or Fail the resolution.
                         </Text>
                       </View>
+                      )
                     );
                   } else if (action === 'Pay') {
                     return (
@@ -437,11 +454,15 @@ const DetailCard = ({
                     );
                   } else if (action === 'Complete') {
                     return (
+                      blank ? (
+                        <></>
+                      ):(
                       <View key={index}>
                         <Text style={styles.actionText}>
                           You can either complete or fail this promise
                         </Text>
                       </View>
+                      )
                     );
                   } else {
                     return null;
@@ -464,6 +485,9 @@ const DetailCard = ({
                 actions.map((action, index) => {
                   if (action === 'Accept') {
                     return (
+                      blank ? (
+                        <></>
+                      ):(
                       <TouchableOpacity
                         style={commonStyles.ActionBtn}
                         key={index}
@@ -471,7 +495,10 @@ const DetailCard = ({
                           setIsLoading1(true);
                           const res = handleAccept(promiseID, userN);
                           if (res === 1) {
+                            setBlank(true);
                             setIsLoading1(false);
+                          }else {
+                            setBlank(false);
                           }
                           refreshCallback();
                           setActionState(!actionState);
@@ -480,9 +507,13 @@ const DetailCard = ({
                           {action}
                         </Text>
                       </TouchableOpacity>
+                      )
                     );
                   } else if (action === 'Reject') {
                     return (
+                      blank ? (
+                        <></>
+                      ):(
                       <TouchableOpacity
                         style={[
                           commonStyles.ActionBtn,
@@ -493,7 +524,10 @@ const DetailCard = ({
                           setIsLoading1(true);
                           const res = handleReject(promiseID, userN);
                           if (res === 1) {
+                            setBlank(true);
                             setIsLoading1(false);
+                          }else {
+                            setBlank(false);
                           }
                           refreshCallback();
                           setActionState(!actionState);
@@ -502,9 +536,13 @@ const DetailCard = ({
                           {action}
                         </Text>
                       </TouchableOpacity>
+                      )
                     );
                   } else if (action === 'Complete') {
                     return (
+                      blank ? (
+                        <></>
+                      ):(
                       <TouchableOpacity
                         style={[commonStyles.ActionBtn]}
                         key={index}
@@ -518,9 +556,13 @@ const DetailCard = ({
                           {action}
                         </Text>
                       </TouchableOpacity>
+                      )
                     );
                   } else if (action === 'Fail') {
                     return (
+                      blank ? (
+                        <></>
+                      ):(
                       <TouchableOpacity
                         style={[
                           commonStyles.ActionBtn,
@@ -531,7 +573,10 @@ const DetailCard = ({
                           setIsLoading1(true);
                           const res = handleFailPromise(promiseID, userN);
                           if (res === 1) {
+                            setBlank(true);
                             setIsLoading1(false);
+                          }else {
+                            setBlank(false);
                           }
                           refreshCallback();
                           setActionState(!actionState);
@@ -540,9 +585,13 @@ const DetailCard = ({
                           {action}
                         </Text>
                       </TouchableOpacity>
+                      )
                     );
                   } else if (action === 'Fulfilled') {
                     return (
+                      blank ? (
+                        <></>
+                      ):(
                       <TouchableOpacity
                         style={[commonStyles.ActionBtn]}
                         key={index}
@@ -553,7 +602,10 @@ const DetailCard = ({
                             userN,
                           );
                           if (res === 1) {
+                            setBlank(true);
                             setIsLoading1(false);
+                          }else {
+                            setBlank(false);
                           }
                           refreshCallback();
                           setActionState(!actionState);
@@ -562,9 +614,13 @@ const DetailCard = ({
                           {action}
                         </Text>
                       </TouchableOpacity>
+                      )
                     );
                   } else if (action === 'Failed') {
                     return (
+                      blank ? (
+                        <></>
+                      ):(
                       <TouchableOpacity
                         style={[
                           commonStyles.ActionBtn,
@@ -575,7 +631,10 @@ const DetailCard = ({
                           setIsLoading1(true);
                           const res = handleFailedPromiseApi(promiseID, userN);
                           if (res === 1) {
+                            setBlank(true);
                             setIsLoading1(false);
+                          }else {
+                            setBlank(false);
                           }
                           refreshCallback();
                           setActionState(!actionState);
@@ -584,10 +643,13 @@ const DetailCard = ({
                           {action}
                         </Text>
                       </TouchableOpacity>
+                      )
                     );
                   } else if (action == 'Pay') {
                     return (
-                      payButton && (
+                      hidePayButton ? (
+                        <></>
+                      ):(
                         <TouchableOpacity
                           style={commonStyles.ActionBtn}
                           key={index}
@@ -595,7 +657,7 @@ const DetailCard = ({
                           <Text style={{color: 'white'}}>{action}</Text>
                         </TouchableOpacity>
                       )
-                    );
+                      )
                   }
                 })
               )}
@@ -769,6 +831,9 @@ const DetailCard = ({
                             {actions.map((action, index) => {
                               if (action === 'Accept') {
                                 return (
+                                  blank ? (
+                                    <></>
+                                  ):(
                                   <>
                                     <Text
                                       style={{color: 'white', paddingLeft: 13}}>
@@ -776,17 +841,21 @@ const DetailCard = ({
                                       promise
                                     </Text>
                                   </>
+                                  )
                                 );
                               } else if (action === 'Fulfilled') {
                                 return (
-                                  <>
+                                  blank ? (
+                                    <></>
+                                  ):( <>
                                     <Text
                                       style={{color: 'white', paddingLeft: 13}}>
                                       Promisor has met the terms of the Promise,
-                                      you can now accept or reject the
+                                      you can now Fulfill or Fail the
                                       resolution.
                                     </Text>
                                   </>
+                                  )
                                 );
                               } else if (action === 'Pay') {
                                 return (
@@ -800,6 +869,9 @@ const DetailCard = ({
                                 );
                               } else if (action === 'Complete') {
                                 return (
+                                  blank ? (
+                                    <></>
+                                  ):(
                                   <>
                                     <Text
                                       style={{color: 'white', paddingLeft: 13}}>
@@ -807,6 +879,7 @@ const DetailCard = ({
                                       promise
                                     </Text>
                                   </>
+                                  )
                                 );
                               }
                             })}
@@ -814,6 +887,9 @@ const DetailCard = ({
 
                           if (action === 'Accept') {
                             return (
+                              blank ? (
+                                <></>
+                              ):(
                               <TouchableOpacity
                                 style={commonStyles.ActionBtn}
                                 key={index}
@@ -824,7 +900,10 @@ const DetailCard = ({
                                     userN,
                                   );
                                   if (res === 1) {
+                                    setBlank(true);
                                     setIsLoading1(false);
+                                  }else {
+                                    setBlank(false);
                                   }
                                   refreshCallback();
                                   setActionState(!actionState);
@@ -834,9 +913,13 @@ const DetailCard = ({
                                   {action}
                                 </Text>
                               </TouchableOpacity>
+                              )
                             );
                           } else if (action === 'Reject') {
                             return (
+                              blank ? (
+                                <></>
+                              ):(
                               <TouchableOpacity
                                 style={[
                                   commonStyles.ActionBtn,
@@ -850,7 +933,10 @@ const DetailCard = ({
                                     userN,
                                   );
                                   if (res === 1) {
+                                    setBlank(true);
                                     setIsLoading1(false);
+                                  }else {
+                                    setBlank(false);
                                   }
                                   refreshCallback();
                                   setActionState(!actionState);
@@ -860,6 +946,7 @@ const DetailCard = ({
                                   {action}
                                 </Text>
                               </TouchableOpacity>
+                              )
                             );
                           }
                         }
@@ -936,20 +1023,26 @@ const DetailCard = ({
                 actions.map((action, index) => {
                   if (action === 'Accept') {
                     return (
-                      <>
+                      blank ? (
+                        <></>
+                      ):( <>
                         <Text style={styles.actionText}>
                           You can either accept or reject this promise
                         </Text>
                       </>
+                      )
                     );
                   } else if (action === 'Fulfilled') {
                     return (
-                      <>
+                      blank ? (
+                        <></>
+                      ):( <>
                         <Text style={styles.actionText}>
                           Promisor has met the terms of the Promise, you can now
-                          accept or reject the resolution.
+                          Fulfill or Fail the resolution.
                         </Text>
                       </>
+                      )
                     );
                   } else if (action === 'Pay') {
                     return (
@@ -963,11 +1056,14 @@ const DetailCard = ({
                     );
                   } else if (action === 'Complete') {
                     return (
-                      <>
+                      blank ? (
+                        <></>
+                      ):( <>
                         <Text style={styles.actionText}>
                           You can either complete or fail this promise
                         </Text>
                       </>
+                      )
                     );
                   }
                 })
@@ -987,6 +1083,9 @@ const DetailCard = ({
                 actions.map((action, index) => {
                   if (action === 'Accept') {
                     return (
+                      blank ? (
+                        <></>
+                      ):(
                       <TouchableOpacity
                         style={commonStyles.ActionBtn}
                         key={index}
@@ -1003,9 +1102,13 @@ const DetailCard = ({
                           {action}
                         </Text>
                       </TouchableOpacity>
+                      )
                     );
                   } else if (action === 'Reject') {
                     return (
+                      blank ? (
+                        <></>
+                      ):(
                       <TouchableOpacity
                         style={[
                           commonStyles.ActionBtn,
@@ -1025,6 +1128,7 @@ const DetailCard = ({
                           {action}
                         </Text>
                       </TouchableOpacity>
+                      )
                     );
                   } else if (action === 'Complete') {
                     // return (
@@ -1040,7 +1144,9 @@ const DetailCard = ({
                     //   </TouchableOpacity>
                     // );
                     return (
-                      <TouchableOpacity
+                      blank ? (
+                        <></>
+                      ):( <TouchableOpacity
                         style={[commonStyles.ActionBtn]}
                         key={index}
                         onPress={() => {
@@ -1054,20 +1160,27 @@ const DetailCard = ({
                           {action}
                         </Text>
                       </TouchableOpacity>
+                      )
                     );
                   } else if (action === 'Fail') {
                     return (
-                      <TouchableOpacity
+                      blank ? (
+                        <></>
+                      ):( <TouchableOpacity
                         style={[
                           commonStyles.ActionBtn,
                           {backgroundColor: 'red'},
                         ]}
                         key={index}
                         onPress={() => {
-                          setIsLoading1(true);
+                          // setIsLoading1(true);
+                          setBlank(true);
                           const res = handleFailPromise(promiseID, userN);
                           if (res === 1) {
                             setIsLoading1(false);
+                            setBlank(true);
+                          }else {
+                            setBlank(false);
                           }
                           refreshCallback();
                           setActionState(!actionState);
@@ -1076,10 +1189,13 @@ const DetailCard = ({
                           {action}
                         </Text>
                       </TouchableOpacity>
+                      )
                     );
                   } else if (action === 'Fulfilled') {
                     return (
-                      <TouchableOpacity
+                      blank ? (
+                        <></>
+                      ):(<TouchableOpacity
                         style={[commonStyles.ActionBtn]}
                         key={index}
                         onPress={() => {
@@ -1089,7 +1205,10 @@ const DetailCard = ({
                             userN,
                           );
                           if (res === 1) {
+                            setBlank(true);
                             setIsLoading1(false);
+                          }else {
+                            setBlank(false);
                           }
                           refreshCallback();
                           setActionState(!actionState);
@@ -1098,10 +1217,13 @@ const DetailCard = ({
                           {action}
                         </Text>
                       </TouchableOpacity>
+                      )
                     );
                   } else if (action === 'Failed') {
                     return (
-                      <TouchableOpacity
+                      blank ? (
+                        <></>
+                      ):(<TouchableOpacity
                         style={[
                           commonStyles.ActionBtn,
                           {backgroundColor: 'red'},
@@ -1111,7 +1233,10 @@ const DetailCard = ({
                           setIsLoading1(true);
                           const res = handleFailedPromiseApi(promiseID, userN);
                           if (res === 1) {
+                            setBlank(true);
                             setIsLoading1(false);
+                          }else {
+                            setBlank(false);
                           }
                           refreshCallback();
                           setActionState(!actionState);
@@ -1120,10 +1245,13 @@ const DetailCard = ({
                           {action}
                         </Text>
                       </TouchableOpacity>
+                      )
                     );
                   } else if (action == 'Pay') {
                     return (
-                      payButton && (
+                      hidePayButton ? (
+                        <></>
+                      ):(
                         <TouchableOpacity
                           style={commonStyles.ActionBtn}
                           key={index}
@@ -1414,20 +1542,26 @@ const DetailCard = ({
                   actions.map((action, index) => {
                     if (action === 'Accept') {
                       return (
-                        <>
+                        blank ? (
+                          <></>
+                        ):(<>
                           <Text style={styles.actionText}>
                             You can either accept or reject this promise
                           </Text>
                         </>
+                        )
                       );
                     } else if (action === 'Fulfilled') {
                       return (
-                        <>
+                        blank ? (
+                          <></>
+                        ):(<>
                           <Text style={styles.actionText}>
                             Promisor has met the terms of the Promise, you can
-                            now accept or reject the resolution.
+                            now Fulfill or Fail the resolution.
                           </Text>
                         </>
+                        )
                       );
                     } else if (action === 'Pay') {
                       return (
@@ -1441,11 +1575,14 @@ const DetailCard = ({
                       );
                     } else if (action === 'Complete') {
                       return (
-                        <>
+                        blank ? (
+                          <></>
+                        ):(<>
                           <Text style={styles.actionText}>
                             You can either complete or fail this promise
                           </Text>
                         </>
+                        )
                       );
                     }
                   })
@@ -1465,7 +1602,9 @@ const DetailCard = ({
                   actions.map((action, index) => {
                     if (action === 'Accept') {
                       return (
-                        <TouchableOpacity
+                        blank ? (
+                          <></>
+                        ):(<TouchableOpacity
                           style={commonStyles.ActionBtn}
                           key={index}
                           onPress={async () => {
@@ -1475,7 +1614,10 @@ const DetailCard = ({
                               userN,
                             );
                             if (res === 1) {
+                              setBlank(true);
                               setIsLoading1(false);
+                            }else {
+                              setBlank(false);
                             }
                             refreshCallback();
                             setActionState(!actionState);
@@ -1484,10 +1626,13 @@ const DetailCard = ({
                             {action}
                           </Text>
                         </TouchableOpacity>
+                        )
                       );
                     } else if (action === 'Reject') {
                       return (
-                        <TouchableOpacity
+                        blank ? (
+                          <></>
+                        ):(<TouchableOpacity
                           style={[
                             commonStyles.ActionBtn,
                             {backgroundColor: 'red'},
@@ -1497,7 +1642,10 @@ const DetailCard = ({
                             setIsLoading1(true);
                             const res = handleRejectPromise(promiseID, userN);
                             if (res === 1) {
+                              setBlank(true);
                               setIsLoading1(false);
+                            }else {
+                              setBlank(false);
                             }
                             refreshCallback();
                             setActionState(!actionState);
@@ -1506,6 +1654,7 @@ const DetailCard = ({
                             {action}
                           </Text>
                         </TouchableOpacity>
+                        )
                       );
                     } else if (action === 'Complete') {
                       // return (
@@ -1521,7 +1670,9 @@ const DetailCard = ({
                       //   </TouchableOpacity>
                       // );
                       return (
-                        <TouchableOpacity
+                        blank ? (
+                          <></>
+                        ):(<TouchableOpacity
                           style={[commonStyles.ActionBtn]}
                           key={index}
                           onPress={() => {
@@ -1535,10 +1686,13 @@ const DetailCard = ({
                             {action}
                           </Text>
                         </TouchableOpacity>
+                        )
                       );
                     } else if (action === 'Fail') {
                       return (
-                        <TouchableOpacity
+                        blank ? (
+                          <></>
+                        ):( <TouchableOpacity
                           style={[
                             commonStyles.ActionBtn,
                             {backgroundColor: 'red'},
@@ -1548,7 +1702,10 @@ const DetailCard = ({
                             setIsLoading1(true);
                             const res = handleFailPromise(promiseID, userN);
                             if (res === 1) {
+                              setBlank(true);
                               setIsLoading1(false);
+                            }else {
+                              setBlank(false);
                             }
                             refreshCallback();
                             setActionState(!actionState);
@@ -1557,10 +1714,13 @@ const DetailCard = ({
                             {action}
                           </Text>
                         </TouchableOpacity>
+                        )
                       );
                     } else if (action === 'Fulfilled') {
                       return (
-                        <TouchableOpacity
+                        blank ? (
+                          <></>
+                        ):( <TouchableOpacity
                           style={[commonStyles.ActionBtn]}
                           key={index}
                           onPress={() => {
@@ -1579,10 +1739,13 @@ const DetailCard = ({
                             {action}
                           </Text>
                         </TouchableOpacity>
+                        )
                       );
                     } else if (action === 'Failed') {
                       return (
-                        <TouchableOpacity
+                        blank ? (
+                          <></>
+                        ):( <TouchableOpacity
                           style={[
                             commonStyles.ActionBtn,
                             {backgroundColor: 'red'},
@@ -1595,7 +1758,10 @@ const DetailCard = ({
                               userN,
                             );
                             if (res === 1) {
+                              setBlank(true);
                               setIsLoading1(false);
+                            }else {
+                              setBlank(false);
                             }
                             refreshCallback();
                             setActionState(!actionState);
@@ -1604,10 +1770,13 @@ const DetailCard = ({
                             {action}
                           </Text>
                         </TouchableOpacity>
+                        )
                       );
                     } else if (action == 'Pay') {
                       return (
-                        payButton && (
+                        hidePayButton ? (
+                          <></>
+                        ):(
                           <TouchableOpacity
                             style={commonStyles.ActionBtn}
                             key={index}
@@ -1890,20 +2059,26 @@ const DetailCard = ({
                   actions.map((action, index) => {
                     if (action === 'Accept') {
                       return (
-                        <>
+                        blank ? (
+                          <></>
+                        ):( <>
                           <Text style={styles.actionText}>
                             You can either accept or reject this promise
                           </Text>
                         </>
+                        )
                       );
                     } else if (action === 'Fulfilled') {
                       return (
-                        <>
+                        blank ? (
+                          <></>
+                        ):( <>
                           <Text style={styles.actionText}>
                             Promisor has met the terms of the Promise, you can
-                            now accept or reject the resolution.
+                            now Fulfill or Fail the resolution.
                           </Text>
                         </>
+                        )
                       );
                     } else if (action === 'Pay') {
                       return (
@@ -1917,11 +2092,14 @@ const DetailCard = ({
                       );
                     } else if (action === 'Complete') {
                       return (
-                        <>
+                        blank ? (
+                          <></>
+                        ):(<>
                           <Text style={styles.actionText}>
                             You can either complete or fail this promise
                           </Text>
                         </>
+                        )
                       );
                     }
                   })
@@ -1941,7 +2119,9 @@ const DetailCard = ({
                   actions.map((action, index) => {
                     if (action === 'Accept') {
                       return (
-                        <TouchableOpacity
+                        blank ? (
+                          <></>
+                        ):( <TouchableOpacity
                           style={commonStyles.ActionBtn}
                           key={index}
                           onPress={() => {
@@ -1949,7 +2129,10 @@ const DetailCard = ({
                               setIsLoading1(true);
                               const res = handleAcceptPromise(promiseID, userN);
                               if (res === 1) {
+                                setBlank(true);
                                 setIsLoading1(false);
+                              }else {
+                                setBlank(false);
                               }
                               refreshCallback();
                               setActionState(!actionState);
@@ -1967,10 +2150,13 @@ const DetailCard = ({
                             {action}
                           </Text>
                         </TouchableOpacity>
+                        )
                       );
                     } else if (action === 'Reject') {
                       return (
-                        <TouchableOpacity
+                        blank ? (
+                          <></>
+                        ):( <TouchableOpacity
                           style={[
                             commonStyles.ActionBtn,
                             {backgroundColor: 'red'},
@@ -1980,7 +2166,10 @@ const DetailCard = ({
                             setIsLoading1(true);
                             const res = handleReject(promiseID, userN);
                             if (res === 1) {
+                              setBlank(true);
                               setIsLoading1(false);
+                            }else {
+                              setBlank(false);
                             }
                             refreshCallback();
                             setActionState(!actionState);
@@ -1989,10 +2178,13 @@ const DetailCard = ({
                             {action}
                           </Text>
                         </TouchableOpacity>
+                        )
                       );
                     } else if (action === 'Fulfilled') {
                       return (
-                        <TouchableOpacity
+                        blank ? (
+                          <></>
+                        ):( <TouchableOpacity
                           style={commonStyles.ActionBtn}
                           key={index}
                           onPress={() => {
@@ -2002,7 +2194,10 @@ const DetailCard = ({
                               userN,
                             );
                             if (res === 1) {
+                              setBlank(true);
                               setIsLoading1(false);
+                            }else {
+                              setBlank(false);
                             }
                             refreshCallback();
                             setActionState(!actionState);
@@ -2011,10 +2206,13 @@ const DetailCard = ({
                             {action}
                           </Text>
                         </TouchableOpacity>
+                        )
                       );
                     } else if (action === 'Failed') {
                       return (
-                        <TouchableOpacity
+                        blank ? (
+                          <></>
+                        ):( <TouchableOpacity
                           style={[
                             commonStyles.ActionBtn,
                             {backgroundColor: 'red'},
@@ -2027,7 +2225,10 @@ const DetailCard = ({
                               userN,
                             );
                             if (res === 1) {
+                              setBlank(true);
                               setIsLoading1(false);
+                            }else {
+                              setBlank(false);
                             }
                             refreshCallback();
                             setActionState(!actionState);
@@ -2036,10 +2237,13 @@ const DetailCard = ({
                             {action}
                           </Text>
                         </TouchableOpacity>
+                        )
                       );
                     } else if (action === 'Complete') {
                       return (
-                        <TouchableOpacity
+                        blank ? (
+                          <></>
+                        ):( <TouchableOpacity
                           style={[commonStyles.ActionBtn]}
                           key={index}
                           onPress={() => {
@@ -2049,7 +2253,10 @@ const DetailCard = ({
                               userN,
                             );
                             if (res === 1) {
+                              setBlank(true);
                               setIsLoading1(false);
+                            }else {
+                              setBlank(false);
                             }
                             refreshCallback();
                             setActionState(!actionState);
@@ -2058,10 +2265,13 @@ const DetailCard = ({
                             {action}
                           </Text>
                         </TouchableOpacity>
+                        )
                       );
                     } else if (action === 'Fail') {
                       return (
-                        <TouchableOpacity
+                        blank ? (
+                          <></>
+                        ):(  <TouchableOpacity
                           style={[
                             commonStyles.ActionBtn,
                             {backgroundColor: 'red'},
@@ -2071,7 +2281,10 @@ const DetailCard = ({
                             setIsLoading1(true);
                             const res = handleFailPromise(promiseID, userN);
                             if (res === 1) {
+                              setBlank(true);
                               setIsLoading1(false);
+                            }else {
+                              setBlank(false);
                             }
                             refreshCallback();
                             setActionState(!actionState);
@@ -2080,10 +2293,13 @@ const DetailCard = ({
                             {action}
                           </Text>
                         </TouchableOpacity>
+                        )
                       );
                     } else if (action == 'Pay') {
                       return (
-                        payButton && (
+                        hidePayButton ? (
+                          <></>
+                        ):(
                           <TouchableOpacity
                             style={commonStyles.ActionBtn}
                             key={index}

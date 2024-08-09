@@ -1,8 +1,8 @@
 import Toast from 'react-native-toast-message';
-
+import { API_URL } from '../../../../../helper';
 
 const AcceptPromiseRequest = async (promiseID, userNo) => {
-  const url = `https://snappromise.com:8080/acceptPromiseRequest?promiseID=${promiseID}&userNo=${userNo}`;
+  const url = `${API_URL}/acceptPromiseRequest?promiseID=${promiseID}&userNo=${userNo}`;
 
   try {
     const response = await fetch(url, {

@@ -1,10 +1,12 @@
+import { API_URL } from "../../../helper";
+
 const updateSubscriptionType = async (userN, subscriptionType) => {
     const userNo = userN;
     const subsType = subscriptionType;
   
     try {
       const response = await fetch(
-        `https://snappromise.com:8080/api/Users/updateSubscriptionType?userNo=${userNo}&subscriptionType=${subsType}`,
+        `${API_URL}/api/Users/updateSubscriptionType?userNo=${userNo}&subscriptionType=${subsType}`,
         {
           method: 'POST',
           headers: {

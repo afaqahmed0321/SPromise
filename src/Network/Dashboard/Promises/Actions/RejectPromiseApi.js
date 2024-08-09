@@ -1,6 +1,7 @@
 import Toast from 'react-native-toast-message';
+import { API_URL } from '../../../../../helper';
 export default RejectPromiseApi = async (promiseID, userNo) => {
-    const url = `https://snappromise.com:8080/rejectPromise?promiseID=${promiseID}&userNo=${userNo}`;
+    const url = `${API_URL}/rejectPromise?promiseID=${promiseID}&userNo=${userNo}`;
   
     try {
       const response = await fetch(url, {
@@ -14,7 +15,7 @@ export default RejectPromiseApi = async (promiseID, userNo) => {
       const data = await response.json();
       if (data.code === 100) {
         Toast.show({
-          type: 'success',
+          type: 'error',
           text1: 'Rejected',
           swipeable: true,
           autoHide: true,

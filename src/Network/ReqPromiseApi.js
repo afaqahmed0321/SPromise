@@ -1,6 +1,6 @@
 import Toast from 'react-native-toast-message';
-
-const url = 'https://snappromise.com:8080/savePromiseRequest';
+import { API_URL } from '../../helper';
+const url = `${API_URL}/savePromiseRequest`;
 
 const ReqPromiseApi = async (
   expiryDate,

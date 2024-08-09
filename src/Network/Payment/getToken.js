@@ -1,8 +1,8 @@
 
 import axios from 'axios';
-
+import { API_URL } from '../../../helper';
 export const GetPaymentToken = () => {
-  return axios.get('https://snappromise.com:8080/getPaymentToken', {
+  return axios.get(`${API_URL}/getPaymentToken`, {
     headers: {
       'Accept': '*/*',
     },

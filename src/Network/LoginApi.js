@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { API_URL } from '../../helper';
 
 // Create an Axios instance
 const axiosInstance = axios.create({
-  baseURL: 'https://snappromise.com:8080',
+  baseURL: `${API_URL}`,
   timeout: 10000, // Set your desired timeout
 });
 
@@ -59,7 +60,7 @@ export async function login(email,password) {
   formdata.append('password', password);
 
   try {
-    const response = await fetch("https://snappromise.com:8080/Login", {
+    const response = await fetch(`${API_URL}/Login`, {
       method: 'POST',
       headers: headers,
       body: formdata,
@@ -85,7 +86,7 @@ export async function Sociallogin(email, socialLogin) {
     formData.append('email', email);
     formData.append('socialLogIn', socialLogin);
 
-    const response = await fetch("https://snappromise.com:8080/Login", {
+    const response = await fetch(`${API_URL}/Login`, {
       method: 'POST',
       headers: headers,
       body: formData,

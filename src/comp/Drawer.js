@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,22 +13,24 @@ import Feather from 'react-native-vector-icons/Feather';
 import Mati from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAw5 from 'react-native-vector-icons/FontAwesome5';
-import { useRecoilState } from 'recoil';
+import {useRecoilState} from 'recoil';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen'
+} from 'react-native-responsive-screen';
 
-import { useNavigation } from '@react-navigation/native';
-import { isLeftDrawerV } from '../recoil/HomeScreenStates';
-import { UserNo, token } from '../recoil/AddPromise';
+import {useNavigation} from '@react-navigation/native';
+import {isLeftDrawerV} from '../recoil/HomeScreenStates';
+import {UserNo, token} from '../recoil/AddPromise';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { uemail } from '../recoil/Users/GetUsers';
-import { BlurView } from '@react-native-community/blur';
+import {uemail} from '../recoil/Users/GetUsers';
+import {BlurView} from '@react-native-community/blur';
 import ChangeSubscriptionModal from './ChangeSubscriptionModal';
 import updateSubscriptionType from '../Network/Users/updateSubscriptionType';
 import WebView from 'react-native-webview';
 import axios from 'axios';
+import {API_URL} from '../../helper';
+import { ismodalVisible } from '../recoil/Globel';
 
 const Drawer = () => {
   const [isDrawerV, setIsDrawerV] = useRecoilState(isLeftDrawerV);
@@ -49,20 +51,25 @@ const Drawer = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleSubscriptionChange = () => {
+    console.log("opening model", isModalVisible);
     setIsModalVisible(true);
+    console.log("after model", isModalVisible);
+
   };
 
-  const manageSubscription = async ()=> {
+  const manageSubscription = async () => {
+    const response = await axios
+      .get(`${API_URL}/getCustomerPortalURL?UserNo=${userN}`)
+      .then(response => {
+        setIsDrawerV(false);
+        navigation.navigate('CustomWebView', {uri: response.data.url});
 
-   const response =  await axios.get(`https://snappromise.com:8080/getCustomerPortalURL?UserNo=${userN}`)
-   .then((response)=>{
-    navigation.navigate('CustomWebView', { uri: response.data.url });
-
-    setSubURL(response.data.url);
-   }).catch((err)=>{
-    console.log("this is error", err);
-   })
-  }
+        setSubURL(response.data.url);
+      })
+      .catch(err => {
+        console.log('this is error', err);
+      });
+  };
 
   const handleCloseModal = () => {
     setIsModalVisible(false);
@@ -74,7 +81,6 @@ const Drawer = () => {
       logout();
     }
   };
-
 
   const getitem = async () => {
     let Name = await AsyncStorage.getItem('Name');
@@ -91,20 +97,22 @@ const Drawer = () => {
     try {
       await AsyncStorage.clear();
       setToken('');
-      
+
       console.log('AsyncStorage cleared successfully');
     } catch (error) {
       console.error('Error clearing AsyncStorage:', error);
     }
   };
-  const getEmailDisplay = (email) => {
+  const getEmailDisplay = email => {
     return email.length > 30 ? email.slice(0, 30) + '...' : email;
   };
   const handleOverlayPress = () => {
     setIsDrawerV(false);
   };
   return (
-    <SafeAreaView style={{ flex: 1 }} forceInset={{ top: 'always', horizontal: 'never' }}>
+    <SafeAreaView
+      style={{flex: 1}}
+      forceInset={{top: 'always', horizontal: 'never'}}>
       <TouchableWithoutFeedback onPress={handleOverlayPress}>
         <View style={styles.overlay} />
       </TouchableWithoutFeedback>
@@ -117,16 +125,14 @@ const Drawer = () => {
               borderRadius: wp(9),
               flexDirection: 'row',
               alignItems: 'center',
-            }}
-          >
+            }}>
             <View
               style={{
                 width: wp(10),
                 height: wp(10),
                 borderRadius: wp(6.5),
                 marginLeft: wp(2),
-              }}
-            >
+              }}>
               <Image
                 source={{
                   uri: 'https://freesvg.org/img/abstract-user-flat-4.png',
@@ -138,22 +144,33 @@ const Drawer = () => {
                 }}
               />
             </View>
-            <View style={{ marginLeft: wp(2) }}>
-            <Text style={{ color: '#6650A4', fontSize: hp(1.6), fontWeight: 'bold', width: wp(65) }}>{getEmailDisplay(email)}</Text> 
-           </View>
+            <View style={{marginLeft: wp(2)}}>
+              <Text
+                style={{
+                  color: '#6650A4',
+                  fontSize: hp(1.6),
+                  fontWeight: 'bold',
+                  width: wp(65),
+                }}>
+                {getEmailDisplay(email)}
+              </Text>
+            </View>
           </View>
-
         </TouchableOpacity>
 
-        <View style={{ marginHorizontal: wp(5), marginTop: wp(1) }}>
+        <View style={{marginHorizontal: wp(5), marginTop: wp(1)}}>
           <View style={[styles.listContainer]}>
-            <Mati color="#652D90" name="account" size={30} style={{ marginTop: wp(1)}} />
+            <Mati
+              color="#652D90"
+              name="account"
+              size={30}
+              style={{marginTop: wp(1)}}
+            />
             <TouchableOpacity
               onPress={() => {
                 setIsDrawerV(false);
                 navigation.navigate('UserProfile');
-              }}
-            >
+              }}>
               <Text style={[styles.TebText]}>User Profile</Text>
             </TouchableOpacity>
           </View>
@@ -162,17 +179,16 @@ const Drawer = () => {
             <TouchableOpacity
               style={styles.listContainer}
               onPress={() => {
-                navigation.navigate('Notifications')
+                navigation.navigate('Notifications');
                 setIsDrawerV(false);
-              }}
-            >
+              }}>
               <MaterialIcons
                 color="#652D90"
                 name="notifications"
                 size={30}
-                style={{ marginTop: wp(1) }}
+                style={{marginTop: wp(1)}}
               />
-              <Text style={[styles.TebText, { padding: 3 }]}>Notifications</Text>
+              <Text style={[styles.TebText, {padding: 3}]}>Notifications</Text>
             </TouchableOpacity>
           </View>
 
@@ -180,17 +196,18 @@ const Drawer = () => {
             <TouchableOpacity
               style={styles.listContainer}
               onPress={() => {
-                navigation.navigate('PromiseNetwork')
+                navigation.navigate('PromiseNetwork');
                 setIsDrawerV(false);
-              }}
-            >
+              }}>
               <MaterialIcons
                 color="#652D90"
                 name="groups"
                 size={30}
-                style={{ marginTop: wp(1) }}
+                style={{marginTop: wp(1)}}
               />
-              <Text style={[styles.TebText, { padding: 3 }]}>Promise Network</Text>
+              <Text style={[styles.TebText, {padding: 3}]}>
+                Promise Network
+              </Text>
             </TouchableOpacity>
           </View>
 
@@ -198,112 +215,106 @@ const Drawer = () => {
             <TouchableOpacity
               style={styles.listContainer}
               onPress={() => {
-                navigation.navigate('Rewards')
+                navigation.navigate('Rewards');
                 setIsDrawerV(false);
-              }}
-            >
+              }}>
               <MaterialIcons
                 color="#652D90"
                 name="stars"
                 size={30}
-                style={{ marginTop: wp(1) }}
+                style={{marginTop: wp(1)}}
               />
-              <Text style={[styles.TebText, { padding: 3 }]}>Rewards</Text>
+              <Text style={[styles.TebText, {padding: 3}]}>Rewards</Text>
             </TouchableOpacity>
           </View>
 
           {subscription !== 'Paid' ? (
             <View>
-              <TouchableOpacity
-                style={styles.listContainer}
-                onPress={() => {
-                  handleSubscriptionChange
-                  setIsDrawerV(false);
-                }}
-              >
-                <MaterialIcons
-                  color="#652D90"
-                  name="credit-card"
-                  size={30}
-                  style={{ marginTop: wp(1) }}
+            <TouchableOpacity
+              style={styles.listContainer}
+              onPress={() => {
+                handleSubscriptionChange(); // Correctly invoke the function here
+                // setIsDrawerV(false);
+              }}
+            >
+              <MaterialIcons
+                color="#652D90"
+                name="credit-card"
+                size={30}
+                style={{ marginTop: wp(1) }}
+              />
+              <Text style={[styles.TebText, { padding: 3 }]}>Change Subscription</Text>
+              {isModalVisible && (
+                <ChangeSubscriptionModal
+                  visible={isModalVisible} // Pass the state to control visibility
+                  onClose={handleCloseModal}
+                  onConfirm={handleConfirmSubscriptionChange}
                 />
-                <Text style={[styles.TebText, { padding: 3 }]}>Change Subscription</Text>
-                {isModalVisible ? (
-                  <ChangeSubscriptionModal
-                    onClose={handleCloseModal}
-                    onConfirm={handleConfirmSubscriptionChange}
-                  />
-                ) : (
-                  null
-                )
-                }
-              </TouchableOpacity>
-            </View>
+              )}
+            </TouchableOpacity>
+          </View>
+          
           ) : (
             <SafeAreaView>
-            <View>
-              <TouchableOpacity
-                style={styles.listContainer}
-                onPress={manageSubscription}
-              >
-                <MaterialIcons
-                  color="#652D90"
-                  name="credit-card"
-                  size={30}
-                  style={{ marginTop: wp(1) }}
-                />
-                <Text style={[styles.TebText, { padding: 3 }]}>Manage Subscription</Text>
-                {isModalVisible ? (
-                  <ChangeSubscriptionModal
-                    onClose={handleCloseModal}
-                    onConfirm={handleConfirmSubscriptionChange}
+              <View>
+                <TouchableOpacity
+                  style={styles.listContainer}
+                  onPress={manageSubscription}>
+                  <MaterialIcons
+                    color="#652D90"
+                    name="credit-card"
+                    size={30}
+                    style={{marginTop: wp(1)}}
                   />
-                ) : (
-                  null
-                )
-                }
-              </TouchableOpacity>
-            </View>
+                  <Text style={[styles.TebText, {padding: 3}]}>
+                    Manage Subscription
+                  </Text>
+                  {isModalVisible ? (
+                    <ChangeSubscriptionModal
+                      onClose={handleCloseModal}
+                      onConfirm={handleConfirmSubscriptionChange}
+                    />
+                  ) : null}
+                </TouchableOpacity>
+              </View>
             </SafeAreaView>
           )}
-
 
           <View>
             <TouchableOpacity
               style={styles.listContainer}
               onPress={() => {
-                navigation.navigate('ReportIssues')
+                navigation.navigate('ReportIssues');
                 setIsDrawerV(false);
-              }}
-            >
+              }}>
               <MaterialIcons
                 color="#652D90"
                 name="report"
                 size={30}
-                style={{ marginTop: wp(1) }}
+                style={{marginTop: wp(1)}}
               />
-              <Text style={[styles.TebText, { padding: 3 }]}>Report Issues</Text>
+              <Text style={[styles.TebText, {padding: 3}]}>Report Issues</Text>
             </TouchableOpacity>
           </View>
-
         </View>
 
-
         <TouchableOpacity
-          style={[styles.listContainer, { position: 'absolute', bottom: 0,  marginLeft: hp(2) }]}
-          onPress={() => logout()}
-        >
+          style={[
+            styles.listContainer,
+            {position: 'absolute', bottom: 0, marginLeft: hp(2)},
+          ]}
+          onPress={() => logout()}>
           <MaterialIcons
-            style={{ marginLeft: hp(1), marginTop: wp(1.1) }}
+            style={{marginLeft: hp(1), marginTop: wp(1.1)}}
             color="#652D90"
             name="logout"
             size={25}
           />
-          <Text style={[styles.TebText, { padding: 3 }]}>Log Out</Text>
+          <Text style={[styles.TebText, {padding: 3}]}>Log Out</Text>
         </TouchableOpacity>
       </View>
 
-      <BlurView style={{ flex: 1 }} blurType="light" blurAmount={10} />
+      <BlurView style={{flex: 1}} blurType="light" blurAmount={10} />
     </SafeAreaView>
   );
 };
@@ -314,10 +325,10 @@ const styles = StyleSheet.create({
   Main: {
     backgroundColor: '#E4EEE6',
     width: wp(80),
-    height: "100%",
+    height: '100%',
     borderRadius: 10,
     shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 3,
     elevation: 5,
@@ -330,7 +341,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 3,
     elevation: 5,

@@ -205,7 +205,6 @@ const EditProfile = () => {
         type: 'success',
         text1: 'Data successfully updated',
         swipeable: true,
-        autoHide: true,
         topOffset: 30,
         bottomOffset: 40,
       });

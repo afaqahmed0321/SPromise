@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { API_URL } from '../../helper';
 import {
     View,
     Text,
@@ -38,7 +39,7 @@ const ReportIssues = ({ navigation }) => {
       
         if (title && description) {
           try {
-            const response = await axios.post('https://snappromise.com:8080/api/Report/reportSave', userData);
+            const response = await axios.post(`${API_URL}/api/Report/reportSave`, userData);
             if (response.data.code === 100) {
               Toast.show({
                 type: 'success',

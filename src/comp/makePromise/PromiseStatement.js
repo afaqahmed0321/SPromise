@@ -1,4 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
+import { API_URL } from '../../../helper';
 import {
   StyleSheet,
   Text,
@@ -145,7 +146,7 @@ const PromiseStatement = ({onTextChange}) => {
   const suggest = async () => {
     await axios
       .post(
-        `https://snappromise.com:8080/suggestPromiseText?promiseStatement=${generatedTexts}`,
+        `${API_URL}/suggestPromiseText?promiseStatement=${generatedTexts}`,
       )
       .then(response => {
         setGeneratedTexts(response.data.description);
@@ -201,7 +202,10 @@ const PromiseStatement = ({onTextChange}) => {
             </TouchableOpacity>
             {attachMedia && (
               <TouchableOpacity
-                onPress={() => setAttachMedia(null)}
+                onPress={() => {
+                  setAttachMedia(null);
+                  setSelectedVideo(null);
+                }}
                 style={{marginHorizontal: hp(1)}}>
                 <Ionicons color="red" name="close" size={30} />
               </TouchableOpacity>

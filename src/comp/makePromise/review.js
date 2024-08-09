@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, ScrollView, Image, Modal } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import { API_URL } from '../../../helper';
 import { Headings } from '../../Styling/Headings';
 import {
   widthPercentageToDP as wp,
@@ -7,6 +8,7 @@ import {
 } from 'react-native-responsive-screen';
 // import { TouchableOpacity } from 'react-native-gesture-handler';
 import { TouchableOpacity } from 'react-native';
+import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 
 import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
@@ -284,7 +286,7 @@ const Review = ({ navigation }) => {
     const data = await respon;
     setUserData(data);
 
-    const linkedinResp = await axios.get(`https://snappromise.com:8080/api/Users/checkLinkedIn?userNo=${userN}`)
+    const linkedinResp = await axios.get(`${API_URL}/api/Users/checkLinkedIn?userNo=${userN}`)
       .then((res) => {
         setLinkedInCode(res?.data?.code)
       })
@@ -292,7 +294,7 @@ const Review = ({ navigation }) => {
         return err
       })
 
-    const twitterCode = await axios.get(`https://snappromise.com:8080/api/Users/checkTwitter?userNo=${userN}`)
+    const twitterCode = await axios.get(`${API_URL}/api/Users/checkTwitter?userNo=${userN}`)
       .then((res) => {
         setTwitterCode(res?.data?.code)
       })
@@ -491,7 +493,7 @@ const Review = ({ navigation }) => {
                   <TouchableOpacity
                     onPress={() => handelAttachedMedia(Media)}>
                     <Text style={[Headings.h3ForReviewpage, { paddingVertical: 5, fontSize: hp(2) }]}> Attached Media</Text>
-                    <FontAw name="youtube" size={30} light style={{ paddingHorizontal: hp(1) }} />
+                    <FontAw5 name="youtube" size={30} light style={{ paddingHorizontal: hp(1) }} />
                   </TouchableOpacity>
                   {isVideoModalVisible && (
                     <VideoModal

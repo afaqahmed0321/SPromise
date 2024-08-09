@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-const apiUrl = 'https://snappromise.com:8080/getUserPromiseRequest';
+import { API_URL } from '../../../../helper';
+const apiUrl = `${API_URL}/getUserPromiseRequest`;
 
 const GetUserPromiseRequest = (userN) => {
   return new Promise((resolve, reject) => {

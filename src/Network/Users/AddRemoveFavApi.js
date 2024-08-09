@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { API_URL } from '../../../helper';
 
 const addRemoveFavouriteAPi = async (Sn, Value) => {
-    const apiLink = 'https://snappromise.com:8080/addRemoveFavourite';
+    const apiLink = `${API_URL}/addRemoveFavourite`;
     const apiUrl = `${apiLink}?serialNo=${Sn}&isFavourite=${Value}`;
 
     try {

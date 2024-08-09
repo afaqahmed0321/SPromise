@@ -115,7 +115,9 @@ const MakePromise = ({ navigation }) => {
             type: 'info',
             text1: 'Please attach video or write promise statement',
             visibilityTime: 3000, // 3 sec
-            position: 'bottom',
+            
+            topOffset: 30,
+            bottomOffset: 40,
           });
         } else {
           navigation.navigate('Review');
@@ -128,14 +130,18 @@ const MakePromise = ({ navigation }) => {
             type: 'info',
             text1: 'Please Enter Amount',
             visibilityTime: 3000, // 3 sec
-            position: 'bottom',
+            
+            topOffset: 30,
+            bottomOffset: 40,
           });
         } else {
           Toast.show({
             type: 'info',
             text1: 'Please Enter Amount or Reward Points',
             visibilityTime: 3000, // 3 sec
-            position: 'bottom',
+            
+            topOffset: 30,
+            bottomOffset: 40,
           });
         }
       }
@@ -144,7 +150,9 @@ const MakePromise = ({ navigation }) => {
         type: 'info',
         text1: 'Please select compilation date',
         visibilityTime: 3000, // 3 sec
-        position: 'bottom',
+        
+        topOffset: 30,
+        bottomOffset: 40,
       });
     }
   };

@@ -8,6 +8,7 @@ import {
   Image,
 } from 'react-native';
 import React, {useState} from 'react';
+import { API_URL } from '../../helper';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-toast-message';
 
@@ -75,6 +76,7 @@ const LoginScreen = ({navigation}) => {
 
   async function onGoogleButtonPress() {
     setIsLoading(true);
+    AsyncStorage.clear();
 
     try {
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
@@ -88,7 +90,15 @@ const LoginScreen = ({navigation}) => {
       const user = user_sign_in.user;
       let person = await fetchUser(user.email);
 
-      if (person === 'User Does not Exist') {
+      if(person.loginType === 'Manual'){
+        Toast.show({
+          type: 'error',
+          text1: 'You are not signed in with Google',
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
+      }else if (person === 'User Does not Exist') {
         Toast.show({
           type: 'error',
           text1: 'User does not exist',
@@ -117,7 +127,7 @@ const LoginScreen = ({navigation}) => {
           } else {
             try {
               const portalResponse = await fetch(
-                `https://snappromise.com:8080/getCustomerPortalURL?UserNo=${userNumber}`,
+                `${API_URL}/getCustomerPortalURL?UserNo=${userNumber}`,
                 {
                   method: 'GET',
                   headers: {
@@ -134,7 +144,7 @@ const LoginScreen = ({navigation}) => {
                 navigation.navigate('CustomWebView', {uri: portalData.url});
               } else {
                 const checkoutResponse = await fetch(
-                  `https://snappromise.com:8080/getCheckOutURL`,
+                  `${API_URL}/getCheckOutURL`,
                   {
                     method: 'GET',
                     headers: {
@@ -163,10 +173,11 @@ const LoginScreen = ({navigation}) => {
   }
 
   const LoginPress = async () => {
+    AsyncStorage.clear();
     try {
       if (Email == '') {
         Toast.show({
-          type: 'error',
+          type: 'info',
           text1: 'Please Enter Email',
           autoHide: true,
           topOffset: 30,
@@ -174,7 +185,7 @@ const LoginScreen = ({navigation}) => {
         });
       } else if (Password == '') {
         Toast.show({
-          type: 'error',
+          type: 'info',
           text1: 'Please Enter Password',
 
           autoHide: true,
@@ -209,7 +220,7 @@ const LoginScreen = ({navigation}) => {
           } else {
             try {
               const response = await fetch(
-                `https://snappromise.com:8080/getCustomerPortalURL?UserNo=${userNumber}`,
+                `${API_URL}/getCustomerPortalURL?UserNo=${userNumber}`,
                 {
                   method: 'GET',
                   headers: {
@@ -229,7 +240,7 @@ const LoginScreen = ({navigation}) => {
             } else {
               try {
                 const response = await fetch(
-                  `https://snappromise.com:8080/getCheckOutURL`,
+                  `${API_URL}/getCheckOutURL`,
                   {
                     method: 'GET',
                     headers: {

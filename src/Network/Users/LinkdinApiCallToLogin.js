@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { API_URL } from '../../../helper';
 
 const LinkDinApiCallLogin = async (userN) => {
-  const apiUrl = 'https://snappromise.com:8080/linkedInSignIn?userNo='+userN;
+  const apiUrl = `${API_URL}/linkedInSignIn?userNo=`+userN;
   try {
     const response = await axios.get(apiUrl);
     return response.data.url ;

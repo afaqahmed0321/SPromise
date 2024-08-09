@@ -1,7 +1,7 @@
 import axios from 'axios';
-
+import { API_URL } from '../../helper';
 const PasswordVerification = async (mail) => {
-    const apiUrl = `https://snappromise.com:8080/getOTP?emailID=${mail}&isForgot=${true}`;
+    const apiUrl = `${API_URL}/getOTP?emailID=${mail}&isForgot=${true}`;
 
     try {
         const response = await axios.get(apiUrl); 

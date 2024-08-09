@@ -76,7 +76,7 @@ const VerficationPage = ({ navigation }) => {
       }
     } else {
       Toast.show({
-        type: 'info',
+        type: 'error',
         text1: 'OTP is incorrect. Please try again.',
         visibilityTime: 3000, // 3 sec
         position: 'bottom',
