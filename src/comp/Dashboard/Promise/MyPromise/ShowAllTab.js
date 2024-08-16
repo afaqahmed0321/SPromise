@@ -40,6 +40,7 @@ const ShowAllTab = ({ navigation }) => {
         setPromises(data);
         setIsLoading(false);
       })
+      
       .catch(error => {
         console.error('Error fetching promises:', error);
         setIsLoading(false);

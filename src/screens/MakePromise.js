@@ -181,7 +181,7 @@ const MakePromise = ({ navigation }) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+     
         <View style={{ marginTop: hp(2) }}>
           <Text style={Headings.Input3}>Promise Time Bound</Text>
           <View
@@ -237,7 +237,7 @@ const MakePromise = ({ navigation }) => {
 
           {isTimeB ? (
             <View style={{
-              marginBottom: hp(2), flex: 1, justifyContent: 'space-between',
+              marginBottom: hp(2),  justifyContent: 'space-between',
               alignItems: 'center',
               flexDirection: 'row',
             }}>
@@ -294,7 +294,7 @@ const MakePromise = ({ navigation }) => {
             </View>
           ) : null}
         </View>
-
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={{ width: wp(90), marginTop: hp(0.5) }}>
           <View style={styles.ToggelBox}>
             {makePromise ? (

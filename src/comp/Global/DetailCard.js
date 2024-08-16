@@ -77,7 +77,6 @@ const DetailCard = ({
   const [payButton, setPayButton] = useRecoilState(pay);
   const [hidePayButton, setHidePayButton] = useRecoilState(payVisible);
 
-
   const [isVideoModalVisible, setIsVideoModalVisible] = useState(false);
   const [markCompleted, setMarkCompleted] = useState(false);
   const [forName, setForName] = useState(false);
@@ -105,17 +104,18 @@ const DetailCard = ({
 
   const handleCompleteAction = async () => {
     setIsLoading1(true);
-    // setIsLoading1(true);
+    handleCompletePromise(promiseID, userN, textareaValue).then(res => {
+      console.log('response in details card', res);
+      if (res.code == 100) {
+        setBlank(true);
+        refreshCallback();
+        setActionState(!actionState);
+        setIsLoading1(false);
+      } else {
+        setBlank(false);
+      }
+    });
 
-    const res = await handleCompletePromise(promiseID, userN, textareaValue);
-    console.log('responseeeeeaaaa', res);
-    if (res == 1) {
-      setBlank(true);
-      setIsLoading1(false);
-      // setIsLoading1(false);
-    }else {
-      setBlank(false);
-    }
     refreshCallback();
     setActionState(!actionState);
     setIsModalVisible(false); // Close the modal after completing
@@ -342,7 +342,7 @@ const DetailCard = ({
                   {marginBottom: hp(1)},
                 ]}>
                 <Text>
-                <Text style={styles.baseText}>${amount}</Text>
+                  <Text style={styles.baseText}>${amount}</Text>
                   {/* ${amount} */}
                   {alotRewardPoints ? (
                     <Text style={styles.baseText}> & {rewardPoints} pts </Text>
@@ -418,29 +418,25 @@ const DetailCard = ({
               ) : (
                 actions.map((action, index) => {
                   if (action === 'Accept') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):(
+                    return blank ? (
+                      <></>
+                    ) : (
                       <View key={index}>
                         <Text style={styles.actionText}>
                           You can either accept or reject this promise
                         </Text>
                       </View>
-                      )
                     );
                   } else if (action === 'Fulfilled') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):(
+                    return blank ? (
+                      <></>
+                    ) : (
                       <View key={index}>
                         <Text style={styles.actionText}>
                           Promisor has met the terms of the Promise, you can now
-                          Fulfill or Fail the resolution.
+                          fulfill or fail the resolution.
                         </Text>
                       </View>
-                      )
                     );
                   } else if (action === 'Pay') {
                     return (
@@ -453,16 +449,14 @@ const DetailCard = ({
                       )
                     );
                   } else if (action === 'Complete') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):(
+                    return blank ? (
+                      <></>
+                    ) : (
                       <View key={index}>
                         <Text style={styles.actionText}>
                           You can either complete or fail this promise
                         </Text>
                       </View>
-                      )
                     );
                   } else {
                     return null;
@@ -484,36 +478,43 @@ const DetailCard = ({
               ) : (
                 actions.map((action, index) => {
                   if (action === 'Accept') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):(
+                    return blank ? (
+                      <></>
+                    ) : (
                       <TouchableOpacity
                         style={commonStyles.ActionBtn}
                         key={index}
                         onPress={() => {
                           setIsLoading1(true);
-                          const res = handleAccept(promiseID, userN);
-                          if (res === 1) {
-                            setBlank(true);
-                            setIsLoading1(false);
-                          }else {
-                            setBlank(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
+                          setBlank(true);
+                          handleAccept(promiseID, userN, navigation)
+                            .then(res => {
+                              console.log('response in details card', res);
+                              if (res.code == 100) {
+                                setIsLoading1(false);
+                                refreshCallback();
+                                setActionState(!actionState);
+                              } else {
+                                setBlank(false);
+                              }
+                            })
+                            .catch(error => {
+                              console.error(
+                                'Error in handling accept promise',
+                                error,
+                              );
+                              setIsLoading1(false);
+                            });
                         }}>
                         <Text style={{color: 'white', fontWeight: '700'}}>
                           {action}
                         </Text>
                       </TouchableOpacity>
-                      )
                     );
                   } else if (action === 'Reject') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):(
+                    return blank ? (
+                      <></>
+                    ) : (
                       <TouchableOpacity
                         style={[
                           commonStyles.ActionBtn,
@@ -522,27 +523,35 @@ const DetailCard = ({
                         key={index}
                         onPress={() => {
                           setIsLoading1(true);
-                          const res = handleReject(promiseID, userN);
-                          if (res === 1) {
-                            setBlank(true);
-                            setIsLoading1(false);
-                          }else {
-                            setBlank(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
+                          setBlank(true);
+                          handleReject(promiseID, userN)
+                            .then(res => {
+                              console.log('response in details card', res);
+                              if (res.code == 100) {
+                                setIsLoading1(false);
+                                refreshCallback();
+                                setActionState(!actionState);
+                              } else {
+                                setBlank(false);
+                              }
+                            })
+                            .catch(error => {
+                              console.error(
+                                'Error in handling reject promise',
+                                error,
+                              );
+                              setIsLoading1(false);
+                            });
                         }}>
                         <Text style={{color: 'white', fontWeight: '700'}}>
                           {action}
                         </Text>
                       </TouchableOpacity>
-                      )
                     );
                   } else if (action === 'Complete') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):(
+                    return blank ? (
+                      <></>
+                    ) : (
                       <TouchableOpacity
                         style={[commonStyles.ActionBtn]}
                         key={index}
@@ -556,13 +565,11 @@ const DetailCard = ({
                           {action}
                         </Text>
                       </TouchableOpacity>
-                      )
                     );
                   } else if (action === 'Fail') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):(
+                    return blank ? (
+                      <></>
+                    ) : (
                       <TouchableOpacity
                         style={[
                           commonStyles.ActionBtn,
@@ -571,56 +578,66 @@ const DetailCard = ({
                         key={index}
                         onPress={() => {
                           setIsLoading1(true);
-                          const res = handleFailPromise(promiseID, userN);
-                          if (res === 1) {
-                            setBlank(true);
-                            setIsLoading1(false);
-                          }else {
-                            setBlank(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
+                          handleFailPromise(promiseID, userN)
+                            .then(res => {
+                              console.log('response in details card', res);
+                              if (res.code == 100) {
+                                setIsLoading1(false);
+                                refreshCallback();
+                                setActionState(!actionState);
+                              }
+                            })
+                            .catch(error => {
+                              console.error(
+                                'Error in handling fail promise',
+                                error,
+                              );
+                              setIsLoading1(false);
+                            });
                         }}>
                         <Text style={{color: 'white', fontWeight: '700'}}>
                           {action}
                         </Text>
                       </TouchableOpacity>
-                      )
                     );
                   } else if (action === 'Fulfilled') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):(
+                    return blank ? (
+                      <></>
+                    ) : (
                       <TouchableOpacity
                         style={[commonStyles.ActionBtn]}
                         key={index}
                         onPress={() => {
                           setIsLoading1(true);
-                          const res = handleFulfilledPromiseApi(
-                            promiseID,
-                            userN,
-                          );
-                          if (res === 1) {
-                            setBlank(true);
-                            setIsLoading1(false);
-                          }else {
-                            setBlank(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
+                          setBlank(true);
+                          handleFulfilledPromiseApi(promiseID, userN)
+                            .then(res => {
+                              console.log('response in details card', res);
+                              if (res.code == 100) {
+                                setIsLoading1(false);
+                                refreshCallback();
+                                setActionState(!actionState);
+                              } else {
+                                setBlank(false);
+                              }
+                            })
+                            .catch(error => {
+                              console.error(
+                                'Error in handling fulfilled promise',
+                                error,
+                              );
+                              setIsLoading1(false);
+                            });
                         }}>
                         <Text style={{color: 'white', fontWeight: '700'}}>
                           {action}
                         </Text>
                       </TouchableOpacity>
-                      )
                     );
                   } else if (action === 'Failed') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):(
+                    return blank ? (
+                      <></>
+                    ) : (
                       <TouchableOpacity
                         style={[
                           commonStyles.ActionBtn,
@@ -629,35 +646,42 @@ const DetailCard = ({
                         key={index}
                         onPress={() => {
                           setIsLoading1(true);
-                          const res = handleFailedPromiseApi(promiseID, userN);
-                          if (res === 1) {
-                            setBlank(true);
-                            setIsLoading1(false);
-                          }else {
-                            setBlank(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
+                          setBlank(true);
+                          handleFailedPromiseApi(promiseID, userN)
+                            .then(res => {
+                              console.log('response in details card', res);
+                              if (res.code == 100) {
+                                setIsLoading1(false);
+                                refreshCallback();
+                                setActionState(!actionState);
+                              } else {
+                                setBlank(false);
+                              }
+                            })
+                            .catch(error => {
+                              console.error(
+                                'Error in handling failed promise',
+                                error,
+                              );
+                              setIsLoading1(false);
+                            });
                         }}>
                         <Text style={{color: 'white', fontWeight: '700'}}>
                           {action}
                         </Text>
                       </TouchableOpacity>
-                      )
                     );
                   } else if (action == 'Pay') {
-                    return (
-                      hidePayButton ? (
-                        <></>
-                      ):(
-                        <TouchableOpacity
-                          style={commonStyles.ActionBtn}
-                          key={index}
-                          onPress={navi}>
-                          <Text style={{color: 'white'}}>{action}</Text>
-                        </TouchableOpacity>
-                      )
-                      )
+                    return hidePayButton ? (
+                      <></>
+                    ) : (
+                      <TouchableOpacity
+                        style={commonStyles.ActionBtn}
+                        key={index}
+                        onPress={navi}>
+                        <Text style={{color: 'white'}}>{action}</Text>
+                      </TouchableOpacity>
+                    );
                   }
                 })
               )}
@@ -789,18 +813,14 @@ const DetailCard = ({
                   <Text
                     style={[
                       {
-                         // Ensures the width adjusts according to the content
-                         
+                        // Ensures the width adjusts according to the content
                       },
                     ]}>
                     {amount > 0 && (
                       <>
                         ${amount}
                         {rewardPoints ? (
-                          <Text>
-                            {' '}
-                            & {rewardPoints} pts{' '}
-                          </Text>
+                          <Text> & {rewardPoints} pts </Text>
                         ) : (
                           <Text
                             style={[
@@ -830,10 +850,9 @@ const DetailCard = ({
                           <View style={DashBoardStyling.PromiseGoal}>
                             {actions.map((action, index) => {
                               if (action === 'Accept') {
-                                return (
-                                  blank ? (
-                                    <></>
-                                  ):(
+                                return blank ? (
+                                  <></>
+                                ) : (
                                   <>
                                     <Text
                                       style={{color: 'white', paddingLeft: 13}}>
@@ -841,21 +860,19 @@ const DetailCard = ({
                                       promise
                                     </Text>
                                   </>
-                                  )
                                 );
                               } else if (action === 'Fulfilled') {
-                                return (
-                                  blank ? (
-                                    <></>
-                                  ):( <>
+                                return blank ? (
+                                  <></>
+                                ) : (
+                                  <>
                                     <Text
                                       style={{color: 'white', paddingLeft: 13}}>
                                       Promisor has met the terms of the Promise,
-                                      you can now Fulfill or Fail the
+                                      you can now fulfill or fail the
                                       resolution.
                                     </Text>
                                   </>
-                                  )
                                 );
                               } else if (action === 'Pay') {
                                 return (
@@ -868,10 +885,9 @@ const DetailCard = ({
                                   )
                                 );
                               } else if (action === 'Complete') {
-                                return (
-                                  blank ? (
-                                    <></>
-                                  ):(
+                                return blank ? (
+                                  <></>
+                                ) : (
                                   <>
                                     <Text
                                       style={{color: 'white', paddingLeft: 13}}>
@@ -879,30 +895,28 @@ const DetailCard = ({
                                       promise
                                     </Text>
                                   </>
-                                  )
                                 );
                               }
                             })}
                           </View>;
 
                           if (action === 'Accept') {
-                            return (
-                              blank ? (
-                                <></>
-                              ):(
+                            return blank ? (
+                              <></>
+                            ) : (
                               <TouchableOpacity
                                 style={commonStyles.ActionBtn}
                                 key={index}
                                 onPress={() => {
                                   setIsLoading1(true);
+                                  setBlank(true);
                                   const res = handleAcceptPromise(
                                     promiseID,
                                     userN,
                                   );
                                   if (res === 1) {
-                                    setBlank(true);
                                     setIsLoading1(false);
-                                  }else {
+                                  } else {
                                     setBlank(false);
                                   }
                                   refreshCallback();
@@ -913,13 +927,11 @@ const DetailCard = ({
                                   {action}
                                 </Text>
                               </TouchableOpacity>
-                              )
                             );
                           } else if (action === 'Reject') {
-                            return (
-                              blank ? (
-                                <></>
-                              ):(
+                            return blank ? (
+                              <></>
+                            ) : (
                               <TouchableOpacity
                                 style={[
                                   commonStyles.ActionBtn,
@@ -928,14 +940,14 @@ const DetailCard = ({
                                 key={index}
                                 onPress={() => {
                                   setIsLoading1(true);
+                                  setBlank(true);
                                   const res = handleRejectPromise(
                                     promiseID,
                                     userN,
                                   );
                                   if (res === 1) {
-                                    setBlank(true);
                                     setIsLoading1(false);
-                                  }else {
+                                  } else {
                                     setBlank(false);
                                   }
                                   refreshCallback();
@@ -946,7 +958,6 @@ const DetailCard = ({
                                   {action}
                                 </Text>
                               </TouchableOpacity>
-                              )
                             );
                           }
                         }
@@ -1022,27 +1033,25 @@ const DetailCard = ({
               ) : (
                 actions.map((action, index) => {
                   if (action === 'Accept') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):( <>
+                    return blank ? (
+                      <></>
+                    ) : (
+                      <>
                         <Text style={styles.actionText}>
                           You can either accept or reject this promise
                         </Text>
                       </>
-                      )
                     );
                   } else if (action === 'Fulfilled') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):( <>
+                    return blank ? (
+                      <></>
+                    ) : (
+                      <>
                         <Text style={styles.actionText}>
                           Promisor has met the terms of the Promise, you can now
-                          Fulfill or Fail the resolution.
+                          accept or reject the resolution.
                         </Text>
                       </>
-                      )
                     );
                   } else if (action === 'Pay') {
                     return (
@@ -1055,15 +1064,14 @@ const DetailCard = ({
                       )
                     );
                   } else if (action === 'Complete') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):( <>
+                    return blank ? (
+                      <></>
+                    ) : (
+                      <>
                         <Text style={styles.actionText}>
                           You can either complete or fail this promise
                         </Text>
                       </>
-                      )
                     );
                   }
                 })
@@ -1082,33 +1090,35 @@ const DetailCard = ({
               ) : (
                 actions.map((action, index) => {
                   if (action === 'Accept') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):(
+                    return blank ? (
+                      <></>
+                    ) : (
                       <TouchableOpacity
                         style={commonStyles.ActionBtn}
                         key={index}
                         onPress={() => {
                           setIsLoading1(true);
-                          const res = handleAcceptPromise(promiseID, userN);
-                          if (res === 1) {
-                            setIsLoading1(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
+                          setBlank(true);
+                          handleAcceptPromise(promiseID, userN).then(res => {
+                            console.log('response in details card', res);
+                            if (res.code == 100) {
+                              setIsLoading1(false);
+                              refreshCallback();
+                              setActionState(!actionState);
+                            } else {
+                              setBlank(false);
+                            }
+                          });
                         }}>
                         <Text style={{color: 'white', fontWeight: '700'}}>
                           {action}
                         </Text>
                       </TouchableOpacity>
-                      )
                     );
                   } else if (action === 'Reject') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):(
+                    return blank ? (
+                      <></>
+                    ) : (
                       <TouchableOpacity
                         style={[
                           commonStyles.ActionBtn,
@@ -1117,18 +1127,27 @@ const DetailCard = ({
                         key={index}
                         onPress={() => {
                           setIsLoading1(true);
-                          const res = handleRejectPromise(promiseID, userN);
-                          if (res === 1) {
-                            setIsLoading1(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
+                          setBlank(true);
+                          handleRejectPromise(promiseID, userN)
+                            .then(res => {
+                              console.log('response in details card', res);
+                              if (res.code === 100) {
+                                setIsLoading1(false);
+                                refreshCallback();
+                                setActionState(!actionState);
+                              } else {
+                                setBlank(false);
+                              }
+                            })
+                            .catch(error => {
+                              console.error('Error:', error.message);
+                              setIsLoading1(false); // Stop loading even if there's an error
+                            });
                         }}>
                         <Text style={{color: 'white', fontWeight: '700'}}>
                           {action}
                         </Text>
                       </TouchableOpacity>
-                      )
                     );
                   } else if (action === 'Complete') {
                     // return (
@@ -1143,10 +1162,10 @@ const DetailCard = ({
                     //     <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                     //   </TouchableOpacity>
                     // );
-                    return (
-                      blank ? (
-                        <></>
-                      ):( <TouchableOpacity
+                    return blank ? (
+                      <></>
+                    ) : (
+                      <TouchableOpacity
                         style={[commonStyles.ActionBtn]}
                         key={index}
                         onPress={() => {
@@ -1160,13 +1179,12 @@ const DetailCard = ({
                           {action}
                         </Text>
                       </TouchableOpacity>
-                      )
                     );
                   } else if (action === 'Fail') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):( <TouchableOpacity
+                    return blank ? (
+                      <></>
+                    ) : (
+                      <TouchableOpacity
                         style={[
                           commonStyles.ActionBtn,
                           {backgroundColor: 'red'},
@@ -1175,55 +1193,69 @@ const DetailCard = ({
                         onPress={() => {
                           // setIsLoading1(true);
                           setBlank(true);
-                          const res = handleFailPromise(promiseID, userN);
-                          if (res === 1) {
-                            setIsLoading1(false);
-                            setBlank(true);
-                          }else {
-                            setBlank(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
+                          handleFailPromise(promiseID, userN)
+                            .then(res => {
+                              console.log('response in details card', res);
+                              if (res.code == 100) {
+                                setIsLoading1(false);
+                                refreshCallback();
+                                setActionState(!actionState);
+                              } else {
+                                setBlank(false);
+                              }
+                            })
+                            .catch(error => {
+                              console.error(
+                                'Error in handling fail promise',
+                                error,
+                              );
+                              setIsLoading1(false);
+                            });
                         }}>
                         <Text style={{color: 'white', fontWeight: '700'}}>
                           {action}
                         </Text>
                       </TouchableOpacity>
-                      )
                     );
                   } else if (action === 'Fulfilled') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):(<TouchableOpacity
+                    return blank ? (
+                      <></>
+                    ) : (
+                      <TouchableOpacity
                         style={[commonStyles.ActionBtn]}
                         key={index}
                         onPress={() => {
                           setIsLoading1(true);
-                          const res = handleFulfilledPromiseApi(
-                            promiseID,
-                            userN,
-                          );
-                          if (res === 1) {
-                            setBlank(true);
-                            setIsLoading1(false);
-                          }else {
-                            setBlank(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
+                          setBlank(true);
+                          handleFulfilledPromiseApi(promiseID, userN)
+                            .then(res => {
+                              console.log('response in details card', res);
+                              if (res.code == 100) {
+                                setIsLoading1(false);
+                                refreshCallback();
+                                setActionState(!actionState);
+                              } else {
+                                setBlank(false);
+                              }
+                            })
+                            .catch(error => {
+                              console.error(
+                                'Error in handling fulfilled promise',
+                                error,
+                              );
+                              setIsLoading1(false);
+                            });
                         }}>
                         <Text style={{color: 'white', fontWeight: '700'}}>
                           {action}
                         </Text>
                       </TouchableOpacity>
-                      )
                     );
                   } else if (action === 'Failed') {
-                    return (
-                      blank ? (
-                        <></>
-                      ):(<TouchableOpacity
+                    return blank ? (
+                      <></>
+                    ) : (
+                      <TouchableOpacity
                         style={[
                           commonStyles.ActionBtn,
                           {backgroundColor: 'red'},
@@ -1231,34 +1263,41 @@ const DetailCard = ({
                         key={index}
                         onPress={() => {
                           setIsLoading1(true);
-                          const res = handleFailedPromiseApi(promiseID, userN);
-                          if (res === 1) {
-                            setBlank(true);
-                            setIsLoading1(false);
-                          }else {
-                            setBlank(false);
-                          }
-                          refreshCallback();
-                          setActionState(!actionState);
+                          setBlank(true);
+                          handleFailedPromiseApi(promiseID, userN)
+                            .then(res => {
+                              console.log('response in details card', res);
+                              if (res.code == 100) {
+                                setIsLoading1(false);
+                                refreshCallback();
+                                setActionState(!actionState);
+                              } else {
+                                setBlank(false);
+                              }
+                            })
+                            .catch(error => {
+                              console.error(
+                                'Error in handling failed promise',
+                                error,
+                              );
+                              setIsLoading1(false);
+                            });
                         }}>
                         <Text style={{color: 'white', fontWeight: '700'}}>
                           {action}
                         </Text>
                       </TouchableOpacity>
-                      )
                     );
                   } else if (action == 'Pay') {
-                    return (
-                      hidePayButton ? (
-                        <></>
-                      ):(
-                        <TouchableOpacity
-                          style={commonStyles.ActionBtn}
-                          key={index}
-                          onPress={navi}>
-                          <Text style={{color: 'white'}}>{action}</Text>
-                        </TouchableOpacity>
-                      )
+                    return hidePayButton ? (
+                      <></>
+                    ) : (
+                      <TouchableOpacity
+                        style={commonStyles.ActionBtn}
+                        key={index}
+                        onPress={navi}>
+                        <Text style={{color: 'white'}}>{action}</Text>
+                      </TouchableOpacity>
                     );
                   }
                 })
@@ -1541,27 +1580,25 @@ const DetailCard = ({
                 ) : (
                   actions.map((action, index) => {
                     if (action === 'Accept') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):(<>
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <>
                           <Text style={styles.actionText}>
                             You can either accept or reject this promise
                           </Text>
                         </>
-                        )
                       );
                     } else if (action === 'Fulfilled') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):(<>
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <>
                           <Text style={styles.actionText}>
                             Promisor has met the terms of the Promise, you can
-                            now Fulfill or Fail the resolution.
+                            now fulfill or fail the resolution.
                           </Text>
                         </>
-                        )
                       );
                     } else if (action === 'Pay') {
                       return (
@@ -1574,15 +1611,14 @@ const DetailCard = ({
                         )
                       );
                     } else if (action === 'Complete') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):(<>
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <>
                           <Text style={styles.actionText}>
                             You can either complete or fail this promise
                           </Text>
                         </>
-                        )
                       );
                     }
                   })
@@ -1601,38 +1637,46 @@ const DetailCard = ({
                 ) : (
                   actions.map((action, index) => {
                     if (action === 'Accept') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):(<TouchableOpacity
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <TouchableOpacity
                           style={commonStyles.ActionBtn}
                           key={index}
-                          onPress={async () => {
+                          onPress={() => {
                             setIsLoading1(true);
-                            const res = await handleAcceptPromise(
-                              promiseID,
-                              userN,
-                            );
-                            if (res === 1) {
-                              setBlank(true);
-                              setIsLoading1(false);
-                            }else {
-                              setBlank(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
+                            setBlank(true);
+                            handleAcceptPromise(promiseID, userN)
+                              .then(res => {
+                                console.log('response in details card', res);
+                                if (res.code == 100) {
+                                  setIsLoading1(false);
+                                  refreshCallback();
+                                  setActionState(!actionState);
+                                } else {
+                                  setBlank(false);
+                                }
+                              })
+                              .catch(error => {
+                                console.error(
+                                  'Error in handling accept promise',
+                                  error,
+                                );
+                              })
+                              .finally(() => {
+                                setIsLoading1(false);
+                              });
                           }}>
                           <Text style={{color: 'white', fontWeight: '700'}}>
                             {action}
                           </Text>
                         </TouchableOpacity>
-                        )
                       );
                     } else if (action === 'Reject') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):(<TouchableOpacity
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <TouchableOpacity
                           style={[
                             commonStyles.ActionBtn,
                             {backgroundColor: 'red'},
@@ -1640,21 +1684,32 @@ const DetailCard = ({
                           key={index}
                           onPress={() => {
                             setIsLoading1(true);
-                            const res = handleRejectPromise(promiseID, userN);
-                            if (res === 1) {
-                              setBlank(true);
-                              setIsLoading1(false);
-                            }else {
-                              setBlank(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
+                            setBlank(true);
+                            handleRejectPromise(promiseID, userN)
+                              .then(res => {
+                                console.log('response in details card', res);
+                                if (res.code == 100) {
+                                  setIsLoading1(false);
+                                  refreshCallback();
+                                  setActionState(!actionState);
+                                } else {
+                                  setBlank(false);
+                                }
+                              })
+                              .catch(error => {
+                                console.error(
+                                  'Error in handling reject promise',
+                                  error,
+                                );
+                              })
+                              .finally(() => {
+                                setIsLoading1(false);
+                              });
                           }}>
                           <Text style={{color: 'white', fontWeight: '700'}}>
                             {action}
                           </Text>
                         </TouchableOpacity>
-                        )
                       );
                     } else if (action === 'Complete') {
                       // return (
@@ -1669,10 +1724,10 @@ const DetailCard = ({
                       //     <Text style={{ color: 'white', fontWeight: '700' }}>{action}</Text>
                       //   </TouchableOpacity>
                       // );
-                      return (
-                        blank ? (
-                          <></>
-                        ):(<TouchableOpacity
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <TouchableOpacity
                           style={[commonStyles.ActionBtn]}
                           key={index}
                           onPress={() => {
@@ -1686,13 +1741,12 @@ const DetailCard = ({
                             {action}
                           </Text>
                         </TouchableOpacity>
-                        )
                       );
                     } else if (action === 'Fail') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):( <TouchableOpacity
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <TouchableOpacity
                           style={[
                             commonStyles.ActionBtn,
                             {backgroundColor: 'red'},
@@ -1700,52 +1754,71 @@ const DetailCard = ({
                           key={index}
                           onPress={() => {
                             setIsLoading1(true);
-                            const res = handleFailPromise(promiseID, userN);
-                            if (res === 1) {
-                              setBlank(true);
-                              setIsLoading1(false);
-                            }else {
-                              setBlank(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
+                            handleFailPromise(promiseID, userN)
+                              .then(res => {
+                                console.log('response in details card', res);
+                                if (res.code == 100) {
+                                  setIsLoading1(false);
+                                  refreshCallback();
+                                  setActionState(!actionState);
+                                }
+                              })
+                              .catch(error => {
+                                console.error(
+                                  'Error in handling fail promise',
+                                  error,
+                                );
+                              })
+                              .finally(() => {
+                                setIsLoading1(false);
+                              });
                           }}>
                           <Text style={{color: 'white', fontWeight: '700'}}>
                             {action}
                           </Text>
                         </TouchableOpacity>
-                        )
                       );
                     } else if (action === 'Fulfilled') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):( <TouchableOpacity
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <TouchableOpacity
                           style={[commonStyles.ActionBtn]}
                           key={index}
                           onPress={() => {
                             setIsLoading1(true);
-                            const res = handleFulfilledPromiseApi(
-                              promiseID,
-                              userN,
-                            );
-                            if (res === 1) {
-                              setIsLoading1(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
+                            setBlank(true);
+                            handleFulfilledPromiseApi(promiseID, userN)
+                              .then(res => {
+                                console.log('response in details card', res);
+                                if (res.code == 100) {
+                                  setIsLoading1(false);
+                                  refreshCallback();
+                                  setActionState(!actionState);
+                                } else {
+                                  setBlank(false);
+                                }
+                              })
+                              .catch(error => {
+                                console.error(
+                                  'Error in handling fulfilled promise',
+                                  error,
+                                );
+                              })
+                              .finally(() => {
+                                setIsLoading1(false);
+                              });
                           }}>
                           <Text style={{color: 'white', fontWeight: '700'}}>
                             {action}
                           </Text>
                         </TouchableOpacity>
-                        )
                       );
                     } else if (action === 'Failed') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):( <TouchableOpacity
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <TouchableOpacity
                           style={[
                             commonStyles.ActionBtn,
                             {backgroundColor: 'red'},
@@ -1753,37 +1826,43 @@ const DetailCard = ({
                           key={index}
                           onPress={() => {
                             setIsLoading1(true);
-                            const res = handleFailedPromiseApi(
-                              promiseID,
-                              userN,
-                            );
-                            if (res === 1) {
-                              setBlank(true);
-                              setIsLoading1(false);
-                            }else {
-                              setBlank(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
+                            setBlank(true);
+                            handleFailedPromiseApi(promiseID, userN)
+                              .then(res => {
+                                console.log('response in details card', res);
+                                if (res === 1) {
+                                  setIsLoading1(false);
+                                  refreshCallback();
+                                  setActionState(!actionState);
+                                } else {
+                                  setBlank(false);
+                                }
+                              })
+                              .catch(error => {
+                                console.error(
+                                  'Error in handling failed promise',
+                                  error,
+                                );
+                              })
+                              .finally(() => {
+                                setIsLoading1(false);
+                              });
                           }}>
                           <Text style={{color: 'white', fontWeight: '700'}}>
                             {action}
                           </Text>
                         </TouchableOpacity>
-                        )
                       );
                     } else if (action == 'Pay') {
-                      return (
-                        hidePayButton ? (
-                          <></>
-                        ):(
-                          <TouchableOpacity
-                            style={commonStyles.ActionBtn}
-                            key={index}
-                            onPress={navi}>
-                            <Text style={{color: 'white'}}>{action}</Text>
-                          </TouchableOpacity>
-                        )
+                      return hidePayButton ? (
+                        <></>
+                      ) : (
+                        <TouchableOpacity
+                          style={commonStyles.ActionBtn}
+                          key={index}
+                          onPress={navi}>
+                          <Text style={{color: 'white'}}>{action}</Text>
+                        </TouchableOpacity>
                       );
                     }
                   })
@@ -1981,20 +2060,22 @@ const DetailCard = ({
               ) : null}
 
               {ratingImpact ? (
-                <View style={[styles.dynamicText,{marginBottom: hp(1),marginHorizontal: hp(2.4)}]}>
-                  <Text
-                    style={[ {}]}>
-                    Rating Will Impact
-                  </Text>
+                <View
+                  style={[
+                    styles.dynamicText,
+                    {marginBottom: hp(1), marginHorizontal: hp(2.4)},
+                  ]}>
+                  <Text style={[{}]}>Rating Will Impact</Text>
                 </View>
               ) : null}
 
               {displayStatus ? (
-                <View style={[styles.statusText,{marginBottom: hp(1),marginHorizontal: hp(2.4)}]}>
-                  <Text
-                    style={[ {}]}>
-                    Promise {displayStatus}
-                  </Text>
+                <View
+                  style={[
+                    styles.statusText,
+                    {marginBottom: hp(1), marginHorizontal: hp(2.4)},
+                  ]}>
+                  <Text style={[{}]}>Promise {displayStatus}</Text>
                 </View>
               ) : null}
 
@@ -2058,27 +2139,25 @@ const DetailCard = ({
                 ) : (
                   actions.map((action, index) => {
                     if (action === 'Accept') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):( <>
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <>
                           <Text style={styles.actionText}>
                             You can either accept or reject this promise
                           </Text>
                         </>
-                        )
                       );
                     } else if (action === 'Fulfilled') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):( <>
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <>
                           <Text style={styles.actionText}>
                             Promisor has met the terms of the Promise, you can
-                            now Fulfill or Fail the resolution.
+                            now fulfill or fail the resolution.
                           </Text>
                         </>
-                        )
                       );
                     } else if (action === 'Pay') {
                       return (
@@ -2091,15 +2170,14 @@ const DetailCard = ({
                         )
                       );
                     } else if (action === 'Complete') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):(<>
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <>
                           <Text style={styles.actionText}>
                             You can either complete or fail this promise
                           </Text>
                         </>
-                        )
                       );
                     }
                   })
@@ -2118,45 +2196,51 @@ const DetailCard = ({
                 ) : (
                   actions.map((action, index) => {
                     if (action === 'Accept') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):( <TouchableOpacity
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <TouchableOpacity
                           style={commonStyles.ActionBtn}
                           key={index}
                           onPress={() => {
-                            if (promisetype === 'GUARANTEE') {
-                              setIsLoading1(true);
-                              const res = handleAcceptPromise(promiseID, userN);
-                              if (res === 1) {
-                                setBlank(true);
+                            setIsLoading1(true);
+
+                            setBlank(true);
+                            const promise =
+                              promisetype === 'GUARANTEE'
+                                ? handleAcceptPromise(promiseID, userN)
+                                : handleAccept(promiseID, userN);
+
+                            promise
+                              .then(res => {
+                                console.log('response in details card', res);
+                                if (res.code == 100) {
+                                  refreshCallback();
+                                  setActionState(!actionState);
+                                } else {
+                                  setBlank(false);
+                                }
+                              })
+                              .catch(error => {
+                                console.error(
+                                  'Error in handling promise',
+                                  error,
+                                );
+                              })
+                              .finally(() => {
                                 setIsLoading1(false);
-                              }else {
-                                setBlank(false);
-                              }
-                              refreshCallback();
-                              setActionState(!actionState);
-                            } else {
-                              setIsLoading1(true);
-                              const res = handleAccept(promiseID, userN);
-                              if (res === 1) {
-                                setIsLoading1(false);
-                              }
-                              refreshCallback();
-                              setActionState(!actionState);
-                            }
+                              });
                           }}>
                           <Text style={{color: 'white', fontWeight: '700'}}>
                             {action}
                           </Text>
                         </TouchableOpacity>
-                        )
                       );
                     } else if (action === 'Reject') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):( <TouchableOpacity
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <TouchableOpacity
                           style={[
                             commonStyles.ActionBtn,
                             {backgroundColor: 'red'},
@@ -2164,55 +2248,72 @@ const DetailCard = ({
                           key={index}
                           onPress={() => {
                             setIsLoading1(true);
-                            const res = handleReject(promiseID, userN);
-                            if (res === 1) {
-                              setBlank(true);
-                              setIsLoading1(false);
-                            }else {
-                              setBlank(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
+                            setBlank(true);
+                            handleReject(promiseID, userN)
+                              .then(res => {
+                                console.log('response in details card', res);
+                                if (res.code == 100) {
+                                  refreshCallback();
+                                  setActionState(!actionState);
+                                } else {
+                                  setBlank(false);
+                                }
+                              })
+                              .catch(error => {
+                                console.error(
+                                  'Error in handling reject',
+                                  error,
+                                );
+                              })
+                              .finally(() => {
+                                setIsLoading1(false);
+                              });
                           }}>
                           <Text style={{color: 'white', fontWeight: '700'}}>
                             {action}
                           </Text>
                         </TouchableOpacity>
-                        )
                       );
                     } else if (action === 'Fulfilled') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):( <TouchableOpacity
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <TouchableOpacity
                           style={commonStyles.ActionBtn}
                           key={index}
                           onPress={() => {
                             setIsLoading1(true);
-                            const res = handleFulfilledPromiseApi(
-                              promiseID,
-                              userN,
-                            );
-                            if (res === 1) {
-                              setBlank(true);
-                              setIsLoading1(false);
-                            }else {
-                              setBlank(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
+                            setBlank(true);
+                            handleFulfilledPromiseApi(promiseID, userN)
+                              .then(res => {
+                                console.log('response in details card', res);
+                                if (res.code == 100) {
+                                  refreshCallback();
+                                  setActionState(!actionState);
+                                } else {
+                                  setBlank(false);
+                                }
+                              })
+                              .catch(error => {
+                                console.error(
+                                  'Error in handling fulfilled promise',
+                                  error,
+                                );
+                              })
+                              .finally(() => {
+                                setIsLoading1(false);
+                              });
                           }}>
                           <Text style={{color: 'white', fontWeight: '700'}}>
                             {action}
                           </Text>
                         </TouchableOpacity>
-                        )
                       );
                     } else if (action === 'Failed') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):( <TouchableOpacity
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <TouchableOpacity
                           style={[
                             commonStyles.ActionBtn,
                             {backgroundColor: 'red'},
@@ -2220,30 +2321,36 @@ const DetailCard = ({
                           key={index}
                           onPress={() => {
                             setIsLoading1(true);
-                            const res = handleFailedPromiseApi(
-                              promiseID,
-                              userN,
-                            );
-                            if (res === 1) {
-                              setBlank(true);
-                              setIsLoading1(false);
-                            }else {
-                              setBlank(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
+
+                            handleFailedPromiseApi(promiseID, userN)
+                              .then(res => {
+                                console.log('response in details card', res);
+                                if (res.code == 100) {
+                                  setBlank(true);
+                                  refreshCallback();
+                                  setActionState(!actionState);
+                                }
+                              })
+                              .catch(error => {
+                                console.error(
+                                  'Error in handling failed promise',
+                                  error,
+                                );
+                              })
+                              .finally(() => {
+                                setIsLoading1(false);
+                              });
                           }}>
                           <Text style={{color: 'white', fontWeight: '700'}}>
                             {action}
                           </Text>
                         </TouchableOpacity>
-                        )
                       );
                     } else if (action === 'Complete') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):( <TouchableOpacity
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <TouchableOpacity
                           style={[commonStyles.ActionBtn]}
                           key={index}
                           onPress={() => {
@@ -2253,10 +2360,7 @@ const DetailCard = ({
                               userN,
                             );
                             if (res === 1) {
-                              setBlank(true);
                               setIsLoading1(false);
-                            }else {
-                              setBlank(false);
                             }
                             refreshCallback();
                             setActionState(!actionState);
@@ -2265,13 +2369,12 @@ const DetailCard = ({
                             {action}
                           </Text>
                         </TouchableOpacity>
-                        )
                       );
                     } else if (action === 'Fail') {
-                      return (
-                        blank ? (
-                          <></>
-                        ):(  <TouchableOpacity
+                      return blank ? (
+                        <></>
+                      ) : (
+                        <TouchableOpacity
                           style={[
                             commonStyles.ActionBtn,
                             {backgroundColor: 'red'},
@@ -2279,34 +2382,40 @@ const DetailCard = ({
                           key={index}
                           onPress={() => {
                             setIsLoading1(true);
-                            const res = handleFailPromise(promiseID, userN);
-                            if (res === 1) {
-                              setBlank(true);
-                              setIsLoading1(false);
-                            }else {
-                              setBlank(false);
-                            }
-                            refreshCallback();
-                            setActionState(!actionState);
+
+                            handleFailPromise(promiseID, userN)
+                              .then(res => {
+                                console.log('response in details card', res);
+                                if (res.code == 100) {
+                                  refreshCallback();
+                                  setActionState(!actionState);
+                                }
+                              })
+                              .catch(error => {
+                                console.error(
+                                  'Error in handling fail promise',
+                                  error,
+                                );
+                              })
+                              .finally(() => {
+                                setIsLoading1(false);
+                              });
                           }}>
                           <Text style={{color: 'white', fontWeight: '700'}}>
                             {action}
                           </Text>
                         </TouchableOpacity>
-                        )
                       );
                     } else if (action == 'Pay') {
-                      return (
-                        hidePayButton ? (
-                          <></>
-                        ):(
-                          <TouchableOpacity
-                            style={commonStyles.ActionBtn}
-                            key={index}
-                            onPress={navi}>
-                            <Text style={{color: 'white'}}>{action}</Text>
-                          </TouchableOpacity>
-                        )
+                      return hidePayButton ? (
+                        <></>
+                      ) : (
+                        <TouchableOpacity
+                          style={commonStyles.ActionBtn}
+                          key={index}
+                          onPress={navi}>
+                          <Text style={{color: 'white'}}>{action}</Text>
+                        </TouchableOpacity>
                       );
                     }
                   })

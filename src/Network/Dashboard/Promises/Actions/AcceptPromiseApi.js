@@ -1,35 +1,43 @@
 import Toast from 'react-native-toast-message';
 import { API_URL } from '../../../../../helper';
 
-export default AcceptPromiseApi = async (promiseID, userNo) => {
+const AcceptPromiseApi = (promiseID, userNo) => {
+  const url = `${API_URL}/acceptPromise?promiseID=${promiseID}&userNo=${userNo}`;
 
-    const url = `${API_URL}/acceptPromise?promiseID=${promiseID}&userNo=${userNo}`;
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'accept': 'text/plain',
-        },
-        
+  return new Promise((resolve, reject) => {
+    console.log("Making request to:", url); // Log URL
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'accept': 'text/plain',
+      },
+    })
+      .then((response) => {
+        console.log("Response status:", response.status); // Log status
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Response from service", data);
+        if (data.code === 100) {
+          Toast.show({
+            type: 'success',
+            text1: 'Accepted',
+            autoHide: true,
+            topOffset: 30,
+            bottomOffset: 40,
+          });
+          resolve(data);
+        } else {
+          console.warn('Unexpected response code:', data);
+          reject(new Error('Unexpected response code'));
+        }
+      })
+      .catch((error) => {
+        console.error('Error in fetch call:', error.message); // Detailed error message
+        reject(error);
       });
-      const data = await response.json();
-      if (data.code == 100) {
-        Toast.show({
-          type: 'success',
-          text1: 'Accepted',
-          swipeable: true,
-          autoHide: true,
-          topOffset: 30,
-          bottomOffset: 40,
-        });
+  });
+};
 
-      } else {
-        console.warn('Unexpected response code:', data);
-      }
-  
-    } catch (error) {
-      console.error('Error:', error.message);
-      
-    }
-  };
+export default AcceptPromiseApi;

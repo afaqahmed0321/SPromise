@@ -1,5 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
-import { API_URL } from '../../../helper';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -16,7 +15,7 @@ import {
 } from 'react-native-responsive-screen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Mater from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useRecoilState} from 'recoil';
+import { useRecoilState } from 'recoil';
 import {
   promiseStatement,
   MakeaPromise,
@@ -24,17 +23,17 @@ import {
   selectMedia,
   mediaUpload,
 } from '../../recoil/AddPromise';
-import {RNCamera} from 'react-native-camera';
-import {useNavigation} from '@react-navigation/native';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { useNavigation } from '@react-navigation/native';
 import {
   AllowedVideoFormatsState,
   AllowedVideoSizeState,
 } from '../../recoil/Globel';
-import {BlurView} from '@react-native-community/blur';
+import { BlurView } from '@react-native-community/blur';
 import axios from 'axios';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { API_URL } from '../../../helper';
 
-const PromiseStatement = ({onTextChange}) => {
+const PromiseStatement = ({ onTextChange }) => {
   const navigation = useNavigation();
   const [inputText, setInputText] = useState('');
   const [isModalV, setIsModalV] = useState(false);
@@ -46,7 +45,7 @@ const PromiseStatement = ({onTextChange}) => {
   const [videoUri, setVideoUri] = useState(null);
   const [licked, setClicked] = useState(false);
   const [paused, setPaused] = useState(false);
-  const [progress, setProgress] = useState({currentTime: 0});
+  const [progress, setProgress] = useState({ currentTime: 0 });
   const [VideoFarmats, setVideoFarmats] = useRecoilState(
     AllowedVideoFormatsState,
   );
@@ -54,31 +53,40 @@ const PromiseStatement = ({onTextChange}) => {
   const [fullScreen, setFullScreen] = useState(false);
   const [isLoading, setIsLoading] = useRecoilState(mediaUpload); // Loading state
 
-  const cameraRef = useRef(null);
+  const ref = useRef();
 
-  const openCamera = () => {
-    setIsModalV(false);
-    navigation.navigate('CameraScreen', {
-      onVideoRecorded: handleVideoRecorded,
-    });
-  };
-
-  const handleVideoRecorded = (videoUri) => {
-    console.log("urllll", videoUri);
-    const selectedFileSize = videoUri.fileSize;
-    const maxSizeInBytes = 100 * 1024 * 1024;
-
-    if (selectedFileSize <= maxSizeInBytes) {
-      setSelectedVideo(videoUri);
-      handelUpload(videoUri);
-    } else {
-      alert('Selected file size exceeds. Please choose a smaller file.');
+  const openCamera = async () => {
+    try {
+      setIsModalV(false);
+  
+      // Add a slight delay to ensure the camera preview has rendered
+      setTimeout(async () => {
+        const result = await launchCamera({ mediaType: 'video', quality: 1 });
+  console.log("reulst", result);
+        if (result.assets && result.assets.length > 0) {
+          const selectedFileSize = result.assets[0].fileSize;
+          const maxSizeInBytes = 200 * 1024 * 1024;
+          const allowedFormats = [".mp4", ".mov", ".wmv", ".qt"];
+          const selectedFileType = result.assets[0].type;
+  console.log("urlllllll", result.assets[0].uri);
+          if (selectedFileSize <= maxSizeInBytes) {
+            setSelectedVideo(result.assets[0].uri);
+            handelUpload(result.assets[0].uri);
+          } else {
+            alert("Selected file size exceeds. Please choose a smaller file.");
+          }
+        }
+      }, 1000); // Delay for 1 second to ensure the camera preview has fully rendered
+  
+    } catch (error) {
+      console.error("Error opening camera:", error);
     }
   };
+  
 
   const chooseVideo = async () => {
     setIsModalV(false);
-    const result = await launchImageLibrary({mediaType: 'video', quality: 1});
+    const result = await launchImageLibrary({ mediaType: 'video', quality: 1 });
 
     if (result.assets && result.assets.length > 0) {
       const selectedFileSize = result.assets[0].fileSize;
@@ -95,7 +103,7 @@ const PromiseStatement = ({onTextChange}) => {
     }
   };
 
-  const handelUpload = async videoUri => {
+  const handelUpload = async (videoUri) => {
     setIsLoading(true);
     let newfile = {
       uri: videoUri,
@@ -138,22 +146,19 @@ const PromiseStatement = ({onTextChange}) => {
       });
   };
 
-  const handleTextChange = text => {
+  const handleTextChange = (text) => {
     setGeneratedTexts(text);
     onTextChange && onTextChange(text);
   };
 
   const suggest = async () => {
-    await axios
-      .post(
-        `${API_URL}/suggestPromiseText?promiseStatement=${generatedTexts}`,
-      )
-      .then(response => {
+    await axios.post(`${API_URL}/suggestPromiseText?promiseStatement=${generatedTexts}`)
+      .then((response) => {
         setGeneratedTexts(response.data.description);
       })
-      .catch(error => {
-        console.log('this is sugesstion error', error);
-      });
+      .catch((error) => {
+        console.log("this is sugesstion error", error);
+      })
   };
 
   return (
@@ -176,22 +181,21 @@ const PromiseStatement = ({onTextChange}) => {
               placeholderTextColor="grey"
               style={{
                 width: wp(80),
-                padding: wp(4),
+                paddingHorizontal: wp(4),
                 borderWidth: wp(0.6),
                 borderColor: '#652D90',
                 borderRadius: wp(3),
                 color: '#000',
                 height: hp(15),
-                fontSize: hp(1.6),
+                textAlignVertical: 'top',
+                fontSize: hp(1.6)
               }}
               multiline={true}
               value={generatedTexts}
             />
           </View>
           <View>
-            <TouchableOpacity
-              onPress={() => setIsModalV(true)}
-              style={{marginTop: 10, marginStart: 10}}>
+            <TouchableOpacity onPress={() => setIsModalV(true)} style={{ marginTop: 10, marginStart: 10 }}>
               {isLoading ? (
                 <ActivityIndicator size="small" color="#0000ff" />
               ) : !attachMedia ? (
@@ -201,18 +205,11 @@ const PromiseStatement = ({onTextChange}) => {
               )}
             </TouchableOpacity>
             {attachMedia && (
-              <TouchableOpacity
-                onPress={() => {
-                  setAttachMedia(null);
-                  setSelectedVideo(null);
-                }}
-                style={{marginHorizontal: hp(1)}}>
+              <TouchableOpacity onPress={() => {setAttachMedia(null); setSelectedVideo(null)}} style={{ marginHorizontal: hp(1) }}>
                 <Ionicons color="red" name="close" size={30} />
               </TouchableOpacity>
             )}
-            <TouchableOpacity
-              onPress={suggest}
-              style={{marginTop: 30, marginStart: 10}}>
+            <TouchableOpacity onPress={suggest} style={{ marginTop: 30, marginStart: 10 }}>
               <Ionicons color="#652D90" name="flash-outline" size={30} />
             </TouchableOpacity>
           </View>
@@ -224,11 +221,8 @@ const PromiseStatement = ({onTextChange}) => {
           visible={isModalV}
           onRequestClose={() => setIsModalV(false)}>
           <TouchableWithoutFeedback onPress={() => setIsModalV(false)}>
-            <View style={{flex: 1}}>
-              <BlurView
-                blurType="light"
-                blurAmount={10}
-                style={{flex: 1}}></BlurView>
+            <View style={{ flex: 1 }}>
+              <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}></BlurView>
               <View
                 style={{
                   borderWidth: 0.5,
@@ -241,7 +235,7 @@ const PromiseStatement = ({onTextChange}) => {
                   marginTop: hp(0),
                   backgroundColor: 'white',
                 }}>
-                <View style={{marginTop: hp(1), marginHorizontal: 30}}>
+                <View style={{ marginTop: hp(1), marginHorizontal: 30 }}>
                   <View
                     style={{
                       justifyContent: 'space-between',
@@ -250,35 +244,22 @@ const PromiseStatement = ({onTextChange}) => {
                       marginHorizontal: wp(8),
                       marginVertical: hp(3.5),
                     }}>
-                    <TouchableOpacity
-                      onPress={openCamera}
-                      style={{color: '#000'}}>
+                    <TouchableOpacity onPress={openCamera} style={{ color: '#000' }}>
                       <Mater color="#652D90" name="camera" size={40} />
                       <View>
-                        <Text style={{color: '#000', marginLeft: wp(-4)}}>
-                          Capture Now
-                        </Text>
+                        <Text style={{ color: '#000', marginLeft: wp(-4) }}>Capture Now</Text>
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={chooseVideo} style={{}}>
-                      <Mater
-                        color="#652D90"
-                        name="image-size-select-actual"
-                        size={40}
-                      />
+                      <Mater color="#652D90" name="image-size-select-actual" size={40} />
                       <View>
-                        <Text style={{color: '#000', marginLeft: wp(-4)}}>
-                          Select Media
-                        </Text>
+                        <Text style={{ color: '#000', marginLeft: wp(-4) }}>Select Media</Text>
                       </View>
                     </TouchableOpacity>
                   </View>
                 </View>
               </View>
-              <BlurView
-                blurType="light"
-                blurAmount={10}
-                style={{flex: 1}}></BlurView>
+              <BlurView blurType="light" blurAmount={10} style={{ flex: 1 }}></BlurView>
             </View>
           </TouchableWithoutFeedback>
         </Modal>

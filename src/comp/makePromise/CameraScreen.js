@@ -1,44 +1,50 @@
 import React, { useEffect } from 'react';
 import { View, Alert } from 'react-native';
-import { launchCamera } from 'react-native-image-picker';
-import { getFileSize } from './utils';
+import ImagePicker from 'react-native-image-crop-picker';
+import RNFS from 'react-native-fs';
 
 const CameraScreen = ({ navigation, route }) => {
 
+  const getFileSize = async (uri) => {
+    try {
+      const stats = await RNFS.stat(uri);
+      return stats.size;
+    } catch (error) {
+      console.error('Error getting file size:', error);
+      return 0;
+    }
+  };
+
   useEffect(() => {
     const openCamera = async () => {
-      const options = {
-        mediaType: 'video',
-        videoQuality: 'high',
-        durationLimit: 60,
-      };
-
       try {
-        const result = await launchCamera(options);
-        console.log('Camera result:', result);
+        const video = await ImagePicker.openCamera({
+          mediaType: 'video',
+          compressVideoPreset: 'HighestQuality',
+          durationLimit: 60, // Limit the duration of the video to 60 seconds
+        });
 
-        if (result.didCancel) {
+        console.log('Video result:', video);
+
+        if (!video || !video.path) {
           console.log('User cancelled video recording');
           navigation.goBack();
-        } else if (result.errorCode) {
-          console.error('Error code:', result.errorCode);
-          console.error('Error message:', result.errorMessage);
-          Alert.alert('Error', `There was an error recording the video: ${result.errorMessage}`);
-        } else if (result.assets && result.assets[0].uri) {
-          const videoUri = result.assets[0].uri;
-          console.log('Video URI:', videoUri);
-
-          const fileSize = await getFileSize(videoUri);
-          console.log('Video File Size:', fileSize);
-
-          if (route.params.onVideoRecorded) {
-            route.params.onVideoRecorded({ uri: videoUri, fileSize });
-          }
-          navigation.goBack();
+          return;
         }
+
+        const videoUri = video.path;
+        console.log('Video URI:', videoUri);
+
+        const fileSize = await getFileSize(videoUri);
+        console.log('Video File Size:', fileSize);
+
+        if (route.params.onVideoRecorded) {
+          route.params.onVideoRecorded({ uri: videoUri, fileSize });
+        }
+        navigation.goBack();
       } catch (error) {
         console.error('Error opening camera:', error);
-        Alert.alert('Error', 'There was an error opening the camera.');
+        Alert.alert('Error', 'There was an error recording the video.');
         navigation.goBack();
       }
     };

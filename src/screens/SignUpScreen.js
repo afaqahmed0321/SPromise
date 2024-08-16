@@ -184,7 +184,7 @@ const SignUpScreen = ({ navigation }) => {
           text1: 'User Already Exists!',
           swipeable: true,
           autoHide: true,
-          topOffset: 30,
+          topOffset: 50,
           bottomOffset: 40,
         });
       }
@@ -303,7 +303,7 @@ const SignUpScreen = ({ navigation }) => {
               placeholder="*******"
               onChangeText={handlePasswordChange}
               value={password}
-              secureTextEntry={!isPasswordVisible}
+              // secureTextEntry={!isPasswordVisible}
               placeholderTextColor={'grey'}
             />
             <TouchableOpacity
@@ -321,7 +321,7 @@ const SignUpScreen = ({ navigation }) => {
               placeholder="*******"
               onChangeText={setConfirmPassword}
               value={Confirmpassword}
-              secureTextEntry={!isCPasswordVisible}
+              // secureTextEntry={!isCPasswordVisible}
               placeholderTextColor={'grey'}
             />
             <TouchableOpacity
@@ -380,9 +380,10 @@ const SignUpScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
-        <Toast ref={ref => Toast.setRef(ref)} />
-
+       
       </ScrollView>
+      <Toast ref={ref => Toast.setRef(ref)} />
+
     </View>
   );
 };

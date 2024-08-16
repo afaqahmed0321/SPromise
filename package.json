@@ -42,6 +42,7 @@
     "react-native-fbsdk-next": "^12.1.0",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.13.4",
+    "react-native-image-crop-picker": "^0.41.2",
     "react-native-image-picker": "^7.0.2",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-media-controls": "^2.3.0",
