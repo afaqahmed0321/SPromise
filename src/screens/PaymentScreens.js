@@ -4,10 +4,12 @@ import { CreditCardInput } from 'react-native-credit-card-input';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { StripeProvider } from '@stripe/stripe-react-native';
-import { STRIPE_PUBLIC_KEY, Secret_key } from '../comp/Payment/helper';
 import axios from 'axios';
 import LoadingOverlay from '../comp/Global/LoadingOverlay';
 import { useRoute, useNavigation } from '@react-navigation/native';
+import { API_URL, Secret_key, STRIPE_PUBLIC_KEY } from '../../helper';
+import { useRecoilState } from 'recoil';
+import { payVisible } from '../recoil/AddPromise';
 
 const CURRENCY = 'USD';
 var CARD_TOKEN = null;
@@ -47,6 +49,8 @@ const PaymentScreens = () => {
   const { promiseID, userN, amount, setPayButton } = route.params;
   const [CardInput, setCardInput] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [hidePayButton, setHidePayButton] = useRecoilState(payVisible);
+
 
   const handleBack = () => {
     setPayButton(true);
@@ -84,11 +88,12 @@ const PaymentScreens = () => {
     } else {
       let payment_data = await charges();
       if (payment_data.status == 'succeeded') {
+        setHidePayButton(true);
         setIsLoading(false);
         ToastAndroid.show('Payment Successful.', ToastAndroid.LONG);
         navigation.goBack();
         const sourceID = payment_data?.source?.id;
-        await axios.post(`https://snappromise.com:8080/updatePaymentTransactionID?promiseID=${promiseID}&transactionID=${sourceID}`);
+        await axios.post(`${API_URL}/updatePaymentTransactionID?promiseID=${promiseID}&transactionID=${sourceID}`);
       } else {
         setIsLoading(false);
         setPayButton(true);

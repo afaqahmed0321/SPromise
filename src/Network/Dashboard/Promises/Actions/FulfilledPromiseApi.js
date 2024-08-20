@@ -1,7 +1,8 @@
 import { ToastAndroid } from 'react-native';
+import { API_URL } from '../../../../../helper';
 
 const FulfilledPromiseApi = (promiseID, userNo) => {
-  const url = `https://snappromise.com:8080/fulfilledPromise?promiseID=${promiseID}&userNo=${userNo}`;
+  const url = `${API_URL}/fulfilledPromise?promiseID=${promiseID}&userNo=${userNo}`;
 
   return new Promise((resolve, reject) => {
     fetch(url, {

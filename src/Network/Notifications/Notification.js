@@ -3,13 +3,14 @@
 import axios from 'axios';
 import { ToastAndroid } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URL } from '../../../helper';
 
 const fetchNotification = async (userN) => {
   let user;
   while (!user) {
     user = await AsyncStorage.getItem("userNo");
   }
-  const apiUrl = 'https://snappromise.com:8080/getUserNotifications?userNo='+user;
+  const apiUrl = `${API_URL}/getUserNotifications?userNo=`+user;
   try {
     const response = await axios.get(apiUrl);
     return response.data.notificationsList;

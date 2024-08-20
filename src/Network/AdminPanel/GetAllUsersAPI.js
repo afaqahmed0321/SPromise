@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { API_URL } from '../../../helper';
 
 const getAllUsersForAdminPanelApi = () => {
-  return axios.get('https://snappromise.com:8080/api/Users/getUsers', {
+  return axios.get(`${API_URL}/api/Users/getUsers`, {
     headers: {
       Accept: 'text/plain',
     },

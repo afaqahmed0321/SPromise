@@ -1,6 +1,7 @@
 import { ToastAndroid } from 'react-native';
+import { API_URL } from '../../../../helper';
 
-const url = 'https://snappromise.com:8080/addPromiseComment';
+const url = `${API_URL}/addPromiseComment`;
 
 const PromiseComment = async (userNN, PID, commen) => {  
   const requestBody = {

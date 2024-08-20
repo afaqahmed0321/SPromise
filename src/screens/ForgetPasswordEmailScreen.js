@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { code, uNumber, uemail } from '../recoil/Users/GetUsers';
 import PasswordVerification from '../Network/PasswordVerification';
+import { API_URL } from '../../helper';
 
 const ForgetPasswordEmailScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -30,7 +31,7 @@ const ForgetPasswordEmailScreen = ({ navigation }) => {
         const mail = email.toLowerCase();
         const encodedEmail = encodeURIComponent(mail);
  
-        await axios.get(`https://snappromise.com:8080/api/Users/getUsers?searchString=${mail}`)
+        await axios.get(`${API_URL}/api/Users/getUsers?searchString=${mail}`)
 
             .then(async (response) => {
                 setUserNumber(response?.data?.users?.[0].userNo)

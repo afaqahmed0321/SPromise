@@ -1,13 +1,15 @@
 
 
 import axios from 'axios';
+import { API_URL } from '../../../helper';
 
 const fetchUser = async (email) => {
   const mail = email.toLowerCase();
-  const apiUrl = 'https://snappromise.com:8080/api/Users/getUsers?searchString='+mail;
+  const apiUrl = `${API_URL}/api/Users/getUsers?searchString=`+mail;
 
   try {
     const response = await axios.get(apiUrl);
+    console.log("objecttttttttttt", response.data.users)
     if(response.data.users==null)
     {
       return "User Does not Exist";

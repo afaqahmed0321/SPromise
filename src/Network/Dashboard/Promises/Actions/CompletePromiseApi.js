@@ -1,6 +1,7 @@
 import { ToastAndroid } from 'react-native';
+import { API_URL } from '../../../../../helper';
 export default CompletePromiseApi = async (promiseID, userNo, note) => {
-    const url = `https://snappromise.com:8080/completePromise?promiseID=${promiseID}&userNo=${userNo}&note=${note}`;
+    const url = `${API_URL}/completePromise?promiseID=${promiseID}&userNo=${userNo}&note=${note}`;
   
     try {
       const response = await fetch(url, {
@@ -20,7 +21,7 @@ export default CompletePromiseApi = async (promiseID, userNo, note) => {
           500,
           50,
         );
-        return 1;
+        return data;
       } else {
         console.warn('Unexpected response code:', result.code);
       }

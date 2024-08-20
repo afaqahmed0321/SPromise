@@ -1,6 +1,7 @@
 import { ToastAndroid } from 'react-native';
+import { API_URL } from '../../../helper';
 
-const url = 'https://snappromise.com:8080/saveUsertoNetwork';
+const url = `${API_URL}/saveUsertoNetwork`;
 
 const AddUserNetwork = async (AddUserN,userN )=> {
   const requestBody = {

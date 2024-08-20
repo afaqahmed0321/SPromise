@@ -15,6 +15,7 @@ import {
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URL } from '../../helper';
 
 
 
@@ -37,7 +38,7 @@ const ReportIssues = ({ navigation }) => {
         };    
         if (title && description) {
           try {
-            const response = await axios.post('https://snappromise.com:8080/api/Report/reportSave', userData);
+            const response = await axios.post(`${API_URL}/api/Report/reportSave`, userData);
             if (response.data.code === 100) {
               ToastAndroid.showWithGravityAndOffset(
                 'A report has been created',

@@ -17,7 +17,8 @@ export const handleAcceptPromise = (promiseID, userN) => {
   };
   export const handleCompletePromise = async(promiseID, userN, note) => {
    const res = await CompletePromiseApi(promiseID, userN,note);
-   return 1;
+   console.log("response from actionsssss", res);
+   return res;
   };
   export const handleFulfilledPromiseApi = async(promiseID, userN) => {
    return FulfilledPromiseApi(promiseID, userN);

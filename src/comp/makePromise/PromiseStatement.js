@@ -31,6 +31,7 @@ import {
 } from '../../recoil/Globel';
 import { BlurView } from '@react-native-community/blur';
 import axios from 'axios';
+import { API_URL } from '../../../helper';
 
 const PromiseStatement = ({ onTextChange }) => {
   const navigation = useNavigation();
@@ -141,7 +142,7 @@ const PromiseStatement = ({ onTextChange }) => {
   };
 
   const suggest = async () => {
-    await axios.post(`https://snappromise.com:8080/suggestPromiseText?promiseStatement=${generatedTexts}`)
+    await axios.post(`${API_URL}/suggestPromiseText?promiseStatement=${generatedTexts}`)
       .then((response) => {
         setGeneratedTexts(response.data.description);
       })
@@ -194,7 +195,7 @@ const PromiseStatement = ({ onTextChange }) => {
               )}
             </TouchableOpacity>
             {attachMedia && (
-              <TouchableOpacity onPress={() => setAttachMedia(null)} style={{ marginHorizontal: hp(1) }}>
+              <TouchableOpacity onPress={() => {setAttachMedia(null); setSelectedVideo(null)}} style={{ marginHorizontal: hp(1) }}>
                 <Ionicons color="red" name="close" size={30} />
               </TouchableOpacity>
             )}

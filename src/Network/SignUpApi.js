@@ -1,3 +1,5 @@
+import { API_URL } from "../../helper";
+
 export async function signup(emailID, password, fName, lName, subscription) {
   const headers = new Headers({
     'Content-Type': 'application/json',
@@ -13,7 +15,7 @@ export async function signup(emailID, password, fName, lName, subscription) {
      "status": "Active"
    }
   try {
-    const response = await fetch("https://snappromise.com:8080/api/Users/signUp", {
+    const response = await fetch(`${API_URL}/api/Users/signUp`, {
       method: 'POST',
       headers: headers,
     body: JSON.stringify(body)
@@ -47,7 +49,7 @@ export async function Socialsignup(emailID,Name,socialLogin,imageURL, sSubscript
      "subscription": sSubscription
    }
   try {
-    const response = await fetch("https://snappromise.com:8080/api/Users/signUp", {
+    const response = await fetch(`${API_URL}/api/Users/signUp`, {
       method: 'POST',
       headers: headers,
     body: JSON.stringify(body)

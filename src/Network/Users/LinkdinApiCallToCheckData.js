@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { API_URL } from '../../../helper';
 
 const LinkDinApiCallToCheckData = async (userN) => {
-  const apiUrl = 'https://snappromise.com:8080/api/Users/checkLinkedIn?userNo='+userN;
+  const apiUrl = `${API_URL}/api/Users/checkLinkedIn?userNo=`+userN;
   try {
     const response = await axios.get(apiUrl);
     return response.data.code

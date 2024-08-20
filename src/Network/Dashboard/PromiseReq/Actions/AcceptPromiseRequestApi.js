@@ -1,7 +1,8 @@
 import { ToastAndroid } from 'react-native';
+import { API_URL } from '../../../../../helper';
 
 const AcceptPromiseRequest = (promiseID, userNo) => {
-  const url = `https://snappromise.com:8080/acceptPromiseRequest?promiseID=${promiseID}&userNo=${userNo}`;
+  const url = `${API_URL}/acceptPromiseRequest?promiseID=${promiseID}&userNo=${userNo}`;
 
   return new Promise((resolve, reject) => {
     fetch(url, {
@@ -29,7 +30,7 @@ const AcceptPromiseRequest = (promiseID, userNo) => {
         }
       })
       .catch((error) => {
-        console.error('Error:', error.message);
+        console.error('Error:', error);
         reject(error);
       });
   });

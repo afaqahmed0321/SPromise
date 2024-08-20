@@ -1,9 +1,10 @@
 
 
 import axios from 'axios';
+import { API_URL } from '../../../helper';
 
 const fetchUserData = async (userN) => {
-  const apiUrl = 'https://snappromise.com:8080/getNetworkUsers?userNo='+userN;
+  const apiUrl = `${API_URL}/getNetworkUsers?userNo=`+userN;
 
   try {
     const response = await axios.get(apiUrl);
@@ -15,7 +16,7 @@ const fetchUserData = async (userN) => {
 };
 
 export const removeUserNetwork = async (serialNo) => {
-  const apiUrl = `https://snappromise.com:8080/removeNetworkUser?serialNo=${serialNo}`;
+  const apiUrl = `${API_URL}/removeNetworkUser?serialNo=${serialNo}`;
 
   try {
     const response = await axios.post(apiUrl);

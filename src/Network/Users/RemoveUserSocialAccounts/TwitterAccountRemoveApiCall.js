@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { API_URL } from '../../../../helper';
 
 const AccountRemovedApiCall = async (userN, Platform) => {
-  const apiUrl = `https://snappromise.com:8080/api/Users/removeSocialMediaAccount?userNo=${userN}&socialPlatform=${Platform}`;
+  const apiUrl = `${API_URL}/api/Users/removeSocialMediaAccount?userNo=${userN}&socialPlatform=${Platform}`;
   try {
     const response = await axios.post(apiUrl);
     return response.data.code;

@@ -33,6 +33,7 @@ import FontAw5 from 'react-native-vector-icons/FontAwesome5';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import fetchUser from '../../Network/Users/GetUser';
+import { API_URL } from '../../../helper';
 
 const NetworkFeed = ({ navigation }) => {
   const today = moment().format('YYYY-MM-DD');
@@ -79,7 +80,7 @@ const NetworkFeed = ({ navigation }) => {
     const networkUserNo = userN;
     try {
       setIsLoading(true);
-      const response = await fetch(`https://snappromise.com:8080/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${selectedItem}${selectedStatus == "All" ? '&All' : "&status="}${selectedStatus}&fromDate=${selectedRange.firstDate}&toDate=${selectedRange.secondDate}`, {
+      const response = await fetch(`${API_URL}/getUserNetworkFeed?userNo=${networkUserNo}&visibility=${selectedItem}${selectedStatus == "All" ? '&All' : "&status="}${selectedStatus}&fromDate=${selectedRange.firstDate}&toDate=${selectedRange.secondDate}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

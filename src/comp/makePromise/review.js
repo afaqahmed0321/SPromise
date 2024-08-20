@@ -52,6 +52,7 @@ import FontAw from 'react-native-vector-icons/FontAwesome6';
 import Video from 'react-native-video';
 import { BlurView } from '@react-native-community/blur';
 import VideoModal from './videoModal';
+import { API_URL } from '../../../helper';
 
 const Review = ({ navigation }) => {
   const [Promiseze, setSelectedPromisee] = useRecoilState(selectedPromisee);
@@ -282,7 +283,7 @@ const Review = ({ navigation }) => {
     const data = await respon;
     setUserData(data);
 
-    const linkedinResp = await axios.get(`https://snappromise.com:8080/api/Users/checkLinkedIn?userNo=${userN}`)
+    const linkedinResp = await axios.get(`${API_URL}/api/Users/checkLinkedIn?userNo=${userN}`)
       .then((res) => {
         setLinkedInCode(res?.data?.code)
       })
@@ -290,7 +291,7 @@ const Review = ({ navigation }) => {
         return err
       })
 
-    const twitterCode = await axios.get(`https://snappromise.com:8080/api/Users/checkTwitter?userNo=${userN}`)
+    const twitterCode = await axios.get(`${API_URL}/api/Users/checkTwitter?userNo=${userN}`)
       .then((res) => {
         setTwitterCode(res?.data?.code)
       })

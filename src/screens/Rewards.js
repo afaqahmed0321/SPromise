@@ -25,6 +25,7 @@ import {
 import NetWorkFeedApi from '../Network/Users/NetworkFeed/NetworkFeedAPi';
 import EvilIcon from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
+import { API_URL } from '../../helper';
 
 const Rewards = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
@@ -50,7 +51,7 @@ const Rewards = ({ navigation }) => {
   };
 
   const fetchData = async () => {
-    const resp = axios.get(`https://snappromise.com:8080/api/Users/getNetworkUsersRewards?userNo=${userN}`)
+    const resp = axios.get(`${API_URL}/api/Users/getNetworkUsersRewards?userNo=${userN}`)
       .then((response) => {
         setUserData(response.data.userRewards);
         setIsLoading(false);

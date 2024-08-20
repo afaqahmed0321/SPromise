@@ -1,3 +1,4 @@
+import { API_URL } from "../../../helper";
 
 export async function UpdateProfileApi(
   useN,
@@ -33,7 +34,7 @@ export async function UpdateProfileApi(
   };
   try {
     const response = await fetch(
-      'https://snappromise.com:8080/api/Users/modifyProfileData',
+      `${API_URL}/api/Users/modifyProfileData`,
       {
         method: 'POST',
         headers: headers,

@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { API_URL } from '../../../helper';
 
 const GetUserData = async (userN) => {
-  const apiUrl = 'https://snappromise.com:8080/api/Users/getUsersData?userNo=' + userN;
+  const apiUrl = `${API_URL}/api/Users/getUsersData?userNo=` + userN;
 
   try {
     const response = await axios.get(apiUrl);

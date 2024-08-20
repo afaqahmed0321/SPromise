@@ -6,6 +6,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import axios from 'axios';
 import { StripeProvider, confirmPayment, createPaymentMethod, useStripe } from '@stripe/stripe-react-native';
 import { Auth_Token, STRIPE_PUBLIC_KEY, Secret_key } from '../comp/Payment/helper';
+import { API_URL } from '../../helper';
 
 
 const PaymentScreen = ({ promiseID, userN }) => {
@@ -14,7 +15,7 @@ const PaymentScreen = ({ promiseID, userN }) => {
 
   const onSubmit = async () => {
     const promise = "4e8d1ffe-d6f8-4035-819f-e98197163e61"
-    axios.post(`https://snappromise.com:8080/getPaymentIntent?promiseId=${promiseID}`)
+    axios.post(`${API_URL}/getPaymentIntent?promiseId=${promiseID}`)
       .then((response) => {
         setPaymentIntent(response.data)
       })

@@ -34,6 +34,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { uemail } from '../recoil/Users/GetUsers';
 import fetchUser from '../Network/Users/GetUser';
 import LoadingOverlay from '../comp/Global/LoadingOverlay';
+import { API_URL } from '../../helper';
 
 const LoginScreen = ({ navigation }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -92,10 +93,12 @@ const LoginScreen = ({ navigation }) => {
       const user_sign_in = await auth().signInWithCredential(googleCredential);
 
       const user = user_sign_in.user;
+      console.log("usersssssss", user);
       let person = await fetchUser(user.email);
-
       if (person === 'User Does not Exist') {
         ToastAndroid.show('User does not exist', ToastAndroid.LONG);
+      }else if(person.loginType === 'Manual'){
+        ToastAndroid.show('You are not signed in with Google', ToastAndroid.LONG);
       } else {
         const mail = user.email.toLowerCase();
         let response = await Sociallogin(mail, true);
@@ -116,7 +119,7 @@ const LoginScreen = ({ navigation }) => {
             navigation.navigate('LoginScreen');
           } else {
             try {
-              const portalResponse = await fetch(`https://snappromise.com:8080/getCustomerPortalURL?UserNo=${userNumber}`, {
+              const portalResponse = await fetch(`${API_URL}/getCustomerPortalURL?UserNo=${userNumber}`, {
                 method: 'GET',
                 headers: {
                   Accept: 'application/json',
@@ -130,7 +133,7 @@ const LoginScreen = ({ navigation }) => {
               if (portalData.url) {
                 navigation.navigate('CustomWebView', { uri: portalData.url });
               } else {
-                const checkoutResponse = await fetch(`https://snappromise.com:8080/getCheckOutURL`, {
+                const checkoutResponse = await fetch(`${API_URL}/getCheckOutURL`, {
                   method: 'GET',
                   headers: {
                     Accept: 'application/json',
@@ -158,6 +161,7 @@ const LoginScreen = ({ navigation }) => {
 
 
   const LoginPress = async () => {
+    AsyncStorage.clear();
     try {
       if (Email == '') {
         ToastAndroid.show('Please Enter Email', ToastAndroid.LONG);
@@ -192,7 +196,7 @@ const LoginScreen = ({ navigation }) => {
           } else {
             try {
 
-              const response = await fetch(`https://snappromise.com:8080/getCustomerPortalURL?UserNo=${userNumber}`, {
+              const response = await fetch(`${API_URL}/getCustomerPortalURL?UserNo=${userNumber}`, {
                 method: 'GET',
                 headers: {
                   Accept: 'application/json',
@@ -211,7 +215,7 @@ const LoginScreen = ({ navigation }) => {
 
             } else {
               try {
-                const response = await fetch(`https://snappromise.com:8080/getCheckOutURL`, {
+                const response = await fetch(`${API_URL}/getCheckOutURL`, {
                   method: 'GET',
                   headers: {
                     Accept: 'application/json',

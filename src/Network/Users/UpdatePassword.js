@@ -1,10 +1,12 @@
+import { API_URL } from "../../../helper";
+
 const UpdatedPassword = async (userN, NewPass) => {
   const userNo = userN;
   const newPassword = NewPass;
 
   try {
     const response = await fetch(
-      `https://snappromise.com:8080/api/Users/updatePassword?userNo=${userNo}&password=${newPassword}`,
+      `${API_URL}/api/Users/updatePassword?userNo=${userNo}&password=${newPassword}`,
       {
         method: 'POST',
         headers: {

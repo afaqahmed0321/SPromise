@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { API_URL } from '../../helper';
 
 // Create an instance of axios with a custom config
 const api = axios.create({
-  baseURL: 'https://snappromise.com:8080'
+  baseURL: `${API_URL}`
 });
 
 api.interceptors.request.use(

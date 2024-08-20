@@ -29,6 +29,7 @@ import ChangeSubscriptionModal from './ChangeSubscriptionModal';
 import updateSubscriptionType from '../Network/Users/updateSubscriptionType';
 import WebView from 'react-native-webview';
 import axios from 'axios';
+import { API_URL } from '../../helper';
 
 const Drawer = () => {
   const [isDrawerV, setIsDrawerV] = useRecoilState(isLeftDrawerV);
@@ -53,9 +54,9 @@ const Drawer = () => {
   };
 
   const manageSubscription = async ()=> {
-
-   const response =  await axios.get(`https://snappromise.com:8080/getCustomerPortalURL?UserNo=${userN}`)
-   .then((response)=>{
+    const response =  await axios.get(`${API_URL}/getCustomerPortalURL?UserNo=${userN}`)
+    .then((response)=>{
+     setIsDrawerV(false)
     navigation.navigate('CustomWebView', { uri: response.data.url });
 
     setSubURL(response.data.url);
