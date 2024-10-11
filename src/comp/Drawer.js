@@ -31,6 +31,7 @@ import WebView from 'react-native-webview';
 import axios from 'axios';
 import {API_URL} from '../../helper';
 import { ismodalVisible } from '../recoil/Globel';
+import DeleteModal from './DeleteModal';
 
 const Drawer = () => {
   const [isDrawerV, setIsDrawerV] = useRecoilState(isLeftDrawerV);
@@ -49,12 +50,18 @@ const Drawer = () => {
   }, []);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+
 
   const handleSubscriptionChange = () => {
     console.log("opening model", isModalVisible);
     setIsModalVisible(true);
     console.log("after model", isModalVisible);
-
+  };
+  const handleAccountDelete = () => {
+    console.log("opening model", isModalVisible);
+    setIsDeleteModalVisible(true);
+    console.log("after model", isDeleteModalVisible);
   };
 
   const manageSubscription = async () => {
@@ -74,12 +81,27 @@ const Drawer = () => {
   const handleCloseModal = () => {
     setIsModalVisible(false);
   };
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModalVisible(false);
+  };
 
   const handleConfirmSubscriptionChange = async () => {
     const response = await updateSubscriptionType(userN, 'Paid');
     if (response.status == 200) {
       logout();
     }
+  };
+
+  const handleConfirmDeleteAccount = async () => {
+    const response = await axios.post(`${API_URL}/api/Users/updateUserStatus?emailID=`+email)
+    .then(response => {
+      console.log("resoppp", response);
+      if(response.data.code == 200){
+        logout();
+      }
+    }).catch(err =>{
+      console.log(err);
+    })
   };
 
   const getitem = async () => {
@@ -294,6 +316,30 @@ const Drawer = () => {
                 style={{marginTop: wp(1)}}
               />
               <Text style={[styles.TebText, {padding: 3}]}>Report Issues</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity
+              style={styles.listContainer}
+              onPress={() => {
+                handleAccountDelete(); // Correctly invoke the function here
+                // setIsDrawerV(false);
+              }}
+            >
+              <MaterialIcons
+                color="#652D90"
+                name="delete"
+                size={30}
+                style={{ marginTop: wp(1) }}
+              />
+              <Text style={[styles.TebText, { padding: 3 }]}>Delete Account</Text>
+              {isDeleteModalVisible && (
+                <DeleteModal
+                  visible={isDeleteModalVisible} // Pass the state to control visibility
+                  onClose={handleCloseDeleteModal}
+                  onConfirm={handleConfirmDeleteAccount}
+                />
+              )}
             </TouchableOpacity>
           </View>
         </View>

@@ -53,6 +53,7 @@ import Rewards from './src/screens/Rewards';
 import ReportIssues from './src/screens/ReportIssues';
 import EditProfile from './src/screens/EditProfile';
 import SocialWeb from './src/screens/SocialWeb';
+import { PremiumSubscription } from './src/screens/PremiumSubscription';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -265,6 +266,11 @@ const Auth = () => {
                 component={CustomWebView}
                 options={{ headerShown: false }}
               />
+              <Stack.Screen
+                name="PremiumSubscription"
+                component={PremiumSubscription}
+                options={{ headerShown: false }}
+              />
             </>
           ) : (
             <>
@@ -306,6 +312,11 @@ const Auth = () => {
               <Stack.Screen
                 name="CustomWebView"
                 component={CustomWebView}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="PremiumSubscription"
+                component={PremiumSubscription}
                 options={{ headerShown: false }}
               />
               <Stack.Screen

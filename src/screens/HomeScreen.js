@@ -6,9 +6,9 @@ import {
   Modal,
   SafeAreaView,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import { isLeftDrawerV } from '../recoil/HomeScreenStates';
+import React, {useState, useEffect} from 'react';
+import {useRecoilState} from 'recoil';
+import {isLeftDrawerV} from '../recoil/HomeScreenStates';
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -19,17 +19,19 @@ import {
 } from 'react-native-responsive-screen';
 import HomePageDataSection from '../comp/HomePageDataSection';
 import Drawer from '../comp/Drawer';
-import { UserNo, token } from '../recoil/AddPromise';
+import {UserNo, token} from '../recoil/AddPromise';
 import GetVideoSize from '../Network/GetVideoSize';
 import GetAllowedVideoFormats from '../Network/GetVideoFarmats';
-import { AllowedVideoFormatsState, AllowedVideoSizeState } from '../recoil/Globel';
-import { Text } from 'react-native-paper';
+import {
+  AllowedVideoFormatsState,
+  AllowedVideoSizeState,
+} from '../recoil/Globel';
+import {Text} from 'react-native-paper';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({navigation}) => {
   const [accToken, setAc] = useRecoilState(token);
   const [userN, setUserN] = useRecoilState(UserNo);
   const [isDrawerV, setIsDrawerV] = useRecoilState(isLeftDrawerV);
-
   const [VideoFarmats, setVideoFarmats] = useRecoilState(AllowedVideoFormatsState);
   const [VideoSize, setVideoSize] = useRecoilState(AllowedVideoSizeState);
 
@@ -41,8 +43,11 @@ const HomeScreen = ({ navigation }) => {
 
     const getVideoFormats = await GetAllowedVideoFormats();
     const extractedValue = getVideoFormats[0]?.value || '';
-    setVideoFarmats(prevVideoFormats => [...prevVideoFormats, ...extractedValue.split(',')]);
-  }
+    setVideoFarmats(prevVideoFormats => [
+      ...prevVideoFormats,
+      ...extractedValue.split(','),
+    ]);
+  };
 
   useEffect(() => {
     fetchAppSettings();
@@ -55,14 +60,17 @@ const HomeScreen = ({ navigation }) => {
         height: '100%',
       }}>
       <View style={{}}>
-        <View style={{marginHorizontal:hp(2), marginTop:hp(2),  flexDirection: 'row', justifyContent: 'space-between',  alignItems: 'center' }}>
+        <View
+          style={{
+            marginHorizontal: hp(2),
+            marginTop: hp(2),
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
           <View>
             <TouchableOpacity onPress={() => setIsDrawerV(true)}>
-              <MaterialComunityIcons
-                name="menu"
-                color="black"
-                size={40}
-              />
+              <MaterialComunityIcons name="menu" color="black" size={40} />
             </TouchableOpacity>
             <Modal
               animationType="fade"
@@ -77,28 +85,20 @@ const HomeScreen = ({ navigation }) => {
               source={require('../source/mainLogo.jpg')}
               style={styles.ImageStyle}
             />
-            <Text style={styles.heading} >SNAPPROMISE</Text>
+            <Text style={styles.heading}>SNAPPROMISE</Text>
           </View>
           <View>
-            <TouchableOpacity  onPress={() => navigation.navigate("Notifications")}>
-              <Ionicons
-                name="notifications-outline"
-                color="black"
-                size={30}
-              />
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Notifications')}>
+              <Ionicons name="notifications-outline" color="black" size={30} />
             </TouchableOpacity>
           </View>
-
         </View>
-        <View style={{ marginTop: hp(3) }}>
+        <View style={{marginTop: hp(3)}}>
           <HomePageDataSection />
-          <View style={{ marginRight: wp(2) }}>
-            <View style={styles.bar}>
-
-            </View>
-            <View style={{ height: hp(35) }}>
-
-            </View>
+          <View style={{marginRight: wp(2)}}>
+            <View style={styles.bar}></View>
+            <View style={{height: hp(35)}}></View>
           </View>
         </View>
       </View>
@@ -111,13 +111,12 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   LogoC: {
     flexDirection: 'row',
-    alignItems: "center",
-
+    alignItems: 'center',
   },
   heading: {
     fontSize: hp(2.25),
     fontWeight: 800,
-    marginHorizontal: hp(1)
+    marginHorizontal: hp(1),
   },
   ImageStyle: {
     width: hp(4),

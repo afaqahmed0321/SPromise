@@ -57,13 +57,13 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to allow you to take pictures.</string>
+	<string>SnapPromise requires access to your camera to capture photos and videos that are essential for creating and fulfilling your promises. The media you capture will be stored locally and shared only with the contacts you select within the app.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need access to your location to provide relevant features.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library to allow you to upload pictures.</string>
+	<string>SnapPromise uses your location to enhance the experience by providing location-based features like tagging your promise with a location, which helps you and your contacts remember where promises were made.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>We need access to your microphone to record videos.</string>
+	<string>SnapPromise requires access to your microphone to record audio in your video promises, ensuring you can create and share complete video messages with your selected contacts.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>SnapPromise requires access to your photo library to allow you to select and upload photos that are necessary to create and share promises with your contacts.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

@@ -82,6 +82,11 @@ export async function Sociallogin(email, socialLogin) {
     Accept: '*/*',
   });
   try {
+
+    console.log('emailllllll', email);
+    console.log('social', socialLogin);
+
+
     const formData = new FormData();
     formData.append('email', email);
     formData.append('socialLogIn', socialLogin);
@@ -93,6 +98,7 @@ export async function Sociallogin(email, socialLogin) {
     });
     const responseData = await response.text();
     const data = JSON.parse(responseData);
+    console.log("dattttt", data);
     return data;
   } catch (error) {
     return -2;

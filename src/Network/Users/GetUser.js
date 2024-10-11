@@ -18,7 +18,6 @@ const fetchUser = async (email) => {
     else{
       console.log("fetch user:",response);
       return response.data.users[0];
-
     }
   } catch (error) {
     console.error('Error fetching data:', error);

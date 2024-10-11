@@ -8,9 +8,10 @@ import {
   Image,
 } from 'react-native';
 import React, {useState} from 'react';
-import { API_URL } from '../../helper';
+import {API_URL} from '../../helper';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-toast-message';
+import ToggleSwitch from 'toggle-switch-react-native';
 
 import {
   widthPercentageToDP as wp,
@@ -31,6 +32,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {uemail} from '../recoil/Users/GetUsers';
 import fetchUser from '../Network/Users/GetUser';
 import LoadingOverlay from '../comp/Global/LoadingOverlay';
+import base64 from 'react-native-base64';
+import {
+  AppleButton,
+  appleAuth,
+  appleAuthAndroid,
+} from '@invertase/react-native-apple-authentication';
+import axios from 'axios';
 
 const LoginScreen = ({navigation}) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -42,6 +50,8 @@ const LoginScreen = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [firstUrl, setFirstUrl] = useState('');
   const [secondUrl, setSecondUrl] = useState('');
+  const [isEmailPrivate, setIsEmailPrivate] = useState(true);
+  const [isToggle, setIsToggle] = useState(true);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -74,31 +84,57 @@ const LoginScreen = ({navigation}) => {
     return auth().signInWithCredential(facebookCredential);
   }
 
+  function encodeToBase64(str) {
+    return base64.encode(str);
+  }
+
   async function onGoogleButtonPress() {
     setIsLoading(true);
     AsyncStorage.clear();
 
     try {
+      // Ensure Play Services are available
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-      await GoogleSignin.signOut();
-      const {idToken} = await GoogleSignin.signIn();
-      console.log('after google sign-in', idToken);
 
+      // Sign out any existing Google sessions
+      await GoogleSignin.signOut();
+
+      // Sign in the user with Google
+      const {idToken} = await GoogleSignin.signIn();
+
+      // Use the idToken to get Google credentials
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
       const user_sign_in = await auth().signInWithCredential(googleCredential);
 
       const user = user_sign_in.user;
-      let person = await fetchUser(user.email);
+      const userEmail = user.email.toLowerCase();
+      let person = await fetchUser(userEmail);
 
-      if(person.loginType === 'Manual'){
+      // Check if the user is attempting to sign in with Google while registered manually
+      if (person.loginType === 'Manual') {
         Toast.show({
           type: 'error',
-          text1: 'You are not signed in with Google',
+          text1: 'You are not signed in with Google or Apple',
           autoHide: true,
           topOffset: 30,
           bottomOffset: 40,
         });
-      }else if (person === 'User Does not Exist') {
+        return;
+      }
+
+      if (person.status === 'InActive') {
+        Toast.show({
+          type: 'error',
+          text1: 'InActive Account',
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
+        return;
+      }
+
+      // Handle the case where the user does not exist
+      if (person === 'User Does not Exist') {
         Toast.show({
           type: 'error',
           text1: 'User does not exist',
@@ -106,69 +142,80 @@ const LoginScreen = ({navigation}) => {
           topOffset: 30,
           bottomOffset: 40,
         });
-      } else {
-        const mail = user.email.toLowerCase();
-        let response = await Sociallogin(mail, true);
-        const paymentStatus = response.paymentPending;
-        const userNumber = response.userNo;
+        return;
+      }
 
-        if (response.message === 'Success') {
-          if (!paymentStatus) {
-            setToken(response.token);
-            setUserN(response.userNo);
-            setEmail(user.email);
+      // Proceed with the Google sign-in if all checks pass
+      let response = await Sociallogin(
+        userEmail,
+        true,
+      );
 
-            let resp = await fetchUser(user.email);
-            await AsyncStorage.setItem('token', response.token);
-            await AsyncStorage.setItem('userNo', response.userNo);
-            await AsyncStorage.setItem('Email', user.email);
-            await AsyncStorage.setItem('Name', user.displayName);
-            navigation.navigate('LoginScreen');
-          } else {
-            try {
-              const portalResponse = await fetch(
-                `${API_URL}/getCustomerPortalURL?UserNo=${userNumber}`,
-                {
-                  method: 'GET',
-                  headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                  },
-                },
-              );
+      // Handle the user's payment status
+      const {paymentPending: paymentStatus, userNo: userNumber} = response;
+      console.log("loginnnn", response);
 
-              const portalData = await portalResponse.json();
-              setFirstUrl(portalData.url);
+      if (response.message === 'Success') {
+        if (!paymentStatus) {
+          // Successful sign-in and no payment pending
+          await AsyncStorage.multiSet([
+            ['token', response.token],
+            ['userNo', userNumber],
+            ['Email', userEmail],
+            ['Name', user.displayName],
+          ]);
 
-              if (portalData.url) {
-                navigation.navigate('CustomWebView', {uri: portalData.url});
-              } else {
-                const checkoutResponse = await fetch(
-                  `${API_URL}/getCheckOutURL`,
-                  {
-                    method: 'GET',
-                    headers: {
-                      Accept: 'application/json',
-                      'Content-Type': 'application/json',
-                    },
-                  },
-                );
+          setToken(response.token);
+          setUserN(userNumber);
+          setEmail(userEmail);
 
-                const checkoutData = await checkoutResponse.json();
-                const updatedUrl = `${checkoutData.url}?prefilled_email=${mail}`;
-                setSecondUrl(updatedUrl);
-                navigation.navigate('CustomWebView', {uri: updatedUrl});
-              }
-            } catch (error) {
-              console.error('Error fetching data:', error);
-            }
-          }
+          navigation.navigate('LoginScreen');
+        } else {
+          // Handle the scenario where the payment is pending
+          await handlePaymentPortal(userNumber, userEmail);
         }
       }
     } catch (error) {
       console.log('Google sign-in error:', error);
     } finally {
       setIsLoading(false);
+    }
+  }
+
+  // A helper function to handle payment portal navigation
+  async function handlePaymentPortal(userNumber, email) {
+    try {
+      const portalResponse = await fetch(
+        `${API_URL}/getCustomerPortalURL?UserNo=${userNumber}`,
+        {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      const portalData = await portalResponse.json();
+      const {url: firstUrl} = portalData;
+
+      if (firstUrl) {
+        navigation.navigate('CustomWebView', {uri: firstUrl});
+      } else {
+        const checkoutResponse = await fetch(`${API_URL}/getCheckOutURL`, {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const checkoutData = await checkoutResponse.json();
+        const updatedUrl = `${checkoutData.url}?prefilled_email=${email}`;
+        navigation.navigate('CustomWebView', {uri: updatedUrl});
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
   }
 
@@ -206,9 +253,31 @@ const LoginScreen = ({navigation}) => {
             setUserN(response.userNo);
             setemail(Email);
             let resp = await fetchUser(Email);
-            await AsyncStorage.setItem('token', '');
-            await AsyncStorage.setItem('userNo', '');
-            await AsyncStorage.setItem('Email', '');
+            if (resp.status == 'InActive') {
+              Toast.show({
+                type: 'error',
+                text1: 'InActive Account',
+                text1Style: {
+                  fontSize: 14,
+                  color: 'black',
+                  flexWrap: 'wrap',
+                  textAlign: 'center',
+                },
+                text2Style: {
+                  fontSize: 14,
+                  color: 'black',
+                  flexWrap: 'wrap',
+                  textAlign: 'center',
+                },
+                swipeable: true,
+                text1NumberOfLines: 0,
+                visibilityTime: 4000,
+                autoHide: true,
+                topOffset: 30,
+                bottomOffset: 40,
+              });
+            }
+            await AsyncStorage.setItem('Email', mail);
             await AsyncStorage.setItem('Name', '');
             await AsyncStorage.setItem('token', response.token);
             await AsyncStorage.setItem('userNo', response.userNo);
@@ -236,24 +305,25 @@ const LoginScreen = ({navigation}) => {
               console.error('Error fetching data:', error);
             }
             if (firstUrl) {
-              navigation.navigate('CustomWebView', {uri: firstUrl});
+              navigation.navigate('PremiumSubscription', {uri: firstUrl});
+              // navigation.navigate('PremiumSubscription', {uri: firstUrl});
+
             } else {
               try {
-                const response = await fetch(
-                  `${API_URL}/getCheckOutURL`,
-                  {
-                    method: 'GET',
-                    headers: {
-                      Accept: 'application/json',
-                      'Content-Type': 'application/json',
-                    },
+                const response = await fetch(`${API_URL}/getCheckOutURL`, {
+                  method: 'GET',
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
                   },
-                );
+                });
 
                 const data = await response.json();
                 const updatedUrl = `${data.url}?prefilled_email=${Email}`;
                 setSecondUrl(updatedUrl);
-                navigation.navigate('CustomWebView', {uri: updatedUrl});
+                navigation.navigate('PremiumSubscription', {uri: updatedUrl});
+                // navigation.navigate('PremiumSubscription', {uri: updatedUrl});
+
               } catch (error) {
                 console.error('Error fetching data:', error);
               }
@@ -325,6 +395,103 @@ const LoginScreen = ({navigation}) => {
       });
     }
   };
+
+  async function onAppleButtonPress() {
+    setIsLoading(true);
+    AsyncStorage.clear();
+  
+    try {
+      // Perform the Apple sign-in request
+      console.log('Attempting Sign in with Apple...');
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+  
+      const {identityToken} = appleAuthRequestResponse;
+  
+      // Use the identityToken to fetch Apple credentials
+      const data = await axios.get(`${API_URL}/getAppleCredentials?token=` + identityToken);
+      const appleEmail = data.data.emailID.toLowerCase();
+      const appleName = data.data.name;
+  
+      let person = await fetchUser(appleEmail);
+  
+      // Check if the user is attempting to sign in with Apple while registered manually
+      if (person.loginType === 'Manual') {
+        Toast.show({
+          type: 'error',
+          text1: 'You are not signed in with Google or Apple',
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
+        return;
+      }
+  
+      if (person.status === 'InActive') {
+        Toast.show({
+          type: 'error',
+          text1: 'InActive Account',
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
+        return;
+      }
+  
+      // Handle the case where the user does not exist
+      if (person === 'User Does not Exist') {
+        Toast.show({
+          type: 'error',
+          text1: 'User does not exist',
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40,
+        });
+        return;
+      }
+  
+      // Proceed with the Apple sign-in if all checks pass
+      let response = await Sociallogin(
+        appleEmail,
+        true,
+      );
+  
+      // Handle the user's payment status
+      const {paymentPending: paymentStatus, userNo: userNumber} = response;
+  
+      if (response.message === 'Success') {
+        if (!paymentStatus) {
+          // Successful sign-in and no payment pending
+          await AsyncStorage.multiSet([
+            ['token', response.token],
+            ['userNo', userNumber],
+            ['Email', appleEmail],
+            ['Name', appleName],
+          ]);
+  
+          setToken(response.token);
+          setUserN(userNumber);
+          setEmail(appleEmail);
+  
+          navigation.navigate('LoginScreen');
+        } else {
+          // Handle the scenario where the payment is pending
+          await handlePaymentPortal(userNumber, appleEmail);
+        }
+      }
+    } catch (error) {
+      console.log('Sign in with Apple error:', error);
+      Alert.alert(
+        'Apple Sign-In Error',
+        error.message || 'Something went wrong with Apple Sign-In. Please try again.',
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  
 
   const onChangeEmail = async text => {
     setEmail(text);
@@ -404,11 +571,25 @@ const LoginScreen = ({navigation}) => {
             style={commonStyles.SocialBtn}>
             <Image
               source={require('../source/google.png')} // Replace with the actual path to your local image
-              style={{width: 24, height: 24, marginRight: wp(2)}} // Adjust the width and height as needed
+              style={{width: 16, height: 16, marginRight: wp(2)}} // Adjust the width and height as needed
             />
-            <Text style={{color: 'black'}}>Continue with Google</Text>
+            <Text style={{color: 'black', fontSize: hp(1.8)}}>Sign in with Google</Text>
           </TouchableOpacity>
         </View>
+
+        <View style={{}}>
+          <TouchableOpacity
+            style={[commonStyles.SocialBtn, {marginTop: hp(1)}]}>
+            <AppleButton
+              buttonStyle={AppleButton.Style.WHITE}
+              buttonType={AppleButton.Type.SIGN_IN}
+              style={{width: 200, height: 44}}
+              onPress={onAppleButtonPress}
+            />
+          </TouchableOpacity>
+        </View>
+
+       
       </View>
       <Toast ref={ref => Toast.setRef(ref)} />
     </SafeAreaView>

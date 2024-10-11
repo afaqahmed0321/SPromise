@@ -7,47 +7,70 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { Headings } from '../Styling/Headings';
-import { TextInP } from '../Styling/TextInput';
+import {Headings} from '../Styling/Headings';
+import {TextInP} from '../Styling/TextInput';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import { commonStyles } from '../Styling/buttons';
+import {commonStyles} from '../Styling/buttons';
 import LogoHeaderGlobel from '../comp/LogoHeaderGlobel';
-import { signup, Socialsignup } from '../Network/SignUpApi';
+import {signup, Socialsignup, Applesignup} from '../Network/SignUpApi';
 import VerifyOTP from '../Network/Verification';
-import { useRecoilState } from 'recoil';
-import { code, uemail, ufName, ulName, upassword, uSubscription } from '../recoil/Users/GetUsers';
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import {useRecoilState} from 'recoil';
+import {
+  code,
+  uemail,
+  ufName,
+  ulName,
+  upassword,
+  uSubscription,
+} from '../recoil/Users/GetUsers';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import fetchUser from '../Network/Users/GetUser';
-import { token, UserNo } from '../recoil/AddPromise';
+import {token, UserNo} from '../recoil/AddPromise';
 import LinearGradient from 'react-native-linear-gradient';
 import DropDownPicker from 'react-native-dropdown-picker';
 import LoadingOverlay from '../comp/Global/LoadingOverlay';
 import Toast from 'react-native-toast-message';
+import ToggleSwitch from 'toggle-switch-react-native';
+import base64 from 'react-native-base64';
+import {
+  AppleButton,
+  appleAuth,
+  appleAuthAndroid,
+} from '@invertase/react-native-apple-authentication';
+import jwtDecode from 'jwt-decode';
+import axios from 'axios';
+import {API_URL} from '../../helper';
+import {err} from 'react-native-svg';
 
 GoogleSignin.configure({
-  webClientId: '297781393287-082ioneo7rm34l59ia7qd027vspk82vd.apps.googleusercontent.com',
+  webClientId:
+    '297781393287-082ioneo7rm34l59ia7qd027vspk82vd.apps.googleusercontent.com',
 });
 
-const SignUpScreen = ({ navigation }) => {
+const SignUpScreen = ({navigation}) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isCPasswordVisible, setIsCPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isToggle, setIsToggle] = useState(true);
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    { label: 'Free', value: 'Free',textStyle: { color: 'black' } },
-    { label: 'Paid', value: 'Paid',textStyle: { color: 'black' } },
+    {label: 'Free', value: 'Free', textStyle: {color: 'black'}},
+    {label: 'Paid', value: 'Paid', textStyle: {color: 'black'}},
   ]);
 
-  const handleDropdownSelect = (item) => {
+  const handleDropdownSelect = item => {
     setValue(item.value);
     setOpen(false);
   };
@@ -70,17 +93,22 @@ const SignUpScreen = ({ navigation }) => {
   const [Spassword, setSpassword] = useRecoilState(upassword);
   const [Sfname, setSfname] = useRecoilState(ufName);
   const [slname, setslname] = useRecoilState(ulName);
-  const [sSubscription, setSSubscription] = useRecoilState(uSubscription)
-  const [Token, setToken] = useRecoilState(token)
-  const [userN, setUserN] = useRecoilState(UserNo)
-  const [email, setemail] = useRecoilState(uemail)
+  const [sSubscription, setSSubscription] = useRecoilState(uSubscription);
+  const [Token, setToken] = useRecoilState(token);
+  const [userN, setUserN] = useRecoilState(UserNo);
+  const [email, setemail] = useRecoilState(uemail);
+  const [isEmailPrivate, setIsEmailPrivate] = useState(true);
+  const [appleCreds, setAppleCreds] = useState({});
 
   const [passwordError, setPasswordError] = useState('');
 
-  const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const validatePassword = password => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(password)) {
-      setPasswordError('Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and have a minimum length of 8 characters');
+      setPasswordError(
+        'Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and have a minimum length of 8 characters',
+      );
     } else {
       setPasswordError('');
     }
@@ -88,16 +116,16 @@ const SignUpScreen = ({ navigation }) => {
 
   const handleSignup = async () => {
     try {
-      const isValidEmail = (email) => {
+      const isValidEmail = email => {
         const emailRegex = /\S+@\S+\.\S+/;
         return emailRegex.test(email.toLowerCase());
       };
 
-      if (fName === '') {        
+      if (fName === '') {
         Toast.show({
           type: 'error',
           text1: 'Please Enter First Name',
-          swipeable:"true",
+          swipeable: 'true',
           autoHide: true,
           topOffset: 30,
           bottomOffset: 40,
@@ -168,15 +196,15 @@ const SignUpScreen = ({ navigation }) => {
       setIsLoading(true);
       const mail = emailID.toLowerCase();
       let response = await VerifyOTP(mail);
-      console.log("ssssssssssss", response);
+      console.log('ssssssssssss', response);
 
-      if (response.description === "Operation completed successfully.") {
-        setCode(response.code)
-        setSemail(emailID)
-        setSpassword(password)
-        setSfname(fName)
-        setslname(lName)
-        setSSubscription(subscription)
+      if (response.description === 'Operation completed successfully.') {
+        setCode(response.code);
+        setSemail(emailID);
+        setSpassword(password);
+        setSfname(fName);
+        setslname(lName);
+        setSSubscription(subscription);
         navigation.navigate('VerficationPage');
       } else {
         Toast.show({
@@ -195,20 +223,33 @@ const SignUpScreen = ({ navigation }) => {
     }
   };
 
+  function encodeToBase64(str) {
+    return base64.encode(str);
+  }
+
   async function onGoogleButtonPress() {
     setIsLoading(true);
     try {
-      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
       await GoogleSignin.signOut();
-      const { idToken } = await GoogleSignin.signIn();
+      const {idToken} = await GoogleSignin.signIn();
       setSSubscription(subscription);
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      const user_sign_in = await auth().signInWithCredential(googleCredential);  
-      let person = await fetchUser(user_sign_in.user.email);  
+      const user_sign_in = await auth().signInWithCredential(googleCredential);
+
+      console.log('objectttttttt', user_sign_in);
+
+      let person = await fetchUser(user_sign_in.user.email);
       if (person === 'User Does not Exist') {
         const mail = user_sign_in.user.email.toLowerCase();
-        let responses = await Socialsignup(mail, user_sign_in.user.displayName, true, user_sign_in.user.photoURL, sSubscription);  
-        if (responses === "Registered") {
+        let responses = await Socialsignup(
+          isEmailPrivate ? encodeToBase64(mail) : mail,
+          user_sign_in.user.displayName,
+          true,
+          user_sign_in.user.photoURL,
+          sSubscription,
+        );
+        if (responses === 'Registered') {
           Toast.show({
             type: 'success',
             text1: 'Registered Successfully!',
@@ -244,18 +285,93 @@ const SignUpScreen = ({ navigation }) => {
       setIsLoading(false);
     }
   }
+async function onAppleButtonPress() {
+    console.log('inside apple function');
+    setIsLoading(true);
+    try {
+      console.log('Attempting Sign in with Apple...');
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+      console.log('after request');
 
-  const handleFNameChange = (text) => {
+      const {identityToken} = appleAuthRequestResponse;
+      console.log('identityToken:', identityToken);
+
+      const data = await axios
+        .get(`${API_URL}/getAppleCredentials?token=` + identityToken)
+        .then(async data => {
+          console.log('response', data.data.emailID);
+          let person = await fetchUser(data.data.emailID);
+          if (person === 'User Does not Exist') {
+            const mail = data.data.emailID.toLowerCase();
+            let responses = await Applesignup(
+              data.data.emailID,
+              data.data.name,
+              true,
+              sSubscription,
+            );
+            if (responses === 'Registered') {
+              Toast.show({
+                type: 'success',
+                text1: 'Registered Successfully!',
+                swipeable: true,
+                autoHide: true,
+                topOffset: 30,
+                bottomOffset: 40,
+              });
+              navigation.navigate('LoginScreen');
+            } else {
+              Toast.show({
+                type: 'error',
+                text1: `${responses}`,
+                swipeable: true,
+                autoHide: true,
+                topOffset: 30,
+                bottomOffset: 40,
+              });
+            }
+          } else {
+            Toast.show({
+              type: 'info',
+              text1: 'User is already registered...!',
+              swipeable: true,
+              autoHide: true,
+              topOffset: 30,
+              bottomOffset: 40,
+            });
+          }        })
+        .catch(err => {
+          console.log(err);
+        });
+
+        
+     
+
+    } catch (error) {
+      console.log('Sign in with Apple error:', error);
+      Alert.alert(
+        'Apple Sign-In Error',
+        error.message ||
+          'Something went wrong with Apple Sign-In. Please try again.',
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  const handleFNameChange = text => {
     // const formattedText = text.replace(/[^a-zA-Z]/g, '');
     setFName(text);
   };
 
-  const handleLNameChange = (text) => {
+  const handleLNameChange = text => {
     // const formattedText = text.replace(/[^a-zA-Z]/g, '');
     setLName(text);
   };
 
-  const handlePasswordChange = (text) => {
+  const handlePasswordChange = text => {
     setPassword(text);
     validatePassword(text);
   };
@@ -267,7 +383,7 @@ const SignUpScreen = ({ navigation }) => {
       <ScrollView>
         <LogoHeaderGlobel navigation={navigation} />
 
-        <View style={{ width: wp(90), marginLeft: hp(2) }}>
+        <View style={{width: wp(90), marginLeft: hp(2)}}>
           <Text style={Headings.InputH}>Sign Up</Text>
           <View>
             <View>
@@ -297,7 +413,7 @@ const SignUpScreen = ({ navigation }) => {
             onChangeText={setEmail}
             placeholderTextColor={'grey'}
           />
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <TextInput
               style={TextInP.Fileds}
               placeholder="*******"
@@ -307,15 +423,20 @@ const SignUpScreen = ({ navigation }) => {
               placeholderTextColor={'grey'}
             />
             <TouchableOpacity
-              style={{ position: 'absolute', right: hp(2.1), top: hp(2.4) }}
+              style={{position: 'absolute', right: hp(2.1), top: hp(2.4)}}
               onPress={togglePasswordVisibility}>
-              <Icon name={isPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
+              <Icon
+                name={isPasswordVisible ? 'eye-off' : 'eye'}
+                size={24}
+                style={{color: '#652D90'}}
+              />
             </TouchableOpacity>
           </View>
           {passwordError !== '' && (
             <Text style={styles.errorText}>{passwordError}</Text>
           )}
-          <View style={{ flexDirection: 'row', alignItems: 'center' ,zIndex:-100}}>
+          <View
+            style={{flexDirection: 'row', alignItems: 'center', zIndex: -100}}>
             <TextInput
               style={TextInP.Fileds}
               placeholder="*******"
@@ -325,9 +446,13 @@ const SignUpScreen = ({ navigation }) => {
               placeholderTextColor={'grey'}
             />
             <TouchableOpacity
-              style={{ position: 'absolute', right: hp(2.1), top: hp(2.4) }}
+              style={{position: 'absolute', right: hp(2.1), top: hp(2.4)}}
               onPress={toggleCPasswordVisibility}>
-              <Icon name={isCPasswordVisible ? 'eye-off' : 'eye'} size={24} style={{ color: '#652D90' }} />
+              <Icon
+                name={isCPasswordVisible ? 'eye-off' : 'eye'}
+                size={24}
+                style={{color: '#652D90'}}
+              />
             </TouchableOpacity>
           </View>
           <View style={{zIndex:-100}}>
@@ -339,7 +464,7 @@ const SignUpScreen = ({ navigation }) => {
               setValue={setSubscription}
               setItems={setItems}
               style={[TextInP.Fileds, { borderRadius: open ? wp(6) : wp(50) }]}
-              placeholder="Subscription"
+              placeholder="Free"
               placeholderTextColor={'grey'}
               dropDownContainerStyle={{ backgroundColor: '#F6E2FF', borderRadius: open ? wp(6) : wp(50),  borderColor: 'transparent', paddingLeft: 8, }}
               textStyle={{ color: 'grey' }}
@@ -348,42 +473,50 @@ const SignUpScreen = ({ navigation }) => {
             
           </View>
         </View>
-        <View style={{ marginTop: hp(2), alignItems: 'center' ,zIndex:-100}}>
+        <View style={{marginTop: hp(2), alignItems: 'center', zIndex: -100}}>
           <View>
             <LinearGradient
               colors={['#73B6BF', '#2E888C']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={commonStyles.SignUpBtn}
-            >
-              <TouchableOpacity
-                onPress={() => handleSignup()}
-              >
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              style={commonStyles.SignUpBtn}>
+              <TouchableOpacity onPress={() => handleSignup()}>
                 <Text style={TextInP.SignInButton1}>Create Account</Text>
               </TouchableOpacity>
             </LinearGradient>
           </View>
-          
-          <View style={{paddingBottom:8}}>
 
+          <View style={{paddingBottom: 8}}>
             <View style={commonStyles.container}>
               <View style={commonStyles.line} />
               <Text style={commonStyles.text}>OR</Text>
               <View style={commonStyles.line} />
             </View>
-            <TouchableOpacity onPress={onGoogleButtonPress} style={commonStyles.SocialBtn}>
+            <TouchableOpacity
+              onPress={onGoogleButtonPress}
+              style={commonStyles.SocialBtn}>
               <Image
                 source={require('../source/google.png')} // Replace with the actual path to your local image
-                style={{ width: 24, height: 24, marginRight: wp(2) }} // Adjust the width and height as needed
+                style={{width: 16, height: 16, marginRight: wp(2)}} // Adjust the width and height as needed
               />
-              <Text style={{ color: 'black' }}>Continue with Google</Text>
+              <Text style={{color: 'black', fontSize: hp(1.8)}}>Sign up with Google</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{}}>
+            <TouchableOpacity
+              // onPress={onGoogleButtonPress}
+              style={commonStyles.SocialBtn}>
+              <AppleButton
+                buttonStyle={AppleButton.Style.WHITE}
+                buttonType={AppleButton.Type.SIGN_UP}
+                style={{width: 200, height: 44}}
+                onPress={onAppleButtonPress}
+              />
             </TouchableOpacity>
           </View>
         </View>
-       
       </ScrollView>
       <Toast ref={ref => Toast.setRef(ref)} />
-
     </View>
   );
 };
@@ -394,7 +527,7 @@ const styles = StyleSheet.create({
   mainC: {
     flex: 1,
     alignItems: 'center',
-    paddingBottom: 20
+    paddingBottom: 20,
   },
   errorText: {
     color: 'red',
