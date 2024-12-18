@@ -219,6 +219,186 @@ const LoginScreen = ({navigation}) => {
     }
   }
 
+  // const LoginPress = async () => {
+  //   AsyncStorage.clear();
+  //   try {
+  //     if (Email == '') {
+  //       Toast.show({
+  //         type: 'info',
+  //         text1: 'Please Enter Email',
+  //         autoHide: true,
+  //         topOffset: 30,
+  //         bottomOffset: 40,
+  //       });
+  //     } else if (Password == '') {
+  //       Toast.show({
+  //         type: 'info',
+  //         text1: 'Please Enter Password',
+
+  //         autoHide: true,
+  //         topOffset: 30,
+  //         bottomOffset: 40,
+  //       });
+  //     } else {
+  //       setIsLoading(true);
+  //       const mail = Email.toLowerCase();
+  //       let response = await login(mail, Password);
+  //       const paymentStatus = response.paymentPending;
+  //       const userNumber = response.userNo;
+  //       await AsyncStorage.setItem('Subscription', response.subscription);
+  //       setIsLoading(false);
+  //       if (response.message === 'Success') {
+  //         if (!paymentStatus) {
+  //           setToken(response.token);
+  //           setUserN(response.userNo);
+  //           setemail(Email);
+  //           let resp = await fetchUser(Email);
+  //           if (resp.status == 'InActive') {
+  //             Toast.show({
+  //               type: 'error',
+  //               text1: 'InActive Account',
+  //               text1Style: {
+  //                 fontSize: 14,
+  //                 color: 'black',
+  //                 flexWrap: 'wrap',
+  //                 textAlign: 'center',
+  //               },
+  //               text2Style: {
+  //                 fontSize: 14,
+  //                 color: 'black',
+  //                 flexWrap: 'wrap',
+  //                 textAlign: 'center',
+  //               },
+  //               swipeable: true,
+  //               text1NumberOfLines: 0,
+  //               visibilityTime: 4000,
+  //               autoHide: true,
+  //               topOffset: 30,
+  //               bottomOffset: 40,
+  //             });
+  //           }
+  //           await AsyncStorage.setItem('Email', mail);
+  //           await AsyncStorage.setItem('Name', '');
+  //           await AsyncStorage.setItem('token', response.token);
+  //           await AsyncStorage.setItem('userNo', response.userNo);
+  //           await AsyncStorage.setItem('Email', Email);
+  //           await AsyncStorage.setItem(
+  //             'Name',
+  //             resp.firstName + ' ' + resp.lastName,
+  //           );
+  //         } else {
+  //           try {
+  //             const response = await fetch(
+  //               `${API_URL}/getCustomerPortalURL?UserNo=${userNumber}`,
+  //               {
+  //                 method: 'GET',
+  //                 headers: {
+  //                   Accept: 'application/json',
+  //                   'Content-Type': 'application/json',
+  //                 },
+  //               },
+  //             );
+
+  //             const data = await response.json();
+  //             setFirstUrl(data.url);
+  //           } catch (error) {
+  //             console.error('Error fetching data:', error);
+  //           }
+  //           if (firstUrl) {
+  //             navigation.navigate('PremiumSubscription', {uri: firstUrl});
+  //             // navigation.navigate('CustomWebView', {uri: updatedUrl});
+
+  //           } else {
+  //             try {
+  //               const response = await fetch(`${API_URL}/getCheckOutURL`, {
+  //                 method: 'GET',
+  //                 headers: {
+  //                   Accept: 'application/json',
+  //                   'Content-Type': 'application/json',
+  //                 },
+  //               });
+
+  //               const data = await response.json();
+  //               const updatedUrl = `${data.url}?prefilled_email=${Email}`;
+  //               setSecondUrl(updatedUrl);
+  //               navigation.navigate('PremiumSubscription', {uri: updatedUrl});
+  //               // navigation.navigate('CustomWebView', {uri: updatedUrl});
+
+  //             } catch (error) {
+  //               console.error('Error fetching data:', error);
+  //             }
+  //           }
+  //         }
+  //       } else if (
+  //         (response.message =
+  //           'Either you do not have permission or credentials are invalid.')
+  //       ) {
+  //         Toast.show({
+  //           type: 'error',
+  //           text1: 'Either you do not have permission ',
+  //           text2: 'or credentials are invalid.',
+  //           text1Style: {
+  //             fontSize: 14,
+  //             color: 'black',
+  //             flexWrap: 'wrap',
+  //             textAlign: 'center',
+  //           },
+  //           text2Style: {
+  //             fontSize: 14,
+  //             color: 'black',
+  //             flexWrap: 'wrap',
+  //             textAlign: 'center',
+  //           },
+  //           swipeable: true,
+  //           text1NumberOfLines: 0,
+  //           visibilityTime: 4000,
+  //           autoHide: true,
+  //           topOffset: 30,
+  //           bottomOffset: 40,
+  //         });
+  //       } else {
+  //         Toast.show({
+  //           type: 'error',
+  //           text1: 'Please Try Again !',
+
+  //           autoHide: true,
+  //           topOffset: 30,
+  //           bottomOffset: 40,
+  //         });
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error('Error in LoginPress:', error);
+  //     setIsLoading(false);
+  //     Toast.show({
+  //       type: 'error',
+  //       text1: 'Either you do not have permission ',
+  //       text2: 'or credentials are invalid.',
+  //       text1Style: {
+  //         fontSize: 14,
+  //         color: 'black',
+  //         flexWrap: 'wrap',
+  //         textAlign: 'center',
+  //       },
+  //       text2Style: {
+  //         fontSize: 14,
+  //         color: 'black',
+  //         flexWrap: 'wrap',
+  //         textAlign: 'center',
+  //       },
+  //       swipeable: true,
+  //       text1NumberOfLines: 0,
+  //       visibilityTime: 4000,
+  //       autoHide: true,
+  //       topOffset: 30,
+  //       bottomOffset: 40,
+  //     });
+  //   }
+  // };
+
+
+
+
   const LoginPress = async () => {
     AsyncStorage.clear();
     try {
@@ -286,49 +466,8 @@ const LoginScreen = ({navigation}) => {
               'Name',
               resp.firstName + ' ' + resp.lastName,
             );
-          } else {
-            try {
-              const response = await fetch(
-                `${API_URL}/getCustomerPortalURL?UserNo=${userNumber}`,
-                {
-                  method: 'GET',
-                  headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                  },
-                },
-              );
-
-              const data = await response.json();
-              setFirstUrl(data.url);
-            } catch (error) {
-              console.error('Error fetching data:', error);
-            }
-            if (firstUrl) {
-              navigation.navigate('PremiumSubscription', {uri: firstUrl});
-              // navigation.navigate('PremiumSubscription', {uri: firstUrl});
-
-            } else {
-              try {
-                const response = await fetch(`${API_URL}/getCheckOutURL`, {
-                  method: 'GET',
-                  headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                  },
-                });
-
-                const data = await response.json();
-                const updatedUrl = `${data.url}?prefilled_email=${Email}`;
-                setSecondUrl(updatedUrl);
-                navigation.navigate('PremiumSubscription', {uri: updatedUrl});
-                // navigation.navigate('PremiumSubscription', {uri: updatedUrl});
-
-              } catch (error) {
-                console.error('Error fetching data:', error);
-              }
-            }
-          }
+          } 
+         
         } else if (
           (response.message =
             'Either you do not have permission or credentials are invalid.')
@@ -395,6 +534,10 @@ const LoginScreen = ({navigation}) => {
       });
     }
   };
+
+
+
+
 
   async function onAppleButtonPress() {
     setIsLoading(true);

@@ -49,7 +49,6 @@ export const useIAP = () => {
   };
 
   const handlePurchase = (purchase) => {
-    // Handle the successful purchase here (e.g., save to user account)
     Alert.alert('Purchase successful!', `You purchased: ${purchase.productId}`);
   };
 

@@ -32,6 +32,8 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.297781393287-h2ssb06q5qutide7o3lq9nilm7374p9t</string>
+				<string>apple</string>
+				<string>stripe</string>
 			</array>
 		</dict>
 	</array>
@@ -42,6 +44,8 @@
 		<string>google</string>
 		<string>googlechrome</string>
 		<string>googlechromes</string>
+		<string>apple</string>
+		<string>stripe</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -56,14 +60,21 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>SnapPromise integrates with Apple Pay for subscription services.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>SnapPromise requires access to your camera to capture photos and videos that are essential for creating and fulfilling your promises. The media you capture will be stored locally and shared only with the contacts you select within the app.</string>
+	<string>SnapPromise requires access to your camera for capturing videos and photos for
+			promises. Media is stored locally and shared only with your selected contacts.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>We need access to your contacts to...</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>SnapPromise uses your location to enhance the experience by providing location-based features like tagging your promise with a location, which helps you and your contacts remember where promises were made.</string>
+	<string>Location is used in SnapPromise to tag locations on promises, helping keep memories
+			connected to places.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>SnapPromise requires access to your microphone to record audio in your video promises, ensuring you can create and share complete video messages with your selected contacts.</string>
+	<string>SnapPromise uses the microphone to capture audio for video promises, so you can
+			fully express your messages.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>SnapPromise requires access to your photo library to allow you to select and upload photos that are necessary to create and share promises with your contacts.</string>
+	<string>We need access to your photo library...</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -92,10 +103,22 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:socialladderdevs2.rkiapps.com</string>
+		<string>applinks:socialladderdev3.rkiapps.com</string>
+		<string>applinks:socialladderdevi.rkiapps.com</string>
+		<string>applinks:socialladder.rkiapps.com</string>
+		<string>webcredentials:socialladder.rkiapps.com</string>
+	</array>
 </dict>
 </plist>

@@ -38,6 +38,7 @@
     "react-native-calendars": "^1.1302.0",
     "react-native-camera": "^4.2.1",
     "react-native-circular-progress-indicator": "^4.4.2",
+    "react-native-contacts": "^8.0.4",
     "react-native-create-thumbnail": "^2.0.0",
     "react-native-credit-card-form-ui": "^1.2.5",
     "react-native-credit-card-input": "^0.4.1",

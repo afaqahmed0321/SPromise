@@ -473,6 +473,8 @@ PODS:
     - React-Core
   - react-native-camera/RN (4.2.1):
     - React-Core
+  - react-native-contacts (8.0.4):
+    - React-Core
   - react-native-create-thumbnail (2.0.0):
     - React-Core
   - react-native-fbsdk-next (12.2.0):
@@ -756,6 +758,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
   - react-native-camera (from `../node_modules/react-native-camera`)
+  - react-native-contacts (from `../node_modules/react-native-contacts`)
   - react-native-create-thumbnail (from `../node_modules/react-native-create-thumbnail`)
   - react-native-fbsdk-next (from `../node_modules/react-native-fbsdk-next`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
@@ -890,6 +893,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/blur"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
+  react-native-contacts:
+    :path: "../node_modules/react-native-contacts"
   react-native-create-thumbnail:
     :path: "../node_modules/react-native-create-thumbnail"
   react-native-fbsdk-next:
@@ -1031,6 +1036,7 @@ SPEC CHECKSUMS:
   React-logger: cebf22b6cf43434e471dc561e5911b40ac01d289
   react-native-blur: 4c25fdccf6dc16b0935baa58d9d0fccb0683742b
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
+  react-native-contacts: cdeb7709dcc626e5fd7ee3d3e3685357e877cbd5
   react-native-create-thumbnail: ab55d24aea01723cf386f18b0b542aabb1982f27
   react-native-fbsdk-next: fcecfa33c37ce63bcda9cd24766ee9d345463230
   react-native-image-picker: 51fdb07f7ef722988c8a219e1416153760a25e4d

@@ -1,296 +1,178 @@
-import React, { useEffect, useState } from "react";
+import axios from 'axios';
+import React, {useState, useEffect} from 'react';
 import {
-  ScrollView,
-  StyleSheet,
-  Text,
   View,
-  Platform,
-  TouchableOpacity,
-  SafeAreaView,
+  Text,
   ActivityIndicator,
-} from "react-native";
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+import {useIAP, requestSubscription, finishTransaction} from 'react-native-iap';
+import LinearGradient from 'react-native-linear-gradient';
+import {err} from 'react-native-svg';
 
-import {
-  PurchaseError,
-  requestSubscription,
-  useIAP,
-  validateReceiptIos,
-} from "react-native-iap";
-import { APP_SHARED_SECRET } from "../comp/Payment/helper";
+const subscriptionIds = [
+  'com.snappromise.premium_monthly',
+  'com.snappromise.app.premium',
+]; // Replace with your subscription product IDs
 
-const errorLog = ({ message, error }) => {
-  console.error("An error happened", message, error);
-};
+export const PremiumSubscription = ({navigation}) => {
+  const [loading, setLoading] = useState(false);
+  const [availableProducts, setAvailableProducts] = useState([]);
+  const [productList, setProductList] = useState(true);
 
-const isIos = Platform.OS === "ios";
-
-//product id from appstoreconnect app->subscriptions
-const subscriptionSkus = Platform.select({
-  ios: ["com.snappromise.app.premium"],
-});
-
-export const PremiumSubscription = ({ navigation }) => {
-  //useIAP - easy way to access react-native-iap methods to
-  //get your products, purchases, subscriptions, callback
-  //and error handlers.
+  // Using the useIAP hook to initialize In-App Purchases
   const {
     connected,
-    subscriptions, //returns subscriptions for this app.
-    getSubscriptions, //Gets available subsctiptions for this app.
-    currentPurchase, //current purchase for the tranasction
+    products,
+    currentPurchase,
+    currentPurchaseError,
     finishTransaction,
-    purchaseHistory, //return the purchase history of the user on the device (sandbox user in dev)
-    getPurchaseHistory, //gets users purchase history
+    getProducts,
+    requestSubscription,
   } = useIAP();
 
-  const [loading, setLoading] = useState(false);
-
-  const handleGetPurchaseHistory = async () => {
-    try {
-      await getPurchaseHistory();
-    } catch (error) {
-      errorLog({ message: "handleGetPurchaseHistory", error });
+  // Fetch available products (subscriptions) when the component mounts
+  useEffect(async () => {
+    if (connected) {
+      const data = await getProducts({skus: subscriptionIds});
+      console.log('connected', data);
+      if (data == undefined || data == null || data == '') {
+        setProductList(false);
+      }
     }
-  };
-
-  useEffect(() => {
-    handleGetPurchaseHistory();
   }, [connected]);
 
-  const handleGetSubscriptions = async () => {
-    try {
-      await getSubscriptions({ skus: subscriptionSkus });
-    } catch (error) {
-      errorLog({ message: "handleGetSubscriptions", error });
-    }
-  };
-
+  // Listen to purchase updates
   useEffect(() => {
-    handleGetSubscriptions();
-  }, [connected]);
-
-  useEffect(() => {
-    // ... listen if connected, purchaseHistory and subscriptions exist
-    if (
-      purchaseHistory.find(
-        (x) => x.productId === (subscriptionSkus[0] || subscriptionSkus[1]),
-      )
-    ) {
-      navigation.navigate("LoginScreen");
+    if (currentPurchase) {
+      handlePurchase(currentPurchase);
     }
-  }, [connected, purchaseHistory, subscriptions]);
+  }, [currentPurchase]);
 
-  const handleBuySubscription = async (productId) => {
+  const handlePurchase = async purchase => {
     try {
-      await requestSubscription({
-        sku: productId,
+      setLoading(true);
+      // Process the purchase on your backend or here
+      await finishTransaction({
+        purchase,
+        isConsumable: false, // Subscription is not consumable
       });
-      setLoading(false);
+
+      Alert.alert('Purchase Successful', 'Thank you for subscribing!');
+      const response = await axios.post(``);
+      // .then((response){
+      //   console.alert(response);
+      // })
+      // .catch((error){
+      //   console.alert(error);
+      // })
     } catch (error) {
+      console.error('Purchase Error', error);
+      Alert.alert('Purchase Failed', error.message);
+    } finally {
       setLoading(false);
-      if (error instanceof PurchaseError) {
-        errorLog({ message: `[${error.code}]: ${error.message}`, error });
-      } else {
-        errorLog({ message: "handleBuySubscription", error });
-      }
     }
   };
 
-  useEffect(() => {
-    const checkCurrentPurchase = async (purchase) => {
-      if (purchase) {
-        try {
-          const receipt = purchase.transactionReceipt;
-          if (receipt) {
-            if (Platform.OS === "ios") {
-              const isTestEnvironment = __DEV__;
-
-              const appleReceiptResponse = await validateReceiptIos(
-                {
-                  "receipt-data": receipt,
-                  password: APP_SHARED_SECRET,
-                },
-                isTestEnvironment,
-              );
-
-              if (appleReceiptResponse) {
-                const { status } = appleReceiptResponse;
-                if (status) {
-                  navigation.navigate("LoginScreen");
-                }
-              }
-
-              return;
-            }
-          }
-        } catch (error) {
-          console.log("error", error);
-        }
-      }
-    };
-    checkCurrentPurchase(currentPurchase);
-  }, [currentPurchase, finishTransaction]);
+  const subscribe = async () => {
+    try {
+      setLoading(true);
+      await requestSubscription({sku: subscriptionIds[0]});
+    } catch (error) {
+      console.error('Subscription Error', error);
+      Alert.alert('Error', 'Subscription failed. Please try again.');
+      setLoading(false);
+    }
+  };
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View style={{ padding: 10 }}>
-          <Text
-            style={{
-              fontSize: 28,
-              textAlign: "center",
-              paddingBottom: 15,
-              color: "black",
-              fontWeight: "bold",
-            }}
-          >
-            Subscribe
-          </Text>
-          <Text style={styles.listItem}>
-            Subscribe to access all premium features of Snap Promise
-          </Text>
-          <Text
-            style={
-              (styles.listItem,
-              {
-                fontWeight: "500",
-                textAlign: "center",
-                marginTop: 10,
-                fontSize: 18,
-              })
-            }
-          >
-            Choose your membership plan.
-          </Text>
-          <View style={{ marginTop: 10 }}>
-            {subscriptions.map((subscription, index) => {
-              const owned = purchaseHistory.find(
-                (s) => s?.productId === subscription.productId,
-              );
-              console.log("subscriptions", subscription?.productId);
-              return (
-                <View style={styles.box} key={index}>
-                  {subscription?.introductoryPriceSubscriptionPeriodIOS && (
-                    <>
-                      <Text style={styles.specialTag}>SPECIAL OFFER</Text>
-                    </>
-                  )}
-                  <View
-                    style={{
-                      flex: 1,
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      marginTop: 10,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        paddingBottom: 10,
-                        fontWeight: "bold",
-                        fontSize: 18,
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {subscription?.title}
-                    </Text>
-                    <Text
-                      style={{
-                        paddingBottom: 20,
-                        fontWeight: "bold",
-                        fontSize: 18,
-                      }}
-                    >
-                      {subscription?.localizedPrice}
-                    </Text>
-                  </View>
-                  {subscription?.introductoryPriceSubscriptionPeriodIOS && (
-                    <Text>
-                      Free for 1{" "}
-                      {subscription?.introductoryPriceSubscriptionPeriodIOS}
-                    </Text>
-                  )}
-                  <Text style={{ paddingBottom: 20 }}>
-                    {subscription?.description}
+    <View style={styles.container}>
+      {/* Gradient Card */}
+      <LinearGradient
+        colors={['#E4A936', '#EE8347']} // Gradient colors for the card
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 1}}
+        style={styles.card} // Card gradient
+      >
+        {productList ? (
+          <>
+            <Text style={styles.title}>SnapPromise Monthly Subscription</Text>
+            <Text style={styles.title}>
+              Press suscribe button to confirm the subscription of $10
+            </Text>
+            {loading ? (
+              <>
+                {currentPurchaseError ? (
+                  <Text style={styles.errorText}>
+                    {currentPurchaseError ? currentPurchaseError.message : ''}
                   </Text>
-                  {owned && (
-                    <Text style={{ textAlign: "center", marginBottom: 10 }}>
-                      You are Subscribed to this plan!
-                    </Text>
-                  )}
-                  {owned && (
-                    <TouchableOpacity
-                      style={[styles.button, { backgroundColor: "#0071bc" }]}
-                      onPress={() => {
-                        navigation.navigate("LoginScreen");
-                      }}
-                    >
-                      <Text style={styles.buttonText}>Continue to App</Text>
-                    </TouchableOpacity>
-                  )}
-                  {loading && <ActivityIndicator size="large" />}
-                  {!loading && !owned && isIos && (
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={() => {
-                        setLoading(true);
-                        handleBuySubscription(subscription.productId);
-                      }}
-                    >
-                      <Text style={styles.buttonText}>Subscribe</Text>
-                    </TouchableOpacity>
-                  )}
-                </View>
-              );
-            })}
-          </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+                ) : (
+                  <ActivityIndicator size="large" color="#0000ff" />
+                )}
+              </>
+            ) : (
+              <TouchableOpacity onPress={subscribe}>
+                <LinearGradient
+                  colors={['#73B6BF', '#2E888C']} // Gradient colors for the button
+                  start={{x: 0, y: 0}}
+                  end={{x: 1, y: 0}}
+                  style={styles.gradientButton} // Use gradientButton style
+                >
+                  <Text style={styles.gradientButtonText}>Subscribe Now</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            )}
+          </>
+        ):(
+          <>
+            <Text style={styles.title}>There are no active subscription from App Store, please contact customer support</Text>
+          </>
+        )}
+      </LinearGradient>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0', // Background of the screen
+  },
+  card: {
+    width: '80%',
+    padding: 20,
+    borderRadius: 50,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5, // Shadow for Android
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 24,
     marginBottom: 20,
+    color: '#fff',
+    textAlign: 'center',
   },
-  listItem: {
-    fontSize: 16,
-    paddingLeft: 8,
-    paddingBottom: 3,
-    textAlign: "center",
-    color: "black",
+  gradientButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 50,
   },
-  box: {
-    margin: 10,
-    marginBottom: 5,
-    padding: 10,
-    backgroundColor: "white",
-    borderRadius: 7,
-    shadowColor: "rgba(0, 0, 0, 0.45)",
-    shadowOffset: { height: 16, width: 0 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
+  gradientButtonText: {
+    color: '#fff', // White text color for the button
+    fontSize: 18,
+    textAlign: 'center',
   },
-  button: {
-    alignItems: "center",
-    backgroundColor: "mediumseagreen",
-    borderRadius: 8,
-    padding: 10,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "white",
-    textTransform: "uppercase",
-  },
-  specialTag: {
-    color: "white",
-    backgroundColor: "crimson",
-    width: 125,
-    padding: 4,
-    fontWeight: "bold",
-    fontSize: 12,
-    borderRadius: 7,
-    marginBottom: 2,
+  errorText: {
+    fontSize: 18,
+    marginTop: 20,
+    color: 'red',
+    textAlign: 'center',
   },
 });

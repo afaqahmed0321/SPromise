@@ -455,7 +455,7 @@ async function onAppleButtonPress() {
               />
             </TouchableOpacity>
           </View>
-          <View style={{zIndex:-100}}>
+          {/* <View style={{zIndex:-100}}>
             <DropDownPicker
               open={open}
               value={subscription}
@@ -471,7 +471,7 @@ async function onAppleButtonPress() {
               DropDownDirectionType='TOP'
             />
             
-          </View>
+          </View> */}
         </View>
         <View style={{marginTop: hp(2), alignItems: 'center', zIndex: -100}}>
           <View>
